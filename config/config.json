@@ -75,6 +75,23 @@
         "texture_size": 2048,
         "bake_faces": 500000,
         "extra": []
+      },
+      "hero_rebake": {
+        "preset": "master",
+        "texture_size": 8192,
+        "bake_faces": 2000000,
+        "extra": []
+      },
+      "tokens98k_fresh": {
+        "preset": "master",
+        "texture_size": 2048,
+        "bake_faces": 500000,
+        "extra": [
+          "--attn-auto-gb",
+          "24",
+          "--max-tokens",
+          "98304"
+        ]
       }
     }
   },
