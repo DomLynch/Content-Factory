@@ -11,7 +11,9 @@ if (Test-Path $lockPath) { try { $old = Get-Content $lockPath -Raw | ConvertFrom
 "$(Get-Date -Format s),GUARD,armed on '$Match' min free RAM $MinFreeRamGB GB" | Out-File $log -Append -Encoding ascii
 while ($true) {
   # A single empty CIM result must not end the guard (it exited early once while the job was still running): require 5 empty reads in a row.
-  $procs = Get-CimInstance Win32_Process -Filter "Name='python.exe'" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*$Match*" }
+  # Blender jobs are blender.exe; everything else is a python.exe job. Never match the Blender MCP connector (its python.exe has "blender" in its path).
+  $pname = if ($Match -eq "blender") { "blender.exe" } else { "python.exe" }
+  $procs = Get-CimInstance Win32_Process -Filter "Name='$pname'" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*$Match*" }
   if (-not $procs) {
     $gone++
     if ($gone -ge 5) { "$(Get-Date -Format s),GUARD,job '$Match' finished, guard exiting" | Out-File $log -Append -Encoding ascii; Remove-Lock; break }
