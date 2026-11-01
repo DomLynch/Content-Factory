@@ -84,3 +84,12 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(rec, f, indent=2)
     return path
+
+
+def wait_for_free_ram(cfg, what=''):
+    """Block until free RAM is at least limits.start_min_free_ram_gb (pre-start gate: heavy jobs only start with headroom). Gives up after start_wait_max_s."""
+    lim = cfg['limits']; need = lim.get('start_min_free_ram_gb', 0); w = FreeRamWatch(); t0 = time.time()
+    while need and w._free_gb() < need:
+        if time.time() - t0 > lim.get('start_wait_max_s', 1800):
+            raise SystemExit(f'free RAM stayed under {need} GB for {lim.get("start_wait_max_s", 1800)} s: not starting {what}')
+        time.sleep(10)

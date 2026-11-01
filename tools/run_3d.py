@@ -41,6 +41,7 @@ elif not os.path.exists(cut):
     sys.exit("--from-latents needs the asset's existing cutout.png")
 
 # stage: trellis
+cf_common.wait_for_free_ram(cfg, "trellis")
 ram = cf_common.FreeRamWatch(); ram.start()
 out_prefix = os.path.join(work, a.out_name)
 cmd = [loc["trellis_python"], "generate.py", cut, "--preset", preset["preset"], "--texture-size", str(preset["texture_size"]),

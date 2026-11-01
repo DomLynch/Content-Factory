@@ -11,10 +11,12 @@
     "publish"
   ],
   "limits": {
-    "guard_min_free_ram_gb": 2,
+    "guard_min_free_ram_gb": 3,
     "guard_max_gpu_gb": 0,
     "max_megapixels": 1.6,
-    "watchdog_seconds": 1500
+    "watchdog_seconds": 1500,
+    "start_min_free_ram_gb": 6,
+    "start_wait_max_s": 1800
   },
   "models": {
     "flux": {
@@ -108,8 +110,14 @@
       "zoom": 2,
       "_comment": "crops: height band [lo, hi] as a fraction of the mesh height; the crop is placed where most UV points of the band vertices fall",
       "crops": {
-        "face": [0.88, 0.97],
-        "coat": [0.4, 0.7]
+        "face": [
+          0.88,
+          0.97
+        ],
+        "coat": [
+          0.4,
+          0.7
+        ]
       }
     }
   },
@@ -139,7 +147,7 @@
     "timeout_s": 480,
     "merge_dist_m": 0.0002,
     "min_shell_verts": 200,
-    "count_weld_m": 0.000001,
+    "count_weld_m": 1e-06,
     "voxel_m": 0,
     "tex_size": 2048,
     "bake_margin_px": 8,
@@ -281,7 +289,16 @@
   },
   "character": {
     "_comment": "tools/run_character.py: stage names in run order; pauses and timeouts in seconds",
-    "stages": ["flux", "trellis", "bind", "stills_body", "gear", "assemble", "stills_dressed", "textures"],
+    "stages": [
+      "flux",
+      "trellis",
+      "bind",
+      "stills_body",
+      "gear",
+      "assemble",
+      "stills_dressed",
+      "textures"
+    ],
     "pause_s": 15,
     "flux_timeout_s": 1800,
     "trellis_timeout_s": 7200,
@@ -294,7 +311,10 @@
     "summary_name": "stage_times.txt",
     "library_row_name": "library_row.json",
     "markers_subdir": "char_markers",
-    "guard_match": {"flux": "flux_kit", "trellis": "generate.py"},
+    "guard_match": {
+      "flux": "flux_kit",
+      "trellis": "generate.py"
+    },
     "guard_wait_s": 2,
     "log_prefix": "char_"
   }

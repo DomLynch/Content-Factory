@@ -34,6 +34,7 @@ import numpy as np
 import torch
 from diffusers import Flux3DistilledAutoBlocks
 
+cf_common.wait_for_free_ram(cfg, "flux render")
 ram = cf_common.FreeRamWatch(); ram.start()
 t0 = time.time()
 params = {"seed": seed, "w": W, "h": H, "reference": ref_path if use_ref else None, "prompt": prompt, "kit": sys.argv[1], "row_id": row_id}
