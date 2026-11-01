@@ -110,10 +110,19 @@ class Wiring(Sheet):
         self.assertNotIn("SHEET RULE", json.dumps(out))
 
     def test_manifest_records_a_verdict(self):
-        sys.path.insert(0, str(REPO / "tools"))
-        r = subprocess.run([PY, str(REPO / "tools" / "manifest.py"), str(self.path), "--verdict", "nosuchrow", "PASS"], capture_output=True, text=True)
+        import shutil   # manifest.py needs config.local.json (absent in CI): run it in a throw-away copy of the repo
+        repo = self.d / "repo"
+        for sub in ("tools", "config", "plugins/factory/lib"):
+            shutil.copytree(REPO / sub, repo / sub, ignore=shutil.ignore_patterns("__pycache__", "config.local.json"))
+        (repo / "config" / "config.local.json").write_text(json.dumps({"outputs_dir": str(self.d / "out")}), encoding="utf-8")
+        run = lambda *a: subprocess.run([PY, str(repo / "tools" / "manifest.py"), str(self.path), *a], capture_output=True, text=True, cwd=str(repo))
+        r = run("--verdict", "nosuchrow", "PASS")
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("unknown row or verdict", r.stdout + r.stderr)
+        r = run("--verdict", "head_front", "PASS", "--score", "9", "--prompt-fix", "x")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        row = json.loads((repo / "manifests" / "k.json").read_text())["rows"]["head_front"]
+        self.assertEqual((row["verdict"], row["score"], row["prompt_fix"]), ("PASS", 9, "x"))
 
     def test_server_version_follows_plugin_json(self):
         src = (PLUGIN / "mcp" / "server.py").read_text(encoding="utf-8")

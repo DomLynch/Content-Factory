@@ -21,6 +21,7 @@ ap.add_argument("--seed", type=int, default=None)   # A/B harness: same seed as 
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
+cf_common.plugin_gate("token", a.asset_id, a.preset, bool(a.from_latents))   # token floor, also outside Claude Code (plugin 0.1.23)
 loc, tr = cfg["local"], cfg["trellis"]
 preset = tr["presets"][a.preset]
 repo_dir = loc["trellis_repo_dir"]

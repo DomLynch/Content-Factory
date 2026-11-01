@@ -1,5 +1,5 @@
 """Shared helpers: config loading and the receipt writer (schema v1). A receipt is the definition of done for a stage."""
-import ctypes, datetime, hashlib, json, os, socket, subprocess, threading, time
+import ctypes, datetime, hashlib, json, os, socket, subprocess, sys, threading, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -80,7 +80,11 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
     }
     d = os.path.join(REPO, "receipts", asset_id)
     os.makedirs(d, exist_ok=True)
-    path = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}.json")
+    base = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}")
+    path, n = base + ".json", 0
+    while os.path.exists(path):   # two receipts of one asset and stage in the same second used to overwrite each other (CI caught it): b, c, ... sort after the plain name
+        n += 1
+        path = base + (chr(ord("a") + n) if n < 25 else f"z{n}") + ".json"
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(rec, f, indent=2)
     return path
@@ -93,3 +97,27 @@ def wait_for_free_ram(cfg, what=''):
         if time.time() - t0 > lim.get('start_wait_max_s', 1800):
             raise SystemExit(f'free RAM stayed under {need} GB for {lim.get("start_wait_max_s", 1800)} s: not starting {what}')
         time.sleep(10)
+
+
+def plugin_gate(kind, *args):
+    """Run a plugin gate inside the script itself, so a run from bench\\*.ps1 or a plain terminal is gated too (the PreToolUse hooks stay the second layer).
+    kind 'token' (asset_id, preset, from_latents) or 'publish' (spec dict). A refusal prints its numbers and exits 2; FACTORY_RAW=<reason> in the environment
+    logs the override and lets it through; any error in the gate itself allows (fail open, same as the hooks)."""
+    try:
+        os.environ.setdefault("FACTORY_HOME", REPO)
+        lib = os.path.join(REPO, "plugins", "factory", "lib")
+        if lib not in sys.path:
+            sys.path.insert(0, lib)
+        import cf_gates, cf_guard
+        bad = [r for r in [cf_gates.token_reason(*args)] if r] if kind == "token" else list(cf_gates.publish_reasons(*args)[0])
+    except Exception:
+        return
+    if not bad:
+        return
+    raw = os.environ.get("FACTORY_RAW")
+    if raw:
+        cf_guard.raw_override("FACTORY_RAW=" + raw, "gates")
+        print("GATE OVERRIDDEN (FACTORY_RAW, logged): " + " | ".join(bad), flush=True)
+        return
+    print("\n".join(bad), flush=True)
+    sys.exit(2)
