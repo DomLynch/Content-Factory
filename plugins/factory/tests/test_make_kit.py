@@ -53,6 +53,26 @@ class TemplateOrder(unittest.TestCase):
         self.assertIn("WARNING", buf.getvalue())
         self.assertIn("no_such_cell", buf.getvalue())
 
+class OptionalAgeFields(unittest.TestCase):
+    def test_v1_has_no_age_clauses_and_v2_has(self):
+        v1 = make_kit.build(load("characters/vampire-dracula-gpt-sheet.json"), load("config/character_sheet_template_gpt.json"))
+        v2 = make_kit.build(load("characters/vampire-dracula-gpt-sheet-v2.json"), load("config/character_sheet_template_gpt.json"))
+        self.assertFalse([r["name"] for r in v1["rows"] if "Age and face" in r["prompt"] or "Skin:" in r["prompt"]])
+        by = {r["name"]: r for r in v2["rows"]}
+        for n in ("head_front", "head_three_quarter", "head_profile", "head_eyes_closeup"):
+            self.assertIn("Age and face:", by[n]["prompt"], n)
+        self.assertIn("Skin:", by["head_back"]["prompt"])
+        self.assertIn("Build:", by["body_underlayer_front"]["prompt"])
+
+    def test_v2_identity_lock_refs(self):
+        spec = load("characters/vampire-dracula-gpt-sheet-v2.json")
+        by = {r["name"]: r for r in make_kit.build(spec, load(spec["template"]))["rows"]}
+        self.assertEqual(by["head_front"]["ref"], spec["head_front_ref"])
+        for n in ("head_three_quarter", "head_profile", "head_back", "head_top"):
+            self.assertEqual(by[n]["ref"], spec["head_lock_ref"], n)
+        self.assertNotEqual(spec["head_lock_ref"], spec["head_front_ref"])
+        self.assertTrue(all(by[n]["seed"] == 45 for n in ("head_front", "head_three_quarter", "head_profile", "head_back", "head_top")))
+
 
 if __name__ == "__main__":
     unittest.main()
