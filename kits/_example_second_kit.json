@@ -20,7 +20,8 @@
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, grey eyes. Short cropped brown hair above a strong brow; short trimmed beard following the jaw; squared chin under the beard; wearing the plain padded gambeson collar, no armour, no helmet.",
    "age": "about 40, weathered, strong jaw, short cropped hair",
-   "complexion": "weathered fair skin with a ruddy outdoor tone"
+   "complexion": "weathered fair skin with a ruddy outdoor tone",
+   "identity": true
   },
   {
    "name": "body_underlayer_front",
@@ -28,7 +29,8 @@
    "group": "body",
    "ref": "C:\\placeholder\\knight-ref.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Remove the plate armour, surcoat, sword belt, gauntlets and boots; he wears only a plain fitted padded gambeson and linen trousers. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Short cropped brown hair with a clean hairline, no loose strands; hairline clearly visible above the brow. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Short cropped brown hair with a clean hairline, no loose strands; hairline clearly visible above the brow. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
+   "identity": true
   },
   {
    "name": "body_underlayer_back",

@@ -488,6 +488,13 @@
       }
     }
   },
+  "queue": {
+    "_comment": "bench/flux_queue.ps1 via tools/queue_plan.py. hold_file: row ids to skip, one per line (empty = <outputs_dir>/_queue/<kit>_hold.txt). identity_wait_max_s / identity_poll_s: how long and how often a non-identity row waits for its identity cell to reach QC verdict PASS in manifests/<kit>.json before the queue logs HOLD and moves on. reroll_cap: successful renders with the same asset_id (prompt + seed + reference sha) before the row is skipped.",
+    "hold_file": "",
+    "identity_wait_max_s": 3600,
+    "identity_poll_s": 60,
+    "reroll_cap": 2
+  },
   "character": {
     "_comment": "tools/run_character.py: stage names in run order; pauses and timeouts in seconds",
     "stages": [

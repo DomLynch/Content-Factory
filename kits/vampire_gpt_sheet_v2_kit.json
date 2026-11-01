@@ -23,7 +23,8 @@
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows).",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_ref_crops\\concept_face_crop.png",
    "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
-   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush",
+   "identity": true
   },
   {
    "name": "body_underlayer_front",
@@ -31,7 +32,8 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs and boots; he wears only a plain fitted dark base layer and trousers. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; both braids clearly visible on the chest. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale grey-white skin with a cold undertone."
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; both braids clearly visible on the chest. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale grey-white skin with a cold undertone.",
+   "identity": true
   },
   {
    "name": "body_underlayer_back",
