@@ -58,11 +58,16 @@ def build(spec, tpl):
             rs = spec.get("row_seeds", {}).get(rid)   # per-row re-render seed with the reason it was changed
             if rs:
                 row["seed"], row["seed_note"] = rs["seed"], rs["note"]
-            if cell.get("mirror_of"):   # made by tools/mirror_rows.py from another row, not rendered
+            if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
             rows.append(row)
-    order = {g: i for i, g in enumerate(tpl["group_priority"])}
-    kit["rows"] = sorted(rows, key=lambda r: order[r["group"]])   # stable: GPU priority order
+    if tpl.get("order"):   # explicit emit order: row_id or "group:<g>" entries, a row_id beats its group, unlisted rows last
+        pos = {e: i for i, e in enumerate(tpl["order"])}
+        rank = lambda r: pos.get(r["row_id"], pos.get("group:" + r["group"], len(pos)))
+    else:
+        order = {g: i for i, g in enumerate(tpl["group_priority"])}
+        rank = lambda r: order[r["group"]]
+    kit["rows"] = sorted(rows, key=rank)   # stable: GPU priority order
     ids = [r["row_id"] for r in kit["rows"]]
     if len(ids) != len(set(ids)):
         raise SystemExit("duplicate row_id in generated kit")

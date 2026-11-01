@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_rows.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note.",
+ "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note.",
  "group_priority": [
   "body",
   "head",
@@ -296,5 +296,25 @@
    "from": "gear_isolation_negative",
    "prefix": ": "
   }
- }
+ },
+ "order": [
+  "head_front",
+  "body_underlayer_front",
+  "body_underlayer_back",
+  "body_underlayer_left",
+  "body_underlayer_right",
+  "body_underlayer_three_quarter",
+  "head_profile",
+  "head_profile_right",
+  "head_back",
+  "head_three_quarter",
+  "head_top",
+  "group:hands_feet",
+  "group:gear",
+  "group:swatch",
+  "head_eyes_closeup",
+  "gear_belt_buckle_closeup",
+  "gear_collar_closeup"
+ ],
+ "order_note": "Emit order (GPU queue priority): identity cells, then the cells that feed 3D, then hands and feet, gear flats, swatches, close-ups last. An entry is a row_id or 'group:<group>'; a row_id entry beats its group entry; unlisted rows go last. Without 'order' the old group_priority applies."
 }
