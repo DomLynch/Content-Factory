@@ -20,7 +20,7 @@ import signal
 import subprocess
 import time
 
-STAGE_SCRIPTS = ("generate.py", "flux_kit.py", "run_3d.py", "run_stills.py")
+STAGE_SCRIPTS = ("generate.py", "flux_kit.py", "run_3d.py", "run_stills.py", "run_skin_tokens.py")
 _STAGE_RE = re.compile(r"(?:%s)\b" % "|".join(re.escape(s) for s in STAGE_SCRIPTS), re.I)
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
@@ -136,7 +136,7 @@ def stage_procs() -> list[tuple[int, str]]:
     rows: list[tuple[int, str]] = []
     try:
         if os.name == "nt":
-            ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|flux_kit|run_3d|run_stills)\\.py' } "
+            ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|flux_kit|run_3d|run_stills|run_skin_tokens)\\.py' } "
                   "| Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress")
             out = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps], capture_output=True, text=True, timeout=8,
                                  creationflags=NO_WINDOW).stdout.strip()

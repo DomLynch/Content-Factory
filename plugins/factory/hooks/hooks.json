@@ -32,6 +32,12 @@
                                                            "type":  "command",
                                                            "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/gpu_lock_guard.py\"",
                                                            "timeout":  15,
+                                                           "if":  "Bash(*run_skin_tokens*)"
+                                                       },
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/gpu_lock_guard.py\"",
+                                                           "timeout":  15,
                                                            "if":  "Bash(*run_kit*)"
                                                        },
                                                        {
@@ -110,6 +116,12 @@
                                                            "type":  "command",
                                                            "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/ram_gate.py\"",
                                                            "timeout":  15,
+                                                           "if":  "Bash(*run_skin_tokens*)"
+                                                       },
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/ram_gate.py\"",
+                                                           "timeout":  15,
                                                            "if":  "Bash(*run_kit*)"
                                                        },
                                                        {
@@ -145,7 +157,7 @@
                                                    ]
                                      },
                                      {
-                                         "matcher":  "mcp__plugin_factory_factory__(flux_render|trellis_run|upscale)",
+                                         "matcher":  "mcp__plugin_factory_factory__(flux_render|trellis_run|upscale|skin_tokens_bind)",
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
@@ -155,7 +167,7 @@
                                                    ]
                                      },
                                      {
-                                         "matcher":  "mcp__plugin_factory_factory__(flux_render|trellis_run|cutout|bind|stills|upscale)",
+                                         "matcher":  "mcp__plugin_factory_factory__(flux_render|trellis_run|cutout|bind|skin_tokens_bind|stills|upscale)",
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
@@ -253,6 +265,12 @@
                                                            "type":  "command",
                                                            "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/plugin_guard.py\"",
                                                            "timeout":  15,
+                                                           "if":  "Bash(*run_skin_tokens*)"
+                                                       },
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/plugin_guard.py\"",
+                                                           "timeout":  15,
                                                            "if":  "Bash(*run_kit*)"
                                                        }
                                                    ]
@@ -331,6 +349,12 @@
                                                            "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/plugin_guard.py\"",
                                                            "timeout":  15,
                                                            "if":  "PowerShell(*upscale_match*)"
+                                                       },
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/plugin_guard.py\"",
+                                                           "timeout":  15,
+                                                           "if":  "PowerShell(*run_skin_tokens*)"
                                                        },
                                                        {
                                                            "type":  "command",

@@ -6,6 +6,7 @@
   trellis_run(asset_id, image, preset) cut-out then TRELLIS    -> tools/run_3d.py         (GPU)
   cutout(asset_id, image)              BiRefNet cut-out (CPU)  -> tools/cutout_cpu.py
   bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
+  skin_tokens_bind(glb, skeleton)      SkinTokens skin weights -> tools/run_skin_tokens.py (GPU, gated like bind + relative-to-control)
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
 
@@ -32,7 +33,7 @@ import cf_guard  # noqa: E402
 import cf_proc  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.5"
+SERVER_VERSION = "0.1.7"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
@@ -260,6 +261,42 @@ def t_bind(asset_id: str, mesh: str, donor: str = "") -> dict:
     return res
 
 
+def t_skin_tokens_bind(glb: str, skeleton: str = "", asset_id: str = "") -> dict:
+    """SkinTokens (VAST-AI, MIT) skins `glb` onto the skeleton (default: the psyche-106 rig, config.local rig_glb). GPU. Same gate as bind plus the relative-to-control clause."""
+    c = cfg()
+    loc, st = c["local"], c["skin_tokens"]
+    skeleton = skeleton or loc.get("rig_glb", "")
+    for path, what in ((glb, "glb"), (skeleton, "skeleton")):
+        miss = need_file(path, what)
+        if miss:
+            return {"status": "refused", "error": miss}
+    why = gate(gpu=True, heavy=True)
+    if why:
+        return {"status": "refused", "error": why}
+    control = HOME / st["control_json"].format(donor=st["control_donor"])
+    for path, what in ((loc.get("skin_tokens_python", ""), "skin_tokens_python"), (os.path.join(loc.get("skin_tokens_repo_dir", ""), st["ckpt"]), "SkinTokens checkpoint"),
+                       (str(control), "donor control metrics (the relative-to-control clause needs it; bind_best.py builds it once per donor)")):
+        if not path or not os.path.isfile(path):
+            return {"status": "refused", "error": f"{what} not found: {path}"}
+    p = Path(glb)
+    asset_id = asset_id or (p.parent.name if p.stem == "mesh" else p.stem)
+    cmd = [loc["python"], str(HOME / "tools" / "run_skin_tokens.py"), asset_id, glb, skeleton]
+    b = c["bind"]
+    rc, log, t0 = run_stage("skin_tokens_bind", cmd, timeout=st["prep_timeout_s"] + st["run_timeout_s"] + st["export_timeout_s"] + st["metrics_timeout_s"] + 60,
+                            guard="run_skin_tokens")
+    res = finish("skin_tokens_bind", rc, log, t0, ["bind"], asset_id, {"binder": "skin_tokens", "skeleton": skeleton, "control": str(control)})
+    if res.get("receipt"):
+        try:
+            m = cf_guard.read_json(res["receipt"]).get("params", {}).get("metrics", {})
+            res["metrics"] = {k: m.get(k) for k in ("p99_stretch", "p99_compression_ratio", "checks", "binder", "violating_edges_by_region")}
+            if m.get("checks", {}).get("relative_to_control") is False:
+                res["relative_clause_warning"] = "the relative-to-control clause failed (stretch <= control x 1.10, compression >= control x 0.90): not a clean pass."
+        except Exception:
+            pass
+    res["gate_note"] = f"gate = bind.gate (stretch <= {b['gate']['p99_stretch_max']}, compression >= {b['gate']['p99_compression_ratio_min']}) + relative-to-control; compare against the donor bind before choosing."
+    return res
+
+
 def t_stills(asset_id: str, glb: str) -> dict:
     c = cfg()
     miss = need_file(glb, "glb")
@@ -310,6 +347,11 @@ TOOLS = {
     "bind": (t_bind, "Bind a body mesh to the psyche-106 rig (tools/run_bind.py, CPU Blender) with the donor forced (default from config). Returns the receipt path, the gate metrics and a "
              "warning when bind_best.py reports GATE_FAIL on the relative-to-control clause that run_bind.py does not check.",
              {"asset_id": _STR, "mesh": _STR, "donor": {**_STR, "description": "optional, default config character.default_donor"}}, ["asset_id", "mesh"], False, True),
+    "skin_tokens_bind": (t_skin_tokens_bind, "Skin a body GLB onto a skeleton with SkinTokens (VAST-AI, MIT; tools/run_skin_tokens.py, demo.py --use_skeleton), default skeleton the psyche-106 rig. "
+                         "GPU job under the lock, RAM gate and gpu_guard. The result is gated like bind (config bind.gate) AND against the donor control (relative clause); the receipt is stage "
+                         "bind. Output bound_skintokens.glb never overwrites the donor bind. Refuses on a live GPU lock, low RAM, a missing file, SkinTokens install or donor control.",
+                         {"glb": {**_STR, "description": "body mesh GLB (T-posed, body only)"}, "skeleton": {**_STR, "description": "optional rig GLB, default config.local rig_glb"},
+                          "asset_id": {**_STR, "description": "optional, default the folder of mesh.glb or the file stem"}}, ["glb"], True, True),
     "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Returns the receipt path.",
                {"asset_id": _STR, "glb": _STR}, ["asset_id", "glb"], False, True),
     "upscale": (t_upscale, "Real-ESRGAN x4 with Lab colour match (tools/upscale/upscale_match.py) under the GPU guard. asset_id defaults to the output file stem so a receipt is written. "
