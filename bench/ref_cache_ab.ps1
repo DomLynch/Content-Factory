@@ -14,7 +14,9 @@ $outDir = "$($loc.outputs_dir)\_speed_tests"
 New-Item -ItemType Directory -Force $outDir | Out-Null
 $lockPath = "$env:USERPROFILE\Documents\.gpu_lock"
 if (-not $Dry -and (Test-Path $lockPath)) {
-  try { $l = Get-Content $lockPath -Raw | ConvertFrom-Json; if (Get-Process -Id $l.pid -ErrorAction SilentlyContinue) { Write-Error "GPU busy: lock held by pid $($l.pid) job $($l.job). Not starting."; exit 4 } } catch {}
+  $busy = $null
+  try { $l = Get-Content $lockPath -Raw | ConvertFrom-Json; if (Get-Process -Id $l.pid -ErrorAction SilentlyContinue) { $busy = "lock held by pid $($l.pid) job $($l.job)" } } catch {}
+  if ($busy) { Write-Host "GPU busy: $busy. Not starting."; exit 4 }
 }
 $receipts = @{}
 foreach ($variant in @("off", "on")) {

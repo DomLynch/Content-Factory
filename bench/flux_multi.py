@@ -122,7 +122,6 @@ def main():
     if os.environ.get("CF_DRY"):
         print(json.dumps({"kit": kit["kit"], "out": a.out, "jobs": [{k: j[k] for k in ("index", "row", "tag", "W", "H", "ref", "vae_tiling", "tunable", "nan_diag", "out_list", "skip_gc", "ref_cache", "png")} for j in jobs]}, indent=1))
         return
-    faulthandler.dump_traceback_later(a.timeout_s, exit=True)
     os.makedirs(out_dir, exist_ok=True)
     sys.path.insert(0, LOC["flux_pkgs_dir"])
     os.environ["HF_HUB_OFFLINE"] = "1"
@@ -144,6 +143,7 @@ def main():
     torch.cuda.synchronize()
     proc = {"load_s": round(time.time() - t_proc, 1), "torch": torch.__version__, "hip": getattr(torch.version, "hip", None), "device": torch.cuda.get_device_name(0),
             "config_vae_tiling": cfg_tiling, "config_vae_slicing": cfg_slicing}
+    faulthandler.dump_traceback_later(a.timeout_s, exit=True)   # starts after the load: the .ps1 kill covers a hung load
     stamps, dec_t = [], []
     orig_step = pipe.scheduler.step
 
@@ -181,6 +181,9 @@ def main():
                 try:
                     t = torch.cuda.tunable
                     t.set_filename(csv, insert_device_ordinal=False)
+                    if job["tunable"] == "reuse" and os.path.isfile(csv):
+                        t.read_file(csv)   # load the tuned results from disk, so reuse is not only the in-memory table
+                        res["tunableop_csv_read"] = True
                     t.enable(job["tunable"] != "off")
                     t.tuning_enable(job["tunable"] == "tune")
                     res["tunable_enabled"] = bool(t.is_enabled())

@@ -11,6 +11,7 @@ $off = @(); $on = @()
 foreach ($r in $Rows) { $off += @{ row = $r; tag = "r"; ref_cache = $false }; $on += @{ row = $r; tag = "r"; ref_cache = $true } }
 $a = Invoke-Engine -Kit $Kit -Plan $off -Name "cache_off" -TimeoutSec $TimeoutSec -Dry:$Dry
 $b = Invoke-Engine -Kit $Kit -Plan $on -Name "cache_on" -TimeoutSec $TimeoutSec -Dry:$Dry
+if (-not $Dry -and (-not $a -or -not $b)) { Write-Warning "cache_multi: a run produced no valid result, nothing to compare"; exit 6 }
 if ($Dry) { Write-Host "Compare json would be $script:outDir\cache_multi_<stamp>.json"; exit 0 }
 $cmp = "$script:outDir\cache_multi_" + (Get-Date).ToUniversalTime().ToString("yyyyMMddTHHmmssZ") + ".json"
 & $script:py "$script:repo\bench\flux_multi.py" --compare $a $b $cmp --receipts-dir $Receipts

@@ -19,8 +19,8 @@ from pathlib import Path
 
 # A python/pwsh invocation whose script is one of the GPU entry points (so `cat flux_kit.py` or a git message that mentions it is not matched).
 START = re.compile(
-    r"(?:\bpython[\w.]*(?:\.exe)?[\"']?\s+(?:-\S+\s+)*[\"']?[^\s;&|]*(?:generate|flux_kit|run_3d|run_character|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d|run_ab)\.py\b"
-    r"|\b(?:powershell|pwsh)(?:\.exe)?\s+[^;&|]*run_kit\.ps1\b"
+    r"(?:\bpython[\w.]*(?:\.exe)?[\"']?\s+(?:-\S+\s+)*[\"']?[^\s;&|]*(?:generate|flux_kit|run_3d|run_character|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d|run_ab|flux_multi|compile_probe)\.py\b"
+    r"|\b(?:powershell|pwsh)(?:\.exe)?\s+[^;&|]*(?:run_kit|loaded_diag|vae_tiling_probe|cache_multi|tunableop_probe|compile_probe|ref_cache_ab)\.ps1\b"
     r"|(?:^|[;&|]\s*)\.?[\/]?[^\s;&|]*run_kit\.ps1\b)",
     re.I,
 )

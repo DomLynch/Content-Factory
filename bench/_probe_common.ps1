@@ -10,7 +10,9 @@ New-Item -ItemType Directory -Force $script:outDir | Out-Null
 function Assert-GpuFree {
   $lockPath = "$env:USERPROFILE\Documents\.gpu_lock"
   if (Test-Path $lockPath) {
-    try { $l = Get-Content $lockPath -Raw | ConvertFrom-Json; if (Get-Process -Id $l.pid -ErrorAction SilentlyContinue) { Write-Error "GPU busy: lock held by pid $($l.pid) job $($l.job). Not starting."; exit 4 } } catch {}
+    $busy = $null
+  try { $l = Get-Content $lockPath -Raw | ConvertFrom-Json; if (Get-Process -Id $l.pid -ErrorAction SilentlyContinue) { $busy = "lock held by pid $($l.pid) job $($l.job)" } } catch {}
+  if ($busy) { Write-Host "GPU busy: $busy. Not starting."; exit 4 }
   }
 }
 
@@ -33,5 +35,8 @@ function Invoke-Engine([string]$Kit, [object[]]$Plan, [string]$Name, [int]$Timeo
   Get-Content $log | Select-Object -Last 40 | Out-Host   # Out-Host: the function must return ONLY the result path
   if ($Dry) { Write-Host "DRY RUN OK ($Name): nothing rendered. Result json would be $result"; return $null }
   Write-Host "[$Name] exit code '$($p.ExitCode)' (informational: the result json is what counts)"
+  $ok = $false
+  if (Test-Path $result) { try { $o = Get-Content $result -Raw | ConvertFrom-Json; $ok = @($o.jobs | Where-Object { -not $_.error }).Count -ge 1 } catch {} }
+  if (-not $ok) { Write-Warning "[$Name] no valid result json with a successful job ($result); see $log.err"; return $null }
   return $result
 }

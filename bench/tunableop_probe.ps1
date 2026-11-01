@@ -3,6 +3,7 @@
 # Reports: whether the wheel supports it (csv written and non-empty, or the exact error), s/step for each job, and the pixel diff of tune/reuse vs base
 # (GEMM kernels swap, so judge QC-equal on the mean abs pixel diff, not byte-identical). Output only to <outputs_dir>\_speed_tests\.
 # Usage: powershell -NoProfile -File bench\tunableop_probe.ps1 -Kit <kit.json> [-Row gear_cuffs] [-TimeoutSec 1500] [-Dry]
+# The reuse job calls torch.cuda.tunable.read_file(csv) first (results from disk), but it still runs in the SAME process as the tuning job: a fresh-process reuse is a separate run.
 # Tuning is slow (it benchmarks many GEMM shapes): the default hard timeout is 25 minutes; a timeout keeps the jobs that finished (the json is rewritten after every job).
 param([Parameter(Mandatory=$true)][string]$Kit, [string]$Row = "gear_cuffs", [int]$TimeoutSec = 1500, [switch]$Dry)
 $ErrorActionPreference = "Stop"

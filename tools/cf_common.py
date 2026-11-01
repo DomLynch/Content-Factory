@@ -81,13 +81,17 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
     d = os.path.join(REPO, "receipts", asset_id)
     os.makedirs(d, exist_ok=True)
     base = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}")
-    path, n = base + ".json", 0
-    while os.path.exists(path):   # two receipts of one asset and stage in the same second used to overwrite each other (CI caught it): b, c, ... sort after the plain name
-        n += 1
-        path = base + (chr(ord("a") + n) if n < 25 else f"z{n}") + ".json"
-    with open(path, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(rec, f, indent=2)
-    return path
+    n = 0
+    while True:   # two receipts of one asset and stage in the same second used to overwrite each other (CI caught it): b, c, ... sort after the plain name; "x" makes the create atomic across processes
+        path = base + (chr(ord("a") + n - 1) if 0 < n < 26 else f"z{n}" if n else "") + ".json"
+        try:
+            f = open(path, "x", encoding="utf-8", newline="\n")
+        except FileExistsError:
+            n += 1
+            continue
+        with f:
+            json.dump(rec, f, indent=2)
+        return path
 
 
 def wait_for_free_ram(cfg, what=''):
