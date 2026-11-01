@@ -25,9 +25,9 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs and boots; he wears only a plain fitted dark base layer and trousers. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
-   "seed": 43,
-   "seed_note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; both braids clearly visible on the chest. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
+   "seed": 44,
+   "seed_note": "Re-roll: the seed-43 render lost the braids (hair hanging loose to the shoulders), which disagrees with head_front and the back view; this is the identity reference the other body cells copy. The prompt now states the braided hair explicitly."
   },
   {
    "name": "body_underlayer_back",
@@ -44,9 +44,9 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; one braid visible hanging over the near shoulder down to the chest, not a short stub. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
    "seed": 43,
-   "seed_note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+   "seed_note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause. Prompt now states the braided hair (one braid over the near shoulder to the chest)."
   },
   {
    "name": "body_underlayer_right",
@@ -54,9 +54,9 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; one braid visible hanging over the near shoulder down to the chest, not a short stub. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
    "seed": 43,
-   "seed_note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+   "seed_note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause. Prompt now states the braided hair (one braid over the near shoulder to the chest)."
   },
   {
    "name": "body_underlayer_three_quarter",
@@ -74,7 +74,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat.",
+   "seed": 43,
+   "seed_note": "Re-render with seed 43: consistency QC REJECT (a braid started on the scalp and the hair was not tied at the nape); the seed-42 png is moved to rejected\\ and the prompt now says low knot at the nape with two separate braids behind the shoulder."
   },
   {
    "name": "head_profile_right",

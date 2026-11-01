@@ -181,7 +181,7 @@
  "side_pose_rule": "arms hanging slightly forward in an A-pose",
  "head_skin_detail": "skin pores",
  "head_hair_front_desc": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders",
- "head_hair_profile_desc": "hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp",
+ "head_hair_profile_desc": "hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder",
  "head_facial_hair_desc": "long upswept thin moustache",
  "head_chin_front_desc": "clean-shaven chin with no soul patch",
  "head_collar_desc": "plain charcoal high-collared sweater collar",
@@ -210,16 +210,16 @@
  "hand_wrist_clean_rule": "Clean bare wrist, no artefacts.",
  "row_seeds": {
   "body_underlayer_front": {
-   "seed": 43,
-   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+   "seed": 44,
+   "note": "Re-roll: the seed-43 render lost the braids (hair hanging loose to the shoulders), which disagrees with head_front and the back view; this is the identity reference the other body cells copy. The prompt now states the braided hair explicitly."
   },
   "body_underlayer_left": {
    "seed": 43,
-   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause. Prompt now states the braided hair (one braid over the near shoulder to the chest)."
   },
   "body_underlayer_right": {
    "seed": 43,
-   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause. Prompt now states the braided hair (one braid over the near shoulder to the chest)."
   },
   "hand_open_left": {
    "seed": 43,
@@ -228,6 +228,14 @@
   "head_eyes_closeup": {
    "seed": 43,
    "note": "Re-render with seed 43: the first image was rejected by the consistency QC (loose hair, earring, white collar, red cloth) and no png is on disk; the prompt now repeats the shared head description."
+  },
+  "head_profile": {
+   "seed": 43,
+   "note": "Re-render with seed 43: consistency QC REJECT (a braid started on the scalp and the hair was not tied at the nape); the seed-42 png is moved to rejected\\ and the prompt now says low knot at the nape with two separate braids behind the shoulder."
   }
- }
+ },
+ "head_hair_profile_right_desc": "hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp",
+ "body_hair_desc": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair",
+ "body_hair_front_view": "both braids clearly visible on the chest",
+ "body_hair_side_view": "one braid visible hanging over the near shoulder down to the chest, not a short stub"
 }
