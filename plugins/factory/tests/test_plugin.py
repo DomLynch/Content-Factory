@@ -59,7 +59,7 @@ class Packaging(unittest.TestCase):
         plugin = json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         market = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(plugin["name"], "factory")
-        self.assertEqual(plugin["version"], "0.1.0")
+        self.assertEqual(plugin["version"], "0.1.1")
         entry = market["plugins"][0]
         self.assertEqual((entry["name"], entry["source"], entry["version"]), ("factory", "./plugins/factory", plugin["version"]))
         self.assertEqual(market["name"], "content-factory")
@@ -75,12 +75,12 @@ class Packaging(unittest.TestCase):
                 self.assertTrue(m and (PLUGIN / "hooks" / m.group(1)).is_file(), h["command"])
                 scripts.add(m.group(1))
                 self.assertIn("${CLAUDE_PLUGIN_ROOT}", h["command"])
-        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py"})
+        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py"})
         sys.path.insert(0, str(PLUGIN / "mcp"))
         os.environ.setdefault("FACTORY_HOME", str(REPO))
         import server
         tools = set(server.TOOLS)
-        for group in hooks[1:]:
+        for group in (g for g in hooks[1:] if g["matcher"].startswith(MCP_P)):
             names = group["matcher"][len(MCP_P):].strip("()").split("|")
             self.assertTrue(set(names) <= tools, names)
 
@@ -387,3 +387,24 @@ class McpServer(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class PluginGuard(unittest.TestCase):
+    """hooks/plugin_guard.py: a raw stage-script call is refused, plugin-spawned (token), logged override, dry run and reading are allowed."""
+
+    def _decide(self, tool, cmd):
+        sys.path.insert(0, str(PLUGIN / "hooks"))
+        import plugin_guard
+        return plugin_guard.decide({"tool_name": tool, "tool_input": {"command": cmd}})
+
+    def test_raw_call_refused_on_bash_and_powershell(self):
+        self.assertIn("plugin", self._decide("Bash", "python tools/run_3d.py a.png"))
+        self.assertIn("plugin", self._decide("PowerShell", "python C:/x/flux_kit.py kit row"))
+
+    def test_reading_dry_run_and_other_tools_allowed(self):
+        self.assertEqual(self._decide("Bash", "cat tools/run_3d.py; git commit -m run_3d"), "")
+        self.assertEqual(self._decide("Bash", "python tools/run_3d.py --help"), "")
+        self.assertEqual(self._decide("Read", "python tools/run_3d.py a.png"), "")
+
+    def test_forged_token_refused(self):
+        self.assertNotEqual(self._decide("Bash", "FACTORY_PLUGIN_TOKEN=" + "a" * 32 + " python tools/run_bind.py a"), "")

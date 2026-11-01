@@ -162,3 +162,67 @@ def small_image_reason(path, gate: int = GATE_PX) -> str:
         return ""
     return (f"Input image {path} is {size[0]}x{size[1]}: short side {short} px is under the {gate} px gate (docs/asset-standard.md section 1). "
             "Upscale it to 2048 px or more first (tools/upscale/upscale_match.py, colour-matched), look at it, then retry.")
+
+
+# ---- plugin token (the "factory runs through the plugin" rule) -------------------------------------------------------------------------------------
+# config/config.json -> plugin_guard {nonce_dir, ttl_s, override_log}; relative paths are under the factory home.
+# The MCP server issues a nonce for each stage subprocess it spawns and passes it as FACTORY_PLUGIN_TOKEN; hooks/plugin_guard.py allows a Bash or
+# PowerShell command only if it carries a live nonce, or the logged FACTORY_RAW override.
+TOKEN_ENV = "FACTORY_PLUGIN_TOKEN"
+GUARD_DEFAULTS = {"nonce_dir": "state/plugin_nonces", "ttl_s": 900, "override_log": "logs/factory_raw_override.log"}
+
+
+def guard_cfg() -> dict:
+    g = dict(GUARD_DEFAULTS)
+    try:
+        g.update(config().get("plugin_guard") or {})
+    except Exception:
+        pass
+    return g
+
+
+def guard_path(key: str) -> Path:
+    p = Path(str(guard_cfg()[key]))
+    return p if p.is_absolute() else HOME / p
+
+
+def issue_nonce(tool: str) -> str:
+    """Write a short-lived nonce file for one stage subprocess and return the nonce. Also sweeps expired files. Returns '' if the file cannot be written."""
+    import secrets
+    import time
+    try:
+        d = guard_path("nonce_dir")
+        d.mkdir(parents=True, exist_ok=True)
+        now = time.time()
+        for f in d.glob("*.json"):
+            try:
+                if json.loads(f.read_text(encoding="utf-8")).get("expires", 0) < now:
+                    f.unlink()
+            except Exception:
+                pass
+        nonce = secrets.token_hex(16)
+        (d / f"{nonce}.json").write_text(json.dumps({"nonce": nonce, "tool": tool, "pid": os.getpid(), "created": now, "expires": now + float(guard_cfg()["ttl_s"])}),
+                                         encoding="utf-8")
+        return nonce
+    except Exception:
+        return ""
+
+
+def revoke_nonce(nonce: str) -> None:
+    try:
+        if nonce:
+            (guard_path("nonce_dir") / f"{nonce}.json").unlink()
+    except Exception:
+        pass
+
+
+def nonce_valid(nonce: str) -> bool:
+    import re
+    import time
+    if not re.fullmatch(r"[0-9a-f]{16,64}", nonce or ""):
+        return False   # also keeps path characters out of the file name
+    try:
+        rec = json.loads((guard_path("nonce_dir") / f"{nonce}.json").read_text(encoding="utf-8"))
+        return rec.get("nonce") == nonce and float(rec.get("expires", 0)) >= time.time()
+    except Exception:
+        return False

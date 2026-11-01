@@ -13,6 +13,8 @@ Every tool runs the EXISTING script as a subprocess in the Content-Factory check
 and returns the path of the receipt the script wrote. GPU tools start under tools/gpu_guard.ps1 exactly like tools/run_character.py does.
 Refusals (nothing is started, the result says why): a GPU tool while Documents\\.gpu_lock names a live pid; any heavy tool while free RAM is under
 config/config.json limits.start_min_free_ram_gb; an input image with a short side under 1024 px; an unknown preset, kit row or missing file.
+Every stage subprocess carries a short-lived nonce (FACTORY_PLUGIN_TOKEN, file under config plugin_guard.nonce_dir): the MCP server spawns children itself, so this path never passes through
+the Bash/PowerShell hook (hooks/plugin_guard.py), which refuses raw stage-script calls that lack a nonce or the logged FACTORY_RAW override.
 The MCP handshake is implemented here by hand (JSON-RPC 2.0, one message per line) because the `mcp` package is not installed in the factory venv.
 """
 from __future__ import annotations
@@ -29,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_guard  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.0"
+SERVER_VERSION = "0.1.1"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
@@ -92,12 +94,15 @@ def run_stage(tool: str, cmd: list[str], *, cwd=None, env=None, timeout: int, gu
                                  creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         time.sleep(c["character"]["guard_wait_s"])
     t0 = time.time()
+    nonce = cf_guard.issue_nonce(tool)   # the plugin's own token: the child carries it, the Bash/PowerShell hook (plugin_guard.py) honours it
     try:
         with open(log, "w", encoding="utf-8") as lf:
-            rc: object = subprocess.run(cmd, cwd=cwd or str(HOME), env=dict(os.environ, **(env or {})), stdout=lf, stderr=subprocess.STDOUT, timeout=timeout).returncode
+            rc: object = subprocess.run(cmd, cwd=cwd or str(HOME), env=dict(os.environ, **(env or {}), **({cf_guard.TOKEN_ENV: nonce} if nonce else {})),
+                                        stdout=lf, stderr=subprocess.STDOUT, timeout=timeout).returncode
     except subprocess.TimeoutExpired:
         rc = "timeout"
     finally:
+        cf_guard.revoke_nonce(nonce)
         if gproc and gproc.poll() is None:
             gproc.kill()
     return rc, log, t0
@@ -160,7 +165,11 @@ def t_flux_render(kit: str, row_id: str, dry_run: bool = False) -> dict:
     c = cfg()
     cmd = [c["local"]["python"], "-u", str(HOME / "flux" / "flux_kit.py"), str(kit_path), row_id]
     if dry_run:   # flux_kit.py prints asset id, output path and size under CF_DRY and exits; no GPU
-        r = subprocess.run(cmd, cwd=str(HOME), env=dict(os.environ, CF_DRY="1"), capture_output=True, text=True, timeout=120)
+        nonce = cf_guard.issue_nonce("flux_render_dry")
+        try:
+            r = subprocess.run(cmd, cwd=str(HOME), env=dict(os.environ, CF_DRY="1", **({cf_guard.TOKEN_ENV: nonce} if nonce else {})), capture_output=True, text=True, timeout=120)
+        finally:
+            cf_guard.revoke_nonce(nonce)
         return {"status": "dry-run", "exit": r.returncode, "stdout": r.stdout[-2000:], "stderr": r.stderr[-500:]}
     why = gate(gpu=True, heavy=True)
     if why:
