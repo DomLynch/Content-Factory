@@ -1,6 +1,6 @@
 {
   "name": "factory",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Content-Factory: step-by-step skills for the Frankendom asset pipeline (character sheet, TRELLIS part, humanoid and beast bind, assemble, stills, publish, environment, hero rebake, text-to-motion), /factory-status, /factory-run and /factory-publish, an MCP server that runs the existing stage scripts behind the GPU lock and RAM gate, and hooks for the GPU lock, free RAM at start, the 1024 px input gate and no literals. Stages that have not yet run end to end carry a DRAFT banner.",
   "author": {
     "name": "Dom Lynch",

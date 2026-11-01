@@ -583,8 +583,9 @@ class Wiring(unittest.TestCase):
         self.assertIn('"cutout_receipt": a.cutout_receipt', r3)
         px = (REPO / "tools" / "run_pixal3d.py").read_text(encoding="utf-8")
         self.assertIn('--no-naf', px)
-        self.assertIn('"quality_label": "" if naf else "ROUGH / NAF-off"', px)
-        self.assertNotIn("--no-naf", (REPO / "tools" / "pixal3d_entry.py").read_text(encoding="utf-8"))   # that flag belongs to the natten-shim branch
+        self.assertIn('"quality_label"', px)
+        self.assertIn("ROUGH / NAF-off", px)
+        self.assertIn("--no-naf", (REPO / "tools" / "pixal3d_entry.py").read_text(encoding="utf-8"))   # the natten-shim branch adds the entry flag
 
     def test_run_3d_passes_the_seed_only_when_given(self):
         src = (REPO / "tools" / "run_3d.py").read_text(encoding="utf-8")

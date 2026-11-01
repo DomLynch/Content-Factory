@@ -404,10 +404,14 @@
     "vae_slicing": null
   },
   "pixal3d": {
-    "_comment": "plugin 0.1.10. Pixal3D (TencentARC, MIT) single view via tools/run_pixal3d.py. Attention is sdpa (flash-attn and natten are CUDA-only; upstream does not import natten). Paths under config.local.json (pixal3d_*), defaults under work_dir. Presets are first settings: the A/B against TRELLIS on the same input and seed decides.",
+    "_comment": "plugin 0.1.10. Pixal3D (TencentARC, MIT) single view via tools/run_pixal3d.py. Attention is sdpa (flash-attn and natten are CUDA-only; NAF, loaded by torch.hub, imports natten: see tools/pixal3d_shims). Paths under config.local.json (pixal3d_*), defaults under work_dir. Presets are first settings: the A/B against TRELLIS on the same input and seed decides.",
     "default_preset": "standard",
     "timeout_s": 3600,
     "guard_match": "pixal3d_entry",
+    "naf": true,
+    "naf_off_label": "ROUGH / NAF-off",
+    "shim_dir": "pixal3d_shims",
+    "_naf_comment": "plugin 0.1.15. naf true = NAF feature upsampler (torch.hub valeoai/NAF, needs natten: tools/pixal3d_shims/natten is a pure-PyTorch stand-in, first on sys.path). false = bicubic feature upsample, no hub, no natten; the receipt then carries params.naf=false and params.quality_label (a rough proof, never a final). Hub cache = config.local pixal3d_torch_home, default work_dir/models/torch-hub (code in hub/valeoai_NAF_main, checkpoint in hub/checkpoints/naf_release.pth).",
     "env": {
       "ATTN_BACKEND": "sdpa",
       "SPARSE_ATTN_BACKEND": "sdpa",
