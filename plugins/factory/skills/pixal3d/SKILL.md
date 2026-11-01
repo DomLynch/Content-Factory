@@ -24,7 +24,7 @@ TencentARC Pixal3D, MIT (code, weights and NOTICE re-read 2026-11-01). Single im
 - Attention is sdpa. flash-attn and natten are CUDA-only; upstream does not import natten.
 
 ## The A/B (decision rule from OpenTrident Dev)
-Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
+Run it with the `ab_shape` tool (skill ab-shape). Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
 
 ## Do / Don't
 - Do LOOK at every image and output yourself before calling a stage done: open the GLB, the turntable and the stills, check for black, cropped or speckled results; a receipt only proves the tool ran.
