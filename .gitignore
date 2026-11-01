@@ -1,0 +1,13 @@
+﻿.venv/
+__pycache__/
+*.pyc
+*.glb
+*.gltf
+*.obj
+*.fbx
+*.png
+*.jpg
+*.pt
+*.safetensors
+*.latents.pt
+*.receipt.json
