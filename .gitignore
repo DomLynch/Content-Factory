@@ -11,3 +11,5 @@ __pycache__/
 *.safetensors
 *.latents.pt
 *.receipt.json
+
+config/config.local.json

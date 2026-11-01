@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "hades_gate-rock_cluster_prop-c8223b",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "24c3d30",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Single isolated cluster of large jagged black basalt boulders with small debris, three-quarter view, plain neutral grey studio background, game prop reference. Setting: the Hades underworld realm, a colossal weathered gate carved from black basalt, dark misty river, drifting ash. Photorealistic grim dark fantasy AAA game asset reference in the spirit of Dark Souls and Elden Ring: restrained palette, cold desaturated ash-grey light only, no orange or warm point lights, no stray glowing spots, believable weathered stone, wet surfaces, fine material detail, sharp, ultra detailed, no characters, no text, not cartoon, not stylised, no neon.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\hades_gate_kit.json",
+    "row_id": "rock_cluster_prop",
+    "mean_brightness": 82.5
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 89.5,
+    "load_s": 38.1,
+    "generate_s": 51.4
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 1.8
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\rock_cluster_prop_1024x1024.png",
+      "sha256": "65270ab8687308901ef4d7c3ed7e32785c68e1f60a2b001e8e4c08c94f9ccd8c"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T04:38:41+00:00"
+}

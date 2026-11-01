@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "stages": ["flux", "cutout", "trellis", "bind", "upscale", "stills", "publish"],
+  "limits": {
+    "guard_min_free_ram_gb": 2,
+    "guard_max_gpu_gb": 0,
+    "max_megapixels": 1.6,
+    "watchdog_seconds": 1500
+  },
+  "models": {
+    "flux": {"id": "flux-3-image-klein", "dtype": "bfloat16", "vae_slicing": true, "vae_tiling": true}
+  },
+  "defaults": {"seed": 42, "w": 1024, "h": 1024},
+  "presets": {}
+}

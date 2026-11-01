@@ -1,18 +1,68 @@
 {
-  "kit": "hades_gate", "seed": 42, "w": 1024, "h": 1024,
-  "subject": "Setting: the Hades underworld realm, a colossal weathered gate carved from black basalt, dark misty river, drifting ash.",
-  "style": "Photorealistic grim dark fantasy AAA game asset reference in the spirit of Dark Souls and Elden Ring: restrained palette, cold desaturated ash-grey light only, no orange or warm point lights, no stray glowing spots, believable weathered stone, wet surfaces, fine material detail, sharp, ultra detailed, no characters, no text, not cartoon, not stylised, no neon.",
-  "rows": [
-    {"name": "gate_front_elevation", "w": 1536, "h": 1024, "prompt": "Straight-on front elevation of the colossal basalt gate, perfectly symmetrical, centred, entire gate visible from base to top, flat even overcast lighting, plain dark grey background, orthographic game-asset reference."},
-    {"name": "gate_arch_detail", "w": 1536, "h": 1024, "prompt": "Close-up of the gate arch and keystone with deep relief carvings of tormented figures and runes, cracks, dry weathered basalt, raking light."},
-    {"name": "causeway_floor_tile", "prompt": "Top-down flat seamless tileable texture of cracked wet black basalt flagstones with ash and fine dust in the joints, evenly lit, no perspective, material reference.", "use_subject": false},
-    {"name": "ground_ash_tile", "prompt": "Top-down flat seamless tileable texture of grey volcanic ash ground with small cinders and faint footprints, evenly lit, no perspective, material reference.", "use_subject": false},
-    {"name": "wall_ruin_prop", "prompt": "Single isolated broken stretch of ruined basalt wall with a jagged top and fallen blocks at its base, three-quarter view, plain neutral grey studio background, game prop reference."},
-    {"name": "pillar_fallen_prop", "prompt": "Single isolated toppled carved basalt pillar broken in two, with a fluted shaft and a damaged capital, three-quarter view, plain neutral grey studio background, game prop reference."},
-    {"name": "dead_tree_prop", "prompt": "Single isolated dead gnarled leafless tree with twisted bare branches and exposed roots, ash-grey bark, three-quarter view, plain neutral grey studio background, game prop reference."},
-    {"name": "brazier_prop", "prompt": "Single isolated wrought-iron standing brazier with a few embers glowing only inside the brazier bowl on a stone base, three-quarter view, plain neutral grey studio background, game prop reference."},
-    {"name": "rock_cluster_prop", "prompt": "Single isolated cluster of large jagged black basalt boulders with small debris, three-quarter view, plain neutral grey studio background, game prop reference."},
-    {"name": "backdrop_valley_plate", "w": 1664, "h": 928, "prompt": "Wide cinematic backdrop plate of the dark river valley beyond the gate, layered misty cliffs, distant dead forests and a pale cold ash-grey horizon, no foreground clutter, usable as a game skybox or parallax background."}
-  ]
+ "kit": "hades_gate",
+ "seed": 42,
+ "w": 1024,
+ "h": 1024,
+ "subject": "Setting: the Hades underworld realm, a colossal weathered gate carved from black basalt, dark misty river, drifting ash.",
+ "style": "Photorealistic grim dark fantasy AAA game asset reference in the spirit of Dark Souls and Elden Ring: restrained palette, cold desaturated ash-grey light only, no orange or warm point lights, no stray glowing spots, believable weathered stone, wet surfaces, fine material detail, sharp, ultra detailed, no characters, no text, not cartoon, not stylised, no neon.",
+ "rows": [
+  {
+   "name": "gate_front_elevation",
+   "w": 1536,
+   "h": 1024,
+   "prompt": "Straight-on front elevation of the colossal basalt gate, perfectly symmetrical, centred, entire gate visible from base to top, flat even overcast lighting, plain dark grey background, orthographic game-asset reference.",
+   "row_id": "gate_front_elevation"
+  },
+  {
+   "name": "gate_arch_detail",
+   "w": 1536,
+   "h": 1024,
+   "prompt": "Close-up of the gate arch and keystone with deep relief carvings of tormented figures and runes, cracks, dry weathered basalt, raking light.",
+   "row_id": "gate_arch_detail"
+  },
+  {
+   "name": "causeway_floor_tile",
+   "prompt": "Top-down flat seamless tileable texture of cracked wet black basalt flagstones with ash and fine dust in the joints, evenly lit, no perspective, material reference.",
+   "use_subject": false,
+   "row_id": "causeway_floor_tile"
+  },
+  {
+   "name": "ground_ash_tile",
+   "prompt": "Top-down flat seamless tileable texture of grey volcanic ash ground with small cinders and faint footprints, evenly lit, no perspective, material reference.",
+   "use_subject": false,
+   "row_id": "ground_ash_tile"
+  },
+  {
+   "name": "wall_ruin_prop",
+   "prompt": "Single isolated broken stretch of ruined basalt wall with a jagged top and fallen blocks at its base, three-quarter view, plain neutral grey studio background, game prop reference.",
+   "row_id": "wall_ruin_prop"
+  },
+  {
+   "name": "pillar_fallen_prop",
+   "prompt": "Single isolated toppled carved basalt pillar broken in two, with a fluted shaft and a damaged capital, three-quarter view, plain neutral grey studio background, game prop reference.",
+   "row_id": "pillar_fallen_prop"
+  },
+  {
+   "name": "dead_tree_prop",
+   "prompt": "Single isolated dead gnarled leafless tree with twisted bare branches and exposed roots, ash-grey bark, three-quarter view, plain neutral grey studio background, game prop reference.",
+   "row_id": "dead_tree_prop"
+  },
+  {
+   "name": "brazier_prop",
+   "prompt": "Single isolated wrought-iron standing brazier with a few embers glowing only inside the brazier bowl on a stone base, three-quarter view, plain neutral grey studio background, game prop reference.",
+   "row_id": "brazier_prop"
+  },
+  {
+   "name": "rock_cluster_prop",
+   "prompt": "Single isolated cluster of large jagged black basalt boulders with small debris, three-quarter view, plain neutral grey studio background, game prop reference.",
+   "row_id": "rock_cluster_prop"
+  },
+  {
+   "name": "backdrop_valley_plate",
+   "w": 1664,
+   "h": 928,
+   "prompt": "Wide cinematic backdrop plate of the dark river valley beyond the gate, layered misty cliffs, distant dead forests and a pale cold ash-grey horizon, no foreground clutter, usable as a game skybox or parallax background.",
+   "row_id": "backdrop_valley_plate"
+  }
+ ]
 }
-

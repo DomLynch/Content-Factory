@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy to config.local.json (gitignored) and fill in this machine's paths. Paths only: limits and presets live in config.json.",
+  "work_dir": "C:\\Users\\USER\\Documents",
+  "flux_model_dir": "C:\\Users\\USER\\Documents\\models\\flux-3-image-klein",
+  "flux_pkgs_dir": "C:\\Users\\USER\\Documents\\flux_env\\pkgs",
+  "python": "C:\\Users\\USER\\Documents\\Trellis-3-312\\.venv\\Scripts\\python.exe",
+  "outputs_dir": "C:\\Users\\USER\\Documents\\kits_out",
+  "logs_dir": "C:\\Users\\USER\\Documents\\flux_env",
+  "guard_script": "C:\\Users\\USER\\Documents\\Content-Factory\\tools\\gpu_guard.ps1",
+  "monitor_csv": "C:\\Users\\USER\\Documents\\crash_monitor.csv",
+  "machine": {"name": "rog-flow-z13", "gpu": "Radeon 8060S gfx1151", "gpu_split": "32 GB GPU / 32 GB RAM", "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"}
+}
