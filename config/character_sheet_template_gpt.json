@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note. A swatch item with swatch_of {source_row, box (fractions), size} becomes a crop of an approved cell made by tools/swatch_crop.py; the queue skips rows with swatch_of. Optional spec fields (absent = output unchanged): head_age_desc, head_skin_desc, body_age_desc, body_skin_desc add 'Age and face / Skin / Build' sentences to the head, body and foot prompts; head_front_ref and head_lock_ref set the reference image of the identity-lock head rows.",
+ "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note. A swatch item with swatch_of {source_row, box (fractions), size} becomes a crop of an approved cell made by tools/swatch_crop.py; the queue skips rows with swatch_of. Optional spec fields (absent = output unchanged): head_age_desc, head_skin_desc, body_age_desc, body_skin_desc add 'Age and face / Skin / Build' sentences to the head, body and foot prompts; head_front_ref and head_lock_ref set the reference image of the identity-lock head rows. Optional spec fields gear_colour_rule (appended to every gear prompt) and palette fields such as coat_palette used inside item strings as {coat_palette}.",
  "group_priority": [
   "body",
   "head",
@@ -221,9 +221,9 @@
    ],
    "default_form": "flat",
    "forms": {
-    "flat": "Show ONLY {item}{colour_clause}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}. {gear_isolation_head}{isolation_clause}. {gear_person_negative}",
-    "described": "Show ONLY {item}{gear_layout}: {colour_desc}. {gear_isolation_head}{isolation_clause}. {gear_person_negative}",
-    "closeup": "Close-up of ONLY {item}{gear_layout}, filling the frame, on a plain empty dark grey background: {gear_exclude}. {gear_closeup_suffix}"
+    "flat": "Show ONLY {item}{colour_clause}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}",
+    "described": "Show ONLY {item}{gear_layout}: {colour_desc}. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}",
+    "closeup": "Close-up of ONLY {item}{gear_layout}, filling the frame, on a plain empty dark grey background: {gear_exclude}. {gear_closeup_suffix}{gear_colour_sentence}"
    }
   },
   {
@@ -323,6 +323,11 @@
   "body_skin_sentence": {
    "from": "body_skin_desc",
    "prefix": " Skin: ",
+   "suffix": "."
+  },
+  "gear_colour_sentence": {
+   "from": "gear_colour_rule",
+   "prefix": " Colour: ",
    "suffix": "."
   }
  },

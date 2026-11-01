@@ -314,20 +314,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down seamless tileable texture of crimson damask velvet fabric with a subtle woven pattern, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "gear_coat",
-    "box": [
-     0.35026,
-     0.32422,
-     0.40495,
-     0.40625
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down seamless tileable texture of muted oxblood damask velvet fabric with a subtle woven pattern, matte, no saturated red, no gloss, photographic colour, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_black_fur",
@@ -337,20 +324,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down seamless tileable texture of dense black fur, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "gear_fur_collar",
-    "box": [
-     0.18229,
-     0.41016,
-     0.33854,
-     0.64453
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down seamless tileable texture of dense dark brown-black fur, matte, no gloss, photographic colour, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_gold_embroidery",
@@ -360,20 +334,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down seamless tileable texture of dense gold thread embroidery on crimson cloth, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "gear_coat",
-    "box": [
-     0.45573,
-     0.32227,
-     0.54036,
-     0.44922
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down seamless tileable texture of dense thread embroidery in antique dull gold, not bright on oxblood cloth, no saturated red, no gloss, photographic colour, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_black_leather",
@@ -383,20 +344,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down seamless tileable texture of worn black leather with fine creases, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "gear_belt",
-    "box": [
-     0.09766,
-     0.45117,
-     0.18229,
-     0.57812
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down seamless tileable texture of worn black leather with fine creases, matte, no gloss, photographic colour, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_pale_skin",
@@ -406,20 +354,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down texture of pale aged human skin with pores and fine wrinkles, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "head_front",
-    "box": [
-     0.39062,
-     0.22949,
-     0.48828,
-     0.32715
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down texture of pale, cold, slightly grey aged human skin with pores and fine lines, no warm flush, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_dark_hair",
@@ -429,20 +364,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down texture of straight black hair strands, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "head_back",
-    "box": [
-     0.37109,
-     0.14648,
-     0.625,
-     0.40039
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down texture of long wavy black hair strands, loose and swept back, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_steel",
@@ -462,20 +384,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down seamless tileable texture of white lace fabric with a delicate pattern, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "gear_cuffs",
-    "box": [
-     0.3418,
-     0.20996,
-     0.53711,
-     0.40527
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down seamless tileable texture of ivory lace fabric with a delicate pattern, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "swatch_velvet_lining",
@@ -485,20 +394,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
-   "prompt": "Flat top-down seamless tileable texture of dark crimson velvet cloak lining with a soft sheen, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.",
-   "swatch_of": {
-    "source_row": "gear_cloak",
-    "box": [
-     0.4362,
-     0.625,
-     0.54036,
-     0.78125
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "prompt": "Flat top-down seamless tileable texture of dark oxblood velvet cloak lining with a soft matte sheen, no saturated red, no gloss, photographic colour, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   },
   {
    "name": "head_eyes_closeup",
