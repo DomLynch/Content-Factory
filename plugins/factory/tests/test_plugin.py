@@ -60,7 +60,7 @@ class Packaging(unittest.TestCase):
         plugin = json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         market = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(plugin["name"], "factory")
-        self.assertEqual(plugin["version"], "0.1.6")
+        self.assertEqual(plugin["version"], "0.1.7")
         entry = market["plugins"][0]
         self.assertEqual((entry["name"], entry["source"], entry["version"]), ("factory", "./plugins/factory", plugin["version"]))
         self.assertEqual(market["name"], "content-factory")
@@ -76,7 +76,7 @@ class Packaging(unittest.TestCase):
                 self.assertTrue(m and (PLUGIN / "hooks" / m.group(1)).is_file(), h["command"])
                 scripts.add(m.group(1))
                 self.assertIn("${CLAUDE_PLUGIN_ROOT}", h["command"])
-        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py", "gates.py"})
+        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py", "gates.py", "qc_gate.py"})
         sys.path.insert(0, str(PLUGIN / "mcp"))
         os.environ.setdefault("FACTORY_HOME", str(REPO))
         import server
@@ -292,7 +292,7 @@ class McpServer(unittest.TestCase):
         self.assertEqual(init["serverInfo"]["name"], "factory")
         self.assertIn("tools", init["capabilities"])
         tools = {t["name"]: t for t in by_id[2]["result"]["tools"]}
-        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "stills", "upscale"})
+        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "stills", "upscale", "qc"})
         for t in tools.values():
             self.assertEqual(t["inputSchema"]["type"], "object")
             self.assertTrue(t["description"])
@@ -409,3 +409,137 @@ class PluginGuard(unittest.TestCase):
 
     def test_forged_token_refused(self):
         self.assertNotEqual(self._decide("Bash", "FACTORY_PLUGIN_TOKEN=" + "a" * 32 + " python tools/run_bind.py a"), "")
+
+
+class QcGateHook(unittest.TestCase):
+    """hooks/qc_gate.py: `stills` needs a passing QC receipt for the same GLB; FACTORY_RAW is the logged override; other tools are untouched."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.home = Path(cls.tmp.name)
+        (cls.home / "config").mkdir()
+        (cls.home / "config" / "config.json").write_text(json.dumps({"plugin_guard": {"override_log": "logs/o.log"}}), encoding="utf-8")
+        cls.glb = cls.home / "m.glb"
+        cls.glb.write_bytes(b"glTF-one")
+        import hashlib
+        cls.sha = hashlib.sha256(b"glTF-one").hexdigest()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def receipt(self, asset, stamp, overall, status="ok", sha=None, failed=()):
+        d = self.home / "receipts" / asset
+        d.mkdir(parents=True, exist_ok=True)
+        (d / f"qc-{stamp}.json").write_text(json.dumps({"status": status, "params": {"overall": overall, "failed": list(failed)},
+                                                        "inputs": [{"path": str(self.glb), "sha256": sha or self.sha}]}), encoding="utf-8")
+
+    def call(self, asset="a1", tool="stills", **env):
+        return run_hook("qc_gate.py", {"tool_name": MCP_P + tool, "tool_input": {"asset_id": asset, "glb": str(self.glb)}}, FACTORY_HOME=self.home, **env)
+
+    def test_no_receipt_denies(self):
+        out = self.call("never_qc")
+        self.assertTrue(denied(out))
+        self.assertIn("qc", out["hookSpecificOutput"]["permissionDecisionReason"])
+
+    def test_latest_receipt_decides(self):
+        self.receipt("a2", "20261101T000000Z", "pass")
+        self.assertIsNone(self.call("a2"))
+        self.receipt("a2", "20261101T010000Z", "fail", failed=["near_black_pct"])   # a newer failing QC wins over the older pass
+        out = self.call("a2")
+        self.assertTrue(denied(out))
+        self.assertIn("near_black_pct", out["hookSpecificOutput"]["permissionDecisionReason"])
+        self.receipt("a2", "20261101T020000Z", "pass")
+        self.assertIsNone(self.call("a2"))
+
+    def test_a_pass_for_a_different_file_is_refused(self):
+        self.receipt("a3", "20261101T000000Z", "pass", sha="0" * 64)
+        self.assertTrue(denied(self.call("a3")))
+
+    def test_a_failed_run_is_not_a_pass(self):
+        self.receipt("a4", "20261101T000000Z", "fail", status="fail")
+        self.assertTrue(denied(self.call("a4")))
+
+    def test_override_is_logged_and_other_tools_are_untouched(self):
+        self.assertIsNone(self.call("a5", FACTORY_RAW="hand-checked in Blender"))
+        log = (self.home / "logs" / "o.log").read_text(encoding="utf-8")
+        self.assertIn("hand-checked in Blender", log)
+        self.assertIn("a5", log)
+        self.assertIsNone(self.call("a6", tool="bind"))
+        self.assertIsNone(self.call("a6", tool="qc"))
+
+
+try:
+    import numpy as np
+    import scipy  # noqa: F401
+    import trimesh  # noqa: F401
+    HAVE_QC_LIBS = True
+except ImportError:
+    HAVE_QC_LIBS = False
+
+
+@unittest.skipUnless(HAVE_QC_LIBS, "numpy, scipy and trimesh are not importable in this interpreter")
+class RunQc(unittest.TestCase):
+    """tools/run_qc.py metrics on tiny synthetic meshes (no GLB, no renderer)."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(REPO / "tools"))
+        import run_qc
+        cls.q = run_qc
+        cls.cfg = json.loads((REPO / "config" / "config.json").read_text(encoding="utf-8-sig"))["qc"]
+        v = np.array([[x, y, z] for x in (0, 1) for y in (0, 1) for z in (0, 1)], dtype=float)
+        f = np.array([[0, 2, 1], [1, 2, 3], [4, 5, 6], [5, 7, 6], [0, 1, 4], [1, 5, 4], [2, 6, 3], [3, 6, 7], [0, 4, 2], [2, 4, 6], [1, 3, 5], [3, 7, 5]])
+        cls.cube = (v, f, None, None)
+
+    def test_closed_cube_is_clean_and_faceted(self):
+        g = self.q.geometry_metrics([self.cube])
+        self.assertEqual((g["triangles"], g["non_manifold_edges"], g["boundary_edges"], g["loose_shells"]), (12, 0, 0, 1))
+        self.assertAlmostEqual(g["faceting_score"], 90.0 * 12 / 18, delta=0.5)   # 12 of the 18 edges are 90 degree creases, the 6 diagonals are flat
+
+    def test_open_cube_and_two_shells(self):
+        v, f, _, _ = self.cube
+        g = self.q.geometry_metrics([(v, f[:-2], None, None)])
+        self.assertEqual(g["boundary_edges"], 4)
+        two = self.q.geometry_metrics([self.cube, (v + 5.0, f, None, None)])
+        self.assertEqual(two["loose_shells"], 2)
+
+    def test_uv_stretch_and_degenerate(self):
+        P = np.array([[[0, 0, 0], [1, 0, 0], [0, 1, 0]]] * 3, dtype=float)
+        Q = np.array([[[0, 0], [1, 0], [0, 1]], [[0, 0], [4, 0], [0, 1]], [[0, 0], [0, 0], [0, 0]]], dtype=float)
+        r, degenerate, counted = self.q.uv_stretch(P, Q)
+        self.assertEqual((degenerate, counted), (1, 3))
+        self.assertAlmostEqual(float(r[0]), 1.0, places=6)
+        self.assertAlmostEqual(float(r[1]), 4.0, places=6)
+
+    def test_black_texture_fails_and_linear_flag(self):
+        from PIL import Image
+        v = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]], dtype=float)
+        f = np.array([[0, 1, 2], [1, 3, 2]])
+        uv = v[:, :2].copy()
+        with tempfile.TemporaryDirectory() as d:
+            concept = Path(d) / "c.png"
+            rgba = np.zeros((64, 64, 4), np.uint8)
+            rgba[16:48, 16:48] = (200, 120, 60, 255)
+            Image.fromarray(rgba).save(concept)
+            tex = np.full((64, 64, 3), 3, np.uint8)   # almost black base colour
+            part = (v, f, uv, tex)
+            m = {"texture": self.q.texture_metrics([part], str(concept), self.cfg["texture"]), "geometry": self.q.geometry_metrics([part]),
+                 "thin": self.q.silhouette_metrics([part], str(concept), self.cfg["thin"])}
+        self.assertGreater(m["texture"]["near_black_pct"], 99)
+        self.assertEqual(m["texture"]["colour_flag"], "linear-not-encoded")
+        rows, _ = self.q.verdict(m, self.cfg, None)
+        failed = {r["metric"] for r in rows if not r["pass"]}
+        self.assertTrue({"near_black_pct", "luminance_ratio"} <= failed, failed)
+        self.assertAlmostEqual(m["thin"]["coverage_ratio"], 1.0, delta=0.1)   # square mesh against a square matte
+        self.assertGreater(m["thin"]["iou"], 0.9)
+
+    def test_missing_inputs_are_skipped_not_failed(self):
+        m = {"geometry": self.q.geometry_metrics([self.cube]), "texture": {"skipped": "x"}, "thin": {"skipped": "x"}}
+        rows, skipped = self.q.verdict(m, self.cfg, None)
+        self.assertIn("triangles", skipped)
+        self.assertIn("near_black_pct", skipped)
+        self.assertEqual({r["metric"] for r in rows if not r["pass"]}, {"faceting_score"})   # only the cube's 60 degree mean crease fails; skipped metrics never fail
+        rows, _ = self.q.verdict(m, self.cfg, 6)   # a budget of 6 triangles: the 12-triangle cube is over it
+        self.assertFalse(next(r for r in rows if r["metric"] == "triangles")["pass"])
