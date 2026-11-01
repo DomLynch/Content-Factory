@@ -1,6 +1,14 @@
 {
   "schema": 1,
-  "stages": ["flux", "cutout", "trellis", "bind", "upscale", "stills", "publish"],
+  "stages": [
+    "flux",
+    "cutout",
+    "trellis",
+    "bind",
+    "upscale",
+    "stills",
+    "publish"
+  ],
   "limits": {
     "guard_min_free_ram_gb": 2,
     "guard_max_gpu_gb": 0,
@@ -8,8 +16,121 @@
     "watchdog_seconds": 1500
   },
   "models": {
-    "flux": {"id": "flux-3-image-klein", "dtype": "bfloat16", "vae_slicing": true, "vae_tiling": true}
+    "flux": {
+      "id": "flux-3-image-klein",
+      "dtype": "bfloat16",
+      "vae_slicing": true,
+      "vae_tiling": true
+    }
   },
-  "defaults": {"seed": 42, "w": 1024, "h": 1024},
-  "presets": {}
+  "defaults": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024
+  },
+  "presets": {},
+  "trellis": {
+    "cutout_model": "ZhengPeng7/BiRefNet (cpu)",
+    "env": {
+      "ATTN_BACKEND": "sdpa",
+      "SPARSE_ATTN_BACKEND": "sdpa",
+      "SPARSE_CONV_BACKEND": "flex_gemm",
+      "TRELLIS3_OVOXEL": "native",
+      "HF_HUB_OFFLINE": "1",
+      "TRELLIS3_REMBG": "none",
+      "PYTHONUNBUFFERED": "1"
+    },
+    "presets": {
+      "master_reduced": {
+        "preset": "master",
+        "texture_size": 2048,
+        "bake_faces": 500000,
+        "extra": []
+      },
+      "attn24": {
+        "preset": "master",
+        "texture_size": 2048,
+        "bake_faces": 500000,
+        "extra": [
+          "--attn-auto-gb",
+          "24"
+        ]
+      },
+      "tokens98k": {
+        "preset": "master",
+        "texture_size": 2048,
+        "bake_faces": 500000,
+        "extra": [
+          "--attn-auto-gb",
+          "24",
+          "--max-tokens",
+          "98304"
+        ]
+      }
+    }
+  },
+  "bind": {
+    "script_dir": "bind",
+    "best_script": "bind_best.py",
+    "bound_glb_name": "bound.glb",
+    "work_subdir": "bind_work",
+    "timeout_s": 1800,
+    "export_timeout_s": 300,
+    "rig_name": "Rig",
+    "body_name": "Body",
+    "gate": {
+      "min_edge_mm": 5,
+      "p99_stretch_max": 2.0,
+      "p99_compression_ratio_min": 0.5,
+      "zero_weight_vertices_max": 0,
+      "max_influences": 4,
+      "weight_sum_tol": 0.001
+    }
+  },
+  "stills": {
+    "subdir": "stills",
+    "timeout_s": 1800,
+    "clips": {
+      "idle": "113410901-idle",
+      "walk": "124540901-walk",
+      "attack": "9034009-zombie-neck-bite"
+    },
+    "clip_ext": ".glb",
+    "clip_frame": "mid",
+    "engine": "CYCLES",
+    "device": "CPU",
+    "samples": 24,
+    "denoise": false,
+    "threads": 0,
+    "width": 1024,
+    "height": 1024,
+    "thumb_px": 256,
+    "thumb_source": "idle",
+    "lens_mm": 50,
+    "sensor_mm": 36,
+    "body_margin": 1.15,
+    "head_height_frac": 0.18,
+    "head_bone": "mixamorig:Head",
+    "hips_bone": "mixamorig:Hips",
+    "camera_dir": [
+      0,
+      -1,
+      0
+    ],
+    "cam_height_frac": 0.5,
+    "sun_energy": 3.0,
+    "sun_euler_deg": [
+      50,
+      0,
+      35
+    ],
+    "world_color": [
+      0.18,
+      0.2,
+      0.24
+    ],
+    "world_strength": 1.0,
+    "rig_name": "Rig",
+    "clip_action_name": "clip"
+  }
 }
