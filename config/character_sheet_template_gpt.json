@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "Character-neutral GPT-ref sheet: 42 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref.",
+ "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref.",
  "group_priority": [
   "body",
   "head",
@@ -82,6 +82,16 @@
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_desc}; {head_collar_desc}, {head_garment_exclude}."
+  },
+  {
+   "row_id": "head_profile_right",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ],
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_desc}; {head_collar_desc}, {head_garment_exclude}."
   },
   {
    "row_id": "head_three_quarter",
