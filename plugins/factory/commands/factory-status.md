@@ -1,5 +1,5 @@
 ---
-description: Show Content-Factory status: GPU lock, running factory jobs, queue scripts, latest receipts, free RAM. Read-only.
+description: "Show Content-Factory status: GPU lock, running factory jobs, queue scripts, latest receipts, free RAM. Read-only."
 allowed-tools: Bash(powershell:*), Read, Glob, mcp__plugin_factory_factory__factory_status
 ---
 
