@@ -1,0 +1,21 @@
+{
+  "kit": "vampire", "seed": 42, "w": 1024, "h": 1536,
+  "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+  "ref_prefix": "Edit instruction: keep this exact same character from the reference image, identical face, hair, moustache, coat, fur mantle, medallions, belt, boots and cloak, same colours and materials, same lighting and background. Change only the following:",
+  "subject": "The character: Vlad the Impaler as Count Dracula, 15th-century Wallachian voivode: pale gaunt face, long black wavy hair, thin moustache, faint red eyes, stern expression; crimson damask long coat with dense gold embroidery and a high stiff collar, heavy black fur mantle over the shoulders with gold medallions set with red gems joined by chains, ornate leather belt with a double-headed eagle buckle, embroidered tabard with a castle and cross motif, white ruffled cuffs, rings, tall black leather boots with gilded knee plates, long dark cloak.",
+  "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft studio lighting, plain neutral grey background, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+  "rows": [
+    {"name": "body_back", "prompt": "Full-body back view standing straight facing away from the camera in a neutral A-pose, head to boots fully visible, centred, showing the back of the coat, fur mantle and cloak."},
+    {"name": "body_side", "prompt": "Full-body left side view in profile in a neutral A-pose, head to boots fully visible, centred."},
+    {"name": "head_front", "w": 1024, "h": 1024, "prompt": "Head and shoulders portrait, front view, neutral expression, high detail on skin pores, hair and the high collar."},
+    {"name": "head_three_quarter", "w": 1024, "h": 1024, "prompt": "Head and shoulders portrait, three-quarter view, neutral expression, high detail on skin pores and hair."},
+    {"name": "head_profile", "w": 1024, "h": 1024, "prompt": "Head and shoulders portrait, strict side profile, neutral expression, high detail on skin pores and hair."},
+    {"name": "hands_rings", "w": 1536, "h": 1024, "prompt": "Close-up reference of both hands, palms and backs, with signet rings and white ruffled cuffs, relaxed open fingers, plain grey background.", "use_subject": false},
+    {"name": "boots_detail", "w": 1536, "h": 1024, "prompt": "Reference of tall black leather boots with gilded knee plates, seen from the front, side and from behind, plain grey background, no body.", "use_subject": false},
+    {"name": "mantle_medallions_detail", "w": 1536, "h": 1024, "prompt": "Close-up of the black fur mantle with the gold medallions set with red gems and chains, and the high crimson damask collar, no face.", "use_subject": false},
+    {"name": "mat_crimson_damask", "use_ref": false, "w": 1024, "h": 1024, "prompt": "Flat top-down seamless tileable texture of crimson damask fabric with dense gold embroidery, evenly lit, no perspective, material reference.", "use_subject": false},
+    {"name": "mat_black_fur", "use_ref": false, "w": 1024, "h": 1024, "prompt": "Flat top-down seamless tileable texture of dense black fur, evenly lit, no perspective, material reference.", "use_subject": false},
+    {"name": "mat_black_leather", "use_ref": false, "w": 1024, "h": 1024, "prompt": "Flat top-down seamless tileable texture of worn black leather with fine creases, evenly lit, no perspective, material reference.", "use_subject": false}
+  ]
+}
+
