@@ -4,6 +4,7 @@
   factory_status()                     GPU lock, free RAM, limits, newest receipts. Read-only.
   flux_render(kit, row_id)             one Flux row            -> flux/flux_kit.py        (GPU)
   trellis_run(asset_id, image, preset) cut-out then TRELLIS    -> tools/run_3d.py         (GPU)
+  pixal3d_run(asset_id, image, preset) Pixal3D single view     -> tools/run_pixal3d.py   (GPU)
   cutout(asset_id, image)              BiRefNet cut-out (CPU)  -> tools/cutout_cpu.py
   bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
   skin_tokens_bind(glb, skeleton)      SkinTokens skin weights -> tools/run_skin_tokens.py (GPU, gated like bind + relative-to-control)
@@ -211,6 +212,24 @@ def t_trellis_run(asset_id: str, image: str, preset: str = "") -> dict:
     return finish("trellis_run", rc, log, t0, ["cutout", "trellis"], asset_id, extra)
 
 
+def t_pixal3d_run(asset_id: str, image: str, preset: str = "") -> dict:
+    c = cfg()
+    px = c["pixal3d"]
+    preset = preset or px["default_preset"]
+    if preset not in px["presets"]:
+        return {"status": "refused", "error": f"unknown preset {preset}; choose from {sorted(px['presets'])} (config/config.json -> pixal3d.presets)"}
+    miss = need_file(image, "image")
+    if miss:
+        return {"status": "refused", "error": miss}
+    why = gate(gpu=True, heavy=True, image=image)
+    if why:
+        return {"status": "refused", "error": why}
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_pixal3d.py"), asset_id, image, "--preset", preset]
+    rc, log, t0 = run_stage("pixal3d_run", cmd, timeout=px["timeout_s"], guard=px["guard_match"])
+    return finish("pixal3d_run", rc, log, t0, ["pixal3d"], asset_id,
+                  {"preset": preset, "pipeline": "PIXAL3D", "note": "A different pipeline from TRELLIS: label it PIXAL3D, and compare it with TRELLIS only through the A/B on the same input and seed."})
+
+
 def t_cutout(asset_id: str, image: str) -> dict:
     c = cfg()
     loc, tr = c["local"], c["trellis"]
@@ -410,6 +429,9 @@ TOOLS = {
                     {"kit": {**_STR, "description": "kit json, e.g. kits/vampire_sheet_kit.json"}, "row_id": _STR, "dry_run": {"type": "boolean"}}, ["kit", "row_id"], True, True),
     "trellis_run": (t_trellis_run, "Cut-out then TRELLIS for one picked image (tools/run_3d.py) with a preset from config/config.json trellis.presets (default master_reduced, a benchmark "
                     "profile, not a final). Refuses on a live GPU lock, low RAM, or an image whose short side is under 1024 px. Returns the cutout and trellis receipt paths.",
+                    {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
+    "pixal3d_run": (t_pixal3d_run, "One cut-out image to a textured GLB with Pixal3D (tools/run_pixal3d.py) under the GPU guard. Presets from config/config.json pixal3d.presets. Refuses on a live GPU lock, "
+                    "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D.",
                     {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
     "cutout": (t_cutout, "BiRefNet cut-out on the CPU (tools/cutout_cpu.py) with TRELLIS3_REMBG removed from its environment. Refuses on low RAM or a short side under 1024 px. Returns the receipt path.",
                {"asset_id": _STR, "image": _STR}, ["asset_id", "image"], False, True),
