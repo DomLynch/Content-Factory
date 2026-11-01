@@ -1,0 +1,374 @@
+{
+ "reviewer": "Claude strict art QC pass 2",
+ "date": "2026-11-01",
+ "fixed_head": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; long upswept thin moustache; clean-shaven chin; red eyes; plain charcoal high-collared sweater collar",
+ "counts": {
+  "PASS": 5,
+  "WEAK": 11,
+  "REJECT": 3,
+  "total": 19
+ },
+ "cells": [
+  {
+   "cell": "head_front",
+   "score": 9,
+   "verdict": "PASS",
+   "attributes": {
+    "hair": "match",
+    "braids": "match (two thick, forward over shoulders)",
+    "moustache": "match",
+    "chin": "match clean-shaven",
+    "eyes": "match red",
+    "collar": "match charcoal turtleneck"
+   },
+   "notes": "Reference cell for the head; siblings are judged against it.",
+   "prompt_fix": null
+  },
+  {
+   "cell": "head_top",
+   "score": 7,
+   "verdict": "PASS",
+   "attributes": {
+    "hair": "match, swept back with a centre seam",
+    "braids": "match, two braid origins at front sides",
+    "collar": "charcoal sweater shoulders, match"
+   },
+   "notes": "Centre parting line slightly harder than the seam in the front view; acceptable.",
+   "prompt_fix": null
+  },
+  {
+   "cell": "head_back",
+   "score": 6,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "match, smooth swept back, twisted at nape",
+    "braids": "ok, two braids fall at the sides of the neck",
+    "collar": "MISSING: bare neck, no charcoal high collar"
+   },
+   "notes": "Bare neck disagrees with the sweater collar in front, profile and top.",
+   "prompt_fix": "Add: plain charcoal high-collared sweater collar rising behind the neck, hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders, no bare neck."
+  },
+  {
+   "cell": "head_profile",
+   "score": 5,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "MISMATCH: braided scalp plait across the crown",
+    "braids": "two braids, one forward one behind",
+    "moustache": "match",
+    "chin": "match clean",
+    "eyes": "match red",
+    "collar": "match high collar"
+   },
+   "notes": "Scalp plait violates head_hair_profile_desc and disagrees with front, top and back, which are smooth.",
+   "prompt_fix": "Add: hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp."
+  },
+  {
+   "cell": "head_profile_right",
+   "score": 5,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "MISMATCH: braided scalp plait across the crown, same as head_profile",
+    "braids": "two braids loose at nape",
+    "moustache": "match",
+    "chin": "match clean",
+    "eyes": "match red",
+    "collar": "match high collar"
+   },
+   "notes": "Faces right as required. Agrees with head_profile, but both disagree with front/top/back on the scalp plait.",
+   "prompt_fix": "Add: hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp, facing right."
+  },
+  {
+   "cell": "head_three_quarter",
+   "score": 4,
+   "verdict": "REJECT",
+   "attributes": {
+    "hair": "ok swept back",
+    "braids": "MISMATCH: one braid behind the ear, none forward over the shoulder",
+    "moustache": "match",
+    "chin": "MISMATCH: soul patch strip and stubble",
+    "eyes": "match red",
+    "collar": "MISSING: bare neck and shoulders, no sweater"
+   },
+   "notes": "Odd one out on chin, collar and braid placement versus front and profiles.",
+   "prompt_fix": "Add: clean-shaven chin with no soul patch; hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar, no bare chest or neck."
+  },
+  {
+   "cell": "head_eyes_closeup",
+   "score": 4,
+   "verdict": "REJECT",
+   "attributes": {
+    "hair": "MISMATCH: loose wispy hair with beads, no braids",
+    "moustache": "match long upswept",
+    "eyes": "match red",
+    "collar": "MISMATCH: white shirt edge and crimson cloth at lower left (concept costume bleed)"
+   },
+   "notes": "Also has a silver earring and an older, more wrinkled face than head_front (identity drift).",
+   "prompt_fix": "Add: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar, no white shirt, no red fabric, no earring, no hair ornaments; same face as the front view."
+  },
+  {
+   "cell": "body_underlayer_front",
+   "score": 7,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "ok",
+    "braids": "ok, forward over chest but thin",
+    "moustache": "match",
+    "chin": "match",
+    "eyes": "red",
+    "collar": "match stand collar",
+    "belt": "match dark brown",
+    "trousers": "MISMATCH: warm brown-grey, lighter",
+    "boots": "MISMATCH: brown-grey lace-ups, not black"
+   },
+   "notes": "Trousers and boots disagree with back and three_quarter (charcoal, black).",
+   "prompt_fix": "Add: charcoal trousers, black leather boots, dark brown belt, same fabric colour as the back view."
+  },
+  {
+   "cell": "body_underlayer_left",
+   "score": 6,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "reddish tint at back of head",
+    "braids": "one braid forward at collar, shorter than front",
+    "moustache": "match",
+    "chin": "match",
+    "eyes": "red",
+    "collar": "match stand collar",
+    "belt": "match",
+    "trousers": "MISMATCH brown-grey",
+    "boots": "MISMATCH brown"
+   },
+   "notes": "Same trousers and boots fault as front and right.",
+   "prompt_fix": "Add: charcoal trousers, black leather boots, black hair with no red tint, two thick braids hanging forward over the shoulders to the chest."
+  },
+  {
+   "cell": "body_underlayer_right",
+   "score": 6,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "ok tied at nape",
+    "braids": "MISMATCH: short stubs with toggles behind the collar, far shorter than other views",
+    "moustache": "match",
+    "chin": "match",
+    "eyes": "red",
+    "collar": "match",
+    "belt": "match",
+    "trousers": "MISMATCH brown-grey",
+    "boots": "MISMATCH brown"
+   },
+   "notes": "Odd one out on braid length and placement; also trousers and boots.",
+   "prompt_fix": "Add: charcoal trousers, black leather boots; the two thick braids hang forward over the shoulder and chest to the same length as the front view."
+  },
+  {
+   "cell": "body_underlayer_back",
+   "score": 7,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "ok tied at nape",
+    "braids": "MISMATCH: both braids hang down the middle of the back; front/left/3q show them forward over the shoulders",
+    "collar": "match stand collar",
+    "belt": "match dark brown",
+    "trousers": "match charcoal",
+    "boots": "match black"
+   },
+   "notes": "Odd one out on braid placement. The spec field back_body_desc still says braids hang down his back, which contradicts the fixed description and should be edited too.",
+   "prompt_fix": "Add: the two thick braids hang forward over the shoulders and are not visible from behind; only the hair swept back and tied at the nape shows, no braids down the back."
+  },
+  {
+   "cell": "body_underlayer_three_quarter",
+   "score": 6,
+   "verdict": "WEAK",
+   "attributes": {
+    "hair": "ok",
+    "braids": "match, thick, forward over chest",
+    "moustache": "MISMATCH: thick, drooping, not long upswept thin",
+    "chin": "MISMATCH: stubble beard shadow",
+    "eyes": "red",
+    "collar": "match",
+    "belt": "match",
+    "trousers": "match charcoal",
+    "boots": "match black"
+   },
+   "notes": "Odd one out on moustache and chin versus other bodies; its clothing is the correct reference for charcoal and black.",
+   "prompt_fix": "Add: long upswept thin moustache, clean-shaven chin with no stubble and no beard."
+  },
+  {
+   "cell": "hand_open_left",
+   "score": 7,
+   "verdict": "WEAK",
+   "attributes": {
+    "fingers": "five on every panel",
+    "wrist": "bare, match",
+    "rings": "two on back view but only one on palm and side; gem shown on palm side which is wrong",
+    "ruby": "pinkish magenta, round bezel"
+   },
+   "notes": "Ring design differs from fist and back_views cells.",
+   "prompt_fix": "Add: two gold signet rings with a deep red ruby each, one on the index and one on the ring finger; on the palm view show only the plain gold bands, no gems."
+  },
+  {
+   "cell": "hand_open_right",
+   "score": 6,
+   "verdict": "WEAK",
+   "attributes": {
+    "fingers": "five on every panel",
+    "wrist": "bare, match",
+    "rings": "same one-ring palm fault as left",
+    "ruby": "pinkish"
+   },
+   "notes": "Shows left-hand anatomy (thumb on the right of the back view), same as open_left; handedness wrong.",
+   "prompt_fix": "Add: this is the RIGHT hand, back view thumb on the left; two gold signet rings with a deep red ruby each, plain bands only on the palm view."
+  },
+  {
+   "cell": "hand_fist_left",
+   "score": 7,
+   "verdict": "PASS",
+   "attributes": {
+    "fingers": "fist, digits plausible",
+    "wrist": "bare, match",
+    "rings": "two, deep red emerald-cut gems; one hidden in some panels",
+    "ruby": "deep red"
+   },
+   "notes": "Ring shape (rectangular gem) differs from the open hands (round).",
+   "prompt_fix": null
+  },
+  {
+   "cell": "hand_fist_right",
+   "score": 5,
+   "verdict": "WEAK",
+   "attributes": {
+    "fingers": "plausible",
+    "wrist": "bare",
+    "rings": "same as left",
+    "ruby": "deep red"
+   },
+   "notes": "Near-identical to fist_left, so same-side anatomy, handedness wrong.",
+   "prompt_fix": "Add: this is the RIGHT fist, back view thumb side on the left; two gold signet rings with a deep red ruby each."
+  },
+  {
+   "cell": "hand_back_views",
+   "score": 4,
+   "verdict": "REJECT",
+   "attributes": {
+    "fingers": "five each",
+    "wrist": "bare",
+    "rings": "left hand one ring, right hand two, carved band unlike other cells",
+    "ruby": "deep red"
+   },
+   "notes": "Colour-noise glitch patch and green line across the right wrist; ring design disagrees with all other hand cells.",
+   "prompt_fix": "Add: two gold signet rings with a deep red ruby each, plain band, one on the index and one on the ring finger; clean bare wrist, no artefacts."
+  },
+  {
+   "cell": "foot_left",
+   "score": 7,
+   "verdict": "PASS",
+   "attributes": {
+    "sock": "black knit, match",
+    "shoe": "none, match",
+    "leg": "calf stubs visible above ankle, minor breach"
+   },
+   "notes": "Layout differs from foot_right (no sole panel).",
+   "prompt_fix": null
+  },
+  {
+   "cell": "foot_right",
+   "score": 7,
+   "verdict": "PASS",
+   "attributes": {
+    "sock": "black knit, match",
+    "shoe": "none, match",
+    "leg": "calf stubs visible, minor"
+   },
+   "notes": "Third panel is a sole view, inconsistent with foot_left layout; left/right identity not verifiable.",
+   "prompt_fix": null
+  }
+ ],
+ "cross_view_disagreements": [
+  "head_three_quarter vs head_front: chin (soul patch vs clean), collar (bare vs sweater), braids (behind ear vs forward). Odd one: head_three_quarter.",
+  "head_profile and head_profile_right vs front/top/back: scalp plait vs smooth swept hair. Odd ones: both profiles.",
+  "head_eyes_closeup vs head_front: loose hair, earring, white collar, red cloth, older face. Odd one: head_eyes_closeup.",
+  "head_back vs head_front: bare neck vs charcoal collar. Odd one: head_back.",
+  "body front/left/right vs back/three_quarter: trousers brown-grey vs charcoal, boots brown vs black. Odd ones: front, left, right (spec says charcoal and black).",
+  "body_back vs front/left/3q: braids down back vs forward. Odd one: body_back. body_right: braid stubs behind collar, odd one on length.",
+  "body_three_quarter vs other bodies: thick drooping moustache, stubble chin. Odd one: body_three_quarter.",
+  "hand_open_right and hand_fist_right vs left cells: same-side anatomy, wrong handedness. Odd ones: the right cells.",
+  "hand rings: round cabochon (open), emerald cut (fist), carved band (back_views). Odd one: hand_back_views (also glitch)."
+ ],
+ "rerender": [
+  {
+   "cell": "head_back",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: plain charcoal high-collared sweater collar rising behind the neck, hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders, no bare neck."
+  },
+  {
+   "cell": "head_profile",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp."
+  },
+  {
+   "cell": "head_profile_right",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp, facing right."
+  },
+  {
+   "cell": "head_three_quarter",
+   "verdict": "REJECT",
+   "prompt_fix": "Add: clean-shaven chin with no soul patch; hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar, no bare chest or neck."
+  },
+  {
+   "cell": "head_eyes_closeup",
+   "verdict": "REJECT",
+   "prompt_fix": "Add: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar, no white shirt, no red fabric, no earring, no hair ornaments; same face as the front view."
+  },
+  {
+   "cell": "body_underlayer_front",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: charcoal trousers, black leather boots, dark brown belt, same fabric colour as the back view."
+  },
+  {
+   "cell": "body_underlayer_left",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: charcoal trousers, black leather boots, black hair with no red tint, two thick braids hanging forward over the shoulders to the chest."
+  },
+  {
+   "cell": "body_underlayer_right",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: charcoal trousers, black leather boots; the two thick braids hang forward over the shoulder and chest to the same length as the front view."
+  },
+  {
+   "cell": "body_underlayer_back",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: the two thick braids hang forward over the shoulders and are not visible from behind; only the hair swept back and tied at the nape shows, no braids down the back."
+  },
+  {
+   "cell": "body_underlayer_three_quarter",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: long upswept thin moustache, clean-shaven chin with no stubble and no beard."
+  },
+  {
+   "cell": "hand_open_left",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: two gold signet rings with a deep red ruby each, one on the index and one on the ring finger; on the palm view show only the plain gold bands, no gems."
+  },
+  {
+   "cell": "hand_open_right",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: this is the RIGHT hand, back view thumb on the left; two gold signet rings with a deep red ruby each, plain bands only on the palm view."
+  },
+  {
+   "cell": "hand_fist_right",
+   "verdict": "WEAK",
+   "prompt_fix": "Add: this is the RIGHT fist, back view thumb side on the left; two gold signet rings with a deep red ruby each."
+  },
+  {
+   "cell": "hand_back_views",
+   "verdict": "REJECT",
+   "prompt_fix": "Add: two gold signet rings with a deep red ruby each, plain band, one on the index and one on the ring finger; clean bare wrist, no artefacts."
+  }
+ ],
+ "not_reviewed": [
+  "gear_cloak",
+  "gear_cloak_back",
+  "gear_cuffs"
+ ]
+}
