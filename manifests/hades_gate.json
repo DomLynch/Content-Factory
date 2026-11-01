@@ -1,0 +1,126 @@
+{
+ "schema": 1,
+ "kit": "hades_gate",
+ "rows": {
+  "gate_front_elevation": {
+   "candidates": [
+    {
+     "sha256": "2d3f3dad5b91053a0e54e8728f30816e0587a83a819be5f43326aea8dcd32d58",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\gate_front_elevation_1536x1024.png"
+    }
+   ],
+   "pick": "2d3f3dad5b91053a0e54e8728f30816e0587a83a819be5f43326aea8dcd32d58",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "gate_arch_detail": {
+   "candidates": [
+    {
+     "sha256": "c112daa5ee57e38b33c1a05ec72a088c9181f3ab58479d4e1178bbb52adddf3b",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\gate_arch_detail_1536x1024.png"
+    }
+   ],
+   "pick": "c112daa5ee57e38b33c1a05ec72a088c9181f3ab58479d4e1178bbb52adddf3b",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "causeway_floor_tile": {
+   "candidates": [
+    {
+     "sha256": "ebfe6fb4b257774ab1edb3e14d8eb9d72cef74254f00bc8416ec183639d9892f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\causeway_floor_tile_1024x1024.png"
+    }
+   ],
+   "pick": "ebfe6fb4b257774ab1edb3e14d8eb9d72cef74254f00bc8416ec183639d9892f",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "ground_ash_tile": {
+   "candidates": [
+    {
+     "sha256": "6913f3ab180afa1a8d1b7bdd0ee0198686cb98ddcb2db06e5453526abd5e894c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\ground_ash_tile_1024x1024.png"
+    }
+   ],
+   "pick": "6913f3ab180afa1a8d1b7bdd0ee0198686cb98ddcb2db06e5453526abd5e894c",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "wall_ruin_prop": {
+   "candidates": [
+    {
+     "sha256": "2613f6f4e262ad3e239afa085f3ff3e89271004d6ceea669a183e3c103b680e0",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\wall_ruin_prop_1024x1024.png"
+    }
+   ],
+   "pick": "2613f6f4e262ad3e239afa085f3ff3e89271004d6ceea669a183e3c103b680e0",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "pillar_fallen_prop": {
+   "candidates": [
+    {
+     "sha256": "34a64b8f0dcfd04cc3a3469aefcb88e67f0e2a77a534dda700c15beb38aa07e7",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\pillar_fallen_prop_1024x1024.png"
+    }
+   ],
+   "pick": "34a64b8f0dcfd04cc3a3469aefcb88e67f0e2a77a534dda700c15beb38aa07e7",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "dead_tree_prop": {
+   "candidates": [
+    {
+     "sha256": "b330e0340f9757db6c0fb1436dafd7d56e30f7519c5fb77af043ad2569c6b464",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\dead_tree_prop_1024x1024.png"
+    }
+   ],
+   "pick": "b330e0340f9757db6c0fb1436dafd7d56e30f7519c5fb77af043ad2569c6b464",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "brazier_prop": {
+   "candidates": [
+    {
+     "sha256": "1de220f54ece108ffe8aafd7ef974aac76c8a58fe27649792f4dfe117eab9a2f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\brazier_prop_1024x1024.png"
+    }
+   ],
+   "pick": "1de220f54ece108ffe8aafd7ef974aac76c8a58fe27649792f4dfe117eab9a2f",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "rock_cluster_prop": {
+   "candidates": [
+    {
+     "sha256": "65270ab8687308901ef4d7c3ed7e32785c68e1f60a2b001e8e4c08c94f9ccd8c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\rock_cluster_prop_1024x1024.png"
+    }
+   ],
+   "pick": "65270ab8687308901ef4d7c3ed7e32785c68e1f60a2b001e8e4c08c94f9ccd8c",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  },
+  "backdrop_valley_plate": {
+   "candidates": [
+    {
+     "sha256": "28a17adcf6a48100114731bb73ceb1fe5593fef0d839f2f1586c0cd3b70deb8e",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\backdrop_valley_plate_1664x928.png"
+    }
+   ],
+   "pick": "28a17adcf6a48100114731bb73ceb1fe5593fef0d839f2f1586c0cd3b70deb8e",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T04:49:22+00:00",
+   "note": "Round 1 accepted by Dom. Known: arch/floor/ash tiles rendered before the warm-light prompt fix and carry small orange specks; brazier and earlier pieces have no receipt (old renderer)."
+  }
+ }
+}
