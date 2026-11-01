@@ -418,6 +418,23 @@
     "naf_off_label": "ROUGH / NAF-off",
     "shim_dir": "pixal3d_shims",
     "_naf_comment": "plugin 0.1.15. naf true = NAF feature upsampler (torch.hub valeoai/NAF, needs natten: tools/pixal3d_shims/natten is a pure-PyTorch stand-in, first on sys.path). false = bicubic feature upsample, no hub, no natten; the receipt then carries params.naf=false and params.quality_label (a rough proof, never a final). Hub cache = config.local pixal3d_torch_home, default work_dir/models/torch-hub (code in hub/valeoai_NAF_main, checkpoint in hub/checkpoints/naf_release.pth).",
+    "mv_model_dir": "",
+    "export": {
+      "_comment": "plugin 0.1.18 hook point, default empty = upstream cumesh to_glb. module = a python module whose install() replaces o_voxel.postprocess.to_glb before the upstream call (multi-view entry only); path = its folder (relative to the repo or absolute). The CPU exporter pixal3d_glb_cpu from the export-fix PR (branch factory/pixal-export-0.1.16) is meant for this: cumesh crashes on this ROCm build (io.hip:134) and inference_mv.py uses the same call as single view. Label such a run PX-CPUGLB. This PR does not depend on that one.",
+      "module": "",
+      "path": ""
+    },
+    "multiview": {
+      "_mv_model_dir": "empty = config.local pixal3d_mv_model_dir, else work_dir/Pixal3D-run (patched offline pipeline_mv.json + ckpts link to models/Pixal3D/ckpts); upstream --model_path for multi-view.",
+      "_comment": "plugin 0.1.18. Multi-view input (tools/pixal3d_mv.py): sheet cut-outs joined into one shape, cameras GIVEN (upstream inference_mv.py, ckpts/*_mv, pipeline_mv.json). Rig = the upstream example (20 degree fov, distance 3.1192, elevation 0). subject_frac = subject height as a fraction of the frame (upstream example views 0.83 to 0.89). facing = which way the subject looks in the picture (by eye): left -> azimuth 90, right -> 270; three-quarter cells are nominal 45/315.",
+      "camera_angle_x": 0.3490658503988659,
+      "distance": 3.1192049980163574,
+      "mesh_scale": 1.0,
+      "view_size": 1024,
+      "subject_frac": 0.85,
+      "max_width_frac": 0.98,
+      "facing": {"head_profile": "left", "head_three_quarter": "left", "body_underlayer_left": "left", "body_underlayer_right": "right"}
+    },
     "env": {
       "ATTN_BACKEND": "sdpa",
       "SPARSE_ATTN_BACKEND": "sdpa",

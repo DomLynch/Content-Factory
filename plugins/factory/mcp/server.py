@@ -214,12 +214,16 @@ def t_trellis_run(asset_id: str, image: str, preset: str = "") -> dict:
     return finish("trellis_run", rc, log, t0, ["cutout", "trellis"], asset_id, extra)
 
 
-def t_pixal3d_run(asset_id: str, image: str, preset: str = "") -> dict:
+def t_pixal3d_run(asset_id: str, image: str = "", preset: str = "", views=None, mirror_profile: bool = False, three_quarter: bool = True) -> dict:
     c = cfg()
     px = c["pixal3d"]
     preset = preset or px["default_preset"]
     if preset not in px["presets"]:
         return {"status": "refused", "error": f"unknown preset {preset}; choose from {sorted(px['presets'])} (config/config.json -> pixal3d.presets)"}
+    if views:   # 0.1.20: multi-view, the capability this tool exists for (tools/pixal3d_mv.py)
+        return _pixal3d_multiview(c, px, asset_id, preset, views, mirror_profile, three_quarter)
+    if not image:
+        return {"status": "refused", "error": "give image (single view, A/B only) or views (multi-view)"}
     miss = need_file(image, "image")
     if miss:
         return {"status": "refused", "error": miss}
@@ -230,6 +234,34 @@ def t_pixal3d_run(asset_id: str, image: str, preset: str = "") -> dict:
     rc, log, t0 = run_stage("pixal3d_run", cmd, timeout=px["timeout_s"], guard=px["guard_match"])
     return finish("pixal3d_run", rc, log, t0, ["pixal3d"], asset_id,
                   {"preset": preset, "pipeline": "PIXAL3D", "note": "A different pipeline from TRELLIS: label it PIXAL3D, and compare it with TRELLIS only through the A/B on the same input and seed."})
+
+
+def _pixal3d_multiview(c: dict, px: dict, asset_id: str, preset: str, views, mirror_profile: bool, three_quarter: bool) -> dict:
+    """Multi-view refusals first (nothing is started): unreadable or unknown views, no alpha, size mismatch, the 1024 px and subject rules on EACH view, missing _mv weights
+    (the exact file list), then the GPU lock and RAM gate."""
+    sys.path.insert(0, str(HOME / "tools"))
+    import pixal3d_mv
+    model_dir = pixal3d_mv.mv_model_dir(c)
+    why = pixal3d_mv.weights_reason(model_dir)
+    if why:
+        return {"status": "refused", "error": why, "missing": pixal3d_mv.weights_missing(model_dir)}
+    try:
+        v = pixal3d_mv.validate(views, mirror_profile or None, three_quarter)
+    except pixal3d_mv.MVError as e:
+        return {"status": "refused", "error": str(e)}
+    why = gate(gpu=True, heavy=True)
+    if why:
+        return {"status": "refused", "error": why}
+    spec = views if isinstance(views, str) else json.dumps({"views": {r["cell"]: r["source"] for r in v["rows"]}})
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_pixal3d.py"), asset_id, "--views", spec, "--preset", preset]
+    if mirror_profile:
+        cmd.append("--mirror-profile")
+    if not three_quarter:
+        cmd.append("--no-three-quarter")
+    rc, log, t0 = run_stage("pixal3d_run", cmd, timeout=px["timeout_s"], guard=px["guard_match"])
+    return finish("pixal3d_run", rc, log, t0, ["pixal3d"], asset_id,
+                  {"preset": preset, "pipeline": "PIXAL3D", "mode": "multiview", "views": [(r["cell"], r["angle_deg"]) for r in v["rows"]], "assumptions": v["assumptions"],
+                   "note": "Multi-view: the sheet's views joined into one shape (cameras given). Assumption flags are in the receipt; LOOK at the turntable and compare with the single-view result."})
 
 
 def t_ab_shape(png: str, asset_id: str, seed: int | None = None, engines: str = "both", collect: bool = False, bind: str = "auto", naf: str = "on") -> dict:
@@ -611,8 +643,13 @@ TOOLS = {
                     "profile, not a final). Refuses on a live GPU lock, low RAM, or an image whose short side is under 1024 px. Returns the cutout and trellis receipt paths.",
                     {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
     "pixal3d_run": (t_pixal3d_run, "One cut-out image to a textured GLB with Pixal3D (tools/run_pixal3d.py) under the GPU guard. Presets from config/config.json pixal3d.presets. Refuses on a live GPU lock, "
-                    "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D.",
-                    {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
+                    "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D. "
+                    "MULTI-VIEW (0.1.20, the capability this tool exists for): pass `views` instead of `image` to join the sheet's views into ONE shape (four-view input and pixel back-projection, cameras given). "
+                    "Refuses on missing _mv weights (exact file list), a view without alpha, differing view sizes, a view under the 1024 px / 60% subject gates. Receipt params.mode = multiview with angles, hashes and assumption flags.",
+                    {"asset_id": _STR, "image": {**_STR, "description": "single view (kept for the A/B against TRELLIS); omit when views is given"}, "preset": _STR,
+                     "views": {"description": "multi-view: a dict cell -> cut-out png path (head_front, head_profile, head_three_quarter, head_back; or body_underlayer_front/left/right/back), or a folder / mapping json path (tools/pixal3d_mv.py)", "anyOf": [{"type": "object"}, {"type": "string"}]},
+                     "mirror_profile": {"type": "boolean", "description": "multi-view: mirror the one profile to stand in for the missing opposite one (flagged assumption, default false)"},
+                     "three_quarter": {"type": "boolean", "description": "multi-view: include the three-quarter cell at its nominal 45 degrees (default true)"}}, ["asset_id"], True, True),
     "ab_shape": (t_ab_shape, "Pixal3D vs TRELLIS A/B on ONE cut-out png and ONE seed (tools/run_ab.py). engines=both|trellis|pixal3d runs the GPU half(s), TRELLIS first (preset tokens98k_fresh, then Pixal3D preset standard), "
                  "each under the GPU lock and RAM gate; a half REFUSES while a stage process (the sheet queue), a live GPU lock or low RAM says the GPU is not free. collect=true runs no GPU half: it gathers the finished halves "
                  "from receipts, binds both meshes with the same donor (bind gate numbers), runs QC, renders matched lit turntables, writes a contact sheet and a blind A/B scorecard (JSON + Markdown). "
