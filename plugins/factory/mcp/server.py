@@ -8,6 +8,7 @@
   bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
+  motion_generate(text, ...)           ARDY text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
 
 Every tool runs the EXISTING script as a subprocess in the Content-Factory checkout (FACTORY_HOME, default <home>\\Documents\\Content-Factory), never reimplements it,
 and returns the path of the receipt the script wrote. GPU tools start under tools/gpu_guard.ps1 exactly like tools/run_character.py does.
@@ -32,7 +33,7 @@ import cf_guard  # noqa: E402
 import cf_proc  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.5"
+SERVER_VERSION = "0.1.8"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
@@ -295,6 +296,43 @@ def t_upscale(src: str, dst: str, passes: int = 1, asset_id: str = "") -> dict:
     return res
 
 
+def t_motion_generate(text: str, asset_id: str = "motion-clips", duration: float | None = None, seed: int | None = None, clip_id: str = "", in_place: bool = False,
+                      install: bool = False, device: str = "gpu", encoder_device: str = "", backend: str = "ardy") -> dict:
+    """0.1.8: text -> ARDY motion -> retarget onto the 106 rig -> clip GLB the stills stage finds by name (tools/run_motion.py)."""
+    import argparse
+    c = cfg()
+    if device not in ("gpu", "cpu"):
+        return {"status": "refused", "error": f"device must be gpu or cpu, not {device!r}"}
+    sys.path.insert(0, str(HOME / "tools"))
+    sys.path.insert(0, str(HOME / "tools" / "motion"))
+    import run_motion   # pure checks only (no start): its main() is behind __main__
+    ns = argparse.Namespace(asset_id=asset_id, text=text, duration=duration, seed=seed, clip_id=clip_id, in_place=in_place, install=install, device=device,
+                            encoder_device=encoder_device, backend=backend)
+    why = gate(gpu=(device == "gpu"), heavy=True)   # a CPU-only run does not need the GPU lock, but still needs RAM
+    if why:
+        return {"status": "refused", "error": why}
+    probs = run_motion.problems(c, ns, cf_guard.free_ram_gb())
+    if probs:
+        return {"status": "refused", "error": "; ".join(probs)}
+    m = c["motion"]
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_motion.py"), asset_id, text, "--device", device, "--backend", backend]
+    for flag, val in (("--duration", duration), ("--seed", seed), ("--clip-id", clip_id), ("--encoder-device", encoder_device)):
+        if val not in (None, ""):
+            cmd += [flag, str(val)]
+    cmd += (["--in-place"] if in_place else []) + (["--install"] if install else [])
+    rc, log, t0 = run_stage("motion_generate", cmd, timeout=m["timeout_s"] + m["retarget_timeout_s"] + 120, guard=m["guard_match"] if device == "gpu" else None)
+    res = finish("motion_generate", rc, log, t0, ["motion"], asset_id,
+                 {"licences": "ARDY code Apache-2.0; ARDY weights NVIDIA Open Model Agreement; Llama 3 Community License (Built with Meta Llama 3): see THIRD_PARTY_NOTICES.md",
+                  "tier_note": "Proof tier: ARDY Core 27-joint skeleton retargeted by name and rest-direction onto the 106 rig. Fingers other than the thumb root follow the hand rigidly. LOOK at the clip in stills before using it."})
+    if res.get("receipt"):
+        try:
+            p = cf_guard.read_json(res["receipt"]).get("params", {})
+            res.update(clip_id=p.get("clip_id"), stills_use=p.get("stills_use"), installed_clip=p.get("installed_clip"), frames=p.get("frames"), fps=p.get("fps"))
+        except Exception:
+            pass
+    return res
+
+
 _STR = {"type": "string"}
 TOOLS = {
     "factory_status": (t_factory_status, "Read-only: GPU lock (and whether its pid is alive), free RAM against the start limit, newest receipts (unparsable ones are flagged).",
@@ -315,6 +353,13 @@ TOOLS = {
     "upscale": (t_upscale, "Real-ESRGAN x4 with Lab colour match (tools/upscale/upscale_match.py) under the GPU guard. asset_id defaults to the output file stem so a receipt is written. "
                 "Refuses on a live GPU lock or low RAM. Returns the receipt path.",
                 {"src": _STR, "dst": _STR, "passes": {"type": "integer"}, "asset_id": _STR}, ["src", "dst"], True, True),
+    "motion_generate": (t_motion_generate, "Generate a motion clip from text with NVIDIA ARDY (tools/run_motion.py) and retarget it onto the psyche-106 rig with headless Blender into a Mixamo-format clip GLB "
+                        "that the stills stage finds by name (install=true copies it to mixamo_clips_dir, never overwriting). The text encoder is LLM2Vec on a LOCAL Llama 3 mirror: no network, no token. "
+                        "Refuses on a live GPU lock (device=gpu), low RAM, a missing weight/mirror/rig file, an over-long text or duration. Returns the receipt path, clip id and the stills hint.",
+                        {"text": {**_STR, "description": "what the character does, one sentence, e.g. 'A person walks forward.'"}, "asset_id": {**_STR, "description": "receipt folder, default motion-clips"},
+                         "duration": {"type": "number", "description": "seconds, 1 to config motion.max_duration_s"}, "seed": {"type": "integer"}, "clip_id": _STR,
+                         "in_place": {"type": "boolean"}, "install": {"type": "boolean"}, "device": {**_STR, "description": "gpu (default) or cpu"},
+                         "encoder_device": {**_STR, "description": "cuda or cpu for the text encoder (cpu needs about 24 GB free RAM)"}, "backend": _STR}, ["text"], True, True),
 }
 
 

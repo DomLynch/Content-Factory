@@ -7,7 +7,7 @@ by hand at 15:52, and every Flux start meanwhile died on the RAM guard. Stopping
                         (TaskStop and crashes included, where no Python code runs). Returns a handle for close_job(); None elsewhere or on any error.
   close_job(handle)     closes the job: every process still inside it is killed.
   kill_tree(pid)        kill a process and everything it started (Windows taskkill /T /F, else the process group). Returns True once pid is gone.
-  stage_procs()         [(pid, command line)] of live processes running a stage script (generate.py, flux_kit.py, run_3d.py, run_stills.py), for the lock guard.
+  stage_procs()         [(pid, command line)] of live processes running a stage script (generate.py, flux_kit.py, run_3d.py, run_stills.py, run_motion.py, ardy_generate.py), for the lock guard.
 
 Nothing here raises: every function returns an empty or false value when it cannot tell.
 """
@@ -20,7 +20,7 @@ import signal
 import subprocess
 import time
 
-STAGE_SCRIPTS = ("generate.py", "flux_kit.py", "run_3d.py", "run_stills.py")
+STAGE_SCRIPTS = ("generate.py", "flux_kit.py", "run_3d.py", "run_stills.py", "run_motion.py", "ardy_generate.py")
 _STAGE_RE = re.compile(r"(?:%s)\b" % "|".join(re.escape(s) for s in STAGE_SCRIPTS), re.I)
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
@@ -136,7 +136,7 @@ def stage_procs() -> list[tuple[int, str]]:
     rows: list[tuple[int, str]] = []
     try:
         if os.name == "nt":
-            ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|flux_kit|run_3d|run_stills)\\.py' } "
+            ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|flux_kit|run_3d|run_stills|run_motion|ardy_generate)\\.py' } "
                   "| Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress")
             out = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps], capture_output=True, text=True, timeout=8,
                                  creationflags=NO_WINDOW).stdout.strip()

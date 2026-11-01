@@ -346,5 +346,52 @@
       "TRELLIS",
       "SCULPT"
     ]
+  },
+  "motion": {
+    "_comment": "plugin 0.1.8 motion_generate (tools/run_motion.py). ARDY (nv-tlabs/ardy, Apache-2.0 code, NVIDIA Open Model Agreement weights) in the Motion-312 venv, then a Blender retarget onto psyche-106 into a Mixamo-format clip GLB. Paths live in config.local.json (motion_*). Text encoder = LLM2Vec on a LOCAL Llama 3 mirror: no network, no token.",
+    "backend": "ardy",
+    "ardy_model": "core40",
+    "ardy_model_dir": "ARDY-Core-RP-20FPS-Horizon40",
+    "ardy_expected_skeleton": "cskel27",
+    "default_duration_s": 4.0,
+    "max_duration_s": 10.0,
+    "default_seed": 0,
+    "text_max_chars": 300,
+    "text_encoder_device": "cuda",
+    "timeout_s": 3600,
+    "retarget_timeout_s": 900,
+    "guard_match": "ardy_generate",
+    "min_free_ram_gb_encoder_cpu": 24,
+    "clip_prefix": "ardy-",
+    "clip_ext": ".glb",
+    "bone_prefix": "mixamorig:",
+    "clip_action_name": "clip",
+    "subdir": "motion",
+    "retarget": {
+      "required_bones": ["Hips", "Spine", "Spine1", "Spine2", "Neck", "Head", "LeftArm", "RightArm", "LeftForeArm", "RightForeArm", "LeftUpLeg", "RightUpLeg", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot"],
+      "direction_children": {
+        "Hips": "Spine", "Spine": "Spine1", "Spine1": "Spine2", "Spine2": "Neck", "Neck": "Head",
+        "LeftShoulder": "LeftArm", "LeftArm": "LeftForeArm", "LeftForeArm": "LeftHand",
+        "RightShoulder": "RightArm", "RightArm": "RightForeArm", "RightForeArm": "RightHand",
+        "LeftUpLeg": "LeftLeg", "LeftLeg": "LeftFoot", "LeftFoot": "LeftToeBase",
+        "RightUpLeg": "RightLeg", "RightLeg": "RightFoot", "RightFoot": "RightToeBase"
+      },
+      "skeletons": {
+        "cskel27": {
+          "direct": ["Shoulder", "Arm", "ForeArm", "Hand", "HandThumb1", "UpLeg", "Leg", "Foot", "ToeBase"],
+          "renamed": {},
+          "center": {"Hips": "Hips", "Spine": "Spine", "Spine1": "Spine2", "Spine2": "Spine3", "Neck": "Neck", "Head": "Head"},
+          "fingers": false
+        },
+        "somaskel77": {
+          "_comment": "Kimodo output. Name table only: the Kimodo path is not run in 0.1.8 (transformers pin conflict, see THIRD_PARTY_NOTICES.md and the skill).",
+          "direct": ["Shoulder", "Arm", "ForeArm", "Hand", "Foot", "ToeBase"],
+          "renamed": {},
+          "renamed_sided": {"UpLeg": "Leg", "Leg": "Shin"},
+          "center": {"Hips": "Hips", "Spine": "Spine1", "Spine1": "Spine2", "Spine2": "Chest", "Neck": "Neck1", "Head": "Head"},
+          "fingers": true
+        }
+      }
+    }
   }
 }

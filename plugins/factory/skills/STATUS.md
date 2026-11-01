@@ -13,5 +13,6 @@ Rule: a skill for a stage that has not run end to end with a receipt starts with
 | publish-to-library | DRAFT | the only publish receipt is NUL bytes; no PR made |
 | environment | DRAFT | Flux, upscale and one prop only; no Infinigen, no Unity assembly |
 | hero-rebake | DRAFT | two attempts killed by the RAM guard; no finished hero bake |
+| motion-generate | DRAFT | no real ARDY generation yet (needs a GPU window); text encoder never loaded end to end; retarget not looked at on the bound character; Kimodo path not run |
 
 Other unwritten sub-stages (mentioned inside skills): gear binding details (`bind_gear.py`), mesh clean (`run_clean.py`, no receipt).
