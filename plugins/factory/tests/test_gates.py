@@ -189,6 +189,17 @@ class Publish(Fixture):
         self.assertTrue(any("no \"pipeline\" key" in b for b in cf_gates.publish_reasons(spec)[0]))
         self.assertTrue(any("show TRELLIS" in b for b in cf_gates.publish_reasons({**self.spec, "pipeline": "sculpt"})[0]))
 
+    def test_kit_without_hands_is_complete_without_hands(self):
+        (self.home / "characters" / "char.json").write_text(json.dumps({"character_id": "char", "parts": [{"name": "coat", "kind": "gear"}, {"name": "head", "kind": "head"}]}))
+        self.assertEqual(cf_gates.publish_reasons(self.spec)[0], [])
+
+    def test_factory_raw_override_skips_and_logs(self):
+        spec = {k: v for k, v in self.spec.items() if k != "pipeline"}
+        (self.home / "publish" / "char.json").write_text(json.dumps(spec))
+        out = hook("gates.py", {"tool_name": "Bash", "tool_input": {"command": "FACTORY_RAW=odd-case python tools/publish.py char --library L"}}, self.home)
+        self.assertEqual(out, {})
+        self.assertTrue((self.home / "logs" / "factory_raw_override.log").exists())
+
     def test_hook_refuses_real_publish_not_dry_run(self):
         spec = {k: v for k, v in self.spec.items() if k != "pipeline"}
         (self.home / "publish" / "char.json").write_text(json.dumps(spec))

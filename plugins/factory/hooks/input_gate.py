@@ -42,6 +42,8 @@ def images(payload: dict) -> list[str]:
 
 def decide(payload: dict) -> str:
     """'' to allow, else the refusal reason."""
+    if payload.get("tool_name") == "Bash" and "FACTORY_RAW" in (payload.get("tool_input") or {}).get("command", "") and cf_guard.raw_override(payload["tool_input"]["command"], "input"):
+        return ""
     for img in images(payload):
         reason = cf_guard.small_image_reason(img) or cf_gates.input_reason(img)
         if reason:

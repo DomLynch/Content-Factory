@@ -6,7 +6,7 @@ The exception is a refusal for MISSING EVIDENCE that a gate exists to demand (no
 
   1. input     subject fills >= min_subject_frac of the frame height, portrait or square; head parts >= min_head_px tall
   2. token     hero/master bakes sample at the tier's token floor; a re-bake from latents below the floor is refused
-  3. parts     nothing is published unless body, head, hands and every gear piece were assembled with a receipt
+  3. parts     nothing is published unless every part in the character spec's parts list (plus the body) was assembled with a receipt
   4. light     stills that leave the factory are three-point lit; proof lighting stays inside
   5. readback  stills and publish print the upstream numbers and refuse when the file does not match the receipt that made it
   6. pipeline  every published asset names the pipeline that made it (TRELLIS, SCULPT, ...), and the name must agree with the receipts
@@ -25,6 +25,9 @@ import cf_guard
 DEFAULTS = {
     "min_subject_frac": 0.60,
     "min_head_px": 512,
+    # A floor is a MINIMUM, never a cap: any run may sample more. 98304 is the only completion measured on this GPU (robot, 28 GB attention budget, 704 s whole run).
+    # CEILING TEST (run when the GPU is free; it belongs to the Flux sheet until the owner says yes): robot_1076 at --max-tokens 131072 and 196608 with --attn-auto-gb 28;
+    # record completes / peak GPU / wall. The hero floor moves to the highest count that completes in under 2x the 98304 wall time.
     "token_floor": {"master": 98304, "hero": 98304},
     "preset_tier": {"hero_rebake": "hero", "tokens98k_fresh": "master"},
     "lighting_tier_required": "three_point",
@@ -238,8 +241,8 @@ def parts_reason(char_id: str) -> str:
     spec = character_spec(char_id)
     if spec is None:
         return (f"PARTS GATE: no characters/*.json has character_id '{char_id}', so the kit cannot be checked. "
-                "A published asset must come from a character spec listing body, head, hands and every gear piece.")
-    need = {"body", "head", "hands"} | {p.get("name") for p in spec.get("parts", []) if p.get("name")}
+                "A published asset must come from a character spec listing every part it is made of.")
+    need = {"body"} | {p.get("name") for p in spec.get("parts", []) if p.get("name")}   # the kit's own parts list: a creature kit without hands is complete without hands
     have, rec = assembled_parts(char_id)
     missing = sorted(need - have)
     if missing:

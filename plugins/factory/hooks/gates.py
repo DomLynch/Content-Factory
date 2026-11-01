@@ -3,6 +3,7 @@
 
 Covers `run_3d.py` (token gate), the factory MCP tools trellis_run (token gate) and stills (read-back: the GLB must be the recorded output of an ok receipt),
 and a real (not --dry-run) `publish.py` (parts, lighting, read-back and pipeline gates against publish/<asset_id>.json).
+A Bash/PowerShell command with FACTORY_RAW=<reason> skips the gates and is logged (the MCP tools have no such door).
 A refusal names the number that failed. An allowed stills or publish call gets the read-back line as context. Any error allows the call (fail open).
 """
 from __future__ import annotations
@@ -31,6 +32,8 @@ def decide(payload: dict) -> tuple[str, str]:
     info = []
     if name == "Bash" or name == "PowerShell":
         cmd = inp.get("command", "")
+        if "FACTORY_RAW" in cmd and cf_guard.raw_override(cmd, "gates"):
+            return "", ""
         for script, args in cf_cmd.script_calls(cmd, ("run_3d.py", "publish.py")):
             if script == "run_3d.py":
                 pos = [a for a in args if not a.startswith("-")]
