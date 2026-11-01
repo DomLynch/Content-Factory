@@ -1,4 +1,4 @@
-"""Pixal3D multi-view input (plugin 0.1.20): join the character sheet's views of one subject into ONE shape.
+"""Pixal3D multi-view input (plugin 0.1.18): join the character sheet's views of one subject into ONE shape.
 
 Capability we lacked: four-view input and pixel back-projection (joining the sheet's views into one shape). Pixal3D's multi-view pipeline (upstream
 inference_mv.py, weights ckpts/*_mv, config pipeline_mv.json) takes V views with GIVEN cameras and averages their DINOv3 features in one 3D grid.

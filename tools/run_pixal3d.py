@@ -1,6 +1,6 @@
 """One picked, cut-out image to a textured GLB with Pixal3D, one receipt (stage "pixal3d", same shape as the trellis receipt).
 Usage: run_pixal3d.py <asset_id> <cutout.png> [--preset NAME] [--seed N] [--no-naf]
-       run_pixal3d.py <asset_id> --views <folder | mapping.json | inline json> [--mirror-profile] [--no-three-quarter]   (plugin 0.1.20: multi-view, tools/pixal3d_mv.py)
+       run_pixal3d.py <asset_id> --views <folder | mapping.json | inline json> [--mirror-profile] [--no-three-quarter]   (plugin 0.1.18: multi-view, tools/pixal3d_mv.py)
 Settings come from config/config.json ("pixal3d") and config.local.json (paths, with defaults under work_dir); nothing here is a literal path or flag.
 Must be started with nothing else on the GPU (the plugin tool and its hooks enforce the lock, the RAM gate and the input gate)."""
 import argparse, os, subprocess, sys, time

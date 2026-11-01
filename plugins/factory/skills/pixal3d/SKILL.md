@@ -35,7 +35,7 @@ af_release.pth`. Do not run this while a GPU job runs on a tight-RAM box without
 ## The A/B (decision rule from OpenTrident Dev)
 Run it with the `ab_shape` tool (skill ab-shape). Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
 
-## Multi-view (plugin 0.1.20, DRAFT: nothing here has run on a GPU)
+## Multi-view (plugin 0.1.18, DRAFT: nothing here has run on a GPU)
 Capability we lacked: four-view input and pixel back-projection (joining the sheet's views into one shape). Single-view mode exists only for the A/B against Trellis-3; Pixal3D stays only if the A/B or the multi-view proof earns it.
 
 How it works. Upstream `inference_mv.py` (weights `ckpts/*_mv`, config `pipeline_mv.json`) takes V views with GIVEN cameras (`transforms.json`, no MoGe), projects every view's DINOv3 features into the same 3D grid and averages them, so a profile and a back view constrain the shape directly. `tools/pixal3d_mv.py` (CPU only) turns the sheet's cut-out PNGs into that input directory; `pixal3d_run(asset_id, views=...)` or `run_pixal3d.py <asset> --views <folder|mapping.json|inline json>` assembles and runs it. The receipt is stage `pixal3d`, label PIXAL3D, `params.mode = "multiview"`.
