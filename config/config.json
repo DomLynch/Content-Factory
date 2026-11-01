@@ -4,6 +4,7 @@
     "flux",
     "cutout",
     "trellis",
+    "textures",
     "bind",
     "upscale",
     "stills",
@@ -92,6 +93,23 @@
           "--max-tokens",
           "98304"
         ]
+      }
+    }
+  },
+  "textures": {
+    "subdir": "textures",
+    "timeout_s": 600,
+    "min_free_ram_gb": 2.5,
+    "hole_max_value": 14,
+    "hole_max_area": 400,
+    "normal_strength": 2.5,
+    "compare": {
+      "crop_px": 512,
+      "zoom": 2,
+      "_comment": "crops: height band [lo, hi] as a fraction of the mesh height; the crop is placed where most UV points of the band vertices fall",
+      "crops": {
+        "face": [0.88, 0.97],
+        "coat": [0.4, 0.7]
       }
     }
   },
