@@ -17,10 +17,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_cmd  # noqa: E402
 import cf_guard  # noqa: E402
 
-HEAVY = ("generate.py", "flux_kit.py", "run_3d.py", "run_character.py", "run_bind.py", "run_stills.py", "run_gear.py", "run_textures.py",
+HEAVY = ("generate.py", "flux_kit.py", "run_3d.py", "run_character.py", "run_bind.py", "run_skin_tokens.py", "run_stills.py", "run_gear.py", "run_textures.py",
          "run_clean.py", "assemble_character.py", "cutout_cpu.py", "upscale_match.py", "run_kit.ps1", "run_motion.py", "ardy_generate.py")
 MCP_PREFIX = "mcp__plugin_factory_factory__"
-MCP_HEAVY = ("flux_render", "trellis_run", "cutout", "bind", "stills", "upscale", "motion_generate")
+MCP_HEAVY = ("flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "motion_generate")
 
 
 def is_heavy(payload: dict) -> bool:
@@ -44,7 +44,7 @@ def decide(payload: dict, free: float | None) -> str:
 def main() -> None:
     raw = sys.stdin.read() or "{}"
     low = raw.lower()
-    if not any(k in low for k in ("generate", "flux_kit", "run_", "assemble_character", "cutout", "upscale", "ardy_generate", "mcp__plugin_factory")):
+    if not any(k in low for k in ("generate", "flux_kit", "run_", "assemble_character", "cutout", "upscale", "mcp__plugin_factory")):
         return   # fast exit: nothing factory-related in the payload
     try:
         reason = decide(json.loads(raw), cf_guard.free_ram_gb())

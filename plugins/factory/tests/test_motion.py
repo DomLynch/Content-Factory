@@ -450,10 +450,11 @@ class MotionHooks(unittest.TestCase):
         for script in ("gpu_lock_guard.py", "ram_gate.py", "plugin_guard.py"):
             for pat in ("Bash(*run_motion*)", "Bash(*ardy_generate*)"):
                 self.assertTrue(any(script in h["command"] and h.get("if") == pat for _, h in flat), (script, pat))
-        self.assertTrue(any(m == MCP_P + "(flux_render|trellis_run|upscale|motion_generate)" for m, _ in flat))
-        self.assertTrue(any(m == MCP_P + "(flux_render|trellis_run|cutout|bind|stills|upscale|motion_generate)" for m, _ in flat))
-        for _, h in flat:
-            self.assertLessEqual(h["timeout"], 15)   # cheap and fail-open like the others
+        for script in ("gpu_lock_guard.py", "ram_gate.py"):
+            self.assertTrue(any("motion_generate" in m and script in h["command"] for m, h in flat), script)
+        for m, h in flat:
+            if "motion" in m or "ardy_generate" in h.get("if", "") or "run_motion" in h.get("if", ""):
+                self.assertLessEqual(h["timeout"], 15)   # the motion hooks are cheap and fail-open like the others (the qc gate has its own 30 s)
 
     def test_gpu_lock_denies_motion_starts_on_a_live_lock_but_not_cpu_runs(self):
         with tempfile.TemporaryDirectory() as d:
