@@ -23,6 +23,7 @@
  "cells": [
   {
    "row_id": "body_underlayer_front",
+   "identity": true,
    "group": "body",
    "size": null,
    "ref": "{ref}",
@@ -65,6 +66,7 @@
   },
   {
    "row_id": "head_front",
+   "identity": true,
    "group": "head",
    "size": [
     1024,

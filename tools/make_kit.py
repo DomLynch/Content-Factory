@@ -76,6 +76,8 @@ def build(spec, tpl):
                 row["ref"] = spec[cell["ref_field"]]
             if cell["group"] == "head" and kit_keys:   # the gate may read the keys per head row as well as on the kit
                 row.update(kit_keys)
+            if cell.get("identity"):   # the reference cell of its group: the queue renders it first and holds siblings until its QC verdict is PASS
+                row["identity"] = True
             if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
             rows.append(row)

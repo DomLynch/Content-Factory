@@ -20,7 +20,8 @@
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat.",
    "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
-   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)",
+   "identity": true
   },
   {
    "name": "body_underlayer_front",
@@ -30,7 +31,8 @@
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs and boots; he wears only a plain fitted dark base layer and trousers. Change only the camera and pose:",
    "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; both braids clearly visible on the chest. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.",
    "seed": 44,
-   "seed_note": "Re-roll: the seed-43 render lost the braids (hair hanging loose to the shoulders), which disagrees with head_front and the back view; this is the identity reference the other body cells copy. The prompt now states the braided hair explicitly."
+   "seed_note": "Re-roll: the seed-43 render lost the braids (hair hanging loose to the shoulders), which disagrees with head_front and the back view; this is the identity reference the other body cells copy. The prompt now states the braided hair explicitly.",
+   "identity": true
   },
   {
    "name": "body_underlayer_back",
