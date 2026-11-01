@@ -71,6 +71,15 @@
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape.  Short trimmed beard following the jaw; squared chin under the beard; plain padded gambeson collar, no armour, no helmet."
   },
   {
+   "name": "head_profile_right",
+   "row_id": "head_profile_right",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape.  Short trimmed beard following the jaw; squared chin under the beard; plain padded gambeson collar, no armour, no helmet."
+  },
+  {
    "name": "head_three_quarter",
    "row_id": "head_three_quarter",
    "group": "head",

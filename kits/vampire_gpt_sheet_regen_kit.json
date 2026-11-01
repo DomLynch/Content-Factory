@@ -71,6 +71,15 @@
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait.  Long upswept thin moustache; clean-shaven chin; plain charcoal high-collared sweater collar, no fur, no coat."
   },
   {
+   "name": "head_profile_right",
+   "row_id": "head_profile_right",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait.  Long upswept thin moustache; clean-shaven chin; plain charcoal high-collared sweater collar, no fur, no coat."
+  },
+  {
    "name": "head_three_quarter",
    "row_id": "head_three_quarter",
    "group": "head",
