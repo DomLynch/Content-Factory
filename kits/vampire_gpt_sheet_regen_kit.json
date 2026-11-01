@@ -176,7 +176,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the crimson damask velvet tunic coat with hussar frogging, gold embroidered front panel and high collar, laid flat and spread out front-facing on a plain dark background like a game asset sheet, no person, no mannequin, no cloak, no boots. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the crimson damask velvet tunic coat with hussar frogging, gold embroidered front panel and high collar, laid flat and spread out front-facing on a plain dark background like a game asset sheet, no person, no mannequin, no cloak, no boots. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_coat_back",
@@ -185,7 +185,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the back of the crimson damask velvet tunic coat with gold embroidery, laid flat seen from behind on a plain dark background like a game asset sheet, no person, no mannequin, no cloak, no boots. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the back of the crimson damask velvet tunic coat with gold embroidery, laid flat seen from behind on a plain dark background like a game asset sheet, no person, no mannequin, no cloak, no boots. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_cloak",
@@ -194,7 +194,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the long black cloak with gold borders and its black fur collar, back and inner velvet lining visible on a plain dark background like a game asset sheet, no person, no mannequin, no coat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the long black cloak with gold borders and its black fur collar, back and inner velvet lining visible on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_cloak_back",
@@ -203,7 +203,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the back of the long black cloak with gold borders, laid flat seen from behind on a plain dark background like a game asset sheet, no person, no mannequin, no coat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the back of the long black cloak with gold borders, laid flat seen from behind on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_fur_collar",
@@ -212,7 +212,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the black fur collar of the cloak, laid flat in a ring on a plain dark background like a game asset sheet, no person, no mannequin, no coat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the black fur collar of the cloak, laid flat in a ring on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_collar_closeup",
@@ -221,7 +221,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_belt",
@@ -230,7 +230,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the wide leather belt with the gold double-headed eagle buckle, laid flat and straight on a plain dark background like a game asset sheet, no person, no coat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the wide leather belt with the gold double-headed eagle buckle, laid flat and straight on a plain dark background like a game asset sheet, no person, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_belt_buckle_closeup",
@@ -239,7 +239,7 @@
    "w": 1024,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY a close-up of the gold double-headed eagle belt buckle on black leather, front view on a plain dark background like a game asset sheet, no person, no coat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY a close-up of the gold double-headed eagle belt buckle on black leather, front view on a plain dark background like a game asset sheet, no person, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_tabard",
@@ -248,7 +248,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the hanging tabard with the embroidered castle emblem and cross, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the hanging tabard with the embroidered castle emblem and cross, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_cuffs",
@@ -257,7 +257,7 @@
    "w": 1024,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the pair of white lace cuffs, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of white lace cuffs, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_trousers",
@@ -266,7 +266,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the pair of dark fitted trousers, laid flat and spread out on a plain dark background like a game asset sheet, no person, no boots. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of dark fitted trousers, laid flat and spread out on a plain dark background like a game asset sheet, no person, no boots. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_boots_front",
@@ -275,7 +275,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the pair of tall black leather boots with gold knee plates, seen from the front, standing side by side on a plain dark background like a game asset sheet, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of tall black leather boots with gold knee plates, seen from the front, standing side by side on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_boots_side",
@@ -284,7 +284,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the pair of tall black leather boots with gold knee plates, seen from the side, standing on a plain dark background like a game asset sheet, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of tall black leather boots with gold knee plates, seen from the side, standing on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_knee_plates",
@@ -293,7 +293,7 @@
    "w": 1024,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the pair of gilded engraved boot knee plates, laid out neatly on a plain dark background like a game asset sheet, no person, no boots. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of gilded engraved boot knee plates, laid out neatly on a plain dark background like a game asset sheet, no person, no boots. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_rings",
@@ -302,7 +302,7 @@
    "w": 1024,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY the gold signet rings with red gems, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the gold signet rings with red gems, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "swatch_crimson_damask_velvet",

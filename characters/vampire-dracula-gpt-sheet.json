@@ -23,8 +23,7 @@
  "head_exclude": "no collar, no fur",
  "hand_accessory": "gold signet rings",
  "hand_accessory_short": "rings",
- "material_look": "crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style",
- "gear_isolation_suffix": "No person, no head, no face, no hands, no mannequin; the item alone, isolated.",
+ "gear_isolation_suffix": "Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin.",
  "gear_items": [
   {
    "id": "coat",

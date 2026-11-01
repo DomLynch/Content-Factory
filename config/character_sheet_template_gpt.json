@@ -201,7 +201,7 @@
     1536,
     1024
    ],
-   "prompt": "Materials and look: {material_look}. Show ONLY {item}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}. {gear_isolation_suffix}"
+   "prompt": "Show ONLY {item}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}. {gear_isolation_suffix}"
   },
   {
    "repeat": "swatches",
@@ -225,7 +225,6 @@
   "head_exclude",
   "hand_accessory",
   "hand_accessory_short",
-  "material_look",
   "gear_isolation_suffix",
   "hair_top_desc",
   "outfit_desc",
