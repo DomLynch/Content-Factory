@@ -11,6 +11,12 @@ ap.add_argument("kit")
 ap.add_argument("--pick", nargs="*", default=[])
 ap.add_argument("--by", default="")
 ap.add_argument("--note", default="")
+ap.add_argument("--score", type=int, default=None, help="QC score 0-10 recorded with --verdict")
+ap.add_argument("--prompt-fix", default="", help="QC prompt_fix recorded with --verdict")
+ap.add_argument("--import-review", action="append", default=[], metavar="REVIEW.json",
+                help="import the verdicts of a review file (cells[] with cell or row, score, verdict, notes, prompt_fix or fix); repeatable, a later file wins")
+ap.add_argument("--verdict", nargs=2, action="append", default=[], metavar=("ROW_ID", "PASS|WEAK|REJECT"),
+                help="record the QC verdict of a row (plugin 0.1.22: reference-first needs PASS on the identity cell); repeatable")
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
@@ -30,6 +36,22 @@ for r in kit["rows"]:
     if rid in a.pick and entry["candidates"]:
         entry["pick"] = entry["candidates"][-1]["sha256"]
         entry["picked_by"], entry["picked_at"], entry["note"] = a.by, now, a.note
+def set_verdict(vrow, v, note="", score=None, fix=""):
+    if vrow not in rows or str(v).upper() not in ("PASS", "WEAK", "REJECT"):
+        sys.exit(f"--verdict {vrow} {v}: unknown row or verdict (PASS, WEAK, REJECT)")
+    rows[vrow]["verdict"], rows[vrow]["verdict_note"], rows[vrow]["verdict_at"] = str(v).upper(), note, now
+    if score is not None:
+        rows[vrow]["score"] = score
+    if fix:
+        rows[vrow]["prompt_fix"] = fix
+
+for rev in a.import_review:
+    for c in json.load(open(rev, encoding="utf-8-sig")).get("cells", []):
+        rid = c.get("cell") or c.get("row")
+        if rid in rows and c.get("verdict"):   # a reviewed cell that is not in this kit is skipped, not an error
+            set_verdict(rid, c["verdict"], c.get("notes") or "", c.get("score"), c.get("prompt_fix") or c.get("fix") or "")
+for vrow, v in a.verdict:
+    set_verdict(vrow, v, a.note, a.score, a.prompt_fix)
 os.makedirs(os.path.dirname(mpath), exist_ok=True)
 with open(mpath, "w", encoding="utf-8", newline="\n") as f:
     json.dump({"schema": 1, "kit": kit["kit"], "rows": rows}, f, indent=1)
