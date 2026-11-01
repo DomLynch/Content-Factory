@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "asset_id": "hades_gate-backdrop_valley_plate",
+  "stage": "upscale",
+  "tool": "upscale_match.py",
+  "script_commit": "a829c46",
+  "model": {
+    "id": "realesrgan-x4plus (ncnn-vulkan)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\backdrop_valley_plate_1664x928.png",
+      "sha256": "28a17adcf6a48100114731bb73ceb1fe5593fef0d839f2f1586c0cd3b70deb8e"
+    }
+  ],
+  "params": {
+    "passes": 1,
+    "colour_match": "Lab mean/std"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 17.9
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\backdrop_valley_plate_6k.png",
+      "sha256": "db788fb0b649c6416dba7a288278334c95d483f09e100dc774dc6cb8e4e5a27f"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T06:20:23+00:00"
+}

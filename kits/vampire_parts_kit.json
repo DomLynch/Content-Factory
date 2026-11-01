@@ -1,0 +1,37 @@
+{
+ "kit": "vampire_parts",
+ "seed": 42,
+ "w": 1024,
+ "h": 1536,
+ "parts_rule": "Hard characters are built in parts: BODY (bound to the 106 rig, strict bind gate) plus GEAR parts (coat, cloak, mantle; hang from the body skeleton and cape/skirt helper bones, looser gate). One asset id, sub-parts.",
+ "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+ "ref_prefix": "Edit instruction: keep this exact same character from the reference image: identical face, hair, moustache, skin and body build. Change only the following:",
+ "subject": "",
+ "style": "Photorealistic, ultra-detailed, soft even studio lighting, plain neutral grey background, centred, full figure head to feet fully visible, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+ "rows": [
+  {
+   "name": "body_underlayer",
+   "row_id": "body_underlayer",
+   "part": "body",
+   "prompt": "Remove the cloak, fur mantle, coat, tabard, belt, medallions and boots. He stands in a neutral A-pose facing the camera, arms slightly away from the body, wearing only a plain form-fitting dark grey long-sleeve base layer, trousers and plain dark shoes, with the same pale gaunt face, long black hair and thin moustache. Hands bare, fingers relaxed and slightly apart."
+  },
+  {
+   "name": "coat_alone",
+   "row_id": "coat_alone",
+   "part": "gear",
+   "prompt": "Show ONLY the crimson damask long coat with dense gold embroidery, high stiff collar, embroidered tabard with castle and cross, ornate belt with double-headed eagle buckle and white ruffled cuffs, worn on a plain faceless dress mannequin in an A-pose, front view. No head, no person, no cloak, no fur mantle, no boots."
+  },
+  {
+   "name": "cloak_alone",
+   "row_id": "cloak_alone",
+   "part": "gear",
+   "prompt": "Show ONLY the long dark cloak with the heavy black fur mantle over the shoulders and the gold medallions set with red gems joined by chains, hanging on a plain faceless mannequin, front view. No head, no person, no coat, no boots."
+  },
+  {
+   "name": "boots_alone",
+   "row_id": "boots_alone",
+   "part": "gear",
+   "prompt": "Show ONLY a pair of tall black leather boots with gilded knee plates standing side by side on the floor, front view, with nothing else in the picture."
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "robot-tokens98k",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "a829c46",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\clean_sample\\robot_1076.png",
+      "sha256": "46f9fd7dee1a0cf3e3227f9979345f34d5d740fa9dd6ab1b0deb95d5249308a8"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 101.2
+  },
+  "memory": {
+    "lowest_free_ram_gb": 8.1
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\robot-tokens98k\\cutout.png",
+      "sha256": "01e1c91d0736432600979387c754b48da1c12a66a17d65588c1cb9de6b830806"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T06:29:28+00:00"
+}

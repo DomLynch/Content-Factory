@@ -1,0 +1,72 @@
+{
+    "schema":  1,
+    "asset_id":  "vampire-dracula-front",
+    "stage":  "trellis",
+    "tool":  "generate.py",
+    "script_commit":  "a829c46",
+    "model":  {
+                  "id":  "TRELLIS.2-4B",
+                  "repo":  "C:\\Users\\dom12\\Documents\\Trellis-3-312"
+              },
+    "inputs":  [
+                   {
+                       "path":  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\cutout.png",
+                       "sha256":  "e031096d607a5a1f66746e07a8ee087f2c9f0415398671e9b85cabcaac34d2f8"
+                   }
+               ],
+    "params":  {
+                   "preset":  "master",
+                   "texture_size":  2048,
+                   "bake_faces":  500000,
+                   "extra":  [
+
+                             ],
+                   "env":  {
+                               "ATTN_BACKEND":  "sdpa",
+                               "SPARSE_ATTN_BACKEND":  "sdpa",
+                               "SPARSE_CONV_BACKEND":  "flex_gemm",
+                               "TRELLIS3_OVOXEL":  "native",
+                               "HF_HUB_OFFLINE":  "1",
+                               "TRELLIS3_REMBG":  "none",
+                               "PYTHONUNBUFFERED":  "1"
+                           },
+                   "log":  "C:\\Users\\dom12\\Documents\\flux_env\\trellis_vampire-dracula-front.txt",
+                   "stage_tokens":  {
+                                        "shape_lr_tokens":  3710,
+                                        "shape_up_tokens":  20167,
+                                        "shape_hr_tokens":  20167,
+                                        "shape_lr_s":  19,
+                                        "shape_up_s":  17,
+                                        "shape_hr_s":  1220,
+                                        "faces_before_simplify":  35483192,
+                                        "faces_after":  500000
+                                    }
+               },
+    "machine":  {
+                    "hostname":  "Dominic",
+                    "name":  "rog-flow-z13",
+                    "gpu":  "Radeon 8060S gfx1151",
+                    "gpu_split":  "32 GB GPU / 32 GB RAM",
+                    "venv":  "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+                },
+    "timing":  {
+                   "wall_s":  3182.7
+               },
+    "memory":  {
+                   "lowest_free_ram_gb":  0.0,
+                   "peak_stage_note":  "shape_hr stage peak (profile table): 27.2 GB; free RAM touched 0.0 GB during the run (guard did not fire)"
+               },
+    "outputs":  [
+                    {
+                        "path":  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\mesh.glb",
+                        "sha256":  "07aa68f0d46dbd15f1f712b70e9b640ef0de29f908bb4cd3b373dcd14eee1f3e"
+                    },
+                    {
+                        "path":  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\mesh.receipt.json",
+                        "sha256":  "a157cfecce199c72893a3302515ca327d505df1114acc25e00867d4635558649"
+                    }
+                ],
+    "status":  "ok",
+    "error":  "",
+    "created_utc":  "2026-11-01T06:14:36+00:00"
+}

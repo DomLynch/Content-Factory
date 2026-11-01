@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "asset_id": "hades_gate-gate_front_elevation",
+  "stage": "upscale",
+  "tool": "upscale_match.py",
+  "script_commit": "a829c46",
+  "model": {
+    "id": "realesrgan-x4plus (ncnn-vulkan)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\gate_front_elevation_1536x1024.png",
+      "sha256": "2d3f3dad5b91053a0e54e8728f30816e0587a83a819be5f43326aea8dcd32d58"
+    }
+  ],
+  "params": {
+    "passes": 1,
+    "colour_match": "Lab mean/std"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 18.6
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\gate_front_elevation_6k.png",
+      "sha256": "9cf75bffb58a3a5186ea480bad83147a526ad64d01162dbf63878bdf722399dc"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T06:20:05+00:00"
+}

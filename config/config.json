@@ -45,7 +45,10 @@
         "preset": "master",
         "texture_size": 2048,
         "bake_faces": 500000,
-        "extra": []
+        "extra": [
+          "--attn-auto-gb",
+          "24"
+        ]
       },
       "attn24": {
         "preset": "master",
