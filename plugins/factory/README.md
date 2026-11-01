@@ -24,7 +24,7 @@ Needs the Content-Factory checkout at `C:\Users\dom12\Documents\Content-Factory`
 | `/factory-status` | read-only: GPU lock, processes, free RAM, queues, newest receipts (unparsable ones flagged), guard events |
 | `/factory-run <character_spec.json>` | wraps `tools/run_character.py`: `--dry-run` first, state check, the owner's yes, then the real run |
 | `/factory-publish <asset_id> --library <clone>` | wraps `tools/publish.py`: gate on Dom's 8/10, `--dry-run` first, the owner's yes to write, never pushes or opens a PR |
-| MCP server `factory` | `factory_status`, `flux_render(kit,row_id)`, `trellis_run(asset_id,image,preset)`, `cutout(asset_id,image)`, `bind(asset_id,mesh)`, `stills(asset_id,glb)`, `upscale(src,dst)`, `motion_generate(text,...)` (0.1.8: ARDY text-to-motion retargeted onto psyche-106, see `skills/motion-generate`, `THIRD_PARTY_NOTICES.md`) |
+| MCP server `factory` | `factory_status`, `flux_render(kit,row_id)`, `trellis_run(asset_id,image,preset)`, `cutout(asset_id,image)`, `bind(asset_id,mesh,binder?)` (config `bind.binder`: SkinTokens, or the labelled fallback donor bind), `stills(asset_id,glb)`, `upscale(src,dst)`, `motion_generate(text,...)` (0.1.8: ARDY text-to-motion retargeted onto psyche-106, see `skills/motion-generate`, `THIRD_PARTY_NOTICES.md`) |
 | hooks (PreToolUse) | `gpu_lock_guard.py`, `ram_gate.py`, `input_gate.py`, `no_literals.py` |
 
 ### MCP server
@@ -48,7 +48,7 @@ A missing file, an unreadable lock, an unknown size or any error means allow: a 
 1. `character-sheet`: spec (`characters/<id>-sheet.json`) to kit (`tools/make_kit.py`), one Flux row per process (`flux_render`), `fix_black_block.py`, contact sheet, Dom's picks (`tools/manifest.py`). LOOK at everything.
 2. Upscale each pick to 2048 px or more (`upscale`, `tools/upscale/upscale_match.py`).
 3. `trellis-part`, one part per image: body (T-posed base layer), each head, each gear piece. `cutout` then `trellis_run` (draft tier first).
-4. `bind-humanoid`: `bind` on the T-posed body part, donor `tall`; read the `bind_best.py` gate.
+4. `bind-humanoid`: `bind` on the T-posed body part with the binder in `config.json -> bind.binder` (`skin_tokens` target default; `donor` is the labelled fallback, donor `tall`); read the gate and the receipt's `params.binder_used` (a fallback says `FALLBACK donor (MakeHuman weights)`).
 5. `assemble-character` (DRAFT): `tools/run_gear.py` per gear part, then `tools/assemble_character.py`.
 6. `stills-and-turntable` (DRAFT): `stills`, then lit three-point stills and a turntable (not built).
 7. `hero-rebake` (DRAFT) for the final bake from the saved latents.
@@ -93,5 +93,6 @@ Packaging conventions are copied from the Bonsai plugin (`C:\Bonsai-2`): `.claud
 
 ## Not verified
 - Installed and loaded in a live Claude Code session: no. Skills, commands, the MCP server and the hooks have not been exercised there.
-- `bind/*.py` still hold hard-coded Blender, donor and rig paths; `run_bind.py` skips the relative-to-control gate clause.
+- `bind/*.py` still hold hard-coded Blender, donor and rig paths; `run_bind.py` (the fallback donor bind) skips the relative-to-control gate clause.
+- SkinTokens as the default binder (0.1.21): routing, fallback and the helper `tools/set_default_binder.py` are tested offline with fake scripts only; it ships with `bind.binder` = `donor` until the SkinTokens proof passes.
 - Master and hero tiers, hero re-bake, assemble, gear, turntable, beast bind, environment assembly and publish have no end-to-end receipt.

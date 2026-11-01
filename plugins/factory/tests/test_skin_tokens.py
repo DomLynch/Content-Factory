@@ -296,6 +296,36 @@ class RunScriptWithFakeProcesses(unittest.TestCase):
         self.assertEqual(rec["params"]["gate"], GATE)
         self.assertEqual(rec["params"]["clamp_influences"], 4)
 
+    def set_launcher(self, path):
+        cfgp = self.repo / "config" / "config.json"
+        c = json.loads(cfgp.read_text(encoding="utf-8-sig"))
+        c["skin_tokens"]["launcher"] = path
+        c["skin_tokens"]["num_beams"] = 3
+        cfgp.write_text(json.dumps(c), encoding="utf-8")
+
+    def test_launcher_runs_instead_of_demo_and_is_recorded(self):
+        launcher = self.t / "launcher.py"
+        launcher.write_text("import os, sys\nassert os.environ['NUM_BEAMS'] == '3' and len(sys.argv) == 3 and 'demo.py' not in sys.argv[0]\n"
+                            "os.makedirs(os.path.dirname(sys.argv[2]), exist_ok=True)\nopen(sys.argv[2], 'wb').write(b'glb')\n", encoding="utf-8")
+        (self.t / "st" / "demo.py").unlink()   # the launcher is used, demo.py is never called
+        self.set_launcher(str(launcher))
+        r, rec = self.run_it()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        import hashlib
+        self.assertEqual(rec["params"]["launcher"], str(launcher))
+        self.assertEqual(rec["params"]["launcher_sha256"], hashlib.sha256(launcher.read_bytes()).hexdigest())
+
+    def test_missing_launcher_fails_before_any_step(self):
+        self.set_launcher(str(self.t / "nope.py"))
+        r, rec = self.run_it()
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("missing: launcher", rec["error"])
+
+    def test_no_launcher_records_none(self):
+        r, rec = self.run_it()
+        self.assertIsNone(rec["params"]["launcher"])
+        self.assertNotIn("launcher_sha256", rec["params"])
+
     def test_default_skeleton_is_the_rig_in_config(self):
         r, rec = self.run_it(skeleton=False)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)

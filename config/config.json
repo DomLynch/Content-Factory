@@ -122,6 +122,9 @@
     }
   },
   "bind": {
+    "_comment": "binder: 'skin_tokens' (target default, tools/run_skin_tokens.py, GPU) or 'donor' (labelled FALLBACK, tools/run_bind.py, MakeHuman donor weights, CPU). Shipped as 'donor' until the SkinTokens proof passes; flip with: python tools/set_default_binder.py skin_tokens. fallback_to_donor: when binder is skin_tokens and it fails the gate or its prerequisites are missing, run the donor bind and label the receipt FALLBACK.",
+    "binder": "donor",
+    "fallback_to_donor": true,
     "script_dir": "bind",
     "best_script": "bind_best.py",
     "bound_glb_name": "bound.glb",
@@ -141,6 +144,8 @@
   },
   "skin_tokens": {
     "_comment": "tools/run_skin_tokens.py: SkinTokens (VAST-AI, MIT) skins a body onto the psyche-106 rig (demo.py --use_skeleton). GPU. Paths come from config.local.json (skin_tokens_repo_dir, skin_tokens_python). Gate = bind.gate plus the relative-to-control clause.",
+    "launcher": "",
+    "launcher_note": "optional path of an external launcher (python launcher.py <in.glb> <out.glb>, NUM_BEAMS from num_beams) that carries the Windows/ROCm workarounds; empty = demo.py as before. Checked to exist before the run; the receipt records params.launcher and params.launcher_sha256. Not part of this repo.",
     "script_dir": "tools/skin_tokens",
     "prep_script": "prep_input.py",
     "export_script": "to_rig_body.py",
@@ -388,7 +393,8 @@
     "markers_subdir": "char_markers",
     "guard_match": {
       "flux": "flux_kit",
-      "trellis": "generate.py"
+      "trellis": "generate.py",
+      "skin_tokens": "run_skin_tokens"
     },
     "guard_wait_s": 2,
     "log_prefix": "char_"

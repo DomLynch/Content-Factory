@@ -29,7 +29,8 @@ def main(argv):
     repo_dir, py = loc["skin_tokens_repo_dir"], loc["skin_tokens_python"]
     params = {"gate": bd["gate"], "relative": st["relative"], "ckpt": st["ckpt"], "skeleton": skeleton, "control": control_path, "log": log,
               "use_transfer": st["use_transfer"], "clamp_influences": bd["gate"]["max_influences"] if st["clamp_influences"] else 0,
-              "blender": loc["blender_exe"], "skin_tokens_repo": repo_dir}
+              "blender": loc["blender_exe"], "skin_tokens_repo": repo_dir, "binder_used": "skin_tokens",
+              "launcher": st.get("launcher") or None}
 
     def receipt(status, error="", outs=(), timing=None, mem=None, extra=None):
         return cf_common.write_receipt(cfg, asset_id, "bind", tool="run_skin_tokens.py", model={"id": "SkinTokens TokenRig (VAST-AI, MIT)", "ckpt": st["ckpt"]},
@@ -38,11 +39,14 @@ def main(argv):
 
     missing = [f"{k}: {p}" for k, p in (("blender_exe", loc["blender_exe"]), ("skeleton", skeleton), ("skin_tokens_repo_dir", repo_dir), ("skin_tokens_python", py),
                                          ("ckpt", os.path.join(repo_dir, st["ckpt"])), ("vae_ckpt", os.path.join(repo_dir, st["vae_ckpt"])), ("control", control_path),
-                                         ("body", body)) if not os.path.exists(p)]
+                                         ("body", body)) + ((("launcher", st["launcher"]),) if st.get("launcher") else ()) if not os.path.exists(p)]
     if missing:
         receipt("fail", "missing: " + "; ".join(missing))
         sys.exit("missing: " + "; ".join(missing))
     control = sgate.load_control(control_path)
+    launcher = st.get("launcher") or ""   # optional external launcher (Models Dev's local file, never copied into the repo): runs instead of demo.py
+    if launcher:
+        params["launcher_sha256"] = cf_common.sha256(launcher)
 
     ram = cf_common.FreeRamWatch(); ram.start()
     t0 = time.time()
@@ -63,10 +67,10 @@ def main(argv):
     blender = [loc["blender_exe"], "--background", "--python"]
     steps = [
         ("prep", blender + [os.path.join(sdir, st["prep_script"]), "--", body, skeleton, inp, prep_json], st["prep_timeout_s"], None, None, inp),
-        ("skintokens", [py, "demo.py", "--input", inp, "--output", raw_out, "--use_skeleton", "--model_ckpt", st["ckpt"], "--num_beams", str(st["num_beams"]),
+        ("skintokens", [py, launcher, inp, raw_out] if launcher else [py, "demo.py", "--input", inp, "--output", raw_out, "--use_skeleton", "--model_ckpt", st["ckpt"], "--num_beams", str(st["num_beams"]),
                         "--top_k", str(st["top_k"]), "--top_p", str(st["top_p"]), "--temperature", str(st["temperature"]),
                         "--repetition_penalty", str(st["repetition_penalty"])] + (["--use_transfer"] if st["use_transfer"] else []),
-         st["run_timeout_s"], repo_dir, dict(os.environ, **st["attn_env"], PYTHONPATH=repo_dir, **({"SKINTOKENS_BPY_PYTHON": loc["skin_tokens_bpy_python"]} if loc.get("skin_tokens_bpy_python") else {})), raw_out),
+         st["run_timeout_s"], repo_dir, dict(os.environ, **st["attn_env"], **({"NUM_BEAMS": str(st["num_beams"])} if launcher else {}), PYTHONPATH=repo_dir, **({"SKINTOKENS_BPY_PYTHON": loc["skin_tokens_bpy_python"]} if loc.get("skin_tokens_bpy_python") else {})), raw_out),
         ("export", blender + [os.path.join(sdir, st["export_script"]), "--", raw_out, blend, bound_glb, export_json, prep_json, bd["rig_name"], bd["body_name"],
                               str(params["clamp_influences"])], st["export_timeout_s"], None, None, blend),
         ("metrics", blender + [os.path.join(cf_common.REPO, st["metrics_script"]), "--", blend, best_metrics, "--control", control_path],

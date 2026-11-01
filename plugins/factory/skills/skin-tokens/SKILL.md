@@ -12,7 +12,11 @@ description: "DRAFT. Skin a T-posed humanoid body GLB onto the psyche-106 rig wi
 
 # skin-tokens
 
+Default binder: with `config.json -> bind.binder` set to `skin_tokens` (flip: `python tools/set_default_binder.py skin_tokens`) the MCP tool `bind` and `tools/run_character.py` run SkinTokens first and use the donor bind only as the labelled `FALLBACK donor (MakeHuman weights)` when `bind.fallback_to_donor` is true and SkinTokens fails the gate or its prerequisites are missing. The repo ships with `bind.binder` = `donor` until the proving run below passes; after a fallback the bound body is whichever GLB `bound_source.json` in the asset's work folder names (`assemble_character.py` reads it).
+
 Tool: MCP `skin_tokens_bind(glb, skeleton, asset_id)`; script `tools/run_skin_tokens.py <asset_id> <body.glb> [<rig.glb>]`; Blender helpers `tools/skin_tokens/prep_input.py`, `to_rig_body.py`; gate `tools/skin_tokens/gate.py`. Settings: `config.json -> skin_tokens` and `bind.gate`; paths in `config.local.json` (`skin_tokens_repo_dir`, `skin_tokens_python`, `rig_glb`, `blender_exe`). The code is MIT (github.com/VAST-AI-Research/SkinTokens), weights VAST-AI/SkinTokens (MIT on the model card). Patch for ROCm: `tools/skin_tokens/patches/rocm_sdpa.patch` (adds `src/model/attn_compat.py`).
+
+Launcher: `config.json -> skin_tokens.launcher` (empty by default) may name an external launcher with the Windows/ROCm workarounds (a local file, not in this repo). When set, the skintokens step runs `[python, launcher, in.glb, out.glb]` with `NUM_BEAMS` from `skin_tokens.num_beams` instead of `demo.py`; the file must exist or the run stops before any step, and the receipt records `params.launcher` and `params.launcher_sha256`.
 
 ## Steps
 1. Input: a body-only, T-posed humanoid GLB (same rule as `bind-humanoid`).
