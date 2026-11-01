@@ -87,6 +87,94 @@
       "weight_sum_tol": 0.001
     }
   },
+  "gear": {
+    "script": "bind_gear.py",
+    "glb_prefix": "gear_",
+    "work_subdir": "gear_work",
+    "timeout_s": 1800,
+    "max_influences": 4,
+    "weight_epsilon": 0.0001,
+    "smooth_passes": 2,
+    "smooth_factor": 0.5,
+    "stretch_clips": [
+      "idle",
+      "walk",
+      "attack"
+    ],
+    "stretch_frames_per_clip": 6,
+    "fit": {
+      "mode": "none",
+      "_comment": "mode 'z_frac' scales each gear mesh uniformly so its height spans the body height fraction below and centres it on the body in x/y; mode 'none' trusts the incoming scale and placement",
+      "parts": {
+        "coat": {
+          "z_frac": [
+            0.3,
+            0.85
+          ]
+        },
+        "cloak": {
+          "z_frac": [
+            0.25,
+            0.88
+          ]
+        },
+        "boots": {
+          "z_frac": [
+            0.0,
+            0.3
+          ]
+        }
+      }
+    },
+    "helpers": {
+      "_comment": "optional secondary motion: gear vertices below anchor_z_frac of body height shift up to max_blend of their weight onto the nearest rig helper bone whose lower-case name contains a pattern",
+      "parts": {
+        "cloak": {
+          "patterns": [
+            "cape"
+          ],
+          "max_blend": 0.8,
+          "anchor_z_frac": 0.8
+        },
+        "coat": {
+          "patterns": [
+            "skirt"
+          ],
+          "max_blend": 0.6,
+          "anchor_z_frac": 0.55
+        }
+      }
+    },
+    "gate": {
+      "min_edge_mm": 5,
+      "p99_stretch_max": 3.0,
+      "zero_weight_vertices_max": 0,
+      "max_influences": 4,
+      "weight_sum_tol": 0.001
+    }
+  },
+  "assemble": {
+    "timeout_s": 900,
+    "output_name": "{asset_id}.glb",
+    "work_subdir": "assemble_work",
+    "expected_bones": 106,
+    "export": {
+      "export_format": "GLB",
+      "use_selection": true,
+      "export_apply": false,
+      "export_skins": true,
+      "export_all_influences": false,
+      "export_def_bones": false,
+      "export_animations": false,
+      "export_morph": false,
+      "export_draco_mesh_compression_enable": false,
+      "export_normals": true,
+      "export_tangents": false,
+      "export_texcoords": true,
+      "export_image_format": "AUTO",
+      "export_yup": true
+    }
+  },
   "stills": {
     "subdir": "stills",
     "timeout_s": 1800,
