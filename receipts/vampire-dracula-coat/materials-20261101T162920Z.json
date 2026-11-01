@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-coat",
+  "stage": "materials",
+  "tool": "run_materials.py (Blender Cycles CPU)",
+  "script_commit": "3742557",
+  "model": {
+    "id": "scanned CC0 PBR quatrefoil_jacquard_fabric"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\mesh.glb",
+      "sha256": "85698e9a9a13b17968954cb0a6dd4b383033f0f5b8619870beb26085f0ead9a8"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\materials\\quatrefoil_jacquard_fabric\\quatrefoil_jacquard_fabric_diff_2k.jpg",
+      "sha256": "7ecc9e2c7f0e8640d229fefc7f97f0cb5615a73687c258d42072facc31f743cd"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\materials\\quatrefoil_jacquard_fabric\\quatrefoil_jacquard_fabric_nor_gl_2k.jpg",
+      "sha256": "56526e6c911b17e572a41aae99b0b09f8f67ac3be75b693435a529e2c4dddb5a"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\materials\\quatrefoil_jacquard_fabric\\quatrefoil_jacquard_fabric_rough_2k.jpg",
+      "sha256": "ba6f500f048291368eba303a78b8fcfca80236f1b0ef625cb73761ee87b6851d"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\materials\\quatrefoil_jacquard_fabric\\quatrefoil_jacquard_fabric_disp_2k.jpg",
+      "sha256": "599dc035916d1496e9c30cdffb64264492113f4d2c188ca717dc6c3a4827ffad"
+    }
+  ],
+  "params": {
+    "part": "coat",
+    "swatch": "crimson_damask_velvet",
+    "material": "quatrefoil_jacquard_fabric",
+    "swatch_fit": "good: red damask-like jacquard weave; the real velvet pile is not in this scan",
+    "lighting_tier": "three-point (config ab.render)",
+    "licence": "CC0-1.0",
+    "results": {
+      "baked": 0,
+      "scanned": 0,
+      "compose": 0
+    },
+    "applied": {
+      "material": "quatrefoil_jacquard_fabric",
+      "tile_m": 0.284,
+      "part_height_m": 1.05,
+      "tint": null,
+      "normal_convention": "gl",
+      "maps": {
+        "base_color": "quatrefoil_jacquard_fabric_diff_2k.jpg",
+        "normal": "quatrefoil_jacquard_fabric_nor_gl_2k.jpg",
+        "roughness": "quatrefoil_jacquard_fabric_rough_2k.jpg",
+        "height": "quatrefoil_jacquard_fabric_disp_2k.jpg"
+      },
+      "metres_per_unit": 1.0506878513106628,
+      "native_height_units": 0.9993453323841095,
+      "meshes": [
+        {
+          "name": "geometry_0",
+          "uv_span_tiles": [
+            2.069,
+            3.697
+          ],
+          "mesh_span_m": [
+            0.587,
+            0.347,
+            1.05
+          ],
+          "expected_tiles_from_metres": [
+            2.067,
+            1.222,
+            3.697
+          ]
+        }
+      ]
+    },
+    "uv_tiling_assumption": "box projection in metres / tile_m; part_height_m is the part's assumed height in a 1.8 m character"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 161.6
+  },
+  "memory": {
+    "lowest_free_ram_gb": 0.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\side_by_side\\side_by_side_turn_000.png",
+      "sha256": "6a38cec76254f01c4ae9437247d78ff876dc063dcbfdfe9946b9dab362841d58"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\side_by_side\\side_by_side_turn_045.png",
+      "sha256": "ac082ccddeb3829f29dd474dbbb67ce32cb60265c66ab8f7d31437880af83a4b"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\side_by_side\\side_by_side_turn_135.png",
+      "sha256": "dde6cd83e635dcb0871370e04ebafdec5c639e91424617b2406fef2f02eeb3cd"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\baked\\turn_000.png",
+      "sha256": "f160f3cab170687615028be46e21063363568de50ad9eb0a9ae14aeda2e0ac82"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\baked\\turn_045.png",
+      "sha256": "950c59781b9e2efd2c52b05113ea52f45dfe81893dc3e9330c17768f695aeaef"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\baked\\turn_135.png",
+      "sha256": "a2ecb5eebbe20485c28f50c9a2978dc6c5d1c13f90f6893a1f5fbf73b8cb7577"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\scanned\\turn_000.png",
+      "sha256": "8bf444edefa8312f1d248b107f348e8ba8a35a79f780d2d32f3e33eabc1f8384"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\scanned\\turn_045.png",
+      "sha256": "f14b962a297cc9fcd16022229811731795b69ba857eaa2bc886b17b699ecd89f"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\materials\\coat\\scanned\\turn_135.png",
+      "sha256": "0f146a3b2fb04b43c6c7decd3ac50f66ae026d26e80772e57ffff7177afb13bc"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T16:29:20+00:00"
+}

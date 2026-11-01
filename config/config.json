@@ -547,5 +547,22 @@
         }
       }
     }
+  },
+  "materials": {
+    "_comment": "Plugin 0.1.17 MATERIALS stage (tools/run_materials.py): scanned CC0 PBR sets (config/materials.json) on a gear part under the A/B three-point rig (ab.render). CPU Blender only, no GPU lock; RAM, Flux-load and blender_job.lock guards in tools/materials/blender_guard.py.",
+    "mapping": "config/materials.json",
+    "subdir": "materials",
+    "min_free_ram_gb": 10,
+    "flux_load_window_s": 60,
+    "ram_wait_s": 600,
+    "lock_file": "blender_job.lock",
+    "lock_wait_s": 600,
+    "timeout_s": 3600,
+    "angles_deg": [0, 45, 135],
+    "head_crops": false,
+    "bump_strength": 0.15,
+    "bump_distance_m": 0.002,
+    "normal_strength": 1.0,
+    "sheen_weight": 0.6
   }
 }

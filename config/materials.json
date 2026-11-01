@@ -1,0 +1,342 @@
+{
+ "schema": 1,
+ "licence": "CC0-1.0",
+ "resolution": "2k",
+ "format": "jpg",
+ "materials": {
+  "quatrefoil_jacquard_fabric": {
+   "source": "polyhaven",
+   "asset_id": "quatrefoil_jacquard_fabric",
+   "url": "https://polyhaven.com/a/quatrefoil_jacquard_fabric",
+   "api": "https://api.polyhaven.com/files/quatrefoil_jacquard_fabric",
+   "licence": "CC0-1.0",
+   "authors": {
+    "colormass": "Photography",
+    "Rico Cilliers": "Processing"
+   },
+   "normal_convention": "gl",
+   "metalness": false,
+   "tile_m": 0.284,
+   "tile_m_basis": "Poly Haven info.dimensions (mm, assumed unit: a 0.28 m fabric sample) of the scanned sample",
+   "note": "red quatrefoil jacquard (damask/brocade weave)",
+   "files": [
+    {
+     "map": "base_color",
+     "name": "quatrefoil_jacquard_fabric_diff_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_diff_2k.jpg",
+     "bytes": 2631567,
+     "md5": "1e3d6ff60bdf57bf4f8b92e17a287d62"
+    },
+    {
+     "map": "normal",
+     "name": "quatrefoil_jacquard_fabric_nor_gl_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_nor_gl_2k.jpg",
+     "bytes": 3928243,
+     "md5": "bc767ffca7912a0701a984724b715776"
+    },
+    {
+     "map": "roughness",
+     "name": "quatrefoil_jacquard_fabric_rough_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_rough_2k.jpg",
+     "bytes": 4001315,
+     "md5": "e2aec6e619a1886194a59830f2436af4"
+    },
+    {
+     "map": "height",
+     "name": "quatrefoil_jacquard_fabric_disp_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_disp_2k.jpg",
+     "bytes": 2666457,
+     "md5": "cacf30f822746c84a6a03728b986442a"
+    }
+   ]
+  },
+  "velour_velvet": {
+   "source": "polyhaven",
+   "asset_id": "velour_velvet",
+   "url": "https://polyhaven.com/a/velour_velvet",
+   "api": "https://api.polyhaven.com/files/velour_velvet",
+   "licence": "CC0-1.0",
+   "authors": {
+    "colormass": "Photography",
+    "Rico Cilliers": "Processing"
+   },
+   "normal_convention": "gl",
+   "metalness": false,
+   "tile_m": 0.284,
+   "tile_m_basis": "Poly Haven info.dimensions (mm, assumed unit: a 0.28 m fabric sample) of the scanned sample",
+   "note": "red velour velvet (napped pile)",
+   "files": [
+    {
+     "map": "base_color",
+     "name": "velour_velvet_diff_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/velour_velvet/velour_velvet_diff_2k.jpg",
+     "bytes": 3195339,
+     "md5": "8a177e9b50140fda3a46e1349b65473a"
+    },
+    {
+     "map": "normal",
+     "name": "velour_velvet_nor_gl_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/velour_velvet/velour_velvet_nor_gl_2k.jpg",
+     "bytes": 2656496,
+     "md5": "9118512b61c6f1b074c747d7201fabee"
+    },
+    {
+     "map": "roughness",
+     "name": "velour_velvet_rough_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/velour_velvet/velour_velvet_rough_2k.jpg",
+     "bytes": 3891940,
+     "md5": "4553577d1d92669fd46534ee2ab55719"
+    },
+    {
+     "map": "height",
+     "name": "velour_velvet_disp_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/velour_velvet/velour_velvet_disp_2k.jpg",
+     "bytes": 1478968,
+     "md5": "4c11661841213ab7c4e47a2af32fe8b0"
+    },
+    {
+     "map": "ao",
+     "name": "velour_velvet_ao_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/velour_velvet/velour_velvet_ao_2k.jpg",
+     "bytes": 2537860,
+     "md5": "ba02effd694551afaf28f7cb2b71b419"
+    }
+   ]
+  },
+  "curly_teddy_natural": {
+   "source": "polyhaven",
+   "asset_id": "curly_teddy_natural",
+   "url": "https://polyhaven.com/a/curly_teddy_natural",
+   "api": "https://api.polyhaven.com/files/curly_teddy_natural",
+   "licence": "CC0-1.0",
+   "authors": {
+    "colormass": "Photography",
+    "Rico Cilliers": "Processing"
+   },
+   "normal_convention": "gl",
+   "metalness": false,
+   "tile_m": 0.336,
+   "tile_m_basis": "Poly Haven info.dimensions (mm, assumed unit: a 0.28 m fabric sample) of the scanned sample",
+   "note": "curly pile faux fur, beige in the scan: base colour is multiplied dark at render time (tint)",
+   "files": [
+    {
+     "map": "base_color",
+     "name": "curly_teddy_natural_diff_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/curly_teddy_natural/curly_teddy_natural_diff_2k.jpg",
+     "bytes": 2266933,
+     "md5": "e773ba1903e343cdd9d95db0de063d4a"
+    },
+    {
+     "map": "normal",
+     "name": "curly_teddy_natural_nor_gl_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/curly_teddy_natural/curly_teddy_natural_nor_gl_2k.jpg",
+     "bytes": 1952612,
+     "md5": "180a2c7e6b0253474657e735ca66a532"
+    },
+    {
+     "map": "roughness",
+     "name": "curly_teddy_natural_rough_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/curly_teddy_natural/curly_teddy_natural_rough_2k.jpg",
+     "bytes": 2896347,
+     "md5": "2b7ca2ac8c003d66ceb89a66cfd4ec17"
+    },
+    {
+     "map": "height",
+     "name": "curly_teddy_natural_disp_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/curly_teddy_natural/curly_teddy_natural_disp_2k.jpg",
+     "bytes": 999491,
+     "md5": "29b2c83aeb3f431a7eabfc068a556831"
+    },
+    {
+     "map": "ao",
+     "name": "curly_teddy_natural_ao_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/curly_teddy_natural/curly_teddy_natural_ao_2k.jpg",
+     "bytes": 1988753,
+     "md5": "348fdbb520394f34efb10e4dadfd6179"
+    }
+   ]
+  },
+  "Leather032": {
+   "source": "ambientcg",
+   "asset_id": "Leather032",
+   "url": "https://ambientcg.com/a/Leather032",
+   "api": "https://ambientcg.com/api/v2/full_json?id=Leather032&include=downloadData",
+   "licence": "CC0-1.0",
+   "authors": {
+    "ambientCG": "Photography and processing"
+   },
+   "normal_convention": "gl",
+   "metalness": false,
+   "tile_m": 0.45,
+   "tile_m_basis": "ambientCG dimensionX (cm)",
+   "note": "black scratched leather",
+   "zip": {
+    "name": "Leather032_2K-JPG.zip",
+    "url": "https://ambientcg.com/get?file=Leather032_2K-JPG.zip",
+    "bytes": 26138914,
+    "md5": null,
+    "checksum_note": "ambientCG publishes no checksum: size from the API, zip integrity (CRC) tested, sha256 recorded"
+   },
+   "zip_members": {
+    "base_color": "Leather032_2K-JPG_Color.jpg",
+    "normal": "Leather032_2K-JPG_NormalGL.jpg",
+    "roughness": "Leather032_2K-JPG_Roughness.jpg",
+    "height": "Leather032_2K-JPG_Displacement.jpg"
+   }
+  },
+  "Metal034": {
+   "source": "ambientcg",
+   "asset_id": "Metal034",
+   "url": "https://ambientcg.com/a/Metal034",
+   "api": "https://ambientcg.com/api/v2/full_json?id=Metal034&include=downloadData",
+   "licence": "CC0-1.0",
+   "authors": {
+    "ambientCG": "Photography and processing"
+   },
+   "normal_convention": "gl",
+   "metalness": true,
+   "tile_m": 0.5,
+   "tile_m_basis": "ASSUMED 0.5 m: ambientCG lists no physical size for this material",
+   "note": "smooth yellow gold",
+   "zip": {
+    "name": "Metal034_2K-JPG.zip",
+    "url": "https://ambientcg.com/get?file=Metal034_2K-JPG.zip",
+    "bytes": 8750881,
+    "md5": null,
+    "checksum_note": "ambientCG publishes no checksum: size from the API, zip integrity (CRC) tested, sha256 recorded"
+   },
+   "zip_members": {
+    "base_color": "Metal034_2K-JPG_Color.jpg",
+    "normal": "Metal034_2K-JPG_NormalGL.jpg",
+    "roughness": "Metal034_2K-JPG_Roughness.jpg",
+    "height": "Metal034_2K-JPG_Displacement.jpg",
+    "metalness": "Metal034_2K-JPG_Metalness.jpg"
+   }
+  },
+  "Metal042B": {
+   "source": "ambientcg",
+   "asset_id": "Metal042B",
+   "url": "https://ambientcg.com/a/Metal042B",
+   "api": "https://ambientcg.com/api/v2/full_json?id=Metal042B&include=downloadData",
+   "licence": "CC0-1.0",
+   "authors": {
+    "ambientCG": "Photography and processing"
+   },
+   "normal_convention": "gl",
+   "metalness": true,
+   "tile_m": 0.5,
+   "tile_m_basis": "ASSUMED 0.5 m: ambientCG lists no physical size for this material",
+   "note": "dirty (aged) gold",
+   "zip": {
+    "name": "Metal042B_2K-JPG.zip",
+    "url": "https://ambientcg.com/get?file=Metal042B_2K-JPG.zip",
+    "bytes": 19776223,
+    "md5": null,
+    "checksum_note": "ambientCG publishes no checksum: size from the API, zip integrity (CRC) tested, sha256 recorded"
+   },
+   "zip_members": {
+    "base_color": "Metal042B_2K-JPG_Color.jpg",
+    "normal": "Metal042B_2K-JPG_NormalGL.jpg",
+    "roughness": "Metal042B_2K-JPG_Roughness.jpg",
+    "height": "Metal042B_2K-JPG_Displacement.jpg",
+    "metalness": "Metal042B_2K-JPG_Metalness.jpg"
+   }
+  },
+  "Metal009": {
+   "source": "ambientcg",
+   "asset_id": "Metal009",
+   "url": "https://ambientcg.com/a/Metal009",
+   "api": "https://ambientcg.com/api/v2/full_json?id=Metal009&include=downloadData",
+   "licence": "CC0-1.0",
+   "authors": {
+    "ambientCG": "Photography and processing"
+   },
+   "normal_convention": "gl",
+   "metalness": true,
+   "tile_m": 0.5,
+   "tile_m_basis": "ASSUMED 0.5 m: ambientCG lists no physical size for this material",
+   "note": "brushed steel, silver in the scan: base colour is multiplied dark at render time (tint)",
+   "zip": {
+    "name": "Metal009_2K-JPG.zip",
+    "url": "https://ambientcg.com/get?file=Metal009_2K-JPG.zip",
+    "bytes": 16660145,
+    "md5": null,
+    "checksum_note": "ambientCG publishes no checksum: size from the API, zip integrity (CRC) tested, sha256 recorded"
+   },
+   "zip_members": {
+    "base_color": "Metal009_2K-JPG_Color.jpg",
+    "normal": "Metal009_2K-JPG_NormalGL.jpg",
+    "roughness": "Metal009_2K-JPG_Roughness.jpg",
+    "height": "Metal009_2K-JPG_Displacement.jpg",
+    "metalness": "Metal009_2K-JPG_Metalness.jpg"
+   }
+  }
+ },
+ "swatches": {
+  "crimson_damask_velvet": {
+   "material": "quatrefoil_jacquard_fabric",
+   "fit": "good: red damask-like jacquard weave; the real velvet pile is not in this scan"
+  },
+  "velvet_lining": {
+   "material": "velour_velvet",
+   "fit": "good: red velour velvet"
+  },
+  "black_fur": {
+   "material": "curly_teddy_natural",
+   "tint": [
+    0.05,
+    0.05,
+    0.055
+   ],
+   "fit": "approximate: curly pile faux fur, not black long guard hair; dark tint applied"
+  },
+  "black_leather": {
+   "material": "Leather032",
+   "fit": "good: black leather with scratches/creases"
+  },
+  "gold_embroidery": {
+   "material": "Metal034",
+   "fit": "approximate: no scan of gold thread exists; smooth gold metal used for the embroidery mask/overlay"
+  },
+  "gold_metal": {
+   "material": "Metal042B",
+   "fit": "good: dirty aged gold"
+  },
+  "steel": {
+   "material": "Metal009",
+   "tint": [
+    0.3,
+    0.3,
+    0.32
+   ],
+   "fit": "good: brushed steel, darkened by tint"
+  },
+  "pale_skin": {
+   "material": null,
+   "fit": "GAP: no CC0 scanned human skin on Poly Haven or ambientCG; keep the baked head/skin texture"
+  },
+  "dark_hair": {
+   "material": null,
+   "fit": "GAP: no CC0 scanned hair strands as a tiling PBR set; keep the baked hair or use a hair-card shader"
+  },
+  "lace": {
+   "material": null,
+   "fit": "GAP: no CC0 scanned lace on Poly Haven or ambientCG (searched lace, crochet, doily, net, embroidery, brocade)"
+  }
+ },
+ "parts": {
+  "coat": {
+   "swatch": "crimson_damask_velvet",
+   "part_height_m": 1.05
+  },
+  "cloak": {
+   "swatch": "black_fur",
+   "part_height_m": 1.45
+  },
+  "boots": {
+   "swatch": "black_leather",
+   "part_height_m": 0.55
+  }
+ },
+ "total_bytes": 108418484
+}
