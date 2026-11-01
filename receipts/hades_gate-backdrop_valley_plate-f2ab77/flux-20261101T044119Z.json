@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "hades_gate-backdrop_valley_plate-f2ab77",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "833f5be",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1664,
+    "h": 928,
+    "reference": null,
+    "prompt": "Wide cinematic backdrop plate of the dark river valley beyond the gate, layered misty cliffs, distant dead forests and a pale cold ash-grey horizon, no foreground clutter, usable as a game skybox or parallax background. Setting: the Hades underworld realm, a colossal weathered gate carved from black basalt, dark misty river, drifting ash. Photorealistic grim dark fantasy AAA game asset reference in the spirit of Dark Souls and Elden Ring: restrained palette, cold desaturated ash-grey light only, no orange or warm point lights, no stray glowing spots, believable weathered stone, wet surfaces, fine material detail, sharp, ultra detailed, no characters, no text, not cartoon, not stylised, no neon.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\hades_gate_kit.json",
+    "row_id": "backdrop_valley_plate",
+    "mean_brightness": 80.1
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 137.7,
+    "load_s": 37.8,
+    "generate_s": 99.9
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.5,
+    "peak_gpu_reserved_gb": 22.2,
+    "lowest_free_ram_gb": 0.9
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\backdrop_valley_plate_1664x928.png",
+      "sha256": "28a17adcf6a48100114731bb73ceb1fe5593fef0d839f2f1586c0cd3b70deb8e"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T04:41:19+00:00"
+}

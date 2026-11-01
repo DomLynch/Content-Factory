@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-front",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "4962c8f",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 8.7
+  },
+  "memory": {
+    "lowest_free_ram_gb": 9.4
+  },
+  "outputs": [],
+  "status": "fail",
+  "error": "needed = check_imports(resolved_module_file)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\dom12\\Documents\\Trellis-3-312\\.venv\\Lib\\site-packages\\transformers\\dynamic_module_utils.py\", line 224, in check_imports\n    raise ImportError(\nImportError: This modeling file requires the following packages that were not found in your environment: einops. Run `pip install einops`\n",
+  "created_utc": "2026-11-01T05:19:00+00:00"
+}

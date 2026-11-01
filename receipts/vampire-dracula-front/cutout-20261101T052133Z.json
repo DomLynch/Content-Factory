@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-front",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "4962c8f",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 127.5
+  },
+  "memory": {
+    "lowest_free_ram_gb": 2.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\cutout.png",
+      "sha256": "e031096d607a5a1f66746e07a8ee087f2c9f0415398671e9b85cabcaac34d2f8"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T05:21:33+00:00"
+}

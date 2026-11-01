@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-mat_black_fur-828061",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "4962c8f",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Flat top-down seamless tileable texture of dense black fur, evenly lit, no perspective, material reference.  Photorealistic, ultra-detailed fabric, skin and metal, soft studio lighting, plain neutral grey background, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_kit.json",
+    "row_id": "mat_black_fur",
+    "mean_brightness": 31.0
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 69.9,
+    "load_s": 28.1,
+    "generate_s": 41.8
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.5,
+    "lowest_free_ram_gb": 2.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire\\mat_black_fur_1024x1024.png",
+      "sha256": "2e752b8f7bf534966f1e7531e8d8b5e065522c751db29ef27098dcf68502a402"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T05:16:07+00:00"
+}

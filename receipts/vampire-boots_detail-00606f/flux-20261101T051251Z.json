@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-boots_detail-00606f",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "4962c8f",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+    "prompt": "Edit instruction: keep this exact same character from the reference image, identical face, hair, moustache, coat, fur mantle, medallions, belt, boots and cloak, same colours and materials, same lighting and background. Change only the following: Reference of tall black leather boots with gilded knee plates, seen from the front, side and from behind, plain grey background, no body.  Photorealistic, ultra-detailed fabric, skin and metal, soft studio lighting, plain neutral grey background, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_kit.json",
+    "row_id": "boots_detail",
+    "mean_brightness": 55.3
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 250.7,
+    "load_s": 29.6,
+    "generate_s": 221.0
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 1.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire\\boots_detail_1536x1024.png",
+      "sha256": "0af3d402aeb4569a35280ff6125f6989226a4ca81c1153d193396e968c7f1954"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T05:12:51+00:00"
+}

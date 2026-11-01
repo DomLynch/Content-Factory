@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-body_side-323579",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "5e8603f",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+    "prompt": "Edit instruction: keep this exact same character from the reference image, identical face, hair, moustache, coat, fur mantle, medallions, belt, boots and cloak, same colours and materials, same lighting and background. Change only the following: Full-body left side view in profile in a neutral A-pose, head to boots fully visible, centred. The character: Vlad the Impaler as Count Dracula, 15th-century Wallachian voivode: pale gaunt face, long black wavy hair, thin moustache, faint red eyes, stern expression; crimson damask long coat with dense gold embroidery and a high stiff collar, heavy black fur mantle over the shoulders with gold medallions set with red gems joined by chains, ornate leather belt with a double-headed eagle buckle, embroidered tabard with a castle and cross motif, white ruffled cuffs, rings, tall black leather boots with gilded knee plates, long dark cloak. Photorealistic, ultra-detailed fabric, skin and metal, soft studio lighting, plain neutral grey background, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_kit.json",
+    "row_id": "body_side",
+    "mean_brightness": 56.3
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 294.7,
+    "load_s": 37.6,
+    "generate_s": 257.1
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 3.5
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire\\body_side_1024x1536.png",
+      "sha256": "e49f4c60e31e6177f1df56b43ea5a0dc7d4d1028f94049b2729f170e3a166dcc"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T04:51:46+00:00"
+}

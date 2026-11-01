@@ -61,7 +61,8 @@
    "h": 1024,
    "prompt": "Close-up of the black fur mantle with the gold medallions set with red gems and chains, and the high crimson damask collar, no face.",
    "use_subject": false,
-   "row_id": "mantle_medallions_detail"
+   "row_id": "mantle_medallions_detail",
+   "deferred": "no downstream stage consumes it yet; first render failed silently"
   },
   {
    "name": "mat_crimson_damask",
@@ -89,6 +90,20 @@
    "prompt": "Flat top-down seamless tileable texture of worn black leather with fine creases, evenly lit, no perspective, material reference.",
    "use_subject": false,
    "row_id": "mat_black_leather"
+  },
+  {
+   "name": "body_side_strict",
+   "row_id": "body_side_strict",
+   "w": 1024,
+   "h": 1536,
+   "prompt": "Camera rotated exactly 90 degrees: strict orthographic SIDE view turnaround of the full body, the character facing left, both shoulders stacked on the same line, only one eye and one ear visible, nose in profile, feet pointing left, head to boots fully visible, centred."
+  },
+  {
+   "name": "head_profile_strict",
+   "row_id": "head_profile_strict",
+   "w": 1024,
+   "h": 1024,
+   "prompt": "Camera rotated exactly 90 degrees: strict SIDE PROFILE head and shoulders portrait, face turned fully to the left in silhouette, one eye visible, long straight nose, moustache and chin in profile, high collar and fur mantle seen from the side."
   }
  ]
 }

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-mat_black_leather-a9ff74",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "4962c8f",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Flat top-down seamless tileable texture of worn black leather with fine creases, evenly lit, no perspective, material reference.  Photorealistic, ultra-detailed fabric, skin and metal, soft studio lighting, plain neutral grey background, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_kit.json",
+    "row_id": "mat_black_leather",
+    "mean_brightness": 58.7
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 66.9,
+    "load_s": 23.9,
+    "generate_s": 43.0
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.5,
+    "lowest_free_ram_gb": 1.7
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire\\mat_black_leather_1024x1024.png",
+      "sha256": "8d068aa9f70f8801ad69c5e361f2c5103818ce0b7012080481b714ac1c95f7f9"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T05:17:26+00:00"
+}

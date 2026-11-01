@@ -9,6 +9,9 @@ import numpy as np
 EXE = os.path.expanduser(r"~\Documents\pipeline_tools\realesrgan-full\app\realesrgan-ncnn-vulkan.exe")
 src, dst = sys.argv[1], sys.argv[2]
 passes = int(sys.argv[3]) if len(sys.argv) > 3 else 1
+asset_id = sys.argv[4] if len(sys.argv) > 4 else None
+import time
+t0 = time.time()
 
 cur = src
 tmp = tempfile.mkdtemp(prefix="up_")
@@ -29,3 +32,9 @@ for c in range(3):
 out_img = cv2.cvtColor(np.clip(up_lab, 0, 255).astype(np.uint8), cv2.COLOR_LAB2BGR)
 cv2.imwrite(dst, out_img)
 print(f"wrote {dst} {out_img.shape[1]}x{out_img.shape[0]}")
+if asset_id:
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    import cf_common
+    cfg = cf_common.load_config()
+    cf_common.write_receipt(cfg, asset_id, 'upscale', tool='upscale_match.py', model={'id': 'realesrgan-x4plus (ncnn-vulkan)'}, inputs=[src],
+                            params={'passes': passes, 'colour_match': 'Lab mean/std'}, timing={'wall_s': round(time.time() - t0, 1)}, outputs=[dst])
