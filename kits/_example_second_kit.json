@@ -25,7 +25,7 @@
    "group": "body",
    "ref": "C:\\placeholder\\knight-ref.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Remove the plate armour, surcoat, sword belt, gauntlets and boots; he wears only a plain fitted padded gambeson and linen trousers. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Short cropped brown hair with a clean hairline, no loose strands; hairline clearly visible above the brow. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears fitted plain dark briefs, bare torso, arms and legs, weathered tanned skin, standard A-pose. Short cropped brown hair with a clean hairline, no loose strands; hairline clearly visible above the brow. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_back",
@@ -34,7 +34,7 @@
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
    "use_ref": false,
-   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall broad-shouldered man with short cropped brown hair, wearing a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. We see ONLY his back: the back of his head with the cropped hair and clean hairline at the nape, the plain smooth back of the gambeson with no buckle and no pockets, the back of the trousers and the heels of the boots. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall broad-shouldered man with short cropped brown hair, wearing fitted plain dark briefs, bare torso, arms and legs, weathered tanned skin, standard A-pose. We see ONLY his back: the back of his head with the cropped hair and clean hairline at the nape, the bare back with no garment, the back of the legs and the heels of the feet. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_left",
@@ -42,7 +42,7 @@
    "group": "body",
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Short cropped brown hair with a clean hairline, no loose strands; cropped hair and the nape clearly visible. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears fitted plain dark briefs, bare torso, arms and legs, weathered tanned skin, standard A-pose. Short cropped brown hair with a clean hairline, no loose strands; cropped hair and the nape clearly visible. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_right",
@@ -50,7 +50,7 @@
    "group": "body",
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Short cropped brown hair with a clean hairline, no loose strands; cropped hair and the nape clearly visible. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears fitted plain dark briefs, bare torso, arms and legs, weathered tanned skin, standard A-pose. Short cropped brown hair with a clean hairline, no loose strands; cropped hair and the nape clearly visible. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_three_quarter",
@@ -59,7 +59,7 @@
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
    "use_ref": false,
-   "prompt": "THREE-QUARTER view of a tall broad-shouldered man with a square jaw, a trimmed beard, no stubble outside the beard line, grey eyes and short cropped brown hair, wearing a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a proud upright posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "THREE-QUARTER view of a tall broad-shouldered man with a square jaw, a trimmed beard, no stubble outside the beard line, grey eyes and short cropped brown hair, wearing fitted plain dark briefs, bare torso, arms and legs, weathered tanned skin, standard A-pose. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a proud upright posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "head_profile",
@@ -214,6 +214,33 @@
    "h": 1024,
    "use_ref": false,
    "prompt": "Show ONLY the pair of heavy riveted brown leather boots, seen from the side, standing on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
+  },
+  {
+   "name": "gear_shirt",
+   "row_id": "gear_shirt",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY a loose undyed linen arming shirt with a plain collar and plain cuffs, laid flat on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
+  },
+  {
+   "name": "gear_shirt_collar",
+   "row_id": "gear_shirt_collar",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY a plain undyed linen shirt collar, open at the throat, laid flat on a plain dark background like a game asset sheet, no person, no mannequin. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
+  },
+  {
+   "name": "gear_shirt_cuffs",
+   "row_id": "gear_shirt_cuffs",
+   "group": "gear",
+   "w": 1024,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY the pair of plain undyed linen shirt cuffs, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "swatch_polished_steel",

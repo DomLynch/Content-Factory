@@ -4,7 +4,7 @@ Character words live only in the spec; a template may list extra "required_field
 (row keys such as use_ref applied to every cell of a group unless the cell sets them itself).
 "derived" defines optional clauses ({"name": {"from": field, "prefix": text}}); a cell may have "forms" (prompt variants chosen by the item's "form").
 For every string spec field X, {X} and a capitalised {X} (first letter upper, e.g. {Possessive}) are available."""
-import json, os, string, sys
+import hashlib, json, os, string, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REQUIRED = ["id", "description", "seed", "ref", "base_layer_ref", "character_noun", "possessive", "facial_hair",
@@ -20,6 +20,9 @@ def fill(text, ctx, where):
 
 
 def build(spec, tpl):
+    for dk, dv in tpl.get("spec_defaults", {}).items():   # character-neutral template defaults for fields the spec leaves out
+        if dk not in spec:
+            spec = {**spec, dk: fill(dv, spec, "spec_default " + dk)}
     miss = [k for k in REQUIRED + tpl.get("required_fields", []) if k not in spec]
     if miss:
         raise SystemExit(f"spec is missing fields: {miss}")
@@ -33,8 +36,26 @@ def build(spec, tpl):
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
            "subject": spec.get("subject", ""), "style": spec.get("style", kd["style"]),
            "description": spec["description"], "rows": []}
+    refs = {}   # record the identity / parts / back reference files with their sha256 (a changed file shows up in the kit)
+    for rn in ("identity_ref", "parts_ref", "back_ref"):
+        if spec.get(rn):
+            ent = {"path": spec[rn]}
+            if spec.get(rn + "_sha256"):
+                ent["sha256"] = spec[rn + "_sha256"]
+                if os.path.exists(spec[rn]):
+                    h = hashlib.sha256()
+                    with open(spec[rn], "rb") as fh:
+                        for blk in iter(lambda: fh.read(1 << 20), b""):
+                            h.update(blk)
+                    if h.hexdigest() != ent["sha256"]:
+                        print("WARNING:", rn, "file does not match the sha256 in the spec:", spec[rn])
+            refs[rn] = ent
+    if refs:
+        kit["refs"] = refs
     rows = []
     for cell in tpl["cells"]:
+        if cell.get("requires_field") and not spec.get(cell["requires_field"]):   # optional cell: only characters that fill this field get it
+            continue
         items = [None] if "repeat" not in cell else spec[cell["repeat"]]
         for item in items:
             if item:   # item strings may use spec placeholders (e.g. {coat_palette}); expanded once
@@ -79,7 +100,8 @@ def build(spec, tpl):
         order = {g: i for i, g in enumerate(tpl["group_priority"])}
         rank = lambda r: order[r["group"]]
     kit["rows"] = sorted(rows, key=rank)   # stable: GPU priority order
-    unmatched = [e for e in tpl.get("order", []) if not any(e in (r["row_id"], "group:" + r["group"]) for r in rows)]
+    inactive = {c["row_id"] for c in tpl["cells"] if c.get("requires_field") and not spec.get(c["requires_field"])}
+    unmatched = [e for e in tpl.get("order", []) if e not in inactive and not any(e in (r["row_id"], "group:" + r["group"]) for r in rows)]
     if unmatched:
         print("WARNING: template 'order' entries match no row (renamed or missing cell?):", unmatched)
     ids = [r["row_id"] for r in kit["rows"]]

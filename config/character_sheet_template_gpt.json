@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note. A swatch item with swatch_of {source_row, box (fractions), size} becomes a crop of an approved cell made by tools/swatch_crop.py; the queue skips rows with swatch_of. Optional spec fields (absent = output unchanged): head_age_desc, head_skin_desc, body_age_desc, body_skin_desc add 'Age and face / Skin / Build' sentences to the head, body and foot prompts; head_front_ref and head_lock_ref set the reference image of the identity-lock head rows. Optional spec fields gear_colour_rule (appended to every gear prompt) and palette fields such as coat_palette used inside item strings as {coat_palette}. identity_ref (spec) is the reference of head_front; parts_ref is used by gear flats only when gear_use_parts_ref is true (shape only, see gear_ref_prefix).",
+ "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note. A swatch item with swatch_of {source_row, box (fractions), size} becomes a crop of an approved cell made by tools/swatch_crop.py; the queue skips rows with swatch_of. Optional spec fields (absent = output unchanged): head_age_desc, head_skin_desc, body_age_desc, body_skin_desc add 'Age and face / Skin / Build' sentences to the head, body and foot prompts; head_front_ref and head_lock_ref set the reference image of the identity-lock head rows. Optional spec fields gear_colour_rule (appended to every gear prompt) and palette fields such as coat_palette used inside item strings as {coat_palette}. identity_ref (spec) is the reference of head_front; parts_ref is used by gear flats only when gear_use_parts_ref is true (shape only, see gear_ref_prefix). Optional cells carry requires_field (emitted only when the spec fills it): gear_shirt, gear_shirt_collar, gear_shirt_cuffs. spec_defaults gives character-neutral defaults for spec fields left out (body_underlayer_desc: a neutral base body in plain dark briefs). The kit records identity_ref, parts_ref and back_ref with their sha256 under 'refs'.",
  "group_priority": [
   "body",
   "head",
@@ -27,7 +27,7 @@
    "size": null,
    "ref": "{ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Remove {removed_gear_full}; {pronoun} wears only {base_layer}. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, {pose_rule}, plain dark neutral grey background, neutral expression, hands bare. {Pronoun} wears {outfit_desc}. {Body_hair_desc}; {body_hair_front_view}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}"
+   "prompt": "Orthographic character turnaround, FRONT view, {pose_rule}, plain dark neutral grey background, neutral expression, hands bare. {Pronoun} wears {body_underlayer_desc}. {Body_hair_desc}; {body_hair_front_view}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}"
   },
   {
    "row_id": "body_underlayer_back",
@@ -35,7 +35,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of {back_body_desc}, wearing {outfit_desc}. We see ONLY {possessive} back: {back_visible_desc}. {Possessive} face is not visible. {Pose_rule}, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}",
+   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of {back_body_desc}, wearing {body_underlayer_desc}. We see ONLY {possessive} back: {back_visible_desc}. {Possessive} face is not visible. {Pose_rule}, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}",
    "use_ref": false
   },
   {
@@ -44,7 +44,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. {Pronoun} wears {outfit_desc}. {Body_hair_desc}; {body_hair_side_view}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}"
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. {Pronoun} wears {body_underlayer_desc}. {Body_hair_desc}; {body_hair_side_view}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}"
   },
   {
    "row_id": "body_underlayer_right",
@@ -52,7 +52,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. {Pronoun} wears {outfit_desc}. {Body_hair_desc}; {body_hair_side_view}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}"
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. {Pronoun} wears {body_underlayer_desc}. {Body_hair_desc}; {body_hair_side_view}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}"
   },
   {
    "row_id": "body_underlayer_three_quarter",
@@ -60,7 +60,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "THREE-QUARTER view of {front_body_desc}, wearing {outfit_desc}. {Possessive} whole body and face are rotated 45 degrees to {possessive} left so we see {possessive} right shoulder and the right side of {possessive} face and chest at an angle; {pronoun} is NOT facing the camera straight on. A-pose, {three_quarter_posture}, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}",
+   "prompt": "THREE-QUARTER view of {front_body_desc}, wearing {body_underlayer_desc}. {Possessive} whole body and face are rotated 45 degrees to {possessive} left so we see {possessive} right shoulder and the right side of {possessive} face and chest at an angle; {pronoun} is NOT facing the camera straight on. A-pose, {three_quarter_posture}, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.{body_age_sentence}{body_skin_sentence}",
    "use_ref": false
   },
   {
@@ -199,7 +199,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of ONE single left foot wearing {foot_desc}, three views in a row: top view, side view, and {foot_sole_desc}. {foot_negative} {frame_rule}{body_skin_sentence}"
+   "prompt": "Reference sheet of ONE single left foot {foot_desc}, three views in a row: top view, side view, and {foot_sole_desc}. {foot_negative} {frame_rule}{body_skin_sentence}"
   },
   {
    "row_id": "foot_right",
@@ -209,7 +209,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of ONE single right foot wearing {foot_desc}, three views in a row: top view, side view, and {foot_sole_desc}. {foot_negative} {frame_rule}{body_skin_sentence}"
+   "prompt": "Reference sheet of ONE single right foot {foot_desc}, three views in a row: top view, side view, and {foot_sole_desc}. {foot_negative} {frame_rule}{body_skin_sentence}"
   },
   {
    "repeat": "gear_items",
@@ -230,6 +230,36 @@
    "ref_prefix_field": "gear_ref_prefix"
   },
   {
+   "row_id": "gear_shirt",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ],
+   "requires_field": "shirt_desc",
+   "prompt": "Show ONLY {shirt_desc} on a plain dark background like a game asset sheet, no person, no mannequin, no coat. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}"
+  },
+  {
+   "row_id": "gear_shirt_collar",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ],
+   "requires_field": "shirt_collar_desc",
+   "prompt": "Show ONLY {shirt_collar_desc}, laid flat on a plain dark background like a game asset sheet, no person, no mannequin. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}"
+  },
+  {
+   "row_id": "gear_shirt_cuffs",
+   "group": "gear",
+   "size": [
+    1024,
+    1024
+   ],
+   "requires_field": "shirt_cuffs_desc",
+   "prompt": "Show ONLY {shirt_cuffs_desc} on a plain dark background like a game asset sheet, no hands, no person. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}"
+  },
+  {
    "repeat": "swatches",
    "row_id": "swatch_{id}",
    "group": "swatch",
@@ -248,7 +278,6 @@
   "removed_gear",
   "removed_gear_full",
   "hand_accessory",
-  "outfit_desc",
   "back_body_desc",
   "front_body_desc",
   "back_visible_desc",
@@ -348,10 +377,16 @@
   "head_top",
   "group:hands_feet",
   "group:gear",
+  "gear_shirt",
+  "gear_shirt_collar",
+  "gear_shirt_cuffs",
   "group:swatch",
   "head_eyes_closeup",
   "gear_belt_buckle_closeup",
   "gear_collar_closeup"
  ],
- "order_note": "Emit order (GPU queue priority): identity cells, then the cells that feed 3D, then hands and feet, gear flats, swatches, close-ups last. An entry is a row_id or 'group:<group>'; a row_id entry beats its group entry; unlisted rows go last. Without 'order' the old group_priority applies."
+ "order_note": "Emit order (GPU queue priority): identity cells, then the cells that feed 3D, then hands and feet, gear flats, swatches, close-ups last. An entry is a row_id or 'group:<group>'; a row_id entry beats its group entry; unlisted rows go last. Without 'order' the old group_priority applies.",
+ "spec_defaults": {
+  "body_underlayer_desc": "fitted plain dark briefs, bare torso, arms and legs, {body_skin_desc}, standard A-pose"
+ }
 }

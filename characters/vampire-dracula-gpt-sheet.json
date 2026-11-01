@@ -173,7 +173,7 @@
    "desc": "dark oxblood velvet cloak lining with a soft matte sheen, {colour_rule}"
   }
  ],
- "outfit_desc": "a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots",
+ "body_underlayer_desc": "a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots",
  "back_body_desc": "a tall lean pale man with long black hair swept back and tied at the nape; his two thick braids hang forward over his shoulders and are not visible from behind",
  "front_body_desc": "a tall lean pale man with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long black hair swept back and braided into two thick braids",
  "back_visible_desc": "the back of his head with the hair swept back and tied at the nape, no braids down the back, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots",
@@ -194,7 +194,7 @@
  "hand_skin_desc": "pale aged skin",
  "hand_wrist_rule": "Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove.",
  "frame_rule": "Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.",
- "foot_desc": "a plain black knitted sock",
+ "foot_desc": "wearing a plain black knitted sock",
  "foot_sole_desc": "the sole of the sock",
  "foot_negative": "No shoe, no tread, no second foot, no leg above the ankle.",
  "gear_isolation_head": "Only this single item, centred, on a plain empty dark grey background with nothing else in the frame",

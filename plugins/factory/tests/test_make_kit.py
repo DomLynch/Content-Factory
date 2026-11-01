@@ -25,8 +25,11 @@ class TemplateOrder(unittest.TestCase):
             self.assertTrue(order, "template has no 'order' list")
             kit = make_kit.build(spec, tpl)
             ids = {r["row_id"] for r in kit["rows"]}
+            inactive = {c["row_id"] for c in tpl["cells"] if c.get("requires_field") and not spec.get(c["requires_field"])}
             groups = {r["group"] for r in kit["rows"]}
             for entry in order:
+                if entry in inactive:
+                    continue
                 if entry.startswith("group:"):
                     self.assertIn(entry[6:], groups, f"{rel}: order names unknown group {entry}")
                 else:
@@ -38,7 +41,7 @@ class TemplateOrder(unittest.TestCase):
             spec = load(rel)
             tpl = load(spec["template"])
             names = [r["row_id"] for r in make_kit.build(spec, tpl)["rows"]]
-            listed = [e for e in tpl["order"] if not e.startswith("group:")]
+            listed = [e for e in tpl["order"] if not e.startswith("group:") and e in names]
             self.assertEqual([n for n in names if n in listed], listed, rel)
 
     def test_unmatched_entry_prints_warning(self):
@@ -81,6 +84,28 @@ class OptionalAgeFields(unittest.TestCase):
         self.assertIn("only for the cut and shape", by["gear_coat"]["ref_prefix"])
         self.assertNotIn("swatch_of", by["swatch_black_fur"])
         self.assertIs(by["swatch_black_fur"]["use_ref"], False)
+
+    def test_optional_shirt_cells_only_for_characters_that_fill_them(self):
+        tpl = load("config/character_sheet_template_gpt.json")
+        counts = {}
+        for rel in ("characters/vampire-dracula-gpt-sheet.json", "characters/vampire-dracula-gpt-sheet-v2.json", "characters/_example_second_character.json"):
+            names = {r["name"] for r in make_kit.build(load(rel), tpl)["rows"]}
+            counts[rel] = (len(names), {"gear_shirt", "gear_shirt_collar", "gear_shirt_cuffs"} <= names)
+        self.assertEqual(counts["characters/vampire-dracula-gpt-sheet.json"], (43, False))
+        self.assertEqual(counts["characters/vampire-dracula-gpt-sheet-v2.json"], (46, True))
+        self.assertTrue(counts["characters/_example_second_character.json"][1])
+
+    def test_v2_kit_records_reference_hashes_and_default_underlayer(self):
+        spec = load("characters/vampire-dracula-gpt-sheet-v2.json")
+        kit = make_kit.build(spec, load(spec["template"]))
+        self.assertEqual(kit["refs"]["identity_ref"]["sha256"], spec["identity_ref_sha256"])
+        self.assertNotIn("back_ref", kit["refs"])
+        v1 = load("characters/vampire-dracula-gpt-sheet.json")
+        self.assertNotIn("refs", make_kit.build(v1, load(v1["template"])))
+        tpl = load("config/character_sheet_template_gpt.json")
+        s2 = dict(spec); s2.pop("body_underlayer_desc")
+        row = next(r for r in make_kit.build(s2, tpl)["rows"] if r["name"] == "body_underlayer_left")
+        self.assertIn("fitted plain dark briefs, bare torso, arms and legs, " + spec["body_skin_desc"], row["prompt"])
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
  "w": 1024,
  "h": 1536,
  "template": "config/character_sheet_template_gpt.json",
- "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+ "ref": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_front_4k.png",
  "ref_prefix": "Edit instruction: keep this exact same character from the reference image, identical face, hair, moustache, costume, colours and materials. Change only the following:",
  "subject": "",
  "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
@@ -17,18 +17,18 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
+   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows).",
-   "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png"
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_front_4k.png"
   },
   {
    "name": "body_underlayer_front",
    "row_id": "body_underlayer_front",
    "group": "body",
-   "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
-   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs and boots; he wears only a plain fitted dark base layer and trousers. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling to the shoulders on both sides. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_front_4k.png",
+   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs, shirt, hose and boots; he wears only fitted plain dark briefs, bare torso, arms and legs. Change only the camera and pose:",
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling to the shoulders on both sides. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "body_underlayer_back",
@@ -37,7 +37,7 @@
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Change only the camera and pose:",
    "use_ref": false,
-   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall lean gaunt pale man of about 55 with long loose wavy black hair swept back and falling to the shoulder blades, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. We see ONLY his back: the back of his head with the long loose wavy black hair falling over the nape and shoulders, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall lean gaunt pale man of about 55 with long loose wavy black hair swept back and falling to the shoulder blades, wearing fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. We see ONLY his back: the back of his head with the long loose wavy black hair falling over the nape and shoulders, the bare back with no garment, the back of the legs and the bare heels. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "body_underlayer_left",
@@ -45,7 +45,7 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling behind the near shoulder. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling behind the near shoulder. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "body_underlayer_right",
@@ -53,7 +53,7 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling behind the near shoulder. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling behind the near shoulder. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "body_underlayer_three_quarter",
@@ -62,7 +62,7 @@
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Change only the camera and pose:",
    "use_ref": false,
-   "prompt": "THREE-QUARTER view of a tall lean gaunt pale man of about 55 with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long loose wavy black hair swept back, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "THREE-QUARTER view of a tall lean gaunt pale man of about 55 with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long loose wavy black hair swept back, wearing fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "head_profile",
@@ -71,7 +71,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows).",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
@@ -83,7 +83,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
    "mirror_of": "head_profile"
   },
   {
@@ -93,7 +93,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing long loose wavy black hair with no braids, swept straight back and falling loose over the nape and the back of the collar and the nape of the neck; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat. Skin: pale, cold, slightly grey skin, no warm flush.",
+   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing long loose wavy black hair with no braids, swept straight back and falling loose over the nape and the back of the collar and the nape of the neck; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no bare chest, no sweater, no knit, no turtleneck, no fur, no coat. Skin: pale, cold, slightly grey skin, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows).",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
@@ -105,7 +105,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
+   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no bare chest, no sweater, no knit, no turtleneck, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows).",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
@@ -117,7 +117,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man's hair and head shape from the reference image. Change only the camera:",
-   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the long wavy hair swept back from the centre parting, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar. Skin: pale, cold, slightly grey skin, no warm flush.",
+   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the long wavy hair swept back from the centre parting, a little of both shoulders in an off-white linen shirt under a high oxblood damask tunic collar. No face visible, no forehead, no hat, no fur, no sweater. Skin: pale, cold, slightly grey skin, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows).",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
@@ -182,7 +182,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of ONE single left foot wearing a plain black knitted sock, three views in a row: top view, side view, and the sole of the sock. No shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "Reference sheet of ONE single left foot bare, with visible toes and toenails, no sock, no shoe, three views in a row: top view, side view, and the bare sole. No sock, no shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "foot_right",
@@ -192,7 +192,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of ONE single right foot wearing a plain black knitted sock, three views in a row: top view, side view, and the sole of the sock. No shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "Reference sheet of ONE single right foot bare, with visible toes and toenails, no sock, no shoe, three views in a row: top view, side view, and the bare sole. No sock, no shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "gear_coat",
@@ -289,7 +289,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": true,
-   "prompt": "Show ONLY the pair of dark fitted trousers, laid flat and spread out on a plain dark background like a game asset sheet, no person, no boots. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin. Colour: no saturated red, no gloss, photographic colour.",
+   "prompt": "Show ONLY the pair of fitted dark period hose and trousers, laid flat and spread out on a plain dark background like a game asset sheet, no person, no boots. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin. Colour: no saturated red, no gloss, photographic colour.",
    "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
    "ref_prefix": "Edit instruction: use this image only for the cut and shape of the garment; take the colour and material from the text. Change only the following:"
   },
@@ -336,6 +336,33 @@
    "prompt": "Show ONLY the gold signet rings with red gems in antique dull gold, not bright, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin. Colour: no saturated red, no gloss, photographic colour.",
    "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
    "ref_prefix": "Edit instruction: use this image only for the cut and shape of the garment; take the colour and material from the text. Change only the following:"
+  },
+  {
+   "name": "gear_shirt",
+   "row_id": "gear_shirt",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY a loose off-white linen shirt with a standing collar and ruffled cuffs, laid flat on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin. Colour: no saturated red, no gloss, photographic colour."
+  },
+  {
+   "name": "gear_shirt_collar",
+   "row_id": "gear_shirt_collar",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY a dirty-white linen standing collar, open at the throat, laid flat on a plain dark background like a game asset sheet, no person, no mannequin. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin. Colour: no saturated red, no gloss, photographic colour."
+  },
+  {
+   "name": "gear_shirt_cuffs",
+   "row_id": "gear_shirt_cuffs",
+   "group": "gear",
+   "w": 1024,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY the pair of ruffled off-white linen cuffs, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin. Colour: no saturated red, no gloss, photographic colour."
   },
   {
    "name": "swatch_crimson_damask_velvet",
@@ -434,7 +461,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush."
+   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no bare chest, no sweater, no knit, no turtleneck, no earring, no hair ornaments. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush."
   },
   {
    "name": "gear_belt_buckle_closeup",
@@ -458,5 +485,15 @@
    "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
    "ref_prefix": "Edit instruction: use this image only for the cut and shape of the garment; take the colour and material from the text. Change only the following:"
   }
- ]
+ ],
+ "refs": {
+  "identity_ref": {
+   "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_front_4k.png",
+   "sha256": "6c2039dd82640109c6f79f9e90f74a11dd4ae7abc1e944837f3e73ff5ccafe7d"
+  },
+  "parts_ref": {
+   "path": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+   "sha256": "97d6482aa6369c98da9b39b2b91ea6560c935badfc532d36e62d4f937007edd3"
+  }
+ }
 }
