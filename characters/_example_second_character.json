@@ -23,8 +23,7 @@
  "removed_gear_full": "the plate armour, surcoat, sword belt, gauntlets and boots",
  "hand_accessory": "a plain iron signet ring",
  "hand_accessory_short": "ring",
- "material_look": "polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style",
- "gear_isolation_suffix": "No person, no head, no face, no hands, no mannequin; the item alone, isolated.",
+ "gear_isolation_suffix": "Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin.",
  "gear_items": [
   {
    "id": "breastplate",

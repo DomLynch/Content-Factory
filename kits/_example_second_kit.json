@@ -176,7 +176,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the polished steel breastplate with pauldrons, seen from the front on a plain dark background like a game asset sheet, no person, no mannequin, no surcoat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the polished steel breastplate with pauldrons, seen from the front on a plain dark background like a game asset sheet, no person, no mannequin, no surcoat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_surcoat",
@@ -185,7 +185,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the blue wool surcoat with the white lion emblem, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin, no armour. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the blue wool surcoat with the white lion emblem, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin, no armour. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_gauntlets",
@@ -194,7 +194,7 @@
    "w": 1024,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the pair of articulated steel gauntlets, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of articulated steel gauntlets, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_boots",
@@ -203,7 +203,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the pair of heavy riveted brown leather boots, seen from the side, standing on a plain dark background like a game asset sheet, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+   "prompt": "Show ONLY the pair of heavy riveted brown leather boots, seen from the side, standing on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "swatch_polished_steel",
