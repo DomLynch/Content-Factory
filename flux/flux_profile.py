@@ -5,8 +5,13 @@ dtypes, steps actually run, SDPA flags + backend probes + observed SDPA calls, t
 peak allocated GPU GB. Lines are also appended to C:\\Users\\dom12\\Documents\\flux_env\\flux_profile_out.jsonl.
 Profile images go to ...\\flux_env\\profile_imgs\\ (never the kit output folder). Timers are cuda.synchronize()-bracketed
 forward hooks (text_encoder, transformer) and monkeypatches (vae.decode, vae.encode).
-Env: CF_DRY=1 dry check (no torch import), CF_REF_LONG=<px> (default 640 as flux_kit_fast.py), CF_STEPS=<n>."""
-import faulthandler, gc, json, os, sys, time
+Env: CF_DRY=1 dry check (no torch import), CF_REF_LONG=<px> (unset/0 = full reference, as flux_kit_fast.py), CF_STEPS=<n>.
+Measured-fix switches (same names/semantics as flux_kit_fast.py; unset = previous behaviour):
+  CF_ATTN_BACKEND=<name>, CF_VAE_TILING=0|1, CF_VAE_SLICING=0|1, CF_CACHE_REF=1 (reference encoded before the timed region and
+  reported as cache_ref_build_s / cache_ref_cached; later rows reuse it), CF_NAN_DIAG=0 (the NaN probe is ON here by default:
+  latents_nan / decoded_nan in every line). Every line carries "pixel_sha256" so a switch run can be compared with the baseline run.
+  The profile image name gets a suffix naming the active switches so a baseline image is never overwritten."""
+import faulthandler, gc, hashlib, json, os, sys, time
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tools"))
 import cf_common
@@ -22,7 +27,15 @@ if len(sys.argv) != 4:
     raise SystemExit("usage: flux_profile.py <kit.json> <row_id_no_ref> <row_id_with_ref>")
 KIT_PATH = sys.argv[1]
 kit = json.load(open(KIT_PATH, encoding="utf-8-sig"))
-REF_LONG = int(os.environ.get("CF_REF_LONG", "640"))
+REF_LONG = int(os.environ.get("CF_REF_LONG") or 0)   # 0 = full-size reference
+ATTN_BACKEND = os.environ.get("CF_ATTN_BACKEND") or None
+VAE_TILING = os.environ.get("CF_VAE_TILING") or None
+VAE_SLICING = os.environ.get("CF_VAE_SLICING") or None
+NAN_DIAG = os.environ.get("CF_NAN_DIAG", "1") != "0"
+CACHE_REF = os.environ.get("CF_CACHE_REF") == "1"
+SWITCHES = {"attn_backend": ATTN_BACKEND, "vae_tiling": VAE_TILING, "vae_slicing": VAE_SLICING, "nan_diag": NAN_DIAG, "cache_ref": CACHE_REF}
+TAG = "".join([f"_attn-{ATTN_BACKEND.strip('_')}" if ATTN_BACKEND else "", f"_tile{VAE_TILING}" if VAE_TILING else "",
+               f"_slice{VAE_SLICING}" if VAE_SLICING else "", "_cacheref" if CACHE_REF else ""])
 STEPS = int(os.environ["CF_STEPS"]) if os.environ.get("CF_STEPS") else None
 seed = kit.get("seed", cfg["defaults"]["seed"])
 ENV_DIR = os.path.join(os.path.expanduser("~"), "Documents", "flux_env")
@@ -50,8 +63,8 @@ if plans[0]["use_ref"]:
 if not plans[1]["use_ref"]:
     print(f"warning: second row {sys.argv[3]} has no reference (expected a with-ref row)", file=sys.stderr)
 if os.environ.get("CF_DRY"):
-    print(json.dumps([{"row_id": p["row_id"], "W": p["W"], "H": p["H"], "ref": p["use_ref"], "ref_long": REF_LONG if p["use_ref"] else None,
-                       "steps": STEPS or "default", "out_jsonl": OUT_JSONL, "img_dir": IMG_DIR, "prompt_head": p["prompt"][:100]}
+    print(json.dumps([{"row_id": p["row_id"], "W": p["W"], "H": p["H"], "ref": p["use_ref"], "ref_long": (REF_LONG or None) if p["use_ref"] else None,
+                       "steps": STEPS or "default", "switches": SWITCHES, "out_jsonl": OUT_JSONL, "img_dir": IMG_DIR, "prompt_head": p["prompt"][:100]}
                       for p in plans], indent=1))
     sys.exit(0)
 os.makedirs(IMG_DIR, exist_ok=True)
@@ -87,10 +100,18 @@ blocks.sub_blocks.pop("prompt_upsampler")
 pipe = blocks.init_pipeline(LOC["flux_model_dir"])
 pipe.load_components(names=["text_encoder", "tokenizer", "transformer", "vae"], torch_dtype=getattr(torch, fmodel["dtype"]))
 pipe.to("cuda")
-if fmodel.get("vae_slicing"):
-    pipe.vae.enable_slicing()
-if fmodel.get("vae_tiling"):
-    pipe.vae.enable_tiling()
+want_slicing = bool(fmodel.get("vae_slicing")) if VAE_SLICING is None else VAE_SLICING == "1"
+want_tiling = bool(fmodel.get("vae_tiling")) if VAE_TILING is None else VAE_TILING == "1"
+(pipe.vae.enable_slicing if want_slicing else pipe.vae.disable_slicing)()
+(pipe.vae.enable_tiling if want_tiling else pipe.vae.disable_tiling)()
+if ATTN_BACKEND:
+    pipe.transformer.set_attention_backend(ATTN_BACKEND)
+from diffusers.models.attention_dispatch import _AttentionBackendRegistry
+_procs = {str(getattr(m.processor, "_attention_backend", None)) for m in pipe.transformer.modules()
+          if hasattr(m, "processor") and m.processor is not None}
+ATTN_ACTIVE = {"registry_active": str(_AttentionBackendRegistry.get_active_backend()[0]), "processor_overrides": sorted(_procs),
+               "requested": ATTN_BACKEND or "none (default)"}
+print(f"attention backend: {ATTN_ACTIVE}", file=sys.stderr, flush=True)
 torch.cuda.synchronize()
 LOAD_S = time.time() - t_proc
 print(f"loaded in {LOAD_S:.1f}s", file=sys.stderr, flush=True)
@@ -129,6 +150,16 @@ def patch_method(obj, name, key):
 hook_module(pipe.text_encoder, "text_encoder")
 hook_module(pipe.transformer, "transformer")
 patch_method(pipe.vae, "decode", "vae_decode")
+_dec_nan = []
+if NAN_DIAG:
+    _timed_decode = pipe.vae.decode
+
+    def _decode_nan_probe(*a, **k):
+        out = _timed_decode(*a, **k)
+        t = out[0] if isinstance(out, (tuple, list)) else getattr(out, "sample", out)
+        _dec_nan.append(torch.isnan(t).any())
+        return out
+    pipe.vae.decode = _decode_nan_probe
 if hasattr(pipe.vae, "encode"):
     patch_method(pipe.vae, "encode", "vae_encode")
 
@@ -217,6 +248,28 @@ def env_info():
 
 ENV = env_info()
 PROBES = {}
+_cond_cache = {}
+
+
+def cached_ref_cond(path):
+    """CF_CACHE_REF: the pipeline's own preprocess + VAE-encode block, run once per reference. Returns (latents list or None, build_s)."""
+    if path in _cond_cache:
+        return _cond_cache[path], 0.0
+    t = _sync_time()
+    try:
+        from diffusers.modular_pipelines import PipelineState
+        st = PipelineState()
+        st.set("image", [load_ref(path)])
+        with torch.no_grad():
+            _, st = pipe._blocks.sub_blocks["vae_encoder"](pipe, st)
+        lat = st.get("image_cond_latents")
+        if not lat:
+            raise RuntimeError("vae_encoder block produced no image_cond_latents")
+        _cond_cache[path] = [x.detach().clone() for x in lat]
+    except Exception as e:
+        print(f"CACHE_REF failed ({e!r}); pipeline encodes as usual", file=sys.stderr, flush=True)
+        _cond_cache[path] = None
+    return _cond_cache[path], _sync_time() - t
 
 
 def render(p, first):
@@ -231,8 +284,16 @@ def render(p, first):
                 setattr(sch, a, None)
     gen = torch.Generator().manual_seed(seed)
     extra = {}
+    cond, cache_build_s = None, 0.0
     if p["use_ref"]:
-        extra["image"] = [load_ref(p["ref_path"])]
+        if CACHE_REF:
+            cond, cache_build_s = cached_ref_cond(p["ref_path"])
+            for v in T.values():
+                v.clear()   # the encode of the cache build is reported as cache_ref_build_s, not as pipeline time
+        if cond is not None:
+            extra["image_cond_latents"] = cond
+        else:
+            extra["image"] = [load_ref(p["ref_path"])]
     try:
         c, f = int(pipe.num_channels_latents), int(pipe.vae_scale_factor) * 2
         extra["latents"] = torch.randn((1, c, p["H"] // f, p["W"] // f), generator=gen, dtype=torch.float32)
@@ -241,14 +302,24 @@ def render(p, first):
     if STEPS:
         extra["num_inference_steps"] = STEPS
     torch.cuda.reset_peak_memory_stats()
+    _dec_nan.clear()
+    nan_diag = {}
     t0 = _sync_time()
     with torch.no_grad():
-        image = pipe(prompt=p["prompt"], width=p["W"], height=p["H"], generator=gen, output="images", **extra)[0]
+        if NAN_DIAG:
+            res = pipe(prompt=p["prompt"], width=p["W"], height=p["H"], generator=gen, output=["images", "latents"], **extra)
+            image = res["images"][0]
+            nan_diag = {"latents_nan": bool(torch.isnan(res["latents"]).any().item()),
+                        "decoded_nan": bool(any(x.item() for x in _dec_nan)) if _dec_nan else None}
+        else:
+            image = pipe(prompt=p["prompt"], width=p["W"], height=p["H"], generator=gen, output="images", **extra)[0]
     total = _sync_time() - t0
     tf = T["transformer"]
     # the guidance-distilled model runs one transformer forward per step; if the pipeline batched/doubled this would differ
     line = {
-        "row_id": p["row_id"], "ref": p["use_ref"], "W": p["W"], "H": p["H"], "ref_long": REF_LONG if p["use_ref"] else None,
+        "row_id": p["row_id"], "ref": p["use_ref"], "W": p["W"], "H": p["H"], "ref_long": (REF_LONG or None) if p["use_ref"] else None,
+        "switches": SWITCHES, "attn_backend_active": ATTN_ACTIVE, "cache_ref_cached": cond is not None,
+        "cache_ref_build_s": round(cache_build_s, 3), **nan_diag,
         "model_load_s": round(LOAD_S, 2),
         "text_encoder_s": round(sum(T["text_encoder"]), 3), "text_encoder_calls": len(T["text_encoder"]),
         "transformer_s_total": round(sum(tf), 3), "transformer_calls": len(tf),
@@ -266,8 +337,9 @@ def render(p, first):
         "peak_alloc_gb": round(torch.cuda.max_memory_allocated() / 2**30, 2),
         "peak_reserved_gb": round(torch.cuda.max_memory_reserved() / 2**30, 2),
         "image_mean": round(float(np.asarray(image.convert("RGB")).mean()), 1),
+        "pixel_sha256": hashlib.sha256(np.asarray(image.convert("RGB")).tobytes()).hexdigest(),
     }
-    path = os.path.join(IMG_DIR, f"profile_{p['row_id']}_{p['W']}x{p['H']}.png")
+    path = os.path.join(IMG_DIR, f"profile_{p['row_id']}_{p['W']}x{p['H']}{TAG}.png")
     image.save(path)
     line["profile_image"] = path
     if first:
