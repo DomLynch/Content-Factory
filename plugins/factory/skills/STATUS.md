@@ -15,5 +15,6 @@ Rule: a skill for a stage that has not run end to end with a receipt starts with
 | environment | DRAFT | Flux, upscale and one prop only; no Infinigen, no Unity assembly |
 | hero-rebake | DRAFT | two attempts killed by the RAM guard; no finished hero bake |
 | motion-generate | DRAFT | no real ARDY generation yet (needs a GPU window); text encoder never loaded end to end; retarget not looked at on the bound character; Kimodo path not run |
+| cloth | DRAFT | no settled run yet (two proof-cloak runs aborted at the RAM floor while Flux loaded); no real TRELLIS cloak part; not bound after the sim; per-clip mode is a stub |
 
 Other unwritten sub-stages (mentioned inside skills): gear binding details (`bind_gear.py`), mesh clean (`run_clean.py`, no receipt).

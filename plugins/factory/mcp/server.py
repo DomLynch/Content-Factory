@@ -12,6 +12,7 @@
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
   motion_generate(text, ...)           ARDY (default) or Kimodo (backend, optional constraints) text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
+  cloth(asset_id, part, body_glb, mesh) simulated cloth drape of a gear part (cloak first) on the T-posed bound body -> tools/run_cloth.py (CPU Blender, no GPU, Blender lock)
   materials(asset_id, glb, part, swatch | character_spec)  scanned CC0 PBR material on a gear part vs its baked texture, same three-point rig -> tools/run_materials.py (CPU Blender, no GPU lock, 10 GB RAM, blender_job.lock)
   qc(asset_id, glb, concept)           geometry/texture/silhouette checks -> tools/run_qc.py (CPU, numpy, light RAM gate; hooks/qc_gate.py makes `stills` wait for its pass)
 
@@ -468,6 +469,47 @@ def t_stills(asset_id: str, glb: str) -> dict:
                   {"tier_note": "run_stills.py lights with one sun and a flat world colour (config stills.sun_energy / world_color): proof tier, not a three-point-lit PBR presentation."})
 
 
+def t_cloth(asset_id: str, part: str, body_glb: str, mesh: str = "", preset: str = "", mode: str = "rest", max_frames: int = 0) -> dict:
+    """0.1.18: Blender cloth simulation of ONE gear part (cloak first) on the T-posed bound body (tools/run_cloth.py). CPU Blender only: RAM gate, no GPU lock. mode=clip is a stub."""
+    c = cfg()
+    cl = c["cloth"]
+    if mode not in cl["modes"]:
+        return {"status": "refused", "error": f"mode must be one of {cl['modes']}, not {mode!r}"}
+    if mode == "clip":
+        return {"status": "refused", "error": "NotImplemented: per-clip cloth simulation (idle/walk baked as shape keys) is not built; only mode=rest. Use rest mode, then bind the settled mesh with run_gear.py."}
+    names = [k for k in cl["presets"] if not k.startswith("_")]
+    if (preset or cl["default_preset"]) not in names:
+        return {"status": "refused", "error": f"unknown cloth preset {preset!r}; presets: {', '.join(names)}"}
+    if max_frames < 0:
+        return {"status": "refused", "error": "max_frames must be 0 (config) or positive"}
+    mesh = mesh or str(Path(c["local"]["outputs_dir"]) / "3d" / asset_id / f"{part}.glb")
+    for path, what in ((mesh, "part mesh"), (body_glb, "bound body glb")):
+        miss = need_file(path, what)
+        if miss:
+            return {"status": "refused", "error": miss}
+    why = gate(gpu=False, heavy=True)
+    if why:
+        return {"status": "refused", "error": why}
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_cloth.py"), asset_id, part, mesh, body_glb, "--mode", mode]
+    if preset:
+        cmd += ["--preset", preset]
+    if max_frames:
+        cmd += ["--max-frames", str(max_frames)]
+    g = cl["guard"]
+    rc, log, t0 = run_stage("cloth", cmd, timeout=cl["timeout_s"] + g["lock_wait_s"] + g["flux_wait_s"] + 120)
+    res = finish("cloth", rc, log, t0, ["cloth"], asset_id,
+                 {"next_step": f"The settled rest mesh is cloth_{part}.glb beside the bound body: bind it with run_gear.py (gear stage) so it follows the skeleton. LOOK at it in a lit render first."})
+    if res.get("receipt"):
+        try:
+            m = cf_guard.read_json(res["receipt"]).get("params", {}).get("metrics", {})
+            res["metrics"] = {"sim": m.get("sim"), "penetration": m.get("penetration"), "pins": m.get("pins"), "counts": m.get("counts"), "checks": m.get("checks")}
+            if m.get("sim") and not m["sim"].get("settled"):
+                res["settle_warning"] = "the sim hit max_frames without settling: the mesh is the last frame, not a rest state. Look at it, raise max_frames or damp the preset."
+        except Exception:
+            pass
+    return res
+
+
 def _materials_plan(c: dict, spec_path: Path, root: str) -> dict:
     """The swatch -> scanned set plan of a character spec (parts coat, cloak, boots), read from config/materials.json and the sets on disk. Nothing is started."""
     mapping = cf_guard.read_json(HOME / c["materials"]["mapping"])
@@ -674,6 +716,12 @@ TOOLS = {
                           "asset_id": {**_STR, "description": "optional, default the folder of mesh.glb or the file stem"}}, ["glb"], True, True),
     "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Refused (hooks/qc_gate.py) until the latest `qc` receipt for the asset passes. Returns the receipt path.",
                {"asset_id": _STR, "glb": _STR}, ["asset_id", "glb"], False, True),
+    "cloth": (t_cloth, "Simulated cloth drape (tools/run_cloth.py, CPU Blender, NO GPU lock): a gear part (cloak first) becomes a Cloth object, the T-posed bound body a Collision object, the vertices near the neck and shoulder bones are pinned, "
+              "it is simulated until its speed settles, and the settled mesh is exported as the part's new REST pose (cloth_<part>.glb, UVs kept, penetration into the full-resolution body reported). Presets silk, cotton, wool. "
+              "mode=clip (per-clip sim as shape keys) is a stub and refuses with NotImplemented. Refuses on low RAM, a missing file, an unknown preset; the runner also waits for the exclusive Blender lock and for a Flux model load to pass. Returns the receipt path and sim, penetration, pin numbers.",
+              {"asset_id": _STR, "part": {**_STR, "description": "gear part name, e.g. cloak"}, "body_glb": {**_STR, "description": "the bound T-pose body GLB (bound.glb)"},
+               "mesh": {**_STR, "description": "the part mesh GLB, unskinned (default <outputs_dir>/3d/<asset_id>/<part>.glb)"}, "preset": {**_STR, "description": "silk | cotton | wool (default config cloth.default_preset)"},
+               "mode": {"type": "string", "enum": ["rest", "clip"], "description": "rest (default) or clip (NotImplemented)"}, "max_frames": {"type": "integer", "description": "0 = config cloth.sim.max_frames"}}, ["asset_id", "part", "body_glb"], False, True),
     "materials": (t_materials, "Scanned CC0 PBR material (Poly Haven / ambientCG, config/materials.json) on ONE gear-part GLB (coat, cloak or boots) rendered with the SAME camera and three-point rig as the A/B turntable, "
                   "side by side with the baked-texture render (tools/run_materials.py, CPU Blender, NO GPU lock). Give asset_id + glb (+ part, + swatch), or only character_spec for the swatch -> scanned set plan. "
                   "Refuses on free RAM under materials.min_free_ram_gb (10), a missing glb or scanned set, an unknown part or swatch, and a swatch with no scan (pale_skin, dark_hair, lace). Waits for a Flux model load and for "
@@ -682,7 +730,7 @@ TOOLS = {
                    "character_spec": {**_STR, "description": "characters/<id>.json: with no glb, returns the swatch -> scanned set plan"},
                    "part": {"type": "string", "enum": ["coat", "cloak", "boots"], "description": "default coat"},
                    "swatch": {**_STR, "description": "optional, default config/materials.json parts[part].swatch, e.g. velvet_lining, black_leather"}}, [], False, True),
-    "qc": (t_qc,"Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
+    "qc": (t_qc, "Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
            "texels, UV coverage and stretch, luminance/saturation against the concept image (flags linear-not-encoded); front silhouette coverage vs the concept matte (thin-structure loss). "
            "Thresholds: config/config.json qc. Writes receipts/<asset>/qc-*.json with pass/fail per metric and overall; `stills` is refused until the latest one passes. Optional concept (image path) and budget_tris.",
            {"asset_id": _STR, "glb": _STR, "concept": {**_STR, "description": "concept/cutout image (RGBA matte preferred); without it the concept checks are skipped"},

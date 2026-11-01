@@ -571,6 +571,155 @@
       }
     }
   },
+  "cloth": {
+    "_comment": "plugin 0.1.18: cloth stage (tools/run_cloth.py, tool cloth). CPU Blender only, no GPU. Rest-pose mode: the gear part is a Cloth object, the T-posed bound body a Collision object, the shoulder/neck vertices are pinned, it is simulated until settled, and the settled mesh becomes the part's new REST pose. Per-clip mode is a stub (NotImplemented).",
+    "script": "tools/cloth/cloth_blender.py",
+    "timeout_s": 3600,
+    "work_subdir": "cloth_work",
+    "glb_prefix": "cloth_",
+    "modes": [
+      "rest",
+      "clip"
+    ],
+    "default_preset": "cotton",
+    "presets": {
+      "_comment": "silk and cotton are the values of Blender 5.2 scripts/presets/cloth/Silk.py and Cotton.py (bending_damping stays at Blender's 0.5). wool is ours: a heavy cloak cloth, about 0.45 kg/m2 against cotton 0.3.",
+      "silk": {
+        "quality": 5,
+        "mass": 0.15,
+        "tension_stiffness": 5,
+        "compression_stiffness": 5,
+        "shear_stiffness": 5,
+        "bending_stiffness": 0.05,
+        "tension_damping": 0,
+        "compression_damping": 0,
+        "shear_damping": 0,
+        "bending_damping": 0.5,
+        "air_damping": 1.0
+      },
+      "cotton": {
+        "quality": 5,
+        "mass": 0.3,
+        "tension_stiffness": 15,
+        "compression_stiffness": 15,
+        "shear_stiffness": 15,
+        "bending_stiffness": 0.5,
+        "tension_damping": 5,
+        "compression_damping": 5,
+        "shear_damping": 5,
+        "bending_damping": 0.5,
+        "air_damping": 1.0
+      },
+      "wool": {
+        "quality": 5,
+        "mass": 0.45,
+        "tension_stiffness": 25,
+        "compression_stiffness": 25,
+        "shear_stiffness": 25,
+        "bending_stiffness": 2.0,
+        "tension_damping": 8,
+        "compression_damping": 8,
+        "shear_damping": 8,
+        "bending_damping": 1.0,
+        "air_damping": 1.0
+      }
+    },
+    "collision": {
+      "_comment": "Body collider = the evaluated T-pose body (rig in REST pose) decimated to proxy_faces. Cloth side: distance_min is the standoff the cloth keeps from the body surface. Collision modifier side: thickness_outer is the body's outer skin, friction is the cloth-on-body friction (Blender default 5, 0 to 80).",
+      "proxy_faces": 25000,
+      "cloth_distance_min_m": 0.012,
+      "collision_quality": 4,
+      "thickness_outer_m": 0.008,
+      "thickness_inner": 0.2,
+      "friction": 8.0,
+      "damping": 0.6,
+      "self_collision": true,
+      "self_distance_min_m": 0.006,
+      "self_friction": 5.0
+    },
+    "prep": {
+      "_comment": "A part over max_faces is decimated (collapse, UVs kept) to about target_faces before the sim so the sim stays CPU-friendly; the decimation is reported.",
+      "max_faces": 60000,
+      "target_faces": 40000
+    },
+    "pin": {
+      "_comment": "Pin rule: a cloth vertex is pinned (vertex group weight 1.0, pin_stiffness 1.0) when its height is within height_band_m below the highest point (head or tail) of the pin bones (z >= top - height_band_m) AND its 3-D distance to the nearest pin bone segment (head to tail of every bone whose lower-case name contains a pattern) is <= radius_m. Weight falls linearly from 1 at radius_m*soft_inner to 0 at radius_m when soft_inner < 1.",
+      "bone_patterns": [
+        "shoulder",
+        "neck"
+      ],
+      "exclude_patterns": [
+        "twist",
+        "helper",
+        "cape"
+      ],
+      "height_band_m": 0.1,
+      "radius_m": 0.22,
+      "soft_inner": 1.0,
+      "stiffness": 1.0,
+      "min_pins": 20
+    },
+    "sim": {
+      "_comment": "Simulated frame by frame at fps. Settled = the p99 speed of the FREE vertices stays under settle_p99_speed_mps for settle_frames in a row after min_frames; otherwise it stops at max_frames and says it did not settle. The point cache lives on disk in a temp folder under the work dir (deleted after the run unless keep_cache).",
+      "fps": 24,
+      "min_frames": 40,
+      "max_frames": 240,
+      "settle_p99_speed_mps": 0.02,
+      "settle_frames": 8,
+      "gravity_mps2": 9.81,
+      "substeps": 1,
+      "keep_cache": false
+    },
+    "export": {
+      "export_format": "GLB",
+      "use_selection": true,
+      "export_apply": false,
+      "export_skins": false,
+      "export_animations": false,
+      "export_morph": false,
+      "export_draco_mesh_compression_enable": false,
+      "export_normals": true,
+      "export_tangents": false,
+      "export_texcoords": true,
+      "export_image_format": "AUTO",
+      "export_yup": true
+    },
+    "gate": {
+      "_comment": "max_penetration_m is measured against the FULL-resolution body (not the proxy). Cloth pinned at the neck may touch the skin there, so the gate is on the free vertices. Inside = majority of 6 axis rays odd (the TRELLIS body is not watertight).",
+      "max_penetration_m": 0.02,
+      "max_extent_over_input": 2.5,
+      "min_pins": 20
+    },
+    "guard": {
+      "_comment": "Extra Blender guard (Strategy order 2026-11-01): free RAM >= min_free_ram_gb, exclusive lock file (config.local blender_lock, default <work_dir>/blender_job.lock; wait lock_wait_s if its pid is alive), and no Flux START / model-load line in the newest queue log of logs_dir in the last flux_window_s (a Flux cell needs about 14 GB at load).",
+      "min_free_ram_gb": 10,
+      "lock_wait_s": 600,
+      "flux_window_s": 60,
+      "flux_wait_s": 600,
+      "flux_log_globs": [
+        "kit_*.txt",
+        "*queue*.txt",
+        "*queue*.log"
+      ],
+      "flux_markers": [
+        "START",
+        "Loading weights",
+        "Loading pipeline components"
+      ]
+    },
+    "proof": {
+      "_comment": "tools/cloth/proof_render.py: same camera, resolution, samples and three-point rig as tools/ab/turntable_blender.py (config ab.render, nothing new), only the angles below, cloak cloth vs baked one-piece.",
+      "angles_deg": [
+        0,
+        45,
+        90,
+        180
+      ],
+      "samples": 32,
+      "thumb_w": 384,
+      "timeout_s": 3600
+    }
+  },
   "materials": {
     "_comment": "Plugin 0.1.17 MATERIALS stage (tools/run_materials.py): scanned CC0 PBR sets (config/materials.json) on a gear part under the A/B three-point rig (ab.render). CPU Blender only, no GPU lock; RAM, Flux-load and blender_job.lock guards in tools/materials/blender_guard.py.",
     "mapping": "config/materials.json",
