@@ -7,12 +7,13 @@
   pixal3d_run(asset_id, image, preset) Pixal3D single view     -> tools/run_pixal3d.py   (GPU)
   ab_shape(png, seed, asset_id, engines, collect)  Pixal3D vs TRELLIS A/B harness -> tools/run_ab.py (GPU halves under the lock, TRELLIS first; collect = bind gate, QC, turntables, scorecard on the CPU)
   cutout(asset_id, image)              BiRefNet cut-out (CPU)  -> tools/cutout_cpu.py
-  bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
+  bind(asset_id, mesh, binder)         config bind.binder: skin_tokens -> tools/run_skin_tokens.py (GPU) with the donor bind as the labelled FALLBACK, or donor -> tools/run_bind.py (CPU Blender)
   skin_tokens_bind(glb, skeleton)      SkinTokens skin weights -> tools/run_skin_tokens.py (GPU, gated like bind + relative-to-control)
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
   motion_generate(text, ...)           ARDY (default) or Kimodo (backend, optional constraints) text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
   cloth(asset_id, part, body_glb, mesh) simulated cloth drape of a gear part (cloak first) on the T-posed bound body -> tools/run_cloth.py (CPU Blender, no GPU, Blender lock)
+  materials(asset_id, glb, part, swatch | character_spec)  scanned CC0 PBR material on a gear part vs its baked texture, same three-point rig -> tools/run_materials.py (CPU Blender, no GPU lock, 10 GB RAM, blender_job.lock)
   qc(asset_id, glb, concept)           geometry/texture/silhouette checks -> tools/run_qc.py (CPU, numpy, light RAM gate; hooks/qc_gate.py makes `stills` wait for its pass)
 
 Every tool runs the EXISTING script as a subprocess in the Content-Factory checkout (FACTORY_HOME, default <home>\\Documents\\Content-Factory), never reimplements it,
@@ -214,12 +215,16 @@ def t_trellis_run(asset_id: str, image: str, preset: str = "") -> dict:
     return finish("trellis_run", rc, log, t0, ["cutout", "trellis"], asset_id, extra)
 
 
-def t_pixal3d_run(asset_id: str, image: str, preset: str = "") -> dict:
+def t_pixal3d_run(asset_id: str, image: str = "", preset: str = "", views=None, mirror_profile: bool = False, three_quarter: bool = True) -> dict:
     c = cfg()
     px = c["pixal3d"]
     preset = preset or px["default_preset"]
     if preset not in px["presets"]:
         return {"status": "refused", "error": f"unknown preset {preset}; choose from {sorted(px['presets'])} (config/config.json -> pixal3d.presets)"}
+    if views:   # 0.1.20: multi-view, the capability this tool exists for (tools/pixal3d_mv.py)
+        return _pixal3d_multiview(c, px, asset_id, preset, views, mirror_profile, three_quarter)
+    if not image:
+        return {"status": "refused", "error": "give image (single view, A/B only) or views (multi-view)"}
     miss = need_file(image, "image")
     if miss:
         return {"status": "refused", "error": miss}
@@ -230,6 +235,34 @@ def t_pixal3d_run(asset_id: str, image: str, preset: str = "") -> dict:
     rc, log, t0 = run_stage("pixal3d_run", cmd, timeout=px["timeout_s"], guard=px["guard_match"])
     return finish("pixal3d_run", rc, log, t0, ["pixal3d"], asset_id,
                   {"preset": preset, "pipeline": "PIXAL3D", "note": "A different pipeline from TRELLIS: label it PIXAL3D, and compare it with TRELLIS only through the A/B on the same input and seed."})
+
+
+def _pixal3d_multiview(c: dict, px: dict, asset_id: str, preset: str, views, mirror_profile: bool, three_quarter: bool) -> dict:
+    """Multi-view refusals first (nothing is started): unreadable or unknown views, no alpha, size mismatch, the 1024 px and subject rules on EACH view, missing _mv weights
+    (the exact file list), then the GPU lock and RAM gate."""
+    sys.path.insert(0, str(HOME / "tools"))
+    import pixal3d_mv
+    model_dir = pixal3d_mv.mv_model_dir(c)
+    why = pixal3d_mv.weights_reason(model_dir)
+    if why:
+        return {"status": "refused", "error": why, "missing": pixal3d_mv.weights_missing(model_dir)}
+    try:
+        v = pixal3d_mv.validate(views, mirror_profile or None, three_quarter)
+    except pixal3d_mv.MVError as e:
+        return {"status": "refused", "error": str(e)}
+    why = gate(gpu=True, heavy=True)
+    if why:
+        return {"status": "refused", "error": why}
+    spec = views if isinstance(views, str) else json.dumps({"views": {r["cell"]: r["source"] for r in v["rows"]}})
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_pixal3d.py"), asset_id, "--views", spec, "--preset", preset]
+    if mirror_profile:
+        cmd.append("--mirror-profile")
+    if not three_quarter:
+        cmd.append("--no-three-quarter")
+    rc, log, t0 = run_stage("pixal3d_run", cmd, timeout=px["timeout_s"], guard=px["guard_match"])
+    return finish("pixal3d_run", rc, log, t0, ["pixal3d"], asset_id,
+                  {"preset": preset, "pipeline": "PIXAL3D", "mode": "multiview", "views": [(r["cell"], r["angle_deg"]) for r in v["rows"]], "assumptions": v["assumptions"],
+                   "note": "Multi-view: the sheet's views joined into one shape (cameras given). Assumption flags are in the receipt; LOOK at the turntable and compare with the single-view result."})
 
 
 def t_ab_shape(png: str, asset_id: str, seed: int | None = None, engines: str = "both", collect: bool = False, bind: str = "auto", naf: str = "on") -> dict:
@@ -312,19 +345,28 @@ def t_cutout(asset_id: str, image: str) -> dict:
     return finish("cutout", rc, log, t0, ["cutout"], asset_id)
 
 
-def t_bind(asset_id: str, mesh: str, donor: str = "") -> dict:
-    c = cfg()
-    miss = need_file(mesh, "mesh")
-    if miss:
-        return {"status": "refused", "error": miss}
-    why = gate(gpu=False, heavy=True)
-    if why:
-        return {"status": "refused", "error": why}
+def _route():
+    """tools/binder_route.py of the factory checkout (pure functions: which binder, prerequisites, labels)."""
+    tools = str(HOME / "tools")
+    if tools not in sys.path:
+        sys.path.insert(0, tools)
+    import binder_route
+    return binder_route
+
+
+def _donor_bind(c: dict, asset_id: str, mesh: str, donor: str, fallback_reason: str = "") -> dict:
+    """The donor bind (tools/run_bind.py, CPU Blender), unchanged. With a fallback_reason the receipt and the result carry the FALLBACK label."""
+    route = _route()
     donor = donor or c["character"]["default_donor"]
     b = c["bind"]
     cmd = [c["local"]["python"], str(HOME / "tools" / "run_bind.py"), asset_id, mesh]
-    rc, log, t0 = run_stage("bind", cmd, env={"BIND_FORCE_DONOR": donor}, timeout=b["timeout_s"] + b["export_timeout_s"] + 60)
-    extra = {"donor": donor}
+    env = {"BIND_FORCE_DONOR": donor}
+    if fallback_reason:
+        env[route.REASON_ENV] = fallback_reason
+    rc, log, t0 = run_stage("bind", cmd, env=env, timeout=b["timeout_s"] + b["export_timeout_s"] + 60)
+    extra = {"donor": donor, "binder_used": "donor", "label": route.FALLBACK_LABEL if fallback_reason else route.DONOR_LABEL}
+    if fallback_reason:
+        extra["fallback_reason"] = fallback_reason
     res = finish("bind", rc, log, t0, ["bind"], asset_id, extra)
     if res.get("receipt"):
         try:
@@ -336,6 +378,44 @@ def t_bind(asset_id: str, mesh: str, donor: str = "") -> dict:
         except Exception:
             pass
     return res
+
+
+def t_bind(asset_id: str, mesh: str, donor: str = "", binder: str = "") -> dict:
+    """Bind a body to the psyche-106 rig with the configured binder (config bind.binder, or the `binder` argument): skin_tokens (GPU) or donor (CPU, the labelled fallback).
+    SkinTokens that fails its gate, or whose prerequisites are missing, falls back to the donor bind when bind.fallback_to_donor is true; the result and the receipt say FALLBACK."""
+    c = cfg()
+    miss = need_file(mesh, "mesh")
+    if miss:
+        return {"status": "refused", "error": miss}
+    why = gate(gpu=False, heavy=True)
+    if why:
+        return {"status": "refused", "error": why}
+    try:
+        route = _route()
+        which = binder or route.binder(c)
+        if which not in route.BINDERS:
+            return {"status": "refused", "error": f"unknown binder {which!r}; choose from {list(route.BINDERS)}"}
+    except (ValueError, ImportError) as e:
+        return {"status": "refused", "error": f"binder config: {e}"}
+    if which == "donor":
+        return _donor_bind(c, asset_id, mesh, donor)
+    allow = route.fallback_allowed(c)
+    missing = route.skin_tokens_missing(c, str(HOME))
+    if missing:
+        reason = "SkinTokens prerequisites missing: " + "; ".join(missing)
+        if not allow:
+            return {"status": "refused", "error": reason + " (bind.fallback_to_donor is false)", "binder_used": None}
+        return _donor_bind(c, asset_id, mesh, donor, reason)
+    res = t_skin_tokens_bind(mesh, asset_id=asset_id)
+    res["binder_used"] = "skin_tokens"
+    if res.get("status") in ("ok", "refused"):   # refused = nothing ran (live GPU lock, low RAM): not a gate failure, so no silent switch to another binder
+        return res
+    if not allow:
+        return res
+    reason = f"SkinTokens bind failed ({res.get('error') or 'see its receipt'}; receipt {res.get('receipt')})"
+    fb = _donor_bind(c, asset_id, mesh, donor, reason)
+    fb["skin_tokens_attempt"] = {"status": res.get("status"), "receipt": res.get("receipt"), "error": res.get("error"), "log": res.get("log")}
+    return fb
 
 
 def t_skin_tokens_bind(glb: str, skeleton: str = "", asset_id: str = "") -> dict:
@@ -352,7 +432,8 @@ def t_skin_tokens_bind(glb: str, skeleton: str = "", asset_id: str = "") -> dict
         return {"status": "refused", "error": why}
     control = HOME / st["control_json"].format(donor=st["control_donor"])
     for path, what in ((loc.get("skin_tokens_python", ""), "skin_tokens_python"), (os.path.join(loc.get("skin_tokens_repo_dir", ""), st["ckpt"]), "SkinTokens checkpoint"),
-                       (str(control), "donor control metrics (the relative-to-control clause needs it; bind_best.py builds it once per donor)")):
+                       (str(control), "donor control metrics (the relative-to-control clause needs it; bind_best.py builds it once per donor)"),
+                       *(((st["launcher"], "skin_tokens.launcher"),) if st.get("launcher") else ())):
         if not path or not os.path.isfile(path):
             return {"status": "refused", "error": f"{what} not found: {path}"}
     p = Path(glb)
@@ -426,6 +507,63 @@ def t_cloth(asset_id: str, part: str, body_glb: str, mesh: str = "", preset: str
                 res["settle_warning"] = "the sim hit max_frames without settling: the mesh is the last frame, not a rest state. Look at it, raise max_frames or damp the preset."
         except Exception:
             pass
+    return res
+
+
+def _materials_plan(c: dict, spec_path: Path, root: str) -> dict:
+    """The swatch -> scanned set plan of a character spec (parts coat, cloak, boots), read from config/materials.json and the sets on disk. Nothing is started."""
+    mapping = cf_guard.read_json(HOME / c["materials"]["mapping"])
+    spec = cf_guard.read_json(spec_path)
+    rows = []
+    for part in spec.get("parts", []):
+        name = part.get("name")
+        if name not in mapping["parts"]:
+            continue
+        sw = mapping["parts"][name]["swatch"]
+        row = mapping["swatches"].get(sw, {})
+        mat = row.get("material")
+        have = bool(mat) and (Path(root) / mat / "manifest.json").is_file()
+        rows.append({"part": name, "swatch": sw, "material": mat, "fit": row.get("fit"), "on_disk": have, "licence": mapping["materials"][mat]["licence"] if mat else None})
+    gaps = sorted(k for k, v in mapping["swatches"].items() if not v.get("material"))
+    return {"status": "plan", "character": spec.get("character_id"), "parts": rows, "swatches_without_a_scan": gaps,
+            "next": "Run materials(asset_id, glb, part) per part once on_disk is true; fetch_materials.py downloads only with the owner's yes (it is not a plugin tool)."}
+
+
+def t_materials(asset_id: str = "", glb: str = "", character_spec: str = "", part: str = "coat", swatch: str = "") -> dict:
+    """0.1.17: scanned CC0 PBR material on ONE gear-part GLB under the A/B three-point rig, side by side with the baked texture (tools/run_materials.py, CPU Blender, no GPU).
+    With character_spec and no glb: the swatch -> scanned set plan only."""
+    c = cfg()
+    m = c["materials"]
+    loc = c["local"]
+    root = loc.get("materials_dir") or os.path.join(loc.get("work_dir", ""), "materials")
+    if character_spec and not glb:
+        p = Path(character_spec) if os.path.isabs(character_spec) else HOME / character_spec
+        miss = need_file(str(p), "character_spec")
+        return {"status": "refused", "error": miss} if miss else _materials_plan(c, p, root)
+    if not asset_id or not glb:
+        return {"status": "refused", "error": "asset_id and glb are required (or only character_spec for the plan)"}
+    if part not in ("coat", "cloak", "boots"):
+        return {"status": "refused", "error": f"part must be coat, cloak or boots, not {part!r}"}
+    miss = need_file(glb, "glb")
+    if miss:
+        return {"status": "refused", "error": miss}
+    mapping = cf_guard.read_json(HOME / m["mapping"])
+    sw = swatch or mapping["parts"][part]["swatch"]
+    row = mapping["swatches"].get(sw)
+    if row is None:
+        return {"status": "refused", "error": f"unknown swatch {sw!r}; choose from {sorted(mapping['swatches'])}"}
+    if not row.get("material"):
+        return {"status": "refused", "error": f"swatch {sw} has no scanned set: {row['fit']}"}
+    if not (Path(root) / row["material"] / "manifest.json").is_file():
+        return {"status": "refused", "error": f"scanned set {row['material']} is not on disk under {root}: tools/materials/fetch_materials.py downloads it, only with the owner's yes"}
+    why = gate(gpu=False, heavy=False) or cf_guard.ram_reason(cf_guard.free_ram_gb(), m["min_free_ram_gb"])   # CPU Blender: no GPU lock; 10 GB free RAM for a Blender job
+    if why:
+        return {"status": "refused", "error": why}
+    cmd = [loc["python"], str(HOME / "tools" / "run_materials.py"), asset_id, glb, "--part", part] + (["--swatch", swatch] if swatch else [])
+    # run_materials.py waits up to ram_wait_s for RAM/Flux and lock_wait_s for blender_job.lock, then runs two renders and a compose
+    rc, log, t0 = run_stage("materials", cmd, timeout=m["ram_wait_s"] + m["lock_wait_s"] + 3 * m["timeout_s"] + 120)
+    res = finish("materials", rc, log, t0, ["materials"], asset_id, {"part": part, "swatch": sw, "material": row["material"], "licence": "CC0-1.0", "fit": row["fit"],
+                 "tier_note": "Draft: first scanned-material path, box-projected UVs in metres (part height assumption in config/materials.json). LOOK at the side-by-side before using it."})
     return res
 
 
@@ -547,8 +685,13 @@ TOOLS = {
                     "profile, not a final). Refuses on a live GPU lock, low RAM, or an image whose short side is under 1024 px. Returns the cutout and trellis receipt paths.",
                     {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
     "pixal3d_run": (t_pixal3d_run, "One cut-out image to a textured GLB with Pixal3D (tools/run_pixal3d.py) under the GPU guard. Presets from config/config.json pixal3d.presets. Refuses on a live GPU lock, "
-                    "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D.",
-                    {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
+                    "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D. "
+                    "MULTI-VIEW (0.1.20, the capability this tool exists for): pass `views` instead of `image` to join the sheet's views into ONE shape (four-view input and pixel back-projection, cameras given). "
+                    "Refuses on missing _mv weights (exact file list), a view without alpha, differing view sizes, a view under the 1024 px / 60% subject gates. Receipt params.mode = multiview with angles, hashes and assumption flags.",
+                    {"asset_id": _STR, "image": {**_STR, "description": "single view (kept for the A/B against TRELLIS); omit when views is given"}, "preset": _STR,
+                     "views": {"description": "multi-view: a dict cell -> cut-out png path (head_front, head_profile, head_three_quarter, head_back; or body_underlayer_front/left/right/back), or a folder / mapping json path (tools/pixal3d_mv.py)", "anyOf": [{"type": "object"}, {"type": "string"}]},
+                     "mirror_profile": {"type": "boolean", "description": "multi-view: mirror the one profile to stand in for the missing opposite one (flagged assumption, default false)"},
+                     "three_quarter": {"type": "boolean", "description": "multi-view: include the three-quarter cell at its nominal 45 degrees (default true)"}}, ["asset_id"], True, True),
     "ab_shape": (t_ab_shape, "Pixal3D vs TRELLIS A/B on ONE cut-out png and ONE seed (tools/run_ab.py). engines=both|trellis|pixal3d runs the GPU half(s), TRELLIS first (preset tokens98k_fresh, then Pixal3D preset standard), "
                  "each under the GPU lock and RAM gate; a half REFUSES while a stage process (the sheet queue), a live GPU lock or low RAM says the GPU is not free. collect=true runs no GPU half: it gathers the finished halves "
                  "from receipts, binds both meshes with the same donor (bind gate numbers), runs QC, renders matched lit turntables, writes a contact sheet and a blind A/B scorecard (JSON + Markdown). "
@@ -560,9 +703,12 @@ TOOLS = {
                   "naf": {"type": "string", "enum": ["on", "off"], "description": "Pixal3D half only (default on). off = run_pixal3d.py --no-naf: labelled ROUGH / NAF-off, the scorecard is never decisive"}}, ["png", "asset_id"], True, True),
     "cutout": (t_cutout, "BiRefNet cut-out on the CPU (tools/cutout_cpu.py) with TRELLIS3_REMBG removed from its environment. Refuses on low RAM or a short side under 1024 px. Returns the receipt path.",
                {"asset_id": _STR, "image": _STR}, ["asset_id", "image"], False, True),
-    "bind": (t_bind, "Bind a body mesh to the psyche-106 rig (tools/run_bind.py, CPU Blender) with the donor forced (default from config). Returns the receipt path, the gate metrics and a "
+    "bind": (t_bind, "Bind a body mesh to the psyche-106 rig with the binder in config bind.binder: skin_tokens (SkinTokens, GPU job, tools/run_skin_tokens.py) or donor (tools/run_bind.py, CPU Blender, "
+             "MakeHuman donor weights, the labelled fallback). When skin_tokens fails its gate or its prerequisites are missing and bind.fallback_to_donor is true, the donor bind runs and the receipt and result say "
+             "'FALLBACK donor (MakeHuman weights)' (params.binder_used). A busy GPU lock or low RAM refuses and never falls back. Returns the receipt path, the gate metrics, binder_used and a "
              "warning when bind_best.py reports GATE_FAIL on the relative-to-control clause that run_bind.py does not check.",
-             {"asset_id": _STR, "mesh": _STR, "donor": {**_STR, "description": "optional, default config character.default_donor"}}, ["asset_id", "mesh"], False, True),
+             {"asset_id": _STR, "mesh": _STR, "donor": {**_STR, "description": "optional, donor binder only, default config character.default_donor"},
+              "binder": {"type": "string", "enum": ["skin_tokens", "donor"], "description": "optional, overrides config bind.binder for this call"}}, ["asset_id", "mesh"], False, True),
     "skin_tokens_bind": (t_skin_tokens_bind, "Skin a body GLB onto a skeleton with SkinTokens (VAST-AI, MIT; tools/run_skin_tokens.py, demo.py --use_skeleton), default skeleton the psyche-106 rig. "
                          "GPU job under the lock, RAM gate and gpu_guard. The result is gated like bind (config bind.gate) AND against the donor control (relative clause); the receipt is stage "
                          "bind. Output bound_skintokens.glb never overwrites the donor bind. Refuses on a live GPU lock, low RAM, a missing file, SkinTokens install or donor control.",
@@ -576,6 +722,14 @@ TOOLS = {
               {"asset_id": _STR, "part": {**_STR, "description": "gear part name, e.g. cloak"}, "body_glb": {**_STR, "description": "the bound T-pose body GLB (bound.glb)"},
                "mesh": {**_STR, "description": "the part mesh GLB, unskinned (default <outputs_dir>/3d/<asset_id>/<part>.glb)"}, "preset": {**_STR, "description": "silk | cotton | wool (default config cloth.default_preset)"},
                "mode": {"type": "string", "enum": ["rest", "clip"], "description": "rest (default) or clip (NotImplemented)"}, "max_frames": {"type": "integer", "description": "0 = config cloth.sim.max_frames"}}, ["asset_id", "part", "body_glb"], False, True),
+    "materials": (t_materials, "Scanned CC0 PBR material (Poly Haven / ambientCG, config/materials.json) on ONE gear-part GLB (coat, cloak or boots) rendered with the SAME camera and three-point rig as the A/B turntable, "
+                  "side by side with the baked-texture render (tools/run_materials.py, CPU Blender, NO GPU lock). Give asset_id + glb (+ part, + swatch), or only character_spec for the swatch -> scanned set plan. "
+                  "Refuses on free RAM under materials.min_free_ram_gb (10), a missing glb or scanned set, an unknown part or swatch, and a swatch with no scan (pale_skin, dark_hair, lace). Waits for a Flux model load and for "
+                  "blender_job.lock. Writes a materials receipt. Never downloads: tools/materials/fetch_materials.py does that, only with the owner's yes.",
+                  {"asset_id": _STR, "glb": {**_STR, "description": "the gear part GLB, e.g. kits_out/3d/vampire-dracula-coat/mesh.glb"},
+                   "character_spec": {**_STR, "description": "characters/<id>.json: with no glb, returns the swatch -> scanned set plan"},
+                   "part": {"type": "string", "enum": ["coat", "cloak", "boots"], "description": "default coat"},
+                   "swatch": {**_STR, "description": "optional, default config/materials.json parts[part].swatch, e.g. velvet_lining, black_leather"}}, [], False, True),
     "qc": (t_qc, "Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
            "texels, UV coverage and stretch, luminance/saturation against the concept image (flags linear-not-encoded); front silhouette coverage vs the concept matte (thin-structure loss). "
            "Thresholds: config/config.json qc. Writes receipts/<asset>/qc-*.json with pass/fail per metric and overall; `stills` is refused until the latest one passes. Optional concept (image path) and budget_tris.",

@@ -56,7 +56,9 @@ def look_at(cam, loc, target):
     cam.rotation_euler = d.to_track_quat("-Z", "Y").to_euler()
 
 
-def main():
+def main(post_import=None):
+    """post_import(objs, lo, hi, cfg), plugin 0.1.17: an optional hook (tools/materials/apply_materials_blender.py) that runs right after the GLB import, before the
+    subject is normalised to SUBJECT_HEIGHT; the camera, lights and world below are the ONE rig for both the baked and the scanned-material render."""
     cfg = args()
     clear()
     bpy.ops.import_scene.gltf(filepath=cfg["glb"])
@@ -70,6 +72,8 @@ def main():
     roots = [o for o in bpy.context.scene.objects if o.parent is None and o is not pivot]
     bpy.context.view_layer.update()
     lo, hi = bbox(objs)
+    if post_import:
+        post_import(objs, lo, hi, cfg)
     scale = SUBJECT_HEIGHT / max(hi.z - lo.z, 1e-6)
     cx, cy = (lo.x + hi.x) / 2, (lo.y + hi.y) / 2
     for r in roots:
@@ -123,6 +127,10 @@ def main():
 
     c = cfg["camera"]
     frames = [shoot(f"turn_{int(a):03d}.png", c["lens_mm"], SUBJECT_HEIGHT * c["height_frac"], SUBJECT_HEIGHT * c["frame_margin"], a) for a in cfg["angles_deg"]]
+    if cfg.get("head_crops", True) is False:   # 0.1.17: gear parts have no head
+        json.dump({"status": "ok", "label": cfg["label"], "frames": frames, "face_crop": None, "hair_crop": None, "config_hash": cfg["config_hash"], "glb_sha256": cfg["glb_sha256"],
+                   "scale_applied": scale, "subject_height_m": SUBJECT_HEIGHT, "blender": bpy.app.version_string}, open(os.path.join(out, "turntable.json"), "w", encoding="utf-8"), indent=2)
+        return
     f = cfg["face_crop"]
     head_h = SUBJECT_HEIGHT * f["height_frac"]
     head_z = SUBJECT_HEIGHT - head_h / 2
@@ -132,4 +140,5 @@ def main():
                "scale_applied": scale, "subject_height_m": SUBJECT_HEIGHT, "blender": bpy.app.version_string}, open(os.path.join(out, "turntable.json"), "w", encoding="utf-8"), indent=2)
 
 
-main()
+if not globals().get("CF_NO_AUTORUN"):   # 0.1.17: apply_materials_blender.py execs this file with CF_NO_AUTORUN set and calls main(post_import=...)
+    main()

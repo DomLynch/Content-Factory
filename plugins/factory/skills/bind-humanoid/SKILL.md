@@ -5,7 +5,10 @@ description: Bind a TRELLIS humanoid body mesh to the psyche-106 rig with the hy
 
 # bind-humanoid
 
-Wrapper: `tools/run_bind.py <asset_id> <mesh.glb>` (MCP tool `bind(asset_id, mesh, donor)` sets `BIND_FORCE_DONOR` from `config.json -> character.default_donor` and surfaces the `bind_best.py` gate). Binder: `bind/bind_best.py`. Metrics: `bind/metrics2.py`. CPU only (Blender `--background`, no render). Paths: `config.json -> bind` and `config.local.json` (`blender_exe`, `rig_glb`, `donors_dir`).
+Binder choice: `config.json -> bind.binder` is `skin_tokens` (target default, skill `skin-tokens`, `tools/run_skin_tokens.py`, GPU job) or `donor` (the labelled fallback below). MCP tool `bind(asset_id, mesh, binder?, donor?)` and `tools/run_character.py` route by it. With `skin_tokens`, if SkinTokens fails the gate or its prerequisites are missing and `bind.fallback_to_donor` is true, the donor bind runs and the receipt says `params.binder_used: donor` and `params.label: FALLBACK donor (MakeHuman weights)`; a busy GPU lock or low RAM only refuses. Never present a fallback bind as a SkinTokens result. Flip the default with `python tools/set_default_binder.py skin_tokens|donor`.
+
+## Fallback binder: donor transfer (labelled FALLBACK)
+The fallback skins the body by weight transfer from nine CC0 donor bodies (MakeHuman exports, credited here: MakeHuman community, CC0) already skinned to the 106 names. Wrapper: `tools/run_bind.py <asset_id> <mesh.glb>` (MCP tool `bind` with `binder=donor` sets `BIND_FORCE_DONOR` from `config.json -> character.default_donor` and surfaces the `bind_best.py` gate). Binder: `bind/bind_best.py`. Metrics: `bind/metrics2.py`. CPU only (Blender `--background`, no render). Paths: `config.json -> bind` and `config.local.json` (`blender_exe`, `rig_glb`, `donors_dir`). The steps below describe this fallback.
 
 ## Evidence
 - FAIL, dressed single mesh: `receipts/vampire-dracula-front/bind-20261101T061945Z.json`: p99 stretch 29.82, compression 0.275.
@@ -15,7 +18,7 @@ Wrapper: `tools/run_bind.py <asset_id> <mesh.glb>` (MCP tool `bind(asset_id, mes
 
 ## Steps
 1. Input: a body-only, base-layer, **T-posed** humanoid mesh from `trellis-part` (no coat, cloak or mantle). Gear is bound separately; that is not covered here.
-2. Force the donor (auto pick uses chest width and misreads A-posed arms): `$env:BIND_FORCE_DONOR = "tall"`. Donors live in `donors_dir`; controls for `tall` and `dwarf` exist in `bind/controls`.
+2. Fallback only: force the donor (auto pick uses chest width and misreads A-posed arms): `$env:BIND_FORCE_DONOR = "tall"`. Donors live in `donors_dir`; controls for `tall` and `dwarf` exist in `bind/controls`.
 3. Run: `python tools\run_bind.py <asset_id> <outputs_dir>\3d\<asset_id>\mesh.glb`. It checks Blender, rig and donors exist, runs `bind_best.py` (hybrid binder, then donor binder; each Blender call killed at 290 s), measures each with `metrics2.py --control`, exports `bound.glb` (objects Rig and Body) and writes `receipts/<asset_id>/bind-<utc>.json`.
 4. Gate, area-weighted over the Idle, Walk and Attack clips, only edges with rest length of 5 mm or more:
    - p99 stretch <= 2.0
@@ -46,7 +49,7 @@ Do
 - Do take every value from a kit row, a preset or config (`config/config.json`), never from the command line.
 - Do check that the receipt exists, parses as JSON and says `status: ok`; one GPU job at a time.
 - Do bind a T-posed body (T-pose body: stretch 1.31).
-- Do force the donor with `BIND_FORCE_DONOR`.
+- Do force the donor with `BIND_FORCE_DONOR` when the fallback donor binder runs.
 - Do read the `bind_best.py` gate (including the relative clause), not only the receipt status.
 - Do bind gear as separate parts with the looser gate (`assemble-character`).
 - Do keep the receipt of every bind, failed ones too.
@@ -58,7 +61,7 @@ Don't
 - Don't put literals (prompts, sizes, seeds, budgets, paths) in a run: add or edit a kit row, a preset or config (the hook `no_literals.py` blocks inline numbers on `generate.py` and `flux_kit.py`).
 - Don't call a proof a final, and don't show the 2048/500k benchmark profile as one.
 - Don't bind an A-posed body: the binder unbends the arms (A-pose body failed, stretch 18.8).
-- Don't rely on the auto donor pick for an A-pose.
+- Don't rely on the auto donor pick for an A-pose (fallback donor binder).
 - Don't assume paths are in config only: `bind/*.py` still hold their own Blender, donor and rig paths (known debt); check them when moving machines.
 - Don't call a bind passed on `run_bind.py` status alone.
-- Don't use this skill for a beast: the humanoid binder is a donor transfer onto the 106 rig (see `bind-beast`).
+- Don't use this skill for a beast: the humanoid binders (SkinTokens, or the fallback donor transfer) target the 106 humanoid rig (see `bind-beast`).

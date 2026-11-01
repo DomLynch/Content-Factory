@@ -7,6 +7,7 @@ import glob, json, os, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
+import binder_route
 
 # Runs inside Blender (--background). Reads a json of args, writes a json of results.
 BLENDER_SCRIPT = r'''
@@ -93,7 +94,7 @@ loc, bd, gg, ax = cfg["local"], cfg["bind"], cfg["gear"], cfg["assemble"]
 work = os.path.join(loc["outputs_dir"], "3d", asset_id)
 awork = os.path.join(work, ax["work_subdir"])
 os.makedirs(awork, exist_ok=True)
-body_glb = os.path.join(work, bd["bound_glb_name"])
+body_glb = binder_route.resolve_bound(cfg, work)   # bound.glb (donor) or bound_skintokens.glb, whichever bind recorded in bound_source.json
 gears = sorted(glob.glob(os.path.join(work, gg["glb_prefix"] + "*.glb")))
 out_glb = os.path.join(work, ax["output_name"].format(asset_id=asset_id))
 script = os.path.join(awork, "_assemble_blender.py")
