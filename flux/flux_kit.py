@@ -27,7 +27,7 @@ if use_ref:
     prompt = row.get("ref_prefix", kit["ref_prefix"]) + " " + prompt
 asset_id = cf_common.slug_id(kit["kit"], row_id, prompt, seed)
 spec = cf_flux.run_spec(kit, row)
-refusals = cf_flux.policy_reasons(spec)
+refusals = cf_flux.policy_reasons(spec) + cf_flux.sheet_reasons(kit, row, sys.argv[1])
 if refusals and os.environ.get("FACTORY_RAW"):
     cf_guard.raw_override("FACTORY_RAW=" + os.environ["FACTORY_RAW"], "flux")   # logged exception
 elif refusals:
