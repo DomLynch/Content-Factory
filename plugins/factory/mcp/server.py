@@ -39,7 +39,7 @@ import cf_guard  # noqa: E402
 import cf_proc  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.9"
+SERVER_VERSION = json.loads((Path(__file__).resolve().parent.parent / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8-sig"))["version"]
 PROTOCOL_DEFAULT = "2024-11-05"
 
 

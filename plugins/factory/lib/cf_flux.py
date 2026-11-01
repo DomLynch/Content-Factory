@@ -148,10 +148,10 @@ def kit_row(kit_path: str, row_id: str) -> tuple[dict, dict] | None:
 
 # ---- sheet rules (plugin 0.1.20): reference-first, mirrors, re-roll cap -------------------------------------------------------------------------
 # Evidence (the vampire sheet): 31 rejects before the rules, 0 in 9 cells after. Rules:
-#   1 reference first  a non-identity row of a group renders only after the group's identity cell has an ok flux receipt (kit key `identity`
+#   1 reference first  a non-identity row of a group renders only after the group's identity cell has a QC verdict PASS in manifests/<kit>.json (kit key `identity`
 #                      {group: row_id}, else config flux.identity_cells). Siblings are judged against that cell.
-#   2 mirrors          a row listed in `mirrors.json` next to the kit ({"hands_right": "hands_left"}) is a flip of its source, never a render:
-#                      `python tools/mirror_cell.py <kit> <row_id>`.
+#   2 mirrors          a row with `mirror_of` in the kit (data layer, source of truth) is a flip of its source, never a render:
+#                      `python tools/mirror_cell.py <kit> [row_id]`.
 #   3 re-roll cap      the same prompt + seed + reference may be rolled twice; a third identical roll is refused. A change (QC prompt_fix in the
 #                      prompt, a new seed, a new identity reference) makes it a different roll.
 REROLL_CAP = 2
@@ -196,22 +196,31 @@ def sheet_reasons(kit: dict, row: dict, kit_path: str | None = None) -> list[str
         return []
 
 
+def verdict(kit_name: str, row_id: str) -> str:
+    """The QC verdict recorded for a row in manifests/<kit>.json (rows[row_id].verdict: PASS, WEAK or REJECT), '' when none."""
+    try:
+        m = json.loads((cf_guard.HOME / "manifests" / f"{kit_name}.json").read_text(encoding="utf-8-sig"))
+        return str(m["rows"][row_id].get("verdict") or "").upper()
+    except Exception:
+        return ""
+
+
 def _sheet_reasons(kit: dict, row: dict, kit_path: str | None) -> list[str]:
     bad = []
     rid = row.get("row_id", row.get("name"))
     kname = kit.get("kit", "")
-    if kit_path:
-        mp = Path(kit_path).with_name("mirrors.json")
-        if mp.is_file():
-            m = json.loads(mp.read_text(encoding="utf-8-sig"))
-            if rid in m:
-                bad.append(f"SHEET RULE (mirror): row {rid} is a mirror of {m[rid]}, not a render. Run tools/mirror_cell.py on the passed {m[rid]} cell.")
+    if row.get("mirror_of"):
+        bad.append(f"SHEET RULE (mirror): row {rid} is a mirror of {row['mirror_of']}, not a render. Run tools/mirror_cell.py {kit_path or '<kit.json>'} {rid} on the passed {row['mirror_of']} cell.")
     t = row_type(kit, row)
     ident = {**IDENTITY_DEFAULT, **(flux_cfg().get("identity_cells") or {}), **(kit.get("identity") or {})}
     idrow = ident.get(t)
-    if idrow and idrow != rid and any(r.get("row_id", r.get("name")) == idrow for r in kit.get("rows", [])):
-        if not any(r.get("status") == "ok" for r in _flux_receipts(kname, idrow)):
-            bad.append(f"SHEET RULE (reference first): {t} row {rid} waits for the identity cell {idrow}: render it and pass it first, then judge {rid} against it.")
+    if idrow and idrow != rid:
+        if not any(r.get("row_id", r.get("name")) == idrow for r in kit.get("rows", [])):
+            bad.append(f"SHEET RULE (reference first): the kit has no identity cell {idrow} for the {t} group, so {t} row {rid} cannot be judged against one. "
+                       f"Add the row, or name another with the kit key identity {{\"{t}\": \"<row_id>\"}}.")
+        elif verdict(kname, idrow) != "PASS":
+            bad.append(f"SHEET RULE (reference first): {t} row {rid} waits for the identity cell {idrow}: it needs a QC verdict PASS in manifests/{kname}.json "
+                       f"(now '{verdict(kname, idrow) or 'none'}'; python tools/manifest.py <kit> --verdict {idrow} PASS). Judge {rid} against it.")
     prompt, seed = row_prompt_seed(kit, row)
     ref = row.get("ref", kit.get("ref")) if row.get("use_ref", True) else None
     sha = _sha(ref)

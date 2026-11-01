@@ -1,13 +1,15 @@
-"""Offline tests for plugin 0.1.20: the three sheet rules in the Flux gate (reference first, mirrors, re-roll cap). No GPU, no Flux; receipts are written to a temp home."""
+"""Offline tests for the sheet rules in the Flux gate (plugin 0.1.20, verdict-based since 0.1.22): reference first, mirror_of, re-roll cap. No GPU, no Flux; receipts and manifests are written to a temp home."""
 from __future__ import annotations
 
 import json
+import os
+import subprocess
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from test_flux import Kit, cf_flux  # noqa: E402
+from test_flux import Kit, cf_flux, PLUGIN, REPO, PY, MCP  # noqa: E402
 
 
 class Sheet(Kit):
@@ -16,31 +18,44 @@ class Sheet(Kit):
         self.kit["kit"] = "k"
         self.kit["rows"] += [{"name": "head_profile", "row_id": "head_profile", "group": "head", "prompt": "p"},
                              {"name": "hands_left", "row_id": "hands_left", "group": "hands", "prompt": "l"},
-                             {"name": "hands_right", "row_id": "hands_right", "group": "hands", "prompt": "r"}]
+                             {"name": "hands_right", "row_id": "hands_right", "group": "hands", "prompt": "r", "mirror_of": "hands_left"}]
         self.path.write_text(json.dumps(self.kit))
         self.old_home = cf_flux.cf_guard.HOME
         cf_flux.cf_guard.HOME = self.d
         self.addCleanup(lambda: setattr(cf_flux.cf_guard, "HOME", self.old_home))
 
-    def receipt(self, rid, status="ok", n=0, row=None):
-        row = row or self.row(rid)
-        prompt, seed = cf_flux.row_prompt_seed(self.kit, row)
+    def receipt(self, rid, status="ok", n=0):
+        prompt, seed = cf_flux.row_prompt_seed(self.kit, self.row(rid))
         d = self.d / "receipts" / f"k-{rid}-abc{n}"
         d.mkdir(parents=True, exist_ok=True)
         (d / f"flux-2026110{n}T000000Z.json").write_text(json.dumps({"status": status, "params": {"prompt": prompt, "seed": seed, "ref_sha256": cf_flux._sha(self.ref)}}))
 
+    def verdict(self, rid, v):
+        (self.d / "manifests").mkdir(exist_ok=True)
+        p = self.d / "manifests" / "k.json"
+        m = json.loads(p.read_text()) if p.exists() else {"rows": {}}
+        m["rows"].setdefault(rid, {})["verdict"] = v
+        p.write_text(json.dumps(m))
+
     def sheet(self, rid):
         return cf_flux.sheet_reasons(self.kit, self.row(rid), str(self.path))
 
-    def test_siblings_wait_for_the_identity_cell(self):
-        self.assertTrue(any("reference first" in x and "head_front" in x for x in self.sheet("head_profile")))
+    def test_siblings_wait_for_a_pass_verdict_on_the_identity_cell(self):
+        self.assertTrue(any("reference first" in x and "head_front" in x and "'none'" in x for x in self.sheet("head_profile")))
         self.assertEqual(self.sheet("head_front"), [])   # the identity cell itself renders first
-        self.receipt("head_front", status="fail")
-        self.assertTrue(self.sheet("head_profile"))   # a failed render is not an identity
-        self.receipt("head_front", n=1)
+        self.receipt("head_front")   # an ok render only proves non-black: not a pass
+        self.assertTrue(self.sheet("head_profile"))
+        self.verdict("head_front", "WEAK")
+        self.assertTrue(any("'WEAK'" in x for x in self.sheet("head_profile")))
+        self.verdict("head_front", "PASS")
         self.assertEqual(self.sheet("head_profile"), [])
 
-    def test_groups_without_an_identity_row_are_not_held(self):
+    def test_a_kit_without_an_identity_cell_is_refused_with_the_reason(self):
+        self.kit["rows"] = [r for r in self.kit["rows"] if r["row_id"] != "head_front"]
+        r = self.sheet("head_profile")
+        self.assertTrue(any("no identity cell head_front" in x and "identity" in x for x in r), r)
+
+    def test_groups_without_an_identity_default_are_not_held(self):
         self.assertEqual(self.sheet("hands_left"), [])
         self.assertEqual(self.sheet("coat"), [])
 
@@ -49,8 +64,7 @@ class Sheet(Kit):
         self.assertEqual(self.sheet("head_profile"), [])
         self.assertTrue(any("head_profile" in x for x in self.sheet("head_front")))
 
-    def test_mirror_rows_are_refused(self):
-        (self.d / "mirrors.json").write_text(json.dumps({"hands_right": "hands_left"}))
+    def test_mirror_of_rows_are_refused(self):
         r = self.sheet("hands_right")
         self.assertTrue(any("mirror of hands_left" in x and "mirror_cell.py" in x for x in r), r)
         self.assertEqual(self.sheet("hands_left"), [])
@@ -79,6 +93,32 @@ class Sheet(Kit):
 
     def test_a_broken_kit_never_blocks(self):
         self.assertEqual(cf_flux.sheet_reasons({}, {}, None), [])
+
+
+class Wiring(Sheet):
+    def hook(self, payload):
+        r = subprocess.run([PY, str(PLUGIN / "hooks" / "gates.py")], input=json.dumps(payload), capture_output=True, text=True,
+                           env=dict(os.environ, FACTORY_HOME=str(self.d)))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        return json.loads(r.stdout) if r.stdout.strip() else {}
+
+    def test_mcp_flux_render_path_applies_the_sheet_rules(self):
+        out = self.hook({"tool_name": MCP + "flux_render", "tool_input": {"kit": str(self.path), "row_id": "head_profile"}, "cwd": str(self.d)})
+        self.assertIn("reference first", json.dumps(out))
+        self.verdict("head_front", "PASS")
+        out = self.hook({"tool_name": MCP + "flux_render", "tool_input": {"kit": str(self.path), "row_id": "head_profile"}, "cwd": str(self.d)})
+        self.assertNotIn("SHEET RULE", json.dumps(out))
+
+    def test_manifest_records_a_verdict(self):
+        sys.path.insert(0, str(REPO / "tools"))
+        r = subprocess.run([PY, str(REPO / "tools" / "manifest.py"), str(self.path), "--verdict", "nosuchrow", "PASS"], capture_output=True, text=True)
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("unknown row or verdict", r.stdout + r.stderr)
+
+    def test_server_version_follows_plugin_json(self):
+        src = (PLUGIN / "mcp" / "server.py").read_text(encoding="utf-8")
+        self.assertIn('plugin.json', src)
+        self.assertNotIn('SERVER_VERSION = "0.1.9"', src)
 
 
 if __name__ == "__main__":
