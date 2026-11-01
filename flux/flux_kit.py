@@ -61,6 +61,12 @@ try:
         pipe.vae.enable_slicing()
     if cfg["models"]["flux"].get("vae_tiling"):
         pipe.vae.enable_tiling()
+    ref_cache = None
+    if os.environ.get("CF_REF_CACHE") == "1":   # the ONE reference cache (flux/patches/flux3_ref_cache.py), off unless this flag is set; plugin 0.1.23
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "patches"))
+        import flux3_ref_cache
+        ref_cache = flux3_ref_cache.install(pipe.transformer)
+    params["ref_cache"] = params["cached_ref_conds"] = ref_cache is not None
     t_load = time.time() - t0
     extra = {}
     if use_ref:
@@ -70,6 +76,8 @@ try:
     image = pipe(prompt=prompt, width=W, height=H, generator=torch.Generator().manual_seed(seed), output="images", **extra)[0]
     torch.cuda.synchronize()
     gen_s = time.time() - t1
+    if ref_cache is not None:
+        params["ref_cache_hits"], params["ref_cache_misses"] = ref_cache.hits, ref_cache.misses
     mean = float(np.asarray(image.convert("RGB")).mean())
     mem = {"peak_gpu_alloc_gb": round(torch.cuda.max_memory_allocated() / 2**30, 1), "peak_gpu_reserved_gb": round(torch.cuda.max_memory_reserved() / 2**30, 1), "lowest_free_ram_gb": ram.stop()}
     timing = {"wall_s": round(time.time() - t0, 1), "load_s": round(t_load, 1), "generate_s": round(gen_s, 1)}
