@@ -1,0 +1,30 @@
+{
+  "id": "vampire",
+  "description": "Dracula, pale aged vampire lord with long black hair and moustache, crimson damask coat, black fur mantle, dark cloak.",
+  "seed": 42,
+  "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+  "base_layer_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\body_underlayer_1024x1536.png",
+  "character_noun": "man",
+  "possessive": "his",
+  "facial_hair": "moustache",
+  "base_layer": "plain fitted dark base layer and trousers",
+  "three_quarter_posture": "a little menacing posture",
+  "head_detail": "skin pores, hair and moustache",
+  "hair_desc": "long black hair",
+  "gear_items": [
+    {"id": "coat", "item": "the crimson damask long coat with dense gold embroidery, high stiff collar, embroidered tabard with castle and cross", "gear_layout": ", laid flat and spread out front-facing", "gear_exclude": "no person, no mannequin, no cloak, no boots"},
+    {"id": "cloak", "item": "the long dark cloak", "gear_extra": ", back and inner lining visible", "gear_exclude": "no person, no mannequin, no coat, no fur mantle"},
+    {"id": "fur_mantle", "item": "the heavy black fur mantle that sits over the shoulders", "gear_exclude": "no person, no mannequin, no cloak, no coat"},
+    {"id": "belt", "item": "the ornate leather belt with the gold double-headed eagle buckle", "gear_layout": ", laid flat and straight"},
+    {"id": "boots", "item": "the pair of tall black leather boots with gilded knee plates", "gear_layout": ", one seen from the front and one from the side,"},
+    {"id": "rings", "item": "the signet rings and the white ruffled cuffs", "gear_layout": " laid out neatly", "gear_exclude": "no hands, no person", "size": [1024, 1024]},
+    {"id": "medallions", "item": "the two gold medallions set with red gems joined by gold chains", "gear_layout": ", laid out flat", "gear_exclude": "no person, no fur", "size": [1024, 1024]}
+  ],
+  "swatches": [
+    {"id": "damask", "desc": "crimson damask fabric with dense gold embroidery"},
+    {"id": "fur", "desc": "dense black fur"},
+    {"id": "leather", "desc": "worn black leather with fine creases"},
+    {"id": "gold_metal", "desc": "aged engraved gold metal with fine scratches"},
+    {"id": "skin", "desc": "pale aged human skin with pores and fine wrinkles", "texture_kind": "texture"}
+  ]
+}

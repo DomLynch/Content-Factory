@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "note": "Generic character-sheet template. tools/make_kit.py fills the {placeholders} from a character spec and writes kits/<id>_sheet_kit.json. A cell with 'repeat' is expanded once per item of that spec list (gear_items, swatches); item fields are available as placeholders and may override size/ref_prefix.",
+  "group_priority": ["body", "gear", "head", "hands_feet", "swatch"],
+  "kit_defaults": {
+    "w": 1024,
+    "h": 1536,
+    "ref_prefix": "Edit instruction: keep this exact same character from the reference image, identical face, hair, {facial_hair}, costume, colours and materials. Change only the following:",
+    "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text."
+  },
+  "item_defaults": {
+    "gear_layout": ", laid flat and spread out",
+    "gear_extra": "",
+    "gear_exclude": "no person",
+    "texture_kind": "seamless tileable texture"
+  },
+  "cells": [
+    {"row_id": "body_front", "group": "body", "size": null, "ref": "{base_layer_ref}",
+     "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, hair, {facial_hair} and {base_layer}. Change only the camera and pose:",
+     "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, full body from head to shoes fully visible, centred, neutral expression."},
+    {"row_id": "body_back", "group": "body", "size": null, "ref": "{base_layer_ref}",
+     "ref_prefix": "Edit instruction: keep this exact same {character_noun}, hair and {base_layer}. Change only the camera and pose:",
+     "prompt": "Orthographic character turnaround, BACK view seen from directly behind, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, full body from head to shoes fully visible, centred."},
+    {"row_id": "body_left", "group": "body", "size": null, "ref": "{base_layer_ref}",
+     "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, hair, {facial_hair} and {base_layer}. Change only the camera and pose:",
+     "prompt": "Orthographic character turnaround, strict LEFT SIDE view: camera at exactly 90 degrees, the {character_noun} facing left in pure profile, arms hanging slightly forward in an A-pose, full body from head to shoes fully visible, centred."},
+    {"row_id": "body_right", "group": "body", "size": null, "ref": "{base_layer_ref}",
+     "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, hair, {facial_hair} and {base_layer}. Change only the camera and pose:",
+     "prompt": "Orthographic character turnaround, strict RIGHT SIDE view: camera at exactly 90 degrees, the {character_noun} facing right in pure profile, arms hanging slightly forward in an A-pose, full body from head to shoes fully visible, centred."},
+    {"row_id": "body_three_quarter", "group": "body", "size": null, "ref": "{base_layer_ref}",
+     "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, hair, {facial_hair} and {base_layer}. Change only the camera and pose:",
+     "prompt": "THREE-QUARTER view, the {character_noun} turned 45 degrees to {possessive} left, A-pose, full body from head to shoes fully visible, centred, {three_quarter_posture}."},
+
+    {"repeat": "gear_items", "row_id": "gear_{id}", "group": "gear", "size": [1536, 1024],
+     "prompt": "Show ONLY {item}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}."},
+
+    {"row_id": "head_front", "group": "head", "size": [1024, 1024],
+     "prompt": "Head and neck only, orthographic FRONT view, neutral expression, high detail on {head_detail}, no collar, no mantle, bare neck."},
+    {"row_id": "head_three_quarter", "group": "head", "size": [1024, 1024],
+     "prompt": "Head and neck only, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on {head_detail}, bare neck, no collar."},
+    {"row_id": "head_profile", "group": "head", "size": [1024, 1024],
+     "prompt": "Head and neck only, strict SIDE PROFILE view turned exactly 90 degrees, face in silhouette facing left, neutral expression, high detail, bare neck, no collar."},
+    {"row_id": "head_back", "group": "head", "size": [1024, 1024],
+     "prompt": "Head and neck only, seen from directly BEHIND, showing the back of the {hair_desc} and the nape of the neck, no collar."},
+
+    {"row_id": "hands", "group": "hands_feet", "size": [1536, 1024],
+     "prompt": "Close-up reference of both bare hands: back of the hand, palm, and a side view, relaxed fingers, no rings, no cuffs, high detail on skin and veins, arranged in a row on a plain dark background."},
+    {"row_id": "feet", "group": "hands_feet", "size": [1536, 1024],
+     "prompt": "Close-up reference of bare feet: top view, side view and sole of the foot, arranged in a row on a plain dark background, high detail on skin."},
+
+    {"repeat": "swatches", "row_id": "swatch_{id}", "group": "swatch", "size": [1024, 1024], "use_ref": false,
+     "prompt": "Flat top-down {texture_kind} of {desc}, evenly lit, no perspective, material swatch."}
+  ]
+}
