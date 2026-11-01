@@ -138,6 +138,7 @@
       "max_influences": 4,
       "weight_sum_tol": 0.001
     }
+  },
   "qc": {
     "min_free_ram_gb": 2.5,
     "timeout_s": 600,
@@ -167,7 +168,6 @@
       "min_coverage_ratio": 0.8,
       "min_iou": 0.4
     }
-  },
   },
   "clean": {
     "_comment": "fallback pre-bind mesh clean (tools/run_clean.py -> bind/clean_mesh.py); distances in metres; voxel_m 0 = voxel remesh off (then the original texture is kept as is)",
