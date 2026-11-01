@@ -59,7 +59,7 @@ class Packaging(unittest.TestCase):
         plugin = json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         market = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(plugin["name"], "factory")
-        self.assertEqual(plugin["version"], "0.1.1")
+        self.assertEqual(plugin["version"], "0.1.4")
         entry = market["plugins"][0]
         self.assertEqual((entry["name"], entry["source"], entry["version"]), ("factory", "./plugins/factory", plugin["version"]))
         self.assertEqual(market["name"], "content-factory")
@@ -75,7 +75,7 @@ class Packaging(unittest.TestCase):
                 self.assertTrue(m and (PLUGIN / "hooks" / m.group(1)).is_file(), h["command"])
                 scripts.add(m.group(1))
                 self.assertIn("${CLAUDE_PLUGIN_ROOT}", h["command"])
-        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py"})
+        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py", "gates.py"})
         sys.path.insert(0, str(PLUGIN / "mcp"))
         os.environ.setdefault("FACTORY_HOME", str(REPO))
         import server

@@ -1,6 +1,6 @@
 ---
 name: bind-beast
-description: DRAFT. Rig a creature (quadruped, winged quadruped, serpent) with the OpenTrident beast rig standard: bone rows with roles, a role map, headless Blender builds. Only what the repo and the OpenTrident handover docs say; no script yet binds a TRELLIS mesh to a beast rig. Use when a creature needs a skeleton.
+description: "DRAFT. Rig a creature (quadruped, winged quadruped, serpent) with the OpenTrident beast rig standard: bone rows with roles, a role map, headless Blender builds. Only what the repo and the OpenTrident handover docs say; no script yet binds a TRELLIS mesh to a beast rig. Use when a creature needs a skeleton."
 ---
 
 > **STATUS: DRAFT, not yet run end to end.** Written from the repo's scripts, config and receipts; this stage has no complete run with a receipt.

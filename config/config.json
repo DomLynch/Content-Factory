@@ -243,6 +243,7 @@
   },
   "stills": {
     "subdir": "stills",
+    "lighting_tier": "proof",
     "timeout_s": 1800,
     "clips": {
       "idle": "113410901-idle",
@@ -317,5 +318,23 @@
     },
     "guard_wait_s": 2,
     "log_prefix": "char_"
+  },
+  "gates": {
+    "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor values are the first setting (24k = the cliff in LESSONS): the owner confirms them.",
+    "min_subject_frac": 0.6,
+    "min_head_px": 512,
+    "token_floor": {
+      "master": 24576,
+      "hero": 24576
+    },
+    "preset_tier": {
+      "hero_rebake": "hero",
+      "tokens98k_fresh": "master"
+    },
+    "lighting_tier_required": "three_point",
+    "pipelines": [
+      "TRELLIS",
+      "SCULPT"
+    ]
   }
 }

@@ -59,6 +59,8 @@ def main():
            "rig": spec["rig"], "bytes": os.path.getsize(srcs[0]), "source": spec["source"],
            "thumb": f"{thumb_rel}?v={v}", "variant": o["variant"], "stills": stills,
            "receipt": spec.get("receipt", o["default_receipt"])}
+    if spec.get("pipeline"):  # 0.1.4 pipeline gate: the library row says which pipeline made the asset
+        row["pipeline"] = spec["pipeline"]
     if spec.get("clips"):
         row["clips"] = spec["clips"]
     if template:  # follow the template row's key order
