@@ -19,7 +19,7 @@ from pathlib import Path
 
 # A python/pwsh invocation whose script is one of the GPU entry points (so `cat flux_kit.py` or a git message that mentions it is not matched).
 START = re.compile(
-    r"(?:\bpython[\w.]*(?:\.exe)?[\"']?\s+(?:-\S+\s+)*[\"']?[^\s;&|]*(?:generate|flux_kit|run_3d|run_character|run_skin_tokens|run_motion|ardy_generate|run_pixal3d)\.py\b"
+    r"(?:\bpython[\w.]*(?:\.exe)?[\"']?\s+(?:-\S+\s+)*[\"']?[^\s;&|]*(?:generate|flux_kit|run_3d|run_character|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d)\.py\b"
     r"|\b(?:powershell|pwsh)(?:\.exe)?\s+[^;&|]*run_kit\.ps1\b"
     r"|(?:^|[;&|]\s*)\.?[\/]?[^\s;&|]*run_kit\.ps1\b)",
     re.I,
@@ -86,7 +86,7 @@ MCP_GPU = tuple("mcp__plugin_factory_factory__" + t for t in ("flux_render", "tr
 def main() -> None:
     raw = sys.stdin.read() or "{}"
     low = raw.lower()
-    if not any(k in low for k in ("generate.py", "flux_kit", "run_3d", "run_character", "run_skin_tokens", "run_kit", "run_motion", "ardy_generate", "run_pixal3d", "mcp__plugin_factory")):
+    if not any(k in low for k in ("generate.py", "flux_kit", "run_3d", "run_character", "run_skin_tokens", "run_kit", "run_motion", "ardy_generate", "kimodo_generate", "run_pixal3d", "mcp__plugin_factory")):
         return  # fast exit
     try:
         payload = json.loads(raw)

@@ -10,7 +10,7 @@
   skin_tokens_bind(glb, skeleton)      SkinTokens skin weights -> tools/run_skin_tokens.py (GPU, gated like bind + relative-to-control)
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
-  motion_generate(text, ...)           ARDY text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
+  motion_generate(text, ...)           ARDY (default) or Kimodo (backend, optional constraints) text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
   qc(asset_id, glb, concept)           geometry/texture/silhouette checks -> tools/run_qc.py (CPU, numpy, light RAM gate; hooks/qc_gate.py makes `stills` wait for its pass)
 
 Every tool runs the EXISTING script as a subprocess in the Content-Factory checkout (FACTORY_HOME, default <home>\\Documents\\Content-Factory), never reimplements it,
@@ -384,8 +384,9 @@ def t_upscale(src: str, dst: str, passes: int = 1, asset_id: str = "") -> dict:
 
 
 def t_motion_generate(text: str, asset_id: str = "motion-clips", duration: float | None = None, seed: int | None = None, clip_id: str = "", in_place: bool = False,
-                      install: bool = False, device: str = "gpu", encoder_device: str = "", backend: str = "ardy") -> dict:
-    """0.1.8: text -> ARDY motion -> retarget onto the 106 rig -> clip GLB the stills stage finds by name (tools/run_motion.py)."""
+                      install: bool = False, device: str = "gpu", encoder_device: str = "", backend: str = "ardy", constraints=None) -> dict:
+    """0.1.8: text -> ARDY motion -> retarget onto the 106 rig -> clip GLB the stills stage finds by name (tools/run_motion.py). 0.1.12: backend="kimodo" (own venv) and optional sparse constraints
+    (a path to a Kimodo constraints.json or the list itself)."""
     import argparse
     c = cfg()
     if device not in ("gpu", "cpu"):
@@ -394,7 +395,7 @@ def t_motion_generate(text: str, asset_id: str = "motion-clips", duration: float
     sys.path.insert(0, str(HOME / "tools" / "motion"))
     import run_motion   # pure checks only (no start): its main() is behind __main__
     ns = argparse.Namespace(asset_id=asset_id, text=text, duration=duration, seed=seed, clip_id=clip_id, in_place=in_place, install=install, device=device,
-                            encoder_device=encoder_device, backend=backend)
+                            encoder_device=encoder_device, backend=backend, constraints=constraints)
     why = gate(gpu=(device == "gpu"), heavy=True)   # a CPU-only run does not need the GPU lock, but still needs RAM
     if why:
         return {"status": "refused", "error": why}
@@ -402,15 +403,27 @@ def t_motion_generate(text: str, asset_id: str = "motion-clips", duration: float
     if probs:
         return {"status": "refused", "error": "; ".join(probs)}
     m = c["motion"]
+    con_arg = None
+    if isinstance(constraints, list):   # inline constraints: validated above, handed to the script as a file (command lines stay short)
+        con_arg = os.path.join(c["local"]["logs_dir"], f"mcp_motion_constraints_{time.strftime('%Y%m%dT%H%M%S')}.json")
+        with open(con_arg, "w", encoding="utf-8") as f:
+            json.dump(constraints, f)
+    elif constraints:
+        con_arg = str(constraints)
     cmd = [c["local"]["python"], str(HOME / "tools" / "run_motion.py"), asset_id, text, "--device", device, "--backend", backend]
+    cmd += ["--constraints", con_arg] if con_arg else []
     for flag, val in (("--duration", duration), ("--seed", seed), ("--clip-id", clip_id), ("--encoder-device", encoder_device)):
         if val not in (None, ""):
             cmd += [flag, str(val)]
     cmd += (["--in-place"] if in_place else []) + (["--install"] if install else [])
-    rc, log, t0 = run_stage("motion_generate", cmd, timeout=m["timeout_s"] + m["retarget_timeout_s"] + 120, guard=m["guard_match"] if device == "gpu" else None)
+    rc, log, t0 = run_stage("motion_generate", cmd, timeout=m["timeout_s"] + m["retarget_timeout_s"] + 120, guard=(m["kimodo_guard_match"] if backend == "kimodo" else m["guard_match"]) if device == "gpu" else None)
+    kim = backend == "kimodo"
     res = finish("motion_generate", rc, log, t0, ["motion"], asset_id,
-                 {"licences": "ARDY code Apache-2.0; ARDY weights NVIDIA Open Model Agreement; Llama 3 Community License (Built with Meta Llama 3): see THIRD_PARTY_NOTICES.md",
-                  "tier_note": "Proof tier: ARDY Core 27-joint skeleton retargeted by name and rest-direction onto the 106 rig. Fingers other than the thumb root follow the hand rigidly. LOOK at the clip in stills before using it."})
+                 {"licences": ("Kimodo code Apache-2.0; Kimodo weights NVIDIA Open Model License; " if kim else "ARDY code Apache-2.0; ARDY weights NVIDIA Open Model Agreement; ")
+                              + "Llama 3 Community License (Built with Meta Llama 3): see THIRD_PARTY_NOTICES.md",
+                  "tier_note": ("Proof tier (never run on a GPU in 0.1.12): Kimodo SOMA 77-joint skeleton retargeted by name and rest-direction onto the 106 rig; fingers 1-3 are mapped. " if kim else
+                                "Proof tier: ARDY Core 27-joint skeleton retargeted by name and rest-direction onto the 106 rig. Fingers other than the thumb root follow the hand rigidly. ")
+                              + "LOOK at the clip in stills before using it."})
     if res.get("receipt"):
         try:
             p = cf_guard.read_json(res["receipt"]).get("params", {})
@@ -453,13 +466,16 @@ TOOLS = {
     "upscale": (t_upscale, "Real-ESRGAN x4 with Lab colour match (tools/upscale/upscale_match.py) under the GPU guard. asset_id defaults to the output file stem so a receipt is written. "
                 "Refuses on a live GPU lock or low RAM. Returns the receipt path.",
                 {"src": _STR, "dst": _STR, "passes": {"type": "integer"}, "asset_id": _STR}, ["src", "dst"], True, True),
-    "motion_generate": (t_motion_generate, "Generate a motion clip from text with NVIDIA ARDY (tools/run_motion.py) and retarget it onto the psyche-106 rig with headless Blender into a Mixamo-format clip GLB "
+    "motion_generate": (t_motion_generate, "Generate a motion clip from text with NVIDIA ARDY (default) or Kimodo (backend=kimodo, own Kimodo-312 venv, optional sparse constraints) (tools/run_motion.py) and retarget it onto the psyche-106 rig with headless Blender into a Mixamo-format clip GLB "
                         "that the stills stage finds by name (install=true copies it to mixamo_clips_dir, never overwriting). The text encoder is LLM2Vec on a LOCAL Llama 3 mirror: no network, no token. "
-                        "Refuses on a live GPU lock (device=gpu), low RAM, a missing weight/mirror/rig file, an over-long text or duration. Returns the receipt path, clip id and the stills hint.",
+                        "Refuses on a live GPU lock (device=gpu), low RAM, a missing or wrong-size weight/Llama shard/adapter/venv/rig file, an over-long text or duration, invalid constraints. Returns the receipt path, clip id and the stills hint.",
                         {"text": {**_STR, "description": "what the character does, one sentence, e.g. 'A person walks forward.'"}, "asset_id": {**_STR, "description": "receipt folder, default motion-clips"},
                          "duration": {"type": "number", "description": "seconds, 1 to config motion.max_duration_s"}, "seed": {"type": "integer"}, "clip_id": _STR,
                          "in_place": {"type": "boolean"}, "install": {"type": "boolean"}, "device": {**_STR, "description": "gpu (default) or cpu"},
-                         "encoder_device": {**_STR, "description": "cuda or cpu for the text encoder (cpu needs about 24 GB free RAM)"}, "backend": _STR}, ["text"], True, True),
+                         "encoder_device": {**_STR, "description": "cuda or cpu for the text encoder (cpu needs about 24 GB free RAM)"},
+                         "backend": {"type": "string", "enum": ["ardy", "kimodo"], "description": "ardy (default, text only) or kimodo (SOMA 77 joints, 30 fps, own venv)"},
+                         "constraints": {"description": "kimodo only: a path to a Kimodo constraints.json, or the list itself: [{type: root2d|fullbody|left-hand|right-hand|left-foot|right-foot|end-effector, frame_indices, smooth_root_2d | root_positions + local_joints_rot, joint_names}] (one-sentence text)",
+                                         "anyOf": [{"type": "string"}, {"type": "array", "items": {"type": "object"}}]}}, ["text"], True, True),
 }
 
 

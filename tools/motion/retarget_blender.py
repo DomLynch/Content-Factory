@@ -10,6 +10,19 @@ from mathutils import Matrix, Quaternion, Vector
 A = json.load(open(sys.argv[sys.argv.index('--') + 1], encoding='utf-8'))
 M = A['cfg']
 T0 = time.time()
+
+# Source-joint name tables: psyche-106 (mixamorig:<name>) bone -> source joint, per source skeleton (doc['skeleton']). config.json motion.retarget.skeletons wins when it has the
+# skeleton (a test keeps both in step); these are the defaults. 'direct' = same name on both sides, 'renamed' = target name -> source name, 'renamed_sided' = the same with a
+# Left/Right prefix, 'center' = unsided bones, 'fingers' = also map Thumb/Index/Middle/Ring/Pinky 1-3 (same names on both sides).
+#   cskel27     ARDY Core, 27 joints (the retarget ran in Blender on a synthetic motion only, never on a real ARDY generation)
+#   somaskel77  Kimodo SOMA, 77 joints. UNRUN: written from kimodo/skeleton/definitions.py (SOMA thigh = Leg, shin = Shin, spine = Spine1 / Spine2 / Chest, neck = Neck1;
+#               the rig's three spine bones take Spine1, Spine2, Chest). Not yet checked on a real Kimodo motion: neck twist (Neck2), jaw, eyes, finger tips (End) and HeadEnd are unmapped.
+SKELETON_TABLES = {
+    'cskel27': {'direct': ['Shoulder', 'Arm', 'ForeArm', 'Hand', 'HandThumb1', 'UpLeg', 'Leg', 'Foot', 'ToeBase'], 'renamed': {},
+                'center': {'Hips': 'Hips', 'Spine': 'Spine', 'Spine1': 'Spine2', 'Spine2': 'Spine3', 'Neck': 'Neck', 'Head': 'Head'}, 'fingers': False},
+    'somaskel77': {'direct': ['Shoulder', 'Arm', 'ForeArm', 'Hand', 'Foot', 'ToeBase'], 'renamed': {}, 'renamed_sided': {'UpLeg': 'Leg', 'Leg': 'Shin'},
+                   'center': {'Hips': 'Hips', 'Spine': 'Spine1', 'Spine1': 'Spine2', 'Spine2': 'Chest', 'Neck': 'Neck1', 'Head': 'Head'}, 'fingers': True},
+}
 def P(*a): print('MO>', *a, flush=True)
 
 doc = json.load(open(A['motion'], encoding='utf-8'))
@@ -36,7 +49,9 @@ pre = M['bone_prefix']
 rest_w = {b.name: rig.matrix_world @ b.matrix_local for b in bones}
 
 # ---- mapping: target bone name -> source joint name
-spec = M['retarget']['skeletons'][doc['skeleton']]
+spec = M['retarget']['skeletons'].get(doc['skeleton']) or SKELETON_TABLES.get(doc['skeleton'])
+if spec is None:
+    P('ERROR no bone-name table for source skeleton', doc['skeleton']); sys.exit(4)
 pairs = {}
 for side in ('Left', 'Right'):
     for n in spec['direct']:

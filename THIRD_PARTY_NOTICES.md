@@ -1,4 +1,4 @@
-# Third-party notices (plugin 0.1.8, `motion_generate`)
+# Third-party notices (plugin 0.1.12, `motion_generate`: ARDY and Kimodo backends)
 
 Nothing below is redistributed in this repository: no weights, no model code and no licence text of the third parties are copied here. The Content-Factory only
 calls these projects from local folders on the machine (`config/config.local.json`). The notices are kept here because the licences ask for them when the
@@ -20,11 +20,13 @@ You are responsible for them (2.4); a recipient of the Model must get a copy of 
 License" notice in a Notice text file (3.1, which is why the line stands at the top of this file). The model was trained on the Bones Rigplay 1 dataset; the model card
 asks that prompts describe actions in neutral terms. Re-read the licence text itself before shipping anything built on these weights.
 
-## NVIDIA Kimodo (cloned, weights downloaded, path not run in 0.1.8)
+## NVIDIA Kimodo (second backend of `motion_generate` since 0.1.12; code and weights)
 | Part | Source | Licence |
 |---|---|---|
-| Kimodo code | github.com/nv-tlabs/kimodo, commit `e1c219c99b4b94ba48be1fb6a1cbc64ecee4c954` | Apache License 2.0 (`LICENSE`, sha256 `987057aca9b5c6f338cadfcc2666d74a093c43e6fd02173c5d9ed63ec66cc53d`) |
-| Kimodo weights `Kimodo-SOMA-RP-v1.2` (SOMA 77 joints, the README's recommended full Bones Rigplay 1 model) | huggingface.co/nvidia/Kimodo-SOMA-RP-v1.2 | NVIDIA Open Model License (same notice as above) |
+| Kimodo code | github.com/nv-tlabs/kimodo, commit `e1c219c99b4b94ba48be1fb6a1cbc64ecee4c954` | Apache License 2.0 (`LICENSE`, sha256 `987057aca9b5c6f338cadfcc2666d74a093c43e6fd02173c5d9ed63ec66cc53d`), Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES (SPDX headers in the sources) |
+| Kimodo weights `Kimodo-SOMA-RP-v1.2` (SOMA 77 joints, 30 fps, the README's recommended full Bones Rigplay 1 model) | the `nvidia/Kimodo-SOMA-RP-v1.2` repo on Hugging Face | NVIDIA Open Model License: the weights' `LICENSE` file is byte-identical to the ARDY one (sha256 `11ccdcb47db87ac30b63765b5e5154403026c4fbb52c19919d99d912ec454e19`, re-read 2026-11-01), so the terms summarised under ARDY above apply unchanged, and the notice "Licensed by NVIDIA Corporation under the NVIDIA Open Model License" at the top of this file covers both. The `kimodo` backend hashes that `LICENSE` and the weights into each receipt. |
+
+The model card says Kimodo-SOMA-RP-v1.2 was trained on the proprietary Bones Rigplay dataset and lists foot skating and stereotype-reflecting motions as known limitations; the same neutral-prompt advice applies. Kimodo's `ATTRIBUTIONS.MD` lists the vendored LLM2Vec code (MIT, McGill NLP) and Unitree mujoco (BSD-3-Clause, only used for the G1 robot export, not by this plugin). Kimodo is run from the user's own clone and its own venv (`Kimodo-312`, pins from its `pyproject.toml`, including `transformers==5.1.0`); nothing of it is copied into this repository. DRAFT: the backend has not run on a GPU.
 
 ## Text encoder: LLM2Vec on Llama 3
 ARDY and Kimodo condition on text with LLM2Vec, which is Meta Llama 3 8B Instruct plus two LoRA adapters:
@@ -32,7 +34,8 @@ ARDY and Kimodo condition on text with LLM2Vec, which is Meta Llama 3 8B Instruc
   (Meta Llama 3 Community License Agreement, release date April 18, 2024; the file's sha256 is `6bcca341999ab474e2973116128177b77f97cd64028eeace224035358ce6474f`).
   The Llama 3 licence asks that a product or service that uses the Llama Materials prominently displays "Built with Meta Llama 3" on a related website, user interface,
   blogpost, about page or product documentation, and that use follows Meta's Acceptable Use Policy (https://llama.meta.com/llama3/use-policy). The notice is repeated in
-  each `motion` receipt and in the `motion_generate` tool result.
+  each `motion` receipt (both backends) and in the `motion_generate` tool result. Since 0.1.12 the four safetensors shards of the mirror are size-checked against the repo's
+  (4976698672, 4999802720, 4915916176, 1168138808 bytes) before a run starts.
 - LLM2Vec adapters `McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp` and `...-mntp-supervised`: MIT licence (Copyright (c) 2024 McGill NLP; ARDY's vendored copy of the
   LLM2Vec code in `ardy/model/llm2vec` is MIT AND Apache-2.0 and carries the McGill copyright header).
 

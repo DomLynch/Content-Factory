@@ -423,8 +423,32 @@
     ]
   },
   "motion": {
-    "_comment": "plugin 0.1.8 motion_generate (tools/run_motion.py). ARDY (nv-tlabs/ardy, Apache-2.0 code, NVIDIA Open Model Agreement weights) in the Motion-312 venv, then a Blender retarget onto psyche-106 into a Mixamo-format clip GLB. Paths live in config.local.json (motion_*). Text encoder = LLM2Vec on a LOCAL Llama 3 mirror: no network, no token.",
+    "_comment": "plugin 0.1.8 motion_generate (tools/run_motion.py), 0.1.12 second backend. ARDY (nv-tlabs/ardy, Apache-2.0 code, NVIDIA Open Model Agreement weights) in the Motion-312 venv, or Kimodo (nv-tlabs/kimodo, Apache-2.0 code, NVIDIA Open Model License weights) in its own Kimodo-312 venv (transformers 5.1.0 vs ARDY 5.8.1), then a Blender retarget onto psyche-106 into a Mixamo-format clip GLB. Paths live in config.local.json (motion_*, kimodo_*; the Kimodo ones default under work_dir). Text encoder = LLM2Vec on a LOCAL Llama 3 mirror: no network, no token. DRAFT: nothing here has run on a GPU.",
     "backend": "ardy",
+    "backends_enabled": ["ardy", "kimodo"],
+    "text_encoder_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "llama_shard_bytes": {
+      "model-00001-of-00004.safetensors": 4976698672,
+      "model-00002-of-00004.safetensors": 4999802720,
+      "model-00003-of-00004.safetensors": 4915916176,
+      "model-00004-of-00004.safetensors": 1168138808
+    },
+    "kimodo_model": "Kimodo-SOMA-RP-v1.2",
+    "kimodo_model_dir": "Kimodo-SOMA-RP-v1.2",
+    "kimodo_expected_skeleton": "somaskel77",
+    "kimodo_fps": 30,
+    "kimodo_diffusion_steps": 100,
+    "kimodo_weights_bytes": 1133177724,
+    "kimodo_venv_name": "Kimodo-312",
+    "kimodo_guard_match": "kimodo_generate",
+    "kimodo_clip_prefix": "kimodo-",
+    "constraints": {
+      "types": ["root2d", "fullbody", "left-hand", "right-hand", "left-foot", "right-foot", "end-effector"],
+      "joint_counts": [30, 77],
+      "max_sets": 8,
+      "max_frames_per_set": 16,
+      "max_json_bytes": 400000
+    },
     "ardy_model": "core40",
     "ardy_model_dir": "ARDY-Core-RP-20FPS-Horizon40",
     "ardy_expected_skeleton": "cskel27",
@@ -459,7 +483,7 @@
           "fingers": false
         },
         "somaskel77": {
-          "_comment": "Kimodo output. Name table only: the Kimodo path is not run in 0.1.8 (transformers pin conflict, see THIRD_PARTY_NOTICES.md and the skill).",
+          "_comment": "Kimodo output (SOMA 77 joints). UNRUN name table, same content as SKELETON_TABLES in tools/motion/retarget_blender.py (a test keeps them equal).",
           "direct": ["Shoulder", "Arm", "ForeArm", "Hand", "Foot", "ToeBase"],
           "renamed": {},
           "renamed_sided": {"UpLeg": "Leg", "Leg": "Shin"},
