@@ -25,6 +25,7 @@
   "pixal3d_python": "C:\\Users\\USER\\Documents\\Pixal3D-312\\.venv\\Scripts\\python.exe",
   "pixal3d_model_dir": "C:\\Users\\USER\\Documents\\models\\Pixal3D",
   "pixal3d_dino_dir": "C:\\Users\\USER\\Documents\\models\\dinov3-vitl16-pretrain-lvd1689m",
+  "moge_python": "C:\\Users\\USER\\Documents\\Pixal3D-312\\.venv\\Scripts\\python.exe",
   "pixal3d_moge_dir": "C:\\Users\\USER\\Documents\\models\\moge-2-vitl",
   "pixal3d_birefnet_dir": "C:\\Users\\USER\\Documents\\models\\BiRefNet",
   "blender_exe": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
