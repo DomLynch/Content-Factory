@@ -207,5 +207,27 @@
  "head_accessory_exclude": "no earring, no hair ornaments",
  "hand_handedness_right": "This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image.",
  "hand_ring_rule": "one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands",
- "hand_wrist_clean_rule": "Clean bare wrist, no artefacts."
+ "hand_wrist_clean_rule": "Clean bare wrist, no artefacts.",
+ "row_seeds": {
+  "body_underlayer_front": {
+   "seed": 43,
+   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+  },
+  "body_underlayer_left": {
+   "seed": 43,
+   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+  },
+  "body_underlayer_right": {
+   "seed": 43,
+   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the outfit clause."
+  },
+  "hand_open_left": {
+   "seed": 43,
+   "note": "Re-render with seed 43: the 2026-11-01 consistency QC rejected the first seed-42 image and its prompt changed; the old png is moved to rejected\\ so the kit seed 42 no longer describes any file on disk for this row. Prompt gained the ring rule (it is also the mirror source for hand_open_right)."
+  },
+  "head_eyes_closeup": {
+   "seed": 43,
+   "note": "Re-render with seed 43: the first image was rejected by the consistency QC (loose hair, earring, white collar, red cloth) and no png is on disk; the prompt now repeats the shared head description."
+  }
+ }
 }

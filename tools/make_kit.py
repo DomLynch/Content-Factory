@@ -55,6 +55,11 @@ def build(spec, tpl):
                 row["use_ref"] = use_ref
             ptext = cell["forms"][ctx.get("form", cell.get("default_form"))] if "forms" in cell else cell["prompt"]
             row["prompt"] = fill(ptext, ctx, where)
+            rs = spec.get("row_seeds", {}).get(rid)   # per-row re-render seed with the reason it was changed
+            if rs:
+                row["seed"], row["seed_note"] = rs["seed"], rs["note"]
+            if cell.get("mirror_of"):   # made by tools/mirror_rows.py from another row, not rendered
+                row["mirror_of"] = cell["mirror_of"]
             rows.append(row)
     order = {g: i for i, g in enumerate(tpl["group_priority"])}
     kit["rows"] = sorted(rows, key=lambda r: order[r["group"]])   # stable: GPU priority order
