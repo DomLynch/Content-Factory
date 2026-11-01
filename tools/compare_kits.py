@@ -2,7 +2,7 @@
 Prints every difference; exit code 1 if any (kit name is reported but ignored)."""
 import json, sys
 
-ROW = ["group", "w", "h", "ref", "use_ref", "prompt", "ref_prefix", "seed", "seed_note", "mirror_of"]
+ROW = ["group", "w", "h", "ref", "use_ref", "prompt", "ref_prefix", "seed", "seed_note", "mirror_of", "swatch_of"]
 KIT = ["seed", "w", "h", "template", "ref", "ref_prefix", "subject", "style", "description"]
 
 

@@ -1,0 +1,200 @@
+{
+ "swatches": [
+  {
+   "row": "swatch_crimson_damask_velvet",
+   "source_row": "gear_coat",
+   "source_sha256": "18a5844708700c6776f1c4f74307924a52d0fbb1413b7b6694f4c3bb32187a9f",
+   "box": [
+    0.35026,
+    0.32422,
+    0.40495,
+    0.40625
+   ],
+   "crop_px": [
+    538,
+    332,
+    622,
+    416
+   ],
+   "native_px": [
+    84,
+    84
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "04cf2b00b0cd8352e8da2192ed83b20d5344c5afbfc6d2a65b97d9f437e488fb",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_crimson_damask_velvet-887ad1\\swatch_crop-20261101T181414Z.json",
+   "created": "2026-11-01T22:14:14"
+  },
+  {
+   "row": "swatch_black_fur",
+   "source_row": "gear_fur_collar",
+   "source_sha256": "ed28f906e8d766af4d022bb34d3bc212aae33b661e213699c7c6af823bdb8758",
+   "box": [
+    0.18229,
+    0.41016,
+    0.33854,
+    0.64453
+   ],
+   "crop_px": [
+    280,
+    420,
+    520,
+    660
+   ],
+   "native_px": [
+    240,
+    240
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "ea076734717cf76bb084584c03377cc5fde6c91283d67a237723500c39911099",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_black_fur-675c04\\swatch_crop-20261101T181415Z.json",
+   "created": "2026-11-01T22:14:15"
+  },
+  {
+   "row": "swatch_gold_embroidery",
+   "source_row": "gear_coat",
+   "source_sha256": "18a5844708700c6776f1c4f74307924a52d0fbb1413b7b6694f4c3bb32187a9f",
+   "box": [
+    0.45573,
+    0.32227,
+    0.54036,
+    0.44922
+   ],
+   "crop_px": [
+    700,
+    330,
+    830,
+    460
+   ],
+   "native_px": [
+    130,
+    130
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "15c2fc01ec1e2d97ad7896121253bbe51099d8df843e53a15a1aae18d0b6e4e8",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_gold_embroidery-8ee12a\\swatch_crop-20261101T181415Z.json",
+   "created": "2026-11-01T22:14:15"
+  },
+  {
+   "row": "swatch_pale_skin",
+   "source_row": "head_front",
+   "source_sha256": "a7e27afefa69a7e060fa4cecb0517893be52a6f2c011f7618d4db2365bc1369c",
+   "box": [
+    0.39062,
+    0.22949,
+    0.48828,
+    0.32715
+   ],
+   "crop_px": [
+    400,
+    235,
+    500,
+    335
+   ],
+   "native_px": [
+    100,
+    100
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "e94c5b63bffb91df5b1919a289f995250c4e14627a1b257a6a11dd7d9155da33",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_pale_skin-02afde\\swatch_crop-20261101T181416Z.json",
+   "created": "2026-11-01T22:14:16"
+  },
+  {
+   "row": "swatch_dark_hair",
+   "source_row": "head_back",
+   "source_sha256": "5639b5556a20c2e1955cf3451913af12f4140f05095913435c0681f9e0bdebb8",
+   "box": [
+    0.37109,
+    0.14648,
+    0.625,
+    0.40039
+   ],
+   "crop_px": [
+    380,
+    150,
+    640,
+    410
+   ],
+   "native_px": [
+    260,
+    260
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "26d813eddd45ae7b403b0c0eb5d7dbcc72a1a6ea627ae28cc72d42398d30dca3",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_dark_hair-292abe\\swatch_crop-20261101T181416Z.json",
+   "created": "2026-11-01T22:14:17"
+  },
+  {
+   "row": "swatch_lace",
+   "source_row": "gear_cuffs",
+   "source_sha256": "e000f1acb3242f71d1ab33dc544ba11bc106e3831cd0469324631ae5923f40c5",
+   "box": [
+    0.3418,
+    0.20996,
+    0.53711,
+    0.40527
+   ],
+   "crop_px": [
+    350,
+    215,
+    550,
+    415
+   ],
+   "native_px": [
+    200,
+    200
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "f21c214586730b0f429b1f1cc1a4d24be195035ea1c72ae5e54c154d8c1a8749",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_lace-b8dba5\\swatch_crop-20261101T181417Z.json",
+   "created": "2026-11-01T22:14:17"
+  },
+  {
+   "row": "swatch_velvet_lining",
+   "source_row": "gear_cloak",
+   "source_sha256": "223ed73b4889de4c2ff4c10bafd091b0982e004b5ad424955f6ab8c8bc4da28f",
+   "box": [
+    0.4362,
+    0.625,
+    0.54036,
+    0.78125
+   ],
+   "crop_px": [
+    670,
+    640,
+    830,
+    800
+   ],
+   "native_px": [
+    160,
+    160
+   ],
+   "size": [
+    1024,
+    1024
+   ],
+   "sha256": "e13a75108292848aefc6c5e5daa324b7008849afb84183be56f6a862e6077821",
+   "receipt": "receipts\\vampire_gpt_sheet-swatch_velvet_lining-e0a192\\swatch_crop-20261101T181418Z.json",
+   "created": "2026-11-01T22:14:18"
+  }
+ ]
+}

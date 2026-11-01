@@ -58,6 +58,8 @@ def build(spec, tpl):
             rs = spec.get("row_seeds", {}).get(rid)   # per-row re-render seed with the reason it was changed
             if rs:
                 row["seed"], row["seed_note"] = rs["seed"], rs["note"]
+            if item and item.get("swatch_of"):   # made by tools/swatch_crop.py (a crop of an approved cell), not rendered
+                row["swatch_of"] = item["swatch_of"]
             if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
             rows.append(row)
