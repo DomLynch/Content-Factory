@@ -1,0 +1,183 @@
+{
+  "assets": [
+    {
+      "asset_id": "hades_gate-backdrop_valley_plate-f2ab77",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T04:41:19+00:00",
+          "file": "flux-20261101T044119Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "hades_gate-rock_cluster_prop-c8223b",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T04:38:41+00:00",
+          "file": "flux-20261101T043841Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-body_back-18c88b",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T04:46:23+00:00",
+          "file": "flux-20261101T044623Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-body_side-323579",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T04:51:46+00:00",
+          "file": "flux-20261101T045146Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-boots_detail-00606f",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:12:51+00:00",
+          "file": "flux-20261101T051251Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-dracula-front",
+      "kind": "",
+      "stage": "cutout",
+      "stages": {
+        "cutout": {
+          "created_utc": "2026-11-01T05:21:33+00:00",
+          "file": "cutout-20261101T052133Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-hands_rings-58cd7b",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:08:26+00:00",
+          "file": "flux-20261101T050826Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-head_front-0b98b7",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T04:56:01+00:00",
+          "file": "flux-20261101T045601Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-head_profile-615c32",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:04:02+00:00",
+          "file": "flux-20261101T050402Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-head_three_quarter-a7ec47",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:00:10+00:00",
+          "file": "flux-20261101T050010Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-mat_black_fur-828061",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:16:07+00:00",
+          "file": "flux-20261101T051607Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-mat_black_leather-a9ff74",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:17:26+00:00",
+          "file": "flux-20261101T051726Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    },
+    {
+      "asset_id": "vampire-mat_crimson_damask-236a20",
+      "kind": "",
+      "stage": "flux",
+      "stages": {
+        "flux": {
+          "created_utc": "2026-11-01T05:14:44+00:00",
+          "file": "flux-20261101T051444Z.json",
+          "status": "ok"
+        }
+      },
+      "status": "ok"
+    }
+  ],
+  "schema": 1,
+  "stages": [
+    "flux",
+    "cutout",
+    "trellis",
+    "bind",
+    "upscale",
+    "stills",
+    "publish"
+  ]
+}
