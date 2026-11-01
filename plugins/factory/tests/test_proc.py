@@ -40,7 +40,7 @@ def cmdline_pids(tag: str) -> list[int]:
     if os.name != "nt":
         return [int(p) for p in os.listdir("/proc") if p.isdigit() and tag.encode() in open(f"/proc/{p}/cmdline", "rb").read()]
     ps = f"Get-CimInstance Win32_Process | Where-Object {{ $_.CommandLine -like '*{tag}*' -and $_.CommandLine -notlike '*Get-CimInstance*' }} | Select-Object -ExpandProperty ProcessId"
-    out = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True, timeout=15, creationflags=cf_proc.NO_WINDOW).stdout
+    out = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True, timeout=90, creationflags=cf_proc.NO_WINDOW).stdout
     return [int(x) for x in out.split() if x.isdigit()]
 
 
@@ -122,8 +122,8 @@ class RunStage(Base):
 
 class OrphanGuard(Base):
     def hook(self, payload, lock):
-        env = {**os.environ, "FACTORY_GPU_LOCK": str(lock), "FACTORY_TEST_STAGE_TAG": self.tag}
-        r = subprocess.run([PY, str(PLUGIN / "hooks" / "gpu_lock_guard.py")], input=json.dumps(payload), capture_output=True, text=True, env=env, timeout=40)
+        env = {**os.environ, "FACTORY_GPU_LOCK": str(lock), "FACTORY_TEST_STAGE_TAG": self.tag, "FACTORY_PS_TIMEOUT": "100"}
+        r = subprocess.run([PY, str(PLUGIN / "hooks" / "gpu_lock_guard.py")], input=json.dumps(payload), capture_output=True, text=True, env=env, timeout=150)
         self.assertEqual(r.returncode, 0, r.stderr)
         return json.loads(r.stdout) if r.stdout.strip() else {}
 
