@@ -35,6 +35,8 @@ Cut-out 101-191 s (CPU). TRELLIS 336-518 s for a body or part at 28 GB; 1749 s a
 
 ## Do / Don't
 Do
+- Do LOOK at every image and output yourself before calling a stage done: open the picture or render, check it is not black, cropped, mis-framed, speckled or mismatched to the reference, and check the numbers. A receipt only proves the tool ran. (Learned 2026-11-01: black images sent as done; stills with the head cut off; a speckled texture.)
+- Do hold a quality bar of 9/10 or higher, comparable to the best of Unreal Engine 5.8 in 2026, for every FINAL asset, with NO compromise on quality, visuals or effects. Score it honestly against the reference sheet. Anything below 9 is a proof, not a final: label it as a proof, say what is wrong, and do not ship it as finished.
 - Do put limits in a preset in `config.json`, not on the command line.
 - Do keep `mesh.glb`, the latents and the receipt of every run.
 - Do build hard characters in parts (body, each gear piece) and assemble later.

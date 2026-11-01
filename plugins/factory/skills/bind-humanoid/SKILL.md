@@ -32,6 +32,8 @@ Bind wall 305 s on a failing run, 546 s on the T-pose run; lowest free RAM 2.6-2
 
 ## Do / Don't
 Do
+- Do LOOK at every image and output yourself before calling a stage done: open the picture or render, check it is not black, cropped, mis-framed, speckled or mismatched to the reference, and check the numbers. A receipt only proves the tool ran. (Learned 2026-11-01: black images sent as done; stills with the head cut off; a speckled texture.)
+- Do hold a quality bar of 9/10 or higher, comparable to the best of Unreal Engine 5.8 in 2026, for every FINAL asset, with NO compromise on quality, visuals or effects. Score it honestly against the reference sheet. Anything below 9 is a proof, not a final: label it as a proof, say what is wrong, and do not ship it as finished.
 - Do bind a T-posed body (T-pose body: stretch 1.31).
 - Do force the donor with `BIND_FORCE_DONOR`.
 - Do read the `bind_best.py` gate (including the relative clause), not only the receipt status.

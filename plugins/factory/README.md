@@ -52,4 +52,4 @@ Outputs, models and binaries are not in git (`outputs_dir` on the laptop).
 - Add a lock-and-RAM check to `/factory-run` once it exists.
 
 ## Quality bar
-Final assets must score 9/10 or higher against the best of Unreal Engine 5.8 in 2026, with no compromise on quality or visuals. Always open and look at every image and output before saying a stage is done. Anything lower is a labelled proof.
+Final assets must score 9/10 or higher against the best of Unreal Engine 5.8 in 2026, with no compromise on quality, visuals or effects. Always open and look at every image and output before saying a stage is done. Anything lower is a labelled proof.

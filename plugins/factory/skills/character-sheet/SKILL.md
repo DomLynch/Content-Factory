@@ -35,6 +35,8 @@ Load 34-38 s, generate 178-316 s, wall 214-354 s per cell. Peak GPU alloc 21.8-2
 
 ## Do / Don't
 Do
+- Do LOOK at every image and output yourself before calling a stage done: open the picture or render, check it is not black, cropped, mis-framed, speckled or mismatched to the reference, and check the numbers. A receipt only proves the tool ran. (Learned 2026-11-01: black images sent as done; stills with the head cut off; a speckled texture.)
+- Do hold a quality bar of 9/10 or higher, comparable to the best of Unreal Engine 5.8 in 2026, for every FINAL asset, with NO compromise on quality, visuals or effects. Score it honestly against the reference sheet. Anything below 9 is a proof, not a final: label it as a proof, say what is wrong, and do not ship it as finished.
 - Do render one row per process (`flux_kit.py` takes `<kit> <row_id>`).
 - Do keep every cell of the kit; the sheet is the standard.
 - Do take every value from a kit row, the template or config.
