@@ -13,3 +13,5 @@ __pycache__/
 *.receipt.json
 
 config/config.local.json
+logs/
+state/

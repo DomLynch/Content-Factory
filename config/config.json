@@ -139,6 +139,62 @@
       "weight_sum_tol": 0.001
     }
   },
+  "skin_tokens": {
+    "_comment": "tools/run_skin_tokens.py: SkinTokens (VAST-AI, MIT) skins a body onto the psyche-106 rig (demo.py --use_skeleton). GPU. Paths come from config.local.json (skin_tokens_repo_dir, skin_tokens_python). Gate = bind.gate plus the relative-to-control clause.",
+    "script_dir": "tools/skin_tokens",
+    "prep_script": "prep_input.py",
+    "export_script": "to_rig_body.py",
+    "metrics_script": "bind/metrics2.py",
+    "ckpt": "experiments/articulation_xl_quantization_256_token_4/grpo_1400.ckpt",
+    "vae_ckpt": "experiments/skin_vae_2_10_32768/last.ckpt",
+    "work_subdir": "skin_tokens_work",
+    "bound_glb_name": "bound_skintokens.glb",
+    "use_transfer": true,
+    "clamp_influences": true,
+    "num_beams": 10,
+    "top_k": 5,
+    "top_p": 0.95,
+    "temperature": 1.0,
+    "repetition_penalty": 2.0,
+    "control_donor": "tall",
+    "control_json": "bind/controls/control_{donor}.metrics.json",
+    "relative": {"stretch_factor": 1.10, "compression_factor": 0.90},
+    "prep_timeout_s": 300,
+    "run_timeout_s": 1800,
+    "export_timeout_s": 300,
+    "metrics_timeout_s": 900,
+    "attn_env": {"SKINTOKENS_ATTN": "sdpa"}
+  },
+  "qc": {
+    "min_free_ram_gb": 2.5,
+    "timeout_s": 600,
+    "_comment": "tools/run_qc.py thresholds, loose to start; tune from real receipts. A metric whose limit is null, or whose input is missing (no concept, no budget), is skipped, not failed.",
+    "geometry": {
+      "max_non_manifold_edge_pct": 8.0,
+      "max_boundary_edge_pct": 10.0,
+      "max_loose_shells": 200,
+      "budget_tris": null,
+      "budget_tolerance": 1.0,
+      "max_faceting_deg": 25.0
+    },
+    "texture": {
+      "max_raster_px": 2048,
+      "near_black_value": 14,
+      "max_near_black_pct": 0.2,
+      "max_black_patch_pct": 0.03,
+      "min_uv_coverage": 0.3,
+      "max_uv_stretch_p99": 12.0,
+      "max_uv_degenerate_pct": 10.0,
+      "min_luminance_ratio": 0.6,
+      "min_saturation_ratio": 0.15
+    },
+    "thin": {
+      "raster_px": 512,
+      "iou_px": 256,
+      "min_coverage_ratio": 0.8,
+      "min_iou": 0.4
+    }
+  },
   "clean": {
     "_comment": "fallback pre-bind mesh clean (tools/run_clean.py -> bind/clean_mesh.py); distances in metres; voxel_m 0 = voxel remesh off (then the original texture is kept as is)",
     "script_dir": "bind",
@@ -365,5 +421,52 @@
       "PIXAL3D",
       "SCULPT"
     ]
+  },
+  "motion": {
+    "_comment": "plugin 0.1.8 motion_generate (tools/run_motion.py). ARDY (nv-tlabs/ardy, Apache-2.0 code, NVIDIA Open Model Agreement weights) in the Motion-312 venv, then a Blender retarget onto psyche-106 into a Mixamo-format clip GLB. Paths live in config.local.json (motion_*). Text encoder = LLM2Vec on a LOCAL Llama 3 mirror: no network, no token.",
+    "backend": "ardy",
+    "ardy_model": "core40",
+    "ardy_model_dir": "ARDY-Core-RP-20FPS-Horizon40",
+    "ardy_expected_skeleton": "cskel27",
+    "default_duration_s": 4.0,
+    "max_duration_s": 10.0,
+    "default_seed": 0,
+    "text_max_chars": 300,
+    "text_encoder_device": "cuda",
+    "timeout_s": 3600,
+    "retarget_timeout_s": 900,
+    "guard_match": "ardy_generate",
+    "min_free_ram_gb_encoder_cpu": 24,
+    "clip_prefix": "ardy-",
+    "clip_ext": ".glb",
+    "bone_prefix": "mixamorig:",
+    "clip_action_name": "clip",
+    "subdir": "motion",
+    "retarget": {
+      "required_bones": ["Hips", "Spine", "Spine1", "Spine2", "Neck", "Head", "LeftArm", "RightArm", "LeftForeArm", "RightForeArm", "LeftUpLeg", "RightUpLeg", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot"],
+      "direction_children": {
+        "Hips": "Spine", "Spine": "Spine1", "Spine1": "Spine2", "Spine2": "Neck", "Neck": "Head",
+        "LeftShoulder": "LeftArm", "LeftArm": "LeftForeArm", "LeftForeArm": "LeftHand",
+        "RightShoulder": "RightArm", "RightArm": "RightForeArm", "RightForeArm": "RightHand",
+        "LeftUpLeg": "LeftLeg", "LeftLeg": "LeftFoot", "LeftFoot": "LeftToeBase",
+        "RightUpLeg": "RightLeg", "RightLeg": "RightFoot", "RightFoot": "RightToeBase"
+      },
+      "skeletons": {
+        "cskel27": {
+          "direct": ["Shoulder", "Arm", "ForeArm", "Hand", "HandThumb1", "UpLeg", "Leg", "Foot", "ToeBase"],
+          "renamed": {},
+          "center": {"Hips": "Hips", "Spine": "Spine", "Spine1": "Spine2", "Spine2": "Spine3", "Neck": "Neck", "Head": "Head"},
+          "fingers": false
+        },
+        "somaskel77": {
+          "_comment": "Kimodo output. Name table only: the Kimodo path is not run in 0.1.8 (transformers pin conflict, see THIRD_PARTY_NOTICES.md and the skill).",
+          "direct": ["Shoulder", "Arm", "ForeArm", "Hand", "Foot", "ToeBase"],
+          "renamed": {},
+          "renamed_sided": {"UpLeg": "Leg", "Leg": "Shin"},
+          "center": {"Hips": "Hips", "Spine": "Spine1", "Spine1": "Spine2", "Spine2": "Chest", "Neck": "Neck1", "Head": "Head"},
+          "fingers": true
+        }
+      }
+    }
   }
 }

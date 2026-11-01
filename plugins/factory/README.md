@@ -20,11 +20,11 @@ Needs the Content-Factory checkout at `C:\Users\dom12\Documents\Content-Factory`
 | Part | What |
 |---|---|
 | skills (proven) | `character-sheet`, `trellis-part` (draft tier proven; master and hero tiers not), `bind-humanoid` (absolute gate proven; relative clause missed) |
-| skills (DRAFT) | `bind-beast`, `assemble-character`, `stills-and-turntable`, `publish-to-library`, `environment`, `hero-rebake` |
+| skills (DRAFT) | `bind-beast`, `assemble-character`, `stills-and-turntable`, `publish-to-library`, `environment`, `hero-rebake`, `motion-generate` |
 | `/factory-status` | read-only: GPU lock, processes, free RAM, queues, newest receipts (unparsable ones flagged), guard events |
 | `/factory-run <character_spec.json>` | wraps `tools/run_character.py`: `--dry-run` first, state check, the owner's yes, then the real run |
 | `/factory-publish <asset_id> --library <clone>` | wraps `tools/publish.py`: gate on Dom's 8/10, `--dry-run` first, the owner's yes to write, never pushes or opens a PR |
-| MCP server `factory` | `factory_status`, `flux_render(kit,row_id)`, `trellis_run(asset_id,image,preset)`, `cutout(asset_id,image)`, `bind(asset_id,mesh)`, `stills(asset_id,glb)`, `upscale(src,dst)` |
+| MCP server `factory` | `factory_status`, `flux_render(kit,row_id)`, `trellis_run(asset_id,image,preset)`, `cutout(asset_id,image)`, `bind(asset_id,mesh)`, `stills(asset_id,glb)`, `upscale(src,dst)`, `motion_generate(text,...)` (0.1.8: ARDY text-to-motion retargeted onto psyche-106, see `skills/motion-generate`, `THIRD_PARTY_NOTICES.md`) |
 | hooks (PreToolUse) | `gpu_lock_guard.py`, `ram_gate.py`, `input_gate.py`, `no_literals.py` |
 
 ### MCP server

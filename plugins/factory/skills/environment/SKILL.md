@@ -31,6 +31,27 @@ description: "DRAFT. Build a game environment: Flux backdrops and prop reference
 6. **Assemble in Unity URP (unproven).** Place props on the causeway and ground tiles, backdrop plate behind, cold ash-grey lighting per the style line; render stills from the game camera and a wide orbit. The set is rendered with lights and PBR, never a flat workbench view.
 7. **Library row** (`publish-to-library`): group "Environment", `environment: true`, `rigged: false`, `envMedia.stills[]` as for `necropolis` (its 28,454,716-byte GLB is outside git, `tools/beast/MODELS.md`).
 
+## Unity AI MCP (drive the Unity Editor from Claude Code) - status: package installed in a project copy, NOT yet proven
+
+Sources (Unity docs, package manual `com.unity.ai.assistant@2.17`, "Get started with MCP server"; registry `https://packages.unity.com/com.unity.ai.assistant`; Unity blog "Unity's AI tools in beta: How to get started with MCP"): the feature is the open beta of the Unity AI Assistant package, with a built-in Unity MCP server.
+
+Verified facts
+- Package `com.unity.ai.assistant`, Unity registry. On 2026-11-01 the registry lists 2.21.0-pre.2 as latest (needs Unity 6000.0 or later). Install by adding `"com.unity.ai.assistant": "2.21.0-pre.2"` to `Packages/manifest.json` (or Package Manager, Unity Registry, pre-release shown).
+- The bridge starts with the Editor. Check it at Edit > Project Settings > AI > Unity MCP Server: Unity Bridge shows Running. On start the Editor installs the relay to `%USERPROFILE%\.unity\relay\relay_win.exe` (macOS: `~/.unity/relay/relay_mac_arm64.app/Contents/MacOS/relay_mac_arm64`).
+- Claude Code config, PROJECT scope, in the project's `.mcp.json` (the relay must be launched with `--mcp`; `~` is not expanded, so use `${USERPROFILE}`):
+  `{"mcpServers": {"unity-mcp": {"command": "${USERPROFILE}\\.unity\\relay\\relay_win.exe", "args": ["--mcp", "--project-path", "<absolute project path>"]}}}`
+  `--project-path` (or env `UNITY_PROJECT_PATH`) picks one Editor when several are open. The Integrations section of the same settings page can also write the client config.
+- First connection: Edit > Project Settings > AI > Unity MCP Server > Pending Connections > Allow. Then the client lists tools such as `Unity.ManageScene`, `Unity.ManageGameObject`, `Unity_ReadConsole`.
+- Account: the Unity blog says a Unity Cloud-connected project and an active Unity AI trial or subscription are needed; the docs say the MCP server needs a Unity subscription but consumes no Unity AI credits. Whether a Personal trial covers it is NOT confirmed here; check in the Editor under Unity AI.
+
+What was done and what blocked (2026-11-01, laptop)
+- Unity Editor 6000.6.7f1 is installed at `C:\Program Files\Unity\Hub\Editor\6000.6.7f1`. No download was needed.
+- Project copy `C:\HANDOVER-Macbook\extracted\7-repos\unity-ai-mcp-proof` (git branch `unity-ai-mcp`): ProjectSettings and manifest copied from `demon-unity` (the Unity project on this machine; no project named OpenTrident exists, it is a Three.js site), package line added, `.mcp.json` written. The owner's `demon-unity` was not touched.
+- Blocked: a headless Editor launch exits with code 198, `No valid Unity Editor license found`, log `Access token is unavailable` and 0 entitlements. There is no Unity sign-in or licence on this laptop, so the package was never imported, the relay was never created and NO scene action has run.
+- What Dom must do (his account, not automated): open Unity Hub, sign in, and activate a licence (Personal or a trial); open the project copy once in the Editor; accept the Unity AI terms/trial under Edit > Project Settings > AI; confirm Unity Bridge shows Running; in Claude Code start in the project folder, approve the `unity-mcp` server, then Allow the pending connection in the Editor.
+- Proof step to run after that: ask Claude to create an empty GameObject named FactoryProof via `Unity.ManageGameObject`, then read the hierarchy back and look at it. Until a Unity-side result is seen, this stays unverified.
+- Unverified: the Windows relay filename (docs table lists `relay_win.exe`), whether the 2.21 beta works on editor 6000.6, and Personal trial coverage.
+
 ## Gates
 Every picked image at least 1024 px (2048 after upscale), receipts `status: ok`, every image and the final set looked at, 9/10 for a final, 8/10 by Dom's eye to enter the library.
 

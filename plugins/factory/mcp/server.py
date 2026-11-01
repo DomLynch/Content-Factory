@@ -7,8 +7,11 @@
   pixal3d_run(asset_id, image, preset) Pixal3D single view     -> tools/run_pixal3d.py   (GPU)
   cutout(asset_id, image)              BiRefNet cut-out (CPU)  -> tools/cutout_cpu.py
   bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
+  skin_tokens_bind(glb, skeleton)      SkinTokens skin weights -> tools/run_skin_tokens.py (GPU, gated like bind + relative-to-control)
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
+  motion_generate(text, ...)           ARDY text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
+  qc(asset_id, glb, concept)           geometry/texture/silhouette checks -> tools/run_qc.py (CPU, numpy, light RAM gate; hooks/qc_gate.py makes `stills` wait for its pass)
 
 Every tool runs the EXISTING script as a subprocess in the Content-Factory checkout (FACTORY_HOME, default <home>\\Documents\\Content-Factory), never reimplements it,
 and returns the path of the receipt the script wrote. GPU tools start under tools/gpu_guard.ps1 exactly like tools/run_character.py does.
@@ -33,7 +36,7 @@ import cf_guard  # noqa: E402
 import cf_proc  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.5"
+SERVER_VERSION = "0.1.9"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
@@ -279,6 +282,42 @@ def t_bind(asset_id: str, mesh: str, donor: str = "") -> dict:
     return res
 
 
+def t_skin_tokens_bind(glb: str, skeleton: str = "", asset_id: str = "") -> dict:
+    """SkinTokens (VAST-AI, MIT) skins `glb` onto the skeleton (default: the psyche-106 rig, config.local rig_glb). GPU. Same gate as bind plus the relative-to-control clause."""
+    c = cfg()
+    loc, st = c["local"], c["skin_tokens"]
+    skeleton = skeleton or loc.get("rig_glb", "")
+    for path, what in ((glb, "glb"), (skeleton, "skeleton")):
+        miss = need_file(path, what)
+        if miss:
+            return {"status": "refused", "error": miss}
+    why = gate(gpu=True, heavy=True)
+    if why:
+        return {"status": "refused", "error": why}
+    control = HOME / st["control_json"].format(donor=st["control_donor"])
+    for path, what in ((loc.get("skin_tokens_python", ""), "skin_tokens_python"), (os.path.join(loc.get("skin_tokens_repo_dir", ""), st["ckpt"]), "SkinTokens checkpoint"),
+                       (str(control), "donor control metrics (the relative-to-control clause needs it; bind_best.py builds it once per donor)")):
+        if not path or not os.path.isfile(path):
+            return {"status": "refused", "error": f"{what} not found: {path}"}
+    p = Path(glb)
+    asset_id = asset_id or (p.parent.name if p.stem == "mesh" else p.stem)
+    cmd = [loc["python"], str(HOME / "tools" / "run_skin_tokens.py"), asset_id, glb, skeleton]
+    b = c["bind"]
+    rc, log, t0 = run_stage("skin_tokens_bind", cmd, timeout=st["prep_timeout_s"] + st["run_timeout_s"] + st["export_timeout_s"] + st["metrics_timeout_s"] + 60,
+                            guard="run_skin_tokens")
+    res = finish("skin_tokens_bind", rc, log, t0, ["bind"], asset_id, {"binder": "skin_tokens", "skeleton": skeleton, "control": str(control)})
+    if res.get("receipt"):
+        try:
+            m = cf_guard.read_json(res["receipt"]).get("params", {}).get("metrics", {})
+            res["metrics"] = {k: m.get(k) for k in ("p99_stretch", "p99_compression_ratio", "checks", "binder", "violating_edges_by_region")}
+            if m.get("checks", {}).get("relative_to_control") is False:
+                res["relative_clause_warning"] = "the relative-to-control clause failed (stretch <= control x 1.10, compression >= control x 0.90): not a clean pass."
+        except Exception:
+            pass
+    res["gate_note"] = f"gate = bind.gate (stretch <= {b['gate']['p99_stretch_max']}, compression >= {b['gate']['p99_compression_ratio_min']}) + relative-to-control; compare against the donor bind before choosing."
+    return res
+
+
 def t_stills(asset_id: str, glb: str) -> dict:
     c = cfg()
     miss = need_file(glb, "glb")
@@ -291,6 +330,36 @@ def t_stills(asset_id: str, glb: str) -> dict:
     rc, log, t0 = run_stage("stills", cmd, timeout=c["stills"]["timeout_s"] + 60)
     return finish("stills", rc, log, t0, ["stills"], asset_id,
                   {"tier_note": "run_stills.py lights with one sun and a flat world colour (config stills.sun_energy / world_color): proof tier, not a three-point-lit PBR presentation."})
+
+
+def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0) -> dict:
+    c = cfg()
+    q = c["qc"]
+    miss = need_file(glb, "glb") or (need_file(concept, "concept") if concept else "")
+    if miss:
+        return {"status": "refused", "error": miss}
+    why = cf_guard.ram_reason(cf_guard.free_ram_gb(), q.get("min_free_ram_gb", 2.5))   # light gate: numpy only, no model
+    if why:
+        return {"status": "refused", "error": why}
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_qc.py"), asset_id, glb]
+    if concept:
+        cmd += ["--concept", concept]
+    if budget_tris:
+        cmd += ["--budget-tris", str(int(budget_tris))]
+    rc, log, t0 = run_stage("qc", cmd, timeout=q.get("timeout_s", 600))
+    res = finish("qc", rc, log, t0, ["qc"], asset_id)
+    if res.get("receipt"):
+        try:
+            p = cf_guard.read_json(res["receipt"]).get("params", {})
+            res.update(qc_overall=p.get("overall"), failed_metrics=p.get("failed", []), skipped_metrics=p.get("skipped", []), colour_flag=p.get("colour_flag"))
+            res["checks"] = [f"{r['metric']} {r['value']} {r['op']} {r['limit']}: {'pass' if r['pass'] else 'FAIL'}" for r in p.get("checks", [])]
+            if not concept:
+                res["warning"] = "no concept image: the texture-vs-concept and silhouette checks were skipped."
+            res["next"] = ("status ok means the QC ran. qc_overall says whether the mesh passed; the `stills` tool refuses (hooks/qc_gate.py) unless the latest QC receipt for "
+                           "this asset passes. Open the mesh and LOOK at it before calling it done.")
+        except Exception:
+            pass
+    return res
 
 
 def t_upscale(src: str, dst: str, passes: int = 1, asset_id: str = "") -> dict:
@@ -314,6 +383,43 @@ def t_upscale(src: str, dst: str, passes: int = 1, asset_id: str = "") -> dict:
     return res
 
 
+def t_motion_generate(text: str, asset_id: str = "motion-clips", duration: float | None = None, seed: int | None = None, clip_id: str = "", in_place: bool = False,
+                      install: bool = False, device: str = "gpu", encoder_device: str = "", backend: str = "ardy") -> dict:
+    """0.1.8: text -> ARDY motion -> retarget onto the 106 rig -> clip GLB the stills stage finds by name (tools/run_motion.py)."""
+    import argparse
+    c = cfg()
+    if device not in ("gpu", "cpu"):
+        return {"status": "refused", "error": f"device must be gpu or cpu, not {device!r}"}
+    sys.path.insert(0, str(HOME / "tools"))
+    sys.path.insert(0, str(HOME / "tools" / "motion"))
+    import run_motion   # pure checks only (no start): its main() is behind __main__
+    ns = argparse.Namespace(asset_id=asset_id, text=text, duration=duration, seed=seed, clip_id=clip_id, in_place=in_place, install=install, device=device,
+                            encoder_device=encoder_device, backend=backend)
+    why = gate(gpu=(device == "gpu"), heavy=True)   # a CPU-only run does not need the GPU lock, but still needs RAM
+    if why:
+        return {"status": "refused", "error": why}
+    probs = run_motion.problems(c, ns, cf_guard.free_ram_gb())
+    if probs:
+        return {"status": "refused", "error": "; ".join(probs)}
+    m = c["motion"]
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_motion.py"), asset_id, text, "--device", device, "--backend", backend]
+    for flag, val in (("--duration", duration), ("--seed", seed), ("--clip-id", clip_id), ("--encoder-device", encoder_device)):
+        if val not in (None, ""):
+            cmd += [flag, str(val)]
+    cmd += (["--in-place"] if in_place else []) + (["--install"] if install else [])
+    rc, log, t0 = run_stage("motion_generate", cmd, timeout=m["timeout_s"] + m["retarget_timeout_s"] + 120, guard=m["guard_match"] if device == "gpu" else None)
+    res = finish("motion_generate", rc, log, t0, ["motion"], asset_id,
+                 {"licences": "ARDY code Apache-2.0; ARDY weights NVIDIA Open Model Agreement; Llama 3 Community License (Built with Meta Llama 3): see THIRD_PARTY_NOTICES.md",
+                  "tier_note": "Proof tier: ARDY Core 27-joint skeleton retargeted by name and rest-direction onto the 106 rig. Fingers other than the thumb root follow the hand rigidly. LOOK at the clip in stills before using it."})
+    if res.get("receipt"):
+        try:
+            p = cf_guard.read_json(res["receipt"]).get("params", {})
+            res.update(clip_id=p.get("clip_id"), stills_use=p.get("stills_use"), installed_clip=p.get("installed_clip"), frames=p.get("frames"), fps=p.get("fps"))
+        except Exception:
+            pass
+    return res
+
+
 _STR = {"type": "string"}
 TOOLS = {
     "factory_status": (t_factory_status, "Read-only: GPU lock (and whether its pid is alive), free RAM against the start limit, newest receipts (unparsable ones are flagged).",
@@ -332,11 +438,28 @@ TOOLS = {
     "bind": (t_bind, "Bind a body mesh to the psyche-106 rig (tools/run_bind.py, CPU Blender) with the donor forced (default from config). Returns the receipt path, the gate metrics and a "
              "warning when bind_best.py reports GATE_FAIL on the relative-to-control clause that run_bind.py does not check.",
              {"asset_id": _STR, "mesh": _STR, "donor": {**_STR, "description": "optional, default config character.default_donor"}}, ["asset_id", "mesh"], False, True),
-    "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Returns the receipt path.",
+    "skin_tokens_bind": (t_skin_tokens_bind, "Skin a body GLB onto a skeleton with SkinTokens (VAST-AI, MIT; tools/run_skin_tokens.py, demo.py --use_skeleton), default skeleton the psyche-106 rig. "
+                         "GPU job under the lock, RAM gate and gpu_guard. The result is gated like bind (config bind.gate) AND against the donor control (relative clause); the receipt is stage "
+                         "bind. Output bound_skintokens.glb never overwrites the donor bind. Refuses on a live GPU lock, low RAM, a missing file, SkinTokens install or donor control.",
+                         {"glb": {**_STR, "description": "body mesh GLB (T-posed, body only)"}, "skeleton": {**_STR, "description": "optional rig GLB, default config.local rig_glb"},
+                          "asset_id": {**_STR, "description": "optional, default the folder of mesh.glb or the file stem"}}, ["glb"], True, True),
+    "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Refused (hooks/qc_gate.py) until the latest `qc` receipt for the asset passes. Returns the receipt path.",
                {"asset_id": _STR, "glb": _STR}, ["asset_id", "glb"], False, True),
+    "qc": (t_qc, "Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
+           "texels, UV coverage and stretch, luminance/saturation against the concept image (flags linear-not-encoded); front silhouette coverage vs the concept matte (thin-structure loss). "
+           "Thresholds: config/config.json qc. Writes receipts/<asset>/qc-*.json with pass/fail per metric and overall; `stills` is refused until the latest one passes. Optional concept (image path) and budget_tris.",
+           {"asset_id": _STR, "glb": _STR, "concept": {**_STR, "description": "concept/cutout image (RGBA matte preferred); without it the concept checks are skipped"},
+            "budget_tris": {"type": "integer", "description": "triangle budget; omitted = config qc.geometry.budget_tris (null = not checked)"}}, ["asset_id", "glb"], False, False),
     "upscale": (t_upscale, "Real-ESRGAN x4 with Lab colour match (tools/upscale/upscale_match.py) under the GPU guard. asset_id defaults to the output file stem so a receipt is written. "
                 "Refuses on a live GPU lock or low RAM. Returns the receipt path.",
                 {"src": _STR, "dst": _STR, "passes": {"type": "integer"}, "asset_id": _STR}, ["src", "dst"], True, True),
+    "motion_generate": (t_motion_generate, "Generate a motion clip from text with NVIDIA ARDY (tools/run_motion.py) and retarget it onto the psyche-106 rig with headless Blender into a Mixamo-format clip GLB "
+                        "that the stills stage finds by name (install=true copies it to mixamo_clips_dir, never overwriting). The text encoder is LLM2Vec on a LOCAL Llama 3 mirror: no network, no token. "
+                        "Refuses on a live GPU lock (device=gpu), low RAM, a missing weight/mirror/rig file, an over-long text or duration. Returns the receipt path, clip id and the stills hint.",
+                        {"text": {**_STR, "description": "what the character does, one sentence, e.g. 'A person walks forward.'"}, "asset_id": {**_STR, "description": "receipt folder, default motion-clips"},
+                         "duration": {"type": "number", "description": "seconds, 1 to config motion.max_duration_s"}, "seed": {"type": "integer"}, "clip_id": _STR,
+                         "in_place": {"type": "boolean"}, "install": {"type": "boolean"}, "device": {**_STR, "description": "gpu (default) or cpu"},
+                         "encoder_device": {**_STR, "description": "cuda or cpu for the text encoder (cpu needs about 24 GB free RAM)"}, "backend": _STR}, ["text"], True, True),
 }
 
 
