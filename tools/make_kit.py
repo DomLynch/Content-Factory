@@ -68,6 +68,9 @@ def build(spec, tpl):
         order = {g: i for i, g in enumerate(tpl["group_priority"])}
         rank = lambda r: order[r["group"]]
     kit["rows"] = sorted(rows, key=rank)   # stable: GPU priority order
+    unmatched = [e for e in tpl.get("order", []) if not any(e in (r["row_id"], "group:" + r["group"]) for r in rows)]
+    if unmatched:
+        print("WARNING: template 'order' entries match no row (renamed or missing cell?):", unmatched)
     ids = [r["row_id"] for r in kit["rows"]]
     if len(ids) != len(set(ids)):
         raise SystemExit("duplicate row_id in generated kit")

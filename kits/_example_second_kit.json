@@ -263,6 +263,24 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
    "prompt": "Extreme close-up of the grey eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: short cropped brown hair above a strong brow; plain padded gambeson collar rising around the neck, no bare neck or chest, no earring, no hair ornaments."
+  },
+  {
+   "name": "gear_belt_buckle_closeup",
+   "row_id": "gear_belt_buckle_closeup",
+   "group": "gear",
+   "w": 1024,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Close-up of ONLY a plain iron belt buckle on a wide brown leather belt strap, front view, filling the frame, on a plain empty dark grey background: no surcoat, no fabric behind it. No person."
+  },
+  {
+   "name": "gear_collar_closeup",
+   "row_id": "gear_collar_closeup",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY a close-up of the steel gorget with its padded collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   }
  ]
 }
