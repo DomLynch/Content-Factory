@@ -139,6 +139,32 @@
       "weight_sum_tol": 0.001
     }
   },
+  "skin_tokens": {
+    "_comment": "tools/run_skin_tokens.py: SkinTokens (VAST-AI, MIT) skins a body onto the psyche-106 rig (demo.py --use_skeleton). GPU. Paths come from config.local.json (skin_tokens_repo_dir, skin_tokens_python). Gate = bind.gate plus the relative-to-control clause.",
+    "script_dir": "tools/skin_tokens",
+    "prep_script": "prep_input.py",
+    "export_script": "to_rig_body.py",
+    "metrics_script": "bind/metrics2.py",
+    "ckpt": "experiments/articulation_xl_quantization_256_token_4/grpo_1400.ckpt",
+    "vae_ckpt": "experiments/skin_vae_2_10_32768/last.ckpt",
+    "work_subdir": "skin_tokens_work",
+    "bound_glb_name": "bound_skintokens.glb",
+    "use_transfer": true,
+    "clamp_influences": true,
+    "num_beams": 10,
+    "top_k": 5,
+    "top_p": 0.95,
+    "temperature": 1.0,
+    "repetition_penalty": 2.0,
+    "control_donor": "tall",
+    "control_json": "bind/controls/control_{donor}.metrics.json",
+    "relative": {"stretch_factor": 1.10, "compression_factor": 0.90},
+    "prep_timeout_s": 300,
+    "run_timeout_s": 1800,
+    "export_timeout_s": 300,
+    "metrics_timeout_s": 900,
+    "attn_env": {"SKINTOKENS_ATTN": "sdpa"}
+  },
   "qc": {
     "min_free_ram_gb": 2.5,
     "timeout_s": 600,

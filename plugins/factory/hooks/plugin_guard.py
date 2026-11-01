@@ -20,10 +20,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_cmd  # noqa: E402
 import cf_guard  # noqa: E402
 
-STAGES = ("generate.py", "flux_kit.py", "run_3d.py", "run_character.py", "run_bind.py", "run_stills.py", "run_gear.py", "run_textures.py",
+STAGES = ("generate.py", "flux_kit.py", "run_3d.py", "run_character.py", "run_bind.py", "run_skin_tokens.py", "run_stills.py", "run_gear.py", "run_textures.py",
           "run_clean.py", "assemble_character.py", "cutout_cpu.py", "upscale_match.py", "run_kit.ps1")
 SHELLS = ("Bash", "PowerShell")
-TOOLS = {"generate.py": "flux_render/trellis_run", "flux_kit.py": "flux_render", "run_3d.py": "trellis_run", "run_bind.py": "bind", "run_stills.py": "stills",
+TOOLS = {"generate.py": "flux_render/trellis_run", "flux_kit.py": "flux_render", "run_3d.py": "trellis_run", "run_bind.py": "bind", "run_skin_tokens.py": "skin_tokens_bind", "run_stills.py": "stills",
          "cutout_cpu.py": "cutout", "upscale_match.py": "upscale"}
 
 
