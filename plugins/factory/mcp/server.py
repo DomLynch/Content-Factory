@@ -8,6 +8,7 @@
   bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
+  qc(asset_id, glb, concept)           geometry/texture/silhouette checks -> tools/run_qc.py (CPU, numpy, light RAM gate; hooks/qc_gate.py makes `stills` wait for its pass)
 
 Every tool runs the EXISTING script as a subprocess in the Content-Factory checkout (FACTORY_HOME, default <home>\\Documents\\Content-Factory), never reimplements it,
 and returns the path of the receipt the script wrote. GPU tools start under tools/gpu_guard.ps1 exactly like tools/run_character.py does.
@@ -31,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_guard  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.1"
+SERVER_VERSION = "0.1.3"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
@@ -265,6 +266,36 @@ def t_stills(asset_id: str, glb: str) -> dict:
                   {"tier_note": "run_stills.py lights with one sun and a flat world colour (config stills.sun_energy / world_color): proof tier, not a three-point-lit PBR presentation."})
 
 
+def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0) -> dict:
+    c = cfg()
+    q = c["qc"]
+    miss = need_file(glb, "glb") or (need_file(concept, "concept") if concept else "")
+    if miss:
+        return {"status": "refused", "error": miss}
+    why = cf_guard.ram_reason(cf_guard.free_ram_gb(), q.get("min_free_ram_gb", 2.5))   # light gate: numpy only, no model
+    if why:
+        return {"status": "refused", "error": why}
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_qc.py"), asset_id, glb]
+    if concept:
+        cmd += ["--concept", concept]
+    if budget_tris:
+        cmd += ["--budget-tris", str(int(budget_tris))]
+    rc, log, t0 = run_stage("qc", cmd, timeout=q.get("timeout_s", 600))
+    res = finish("qc", rc, log, t0, ["qc"], asset_id)
+    if res.get("receipt"):
+        try:
+            p = cf_guard.read_json(res["receipt"]).get("params", {})
+            res.update(qc_overall=p.get("overall"), failed_metrics=p.get("failed", []), skipped_metrics=p.get("skipped", []), colour_flag=p.get("colour_flag"))
+            res["checks"] = [f"{r['metric']} {r['value']} {r['op']} {r['limit']}: {'pass' if r['pass'] else 'FAIL'}" for r in p.get("checks", [])]
+            if not concept:
+                res["warning"] = "no concept image: the texture-vs-concept and silhouette checks were skipped."
+            res["next"] = ("status ok means the QC ran. qc_overall says whether the mesh passed; the `stills` tool refuses (hooks/qc_gate.py) unless the latest QC receipt for "
+                           "this asset passes. Open the mesh and LOOK at it before calling it done.")
+        except Exception:
+            pass
+    return res
+
+
 def t_upscale(src: str, dst: str, passes: int = 1, asset_id: str = "") -> dict:
     c = cfg()
     miss = need_file(src, "src")
@@ -301,8 +332,13 @@ TOOLS = {
     "bind": (t_bind, "Bind a body mesh to the psyche-106 rig (tools/run_bind.py, CPU Blender) with the donor forced (default from config). Returns the receipt path, the gate metrics and a "
              "warning when bind_best.py reports GATE_FAIL on the relative-to-control clause that run_bind.py does not check.",
              {"asset_id": _STR, "mesh": _STR, "donor": {**_STR, "description": "optional, default config character.default_donor"}}, ["asset_id", "mesh"], False, True),
-    "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Returns the receipt path.",
+    "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Refused (hooks/qc_gate.py) until the latest `qc` receipt for the asset passes. Returns the receipt path.",
                {"asset_id": _STR, "glb": _STR}, ["asset_id", "glb"], False, True),
+    "qc": (t_qc, "Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
+           "texels, UV coverage and stretch, luminance/saturation against the concept image (flags linear-not-encoded); front silhouette coverage vs the concept matte (thin-structure loss). "
+           "Thresholds: config/config.json qc. Writes receipts/<asset>/qc-*.json with pass/fail per metric and overall; `stills` is refused until the latest one passes. Optional concept (image path) and budget_tris.",
+           {"asset_id": _STR, "glb": _STR, "concept": {**_STR, "description": "concept/cutout image (RGBA matte preferred); without it the concept checks are skipped"},
+            "budget_tris": {"type": "integer", "description": "triangle budget; omitted = config qc.geometry.budget_tris (null = not checked)"}}, ["asset_id", "glb"], False, False),
     "upscale": (t_upscale, "Real-ESRGAN x4 with Lab colour match (tools/upscale/upscale_match.py) under the GPU guard. asset_id defaults to the output file stem so a receipt is written. "
                 "Refuses on a live GPU lock or low RAM. Returns the receipt path.",
                 {"src": _STR, "dst": _STR, "passes": {"type": "integer"}, "asset_id": _STR}, ["src", "dst"], True, True),
