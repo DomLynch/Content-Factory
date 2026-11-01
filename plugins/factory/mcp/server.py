@@ -332,10 +332,10 @@ def t_stills(asset_id: str, glb: str) -> dict:
                   {"tier_note": "run_stills.py lights with one sun and a flat world colour (config stills.sun_energy / world_color): proof tier, not a three-point-lit PBR presentation."})
 
 
-def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0) -> dict:
+def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0, render: str = "") -> dict:
     c = cfg()
     q = c["qc"]
-    miss = need_file(glb, "glb") or (need_file(concept, "concept") if concept else "")
+    miss = need_file(glb, "glb") or (need_file(concept, "concept") if concept else "") or (need_file(render, "render") if render else "")
     if miss:
         return {"status": "refused", "error": miss}
     why = cf_guard.ram_reason(cf_guard.free_ram_gb(), q.get("min_free_ram_gb", 2.5))   # light gate: numpy only, no model
@@ -346,7 +346,10 @@ def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0) -> di
         cmd += ["--concept", concept]
     if budget_tris:
         cmd += ["--budget-tris", str(int(budget_tris))]
-    rc, log, t0 = run_stage("qc", cmd, timeout=q.get("timeout_s", 600))
+    moge = q.get("moge") or {}
+    if render and moge.get("enabled"):   # 0.1.12, optional and off by default: run_qc.py scores the render against the concept with MoGe-2
+        cmd += ["--render", render]
+    rc, log, t0 = run_stage("qc", cmd, timeout=q.get("timeout_s", 600) + (moge.get("timeout_s", 600) if moge.get("enabled") else 0))
     res = finish("qc", rc, log, t0, ["qc"], asset_id)
     if res.get("receipt"):
         try:
@@ -355,6 +358,9 @@ def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0) -> di
             res["checks"] = [f"{r['metric']} {r['value']} {r['op']} {r['limit']}: {'pass' if r['pass'] else 'FAIL'}" for r in p.get("checks", [])]
             if not concept:
                 res["warning"] = "no concept image: the texture-vs-concept and silhouette checks were skipped."
+            if p.get("moge"):
+                res["moge"] = p["moge"]
+                res["notes"] = p.get("notes", [])
             res["next"] = ("status ok means the QC ran. qc_overall says whether the mesh passed; the `stills` tool refuses (hooks/qc_gate.py) unless the latest QC receipt for "
                            "this asset passes. Open the mesh and LOOK at it before calling it done.")
         except Exception:
@@ -462,7 +468,8 @@ TOOLS = {
            "texels, UV coverage and stretch, luminance/saturation against the concept image (flags linear-not-encoded); front silhouette coverage vs the concept matte (thin-structure loss). "
            "Thresholds: config/config.json qc. Writes receipts/<asset>/qc-*.json with pass/fail per metric and overall; `stills` is refused until the latest one passes. Optional concept (image path) and budget_tris.",
            {"asset_id": _STR, "glb": _STR, "concept": {**_STR, "description": "concept/cutout image (RGBA matte preferred); without it the concept checks are skipped"},
-            "budget_tris": {"type": "integer", "description": "triangle budget; omitted = config qc.geometry.budget_tris (null = not checked)"}}, ["asset_id", "glb"], False, False),
+            "budget_tris": {"type": "integer", "description": "triangle budget; omitted = config qc.geometry.budget_tris (null = not checked)"},
+            "render": {**_STR, "description": "optional image of the mesh (a still); only used when config qc.moge.enabled (MoGe-2 faceting and normal/depth agreement against the concept; off by default)"}}, ["asset_id", "glb"], False, False),
     "upscale": (t_upscale, "Real-ESRGAN x4 with Lab colour match (tools/upscale/upscale_match.py) under the GPU guard. asset_id defaults to the output file stem so a receipt is written. "
                 "Refuses on a live GPU lock or low RAM. Returns the receipt path.",
                 {"src": _STR, "dst": _STR, "passes": {"type": "integer"}, "asset_id": _STR}, ["src", "dst"], True, True),

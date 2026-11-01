@@ -193,6 +193,24 @@
       "iou_px": 256,
       "min_coverage_ratio": 0.8,
       "min_iou": 0.4
+    },
+    "moge": {
+      "_comment": "Optional MoGe-2 input (tools/qc_moge.py, plugin 0.1.13): faceting of --render against the concept and normal/depth agreement. OFF by default; when off or unavailable qc behaves as before. Thresholds null = scores are recorded in params.moge but never fail. Definitions: docstring of tools/qc_moge.py. Weights: local only (model_dir null = config.local pixal3d_moge_dir, else work_dir/models/moge-2-vitl). Python: config.local moge_python (default the Pixal3D venv). CPU by default so it never takes the GPU lock.",
+      "enabled": false,
+      "model_dir": null,
+      "device": "cpu",
+      "min_free_ram_gb": 8.0,
+      "timeout_s": 600,
+      "resolution_level": 9,
+      "score_px": 96,
+      "erode_px": 1,
+      "crease_deg": 15.0,
+      "thresholds": {
+        "max_faceting_delta_deg": null,
+        "max_normal_mean_deg": null,
+        "max_depth_rel_err": null,
+        "min_mask_iou": null
+      }
     }
   },
   "clean": {

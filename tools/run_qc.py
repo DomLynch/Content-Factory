@@ -10,8 +10,11 @@ Metrics
              (sigma_max / sigma_min of the 3D->UV Jacobian), mean luminance / saturation of covered texels against the concept subject (alpha > 0.5),
              'linear-not-encoded' when the base colour is darker or greyer than the concept by more than the configured ratio.
   thin     : front orthographic silhouette of the mesh (glTF +Y up, looking along Z) against the concept alpha matte: coverage ratio and IoU.
+  moge     : OPTIONAL, off by default (config qc.moge.enabled; 0.1.13, additive). With --render <image of the mesh> and the concept, MoGe-2 (local weights, Pixal3D venv python,
+             tools/qc_moge.py) scores faceting of the render against the concept and normal/depth agreement; adds params.moge and params.notes, and checks only for thresholds that
+             are set (default null = never fails). Off, or MoGe unavailable for any reason: nothing else changes (fail-open, note 'moge unavailable').
 """
-import argparse, json, os, sys, time
+import argparse, json, os, subprocess, sys, tempfile, time
 
 import numpy as np
 
@@ -282,11 +285,78 @@ def verdict(m, q, budget):
     return rows, skipped
 
 
+# ---- MoGe-2 (optional extra input, off by default) --------------------------------------------------------------------------------------------------
+MOGE_METRICS = (("moge_faceting_delta_deg", "<=", "max_faceting_delta_deg", lambda b: b["faceting"].get("faceting_delta_deg")),
+                ("moge_normal_mean_deg", "<=", "max_normal_mean_deg", lambda b: b["agreement"].get("normal_mean_deg")),
+                ("moge_depth_rel_err", "<=", "max_depth_rel_err", lambda b: b["agreement"].get("depth_rel_err")),
+                ("moge_mask_iou", ">=", "min_mask_iou", lambda b: b["agreement"].get("mask_iou")))
+
+
+def moge_paths(cfg):
+    """(python, model_dir): config.local moge_python / qc.moge.model_dir, else the Pixal3D venv and work_dir/models/moge-2-vitl."""
+    loc, mq = cfg.get("local", {}), cfg["qc"]["moge"]
+    work = loc.get("work_dir", "")
+    py = loc.get("moge_python") or loc.get("pixal3d_python") or os.path.join(work, "Pixal3D-312", ".venv", "Scripts", "python.exe")
+    model = mq.get("model_dir") or loc.get("pixal3d_moge_dir") or os.path.join(work, "models", "moge-2-vitl")
+    return py, model
+
+
+def subprocess_runner(cmd, timeout):
+    """Run the qc_moge.py worker; returns the parsed JSON it printed. Raises on a non-zero exit, a timeout or unparseable output."""
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    if r.returncode != 0:
+        raise RuntimeError((r.stderr or r.stdout or "no output").strip().splitlines()[-1][:300])
+    return json.loads(r.stdout.strip().splitlines()[-1])
+
+
+def moge_block(cfg, concept, render, runner=None, free_ram_gb=None):
+    """The `moge` block for the receipt: the worker's scores (status 'ok') or {'status': 'unavailable', 'reason': ...}. Never raises (fail-open)."""
+    mq = cfg["qc"]["moge"]
+    try:
+        if not concept or not render:
+            return {"status": "unavailable", "reason": "needs both --concept and --render"}
+        for p, what in ((render, "render"), (concept, "concept")):
+            if not os.path.isfile(p):
+                return {"status": "unavailable", "reason": f"{what} not found: {p}"}
+        py, model = moge_paths(cfg)
+        if runner is None:
+            if not os.path.isfile(py):
+                return {"status": "unavailable", "reason": "moge_python not found: " + py}
+            if not os.path.exists(os.path.join(model, "model.pt") if os.path.isdir(model) else model):
+                return {"status": "unavailable", "reason": "MoGe-2 weights not found in " + model}
+            free = free_ram_gb if free_ram_gb is not None else cf_common.FreeRamWatch()._free_gb()
+            if free < mq.get("min_free_ram_gb", 8.0):
+                return {"status": "unavailable", "reason": f"free RAM {free:.1f} GB < qc.moge.min_free_ram_gb {mq.get('min_free_ram_gb', 8.0)}"}
+        cmd = [py, os.path.join(os.path.dirname(os.path.abspath(__file__)), "qc_moge.py"), "--concept", concept, "--render", render, "--model", model,
+               "--device", mq.get("device", "cpu"), "--score-px", str(mq.get("score_px", 96)), "--erode-px", str(mq.get("erode_px", 1)),
+               "--crease-deg", str(mq.get("crease_deg", 15.0)), "--resolution-level", str(mq.get("resolution_level", 9))]
+        res = (runner or subprocess_runner)(cmd, mq.get("timeout_s", 600))
+        if not isinstance(res, dict) or res.get("status") != "ok":
+            return {"status": "unavailable", "reason": (res or {}).get("reason", "worker returned no scores") if isinstance(res, dict) else "worker returned no scores"}
+        return res
+    except Exception as e:
+        return {"status": "unavailable", "reason": f"{type(e).__name__}: {str(e)[:300]}"}
+
+
+def moge_rows(block, mq):
+    """Check rows (same shape as verdict()) for the MoGe thresholds that are set; a threshold of null, or a score that is missing, adds nothing."""
+    rows = []
+    if block.get("status") != "ok":
+        return rows
+    for name, op, key, get in MOGE_METRICS:
+        limit, value = (mq.get("thresholds") or {}).get(key), get(block)
+        if limit is None or value is None:
+            continue
+        rows.append({"metric": name, "value": value, "op": op, "limit": limit, "pass": bool(value <= limit if op == "<=" else value >= limit)})
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("asset_id")
     ap.add_argument("glb")
     ap.add_argument("--concept", default="")
+    ap.add_argument("--render", default="", help="image of the mesh (a still); only used when qc.moge.enabled")
     ap.add_argument("--budget-tris", type=int, default=None)
     a = ap.parse_args()
     cfg = cf_common.load_config()
@@ -295,7 +365,8 @@ def main():
     t0 = time.time()
     ram = cf_common.FreeRamWatch()
     ram.start()
-    status, err, params = "ok", "", {"concept": a.concept, "budget_tris": budget, "thresholds": q}
+    moge_on = bool((q.get("moge") or {}).get("enabled", False))
+    status, err, params = "ok", "", {"concept": a.concept, "budget_tris": budget, "thresholds": q if moge_on else {k: v for k, v in q.items() if k != "moge"}}
     try:
         if not os.path.isfile(a.glb):
             raise FileNotFoundError("glb not found: " + a.glb)
@@ -305,6 +376,12 @@ def main():
         m = {"geometry": geometry_metrics(parts), "texture": texture_metrics(parts, a.concept, q["texture"]),
              "thin": silhouette_metrics(parts, a.concept, q["thin"]) if a.concept else {"skipped": "no concept image"}}
         rows, skipped = verdict(m, q, budget)
+        if moge_on:
+            mb = moge_block(cfg, a.concept, a.render)
+            params["moge"] = mb
+            if mb.get("status") != "ok":
+                params["notes"] = ["moge unavailable: " + str(mb.get("reason"))]
+            rows += moge_rows(mb, q["moge"])
         failed = [r["metric"] for r in rows if not r["pass"]]
         params.update(metrics=m, checks=rows, skipped=skipped, failed=failed, overall="fail" if failed else "pass")
         if "colour_flag" in m["texture"]:
