@@ -22,15 +22,29 @@ bpy.ops.import_scene.gltf(filepath=A['bound'])
 rigs = [o for o in bpy.data.objects if o.type == 'ARMATURE']
 rig = bpy.data.objects.get(S['rig_name']) or rigs[0]
 meshes = [o for o in bpy.data.objects if o.type == 'MESH']
+# the glTF importer also adds hidden bone-shape helper meshes (Icosphere, 2 m wide); only the skinned character meshes may drive framing
+skinned = [o for o in meshes if any(md.type == 'ARMATURE' for md in o.modifiers)]
+meshes = skinned or [o for o in meshes if not o.hide_render and not o.hide_get()]
 if not meshes: P('ERROR no mesh in bound glb'); sys.exit(3)
 bpy.context.view_layer.update()
-pts = [m.matrix_world @ Vector(c) for m in meshes for c in m.bound_box]
-zmin = min(p.z for p in pts); zmax = max(p.z for p in pts); H = zmax - zmin
-cx = 0.5 * (min(p.x for p in pts) + max(p.x for p in pts)); cy = 0.5 * (min(p.y for p in pts) + max(p.y for p in pts))
+import numpy as np
+def eval_bounds():
+    # bounds of the EVALUATED (posed, skinned) meshes in world space: (min xyz, max xyz)
+    bpy.context.view_layer.update(); dg = bpy.context.evaluated_depsgraph_get(); lo = None
+    for m in meshes:
+        e = m.evaluated_get(dg); me = e.to_mesh(); n = len(me.vertices)
+        if n == 0: e.to_mesh_clear(); continue
+        co = np.empty(n * 3, dtype=np.float32); me.vertices.foreach_get('co', co); co = co.reshape(n, 3)
+        W = np.array(e.matrix_world); w = co @ W[:3, :3].T + W[:3, 3]; e.to_mesh_clear()
+        a, b = w.min(axis=0), w.max(axis=0)
+        lo, hi = (a, b) if lo is None else (np.minimum(lo, a), np.maximum(hi, b))
+    return Vector(lo.tolist()), Vector(hi.tolist())
 bones = rig.data.bones
 hb = bones[S['head_bone']]
+bpy.context.view_layer.update()
+bmin, bmax = eval_bounds(); H = bmax.z - bmin.z
 head_c = rig.matrix_world @ ((hb.head_local + hb.tail_local) * 0.5)
-P('body height %.3f m, head centre z %.3f' % (H, head_c.z))
+P('body height %.3f m, head centre z %.3f, bounds' % (H, head_c.z), tuple(bmin), tuple(bmax))
 
 scn = bpy.context.scene
 scn.render.engine = S['engine']
@@ -46,7 +60,7 @@ bg = w.node_tree.nodes['Background']; bg.inputs[0].default_value = tuple(S['worl
 sd = bpy.data.lights.new('sun', 'SUN'); sd.energy = S['sun_energy']
 sun = bpy.data.objects.new('sun', sd); scn.collection.objects.link(sun)
 sun.rotation_euler = tuple(math.radians(d) for d in S['sun_euler_deg'])
-cd = bpy.data.cameras.new('cam'); cd.lens = S['lens_mm']; cd.sensor_width = S['sensor_mm']; cd.sensor_fit = 'VERTICAL'
+cd = bpy.data.cameras.new('cam'); cd.lens = S['lens_mm']; cd.sensor_width = S['sensor_mm']; cd.sensor_height = S['sensor_mm']; cd.sensor_fit = 'VERTICAL'  # vertical fit reads sensor_height (default 24 mm), so set it too or the frame is 1.5x too tight
 cam = bpy.data.objects.new('cam', cd); scn.collection.objects.link(cam); scn.camera = cam
 fov = 2 * math.atan(S['sensor_mm'] / 2 / S['lens_mm'])
 cdir = Vector(S['camera_dir']).normalized()
@@ -115,13 +129,14 @@ def pose_from_clip(path):
     bpy.context.view_layer.update()
     return f, len(mapped)
 
-out = A['out']; os.makedirs(out, exist_ok=True); R = {'renders': {}, 'body_height_m': round(H, 3)}
-body_t = Vector((cx, cy, zmin + H * S['cam_height_frac']))
+out = A['out']; os.makedirs(out, exist_ok=True); R = {'renders': {}}
 reset_pose()
-R['renders']['head'] = {'s': shot(os.path.join(out, 'head.png'), Vector((cx, cy, head_c.z)), H * S['head_height_frac'])}
+bmin, bmax = eval_bounds(); H = bmax.z - bmin.z
+R['renders']['head'] = {'s': shot(os.path.join(out, 'head.png'), Vector(((bmin.x + bmax.x) / 2, (bmin.y + bmax.y) / 2, head_c.z)), H * S['head_height_frac'])}
 for key in ('idle', 'walk', 'attack'):
     f, nm = pose_from_clip(A['clips'][key])
-    R['renders'][key] = {'frame': f, 'matched_bones': nm, 's': shot(os.path.join(out, key + '.png'), body_t, H * S['body_margin'])}
+    lo, hi = eval_bounds(); size = max(hi.z - lo.z, hi.x - lo.x, hi.y - lo.y)  # posed bounds of this frame; square frame fits the larger span
+    R['renders'][key] = {'frame': f, 'matched_bones': nm, 'bounds': [list(lo), list(hi)], 's': shot(os.path.join(out, key + '.png'), (lo + hi) * 0.5, size * S['body_margin'])}
     P(key, R['renders'][key])
 img = bpy.data.images.load(os.path.join(out, S['thumb_source'] + '.png'))
 img.scale(S['thumb_px'], S['thumb_px']); img.filepath_raw = os.path.join(out, 'thumb.png'); img.file_format = 'PNG'; img.save()

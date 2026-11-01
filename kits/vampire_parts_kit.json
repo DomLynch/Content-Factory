@@ -32,6 +32,14 @@
    "row_id": "boots_alone",
    "part": "gear",
    "prompt": "Show ONLY a pair of tall black leather boots with gilded knee plates standing side by side on the floor, front view, with nothing else in the picture."
+  },
+  {
+   "name": "body_tpose",
+   "row_id": "body_tpose",
+   "part": "body",
+   "prompt": "Remove the cloak, fur mantle, coat, tabard, belt, medallions and boots. He stands in a strict T-pose facing the camera: both arms stretched straight out horizontally to the sides at shoulder height, palms facing down, fingers straight and slightly apart, legs straight and a little apart, feet flat, wearing only a plain form-fitting dark grey long-sleeve base layer, trousers and plain dark shoes, with the same pale gaunt face, long black hair and thin moustache. The whole body including both hands is fully inside the picture with space around it.",
+   "w": 1536,
+   "h": 1024
   }
  ]
 }

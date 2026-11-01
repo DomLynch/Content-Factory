@@ -18,9 +18,10 @@ row_id = row.get("row_id", row["name"])
 seed = kit.get("seed", cfg["defaults"]["seed"])
 prompt = " ".join([row["prompt"], kit["subject"] if row.get("use_subject", True) else "", kit["style"]]).strip()
 W, H = row.get("w", kit.get("w", cfg["defaults"]["w"])), row.get("h", kit.get("h", cfg["defaults"]["h"]))
-use_ref = bool(kit.get("ref")) and row.get("use_ref", True)
+ref_path = row.get("ref", kit.get("ref"))   # a row may use its own identity reference
+use_ref = bool(ref_path) and row.get("use_ref", True)
 if use_ref:
-    prompt = kit["ref_prefix"] + " " + prompt
+    prompt = row.get("ref_prefix", kit["ref_prefix"]) + " " + prompt
 asset_id = cf_common.slug_id(kit["kit"], row_id, prompt, seed)
 out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
 path = os.path.join(out_dir, f"{row['name']}_{W}x{H}.png")
@@ -35,7 +36,7 @@ from diffusers import Flux3DistilledAutoBlocks
 
 ram = cf_common.FreeRamWatch(); ram.start()
 t0 = time.time()
-params = {"seed": seed, "w": W, "h": H, "reference": kit["ref"] if use_ref else None, "prompt": prompt, "kit": sys.argv[1], "row_id": row_id}
+params = {"seed": seed, "w": W, "h": H, "reference": ref_path if use_ref else None, "prompt": prompt, "kit": sys.argv[1], "row_id": row_id}
 model = {"id": cfg["models"]["flux"]["id"], "dir": LOC["flux_model_dir"]}
 try:
     blocks = Flux3DistilledAutoBlocks()
@@ -51,7 +52,7 @@ try:
     extra = {}
     if use_ref:
         from PIL import Image
-        extra["image"] = [Image.open(kit["ref"]).convert("RGB")]
+        extra["image"] = [Image.open(ref_path).convert("RGB")]
     t1 = time.time()
     image = pipe(prompt=prompt, width=W, height=H, generator=torch.Generator().manual_seed(seed), output="images", **extra)[0]
     torch.cuda.synchronize()
@@ -65,7 +66,7 @@ try:
         sys.exit(2)
     image.save(path)
     rp = cf_common.write_receipt(cfg, asset_id, "flux", tool="flux_kit.py", model=model, params={**params, "mean_brightness": round(mean, 1)},
-                                 inputs=[kit["ref"]] if use_ref else [], timing=timing, memory=mem, outputs=[path])
+                                 inputs=[ref_path] if use_ref else [], timing=timing, memory=mem, outputs=[path])
     print(f"RESULT {row['name']} path={path} gen_s={gen_s:.1f} peak_alloc_gb={mem['peak_gpu_alloc_gb']} mean={mean:.0f} receipt={rp}", flush=True)
 except SystemExit:
     raise

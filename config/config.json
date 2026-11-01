@@ -48,7 +48,7 @@
         "bake_faces": 500000,
         "extra": [
           "--attn-auto-gb",
-          "24"
+          "28"
         ]
       },
       "attn24": {
@@ -254,7 +254,7 @@
     "thumb_source": "idle",
     "lens_mm": 50,
     "sensor_mm": 36,
-    "body_margin": 1.15,
+    "body_margin": 1.2,
     "head_height_frac": 0.18,
     "head_bone": "mixamorig:Head",
     "hips_bone": "mixamorig:Hips",
