@@ -24,7 +24,8 @@
    "group": "body",
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
-   "prompt": "The camera is BEHIND the man: we see only the back of his head and back of his body. His face, chest, belt buckle, trouser fly and pockets are NOT visible; show the back of the plain padded gambeson, the cropped hair at the nape, the back of the linen trousers and the heels of the feet. Orthographic BACK view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "use_ref": false,
+   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall broad-shouldered man with short cropped brown hair, wearing a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. We see ONLY his back: the back of his head and cropped hair, the plain smooth back of the gambeson with no buckle and no pockets, the back of the trousers and the heels of the boots. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_left",
@@ -48,7 +49,8 @@
    "group": "body",
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
-   "prompt": "The man is rotated 45 degrees: his body and face turn toward the left edge of the image so his right shoulder is nearer the camera and his chest is at an angle, THREE-QUARTER view, not facing the camera straight on. Same plain base layer, A-pose, a proud upright posture. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "use_ref": false,
+   "prompt": "THREE-QUARTER view of a tall broad-shouldered man with a square jaw, a trimmed beard, grey eyes and short cropped brown hair, wearing a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a proud upright posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "head_front",

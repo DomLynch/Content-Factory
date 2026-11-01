@@ -23,7 +23,6 @@
  "head_exclude": "no collar, no fur",
  "hand_accessory": "gold signet rings",
  "hand_accessory_short": "rings",
- "back_view_detail": "the back of the plain base layer sweater, the two braids hanging down the back, the back of the trousers and the heels of the boots",
  "material_look": "crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style",
  "gear_isolation_suffix": "No person, no head, no face, no hands, no mannequin; the item alone, isolated.",
  "gear_items": [
@@ -173,5 +172,9 @@
    "id": "velvet_lining",
    "desc": "dark crimson velvet cloak lining with a soft sheen"
   }
- ]
+ ],
+ "outfit_desc": "a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots",
+ "back_body_desc": "a tall lean pale man with long black hair swept back and braided into two thick braids that hang down his back",
+ "front_body_desc": "a tall lean pale man with a strong jaw, a thin dark moustache, red eyes and long black hair swept back and braided into two thick braids",
+ "back_visible_desc": "the back of his head and braids, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots"
 }
