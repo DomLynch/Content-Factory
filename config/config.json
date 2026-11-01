@@ -112,6 +112,15 @@
           "--max-tokens",
           "98304"
         ]
+      },
+      "part_512": {
+        "preset": "final",
+        "texture_size": 2048,
+        "bake_faces": 40000,
+        "extra": [
+          "--pipeline-type",
+          "512"
+        ]
       }
     }
   },
