@@ -139,6 +139,36 @@
       "weight_sum_tol": 0.001
     }
   },
+  "qc": {
+    "min_free_ram_gb": 2.5,
+    "timeout_s": 600,
+    "_comment": "tools/run_qc.py thresholds, loose to start; tune from real receipts. A metric whose limit is null, or whose input is missing (no concept, no budget), is skipped, not failed.",
+    "geometry": {
+      "max_non_manifold_edge_pct": 8.0,
+      "max_boundary_edge_pct": 10.0,
+      "max_loose_shells": 200,
+      "budget_tris": null,
+      "budget_tolerance": 1.0,
+      "max_faceting_deg": 25.0
+    },
+    "texture": {
+      "max_raster_px": 2048,
+      "near_black_value": 14,
+      "max_near_black_pct": 0.2,
+      "max_black_patch_pct": 0.03,
+      "min_uv_coverage": 0.3,
+      "max_uv_stretch_p99": 12.0,
+      "max_uv_degenerate_pct": 10.0,
+      "min_luminance_ratio": 0.6,
+      "min_saturation_ratio": 0.15
+    },
+    "thin": {
+      "raster_px": 512,
+      "iou_px": 256,
+      "min_coverage_ratio": 0.8,
+      "min_iou": 0.4
+    }
+  },
   "clean": {
     "_comment": "fallback pre-bind mesh clean (tools/run_clean.py -> bind/clean_mesh.py); distances in metres; voxel_m 0 = voxel remesh off (then the original texture is kept as is)",
     "script_dir": "bind",
