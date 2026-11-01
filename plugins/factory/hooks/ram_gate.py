@@ -4,7 +4,7 @@
 The tools themselves wait for this headroom (tools/cf_common.wait_for_free_ram, up to 30 minutes) and the mid-run guard kills at 3 GB; this hook says no up front,
 so a session does not sit blocked inside a Bash call. Applies to Bash commands that run a factory script and to the factory MCP tools (not factory_status).
 Allowed: dry runs (CF_DRY, --dry-run), --help, unreadable RAM, any error. Heavy = generate, flux_kit, run_3d, run_character, run_bind, run_stills, run_gear,
-run_textures, run_clean, assemble_character, cutout_cpu, upscale_match, run_kit.ps1.
+run_textures, run_clean, assemble_character, cutout_cpu, upscale_match, run_kit.ps1, run_cloth (0.1.18, CPU Blender).
 Output is the standard PreToolUse deny JSON. Test hooks with FACTORY_FAKE_FREE_RAM_GB (test only).
 """
 from __future__ import annotations
@@ -18,9 +18,9 @@ import cf_cmd  # noqa: E402
 import cf_guard  # noqa: E402
 
 HEAVY = ("generate.py", "flux_kit.py", "run_3d.py", "run_character.py", "run_bind.py", "run_skin_tokens.py", "run_stills.py", "run_gear.py", "run_textures.py",
-         "run_clean.py", "assemble_character.py", "cutout_cpu.py", "upscale_match.py", "run_kit.ps1", "run_motion.py", "ardy_generate.py", "kimodo_generate.py", "run_pixal3d.py", "run_ab.py")
+         "run_clean.py", "assemble_character.py", "cutout_cpu.py", "upscale_match.py", "run_kit.ps1", "run_motion.py", "ardy_generate.py", "kimodo_generate.py", "run_pixal3d.py", "run_ab.py", "run_cloth.py")
 MCP_PREFIX = "mcp__plugin_factory_factory__"
-MCP_HEAVY = ("flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "motion_generate", "pixal3d_run", "ab_shape")
+MCP_HEAVY = ("flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "motion_generate", "pixal3d_run", "ab_shape", "cloth")
 
 
 def is_heavy(payload: dict) -> bool:

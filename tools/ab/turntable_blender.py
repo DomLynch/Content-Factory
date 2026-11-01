@@ -60,6 +60,8 @@ def main():
     cfg = args()
     clear()
     bpy.ops.import_scene.gltf(filepath=cfg["glb"])
+    for extra in cfg.get("extra_glbs", []):   # 0.1.18: optional parts rendered with the main GLB under the same rig (the cloth proof: bound body + draped cloak)
+        bpy.ops.import_scene.gltf(filepath=extra)
     objs = mesh_objects()
     if not objs:
         raise SystemExit("no mesh in " + cfg["glb"])

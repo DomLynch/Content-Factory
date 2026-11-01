@@ -10,7 +10,7 @@
       "name": "factory",
       "source": "./plugins/factory",
       "description": "Pipeline skills (three proven, the rest marked DRAFT until they run end to end with a receipt), /factory-status, /factory-run, /factory-publish, an MCP server for the stage scripts, and GPU-lock, free-RAM, 1024 px and no-literals hooks, by Dom Lynch, github.com/DomLynch/Content-Factory",
-      "version": "0.1.15",
+      "version": "0.1.18",
       "homepage": "https://github.com/DomLynch/Content-Factory",
       "author": {
         "name": "Dom Lynch",
