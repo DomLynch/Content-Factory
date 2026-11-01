@@ -187,6 +187,16 @@
                                                    ]
                                      },
                                      {
+                                         "matcher":  "mcp__plugin_factory_factory__stills",
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "python \"${CLAUDE_PLUGIN_ROOT}/hooks/qc_gate.py\"",
+                                                           "timeout":  30
+                                                       }
+                                                   ]
+                                     },
+                                     {
                                          "matcher":  "Bash",
                                          "hooks":  [
                                                        {
