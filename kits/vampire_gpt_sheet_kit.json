@@ -9,6 +9,7 @@
  "subject": "",
  "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
  "description": "Dracula, red-eyed man with braided swept-back black hair and moustache, crimson damask velvet tunic with hussar frogging and embroidered front panel, black fur-collared cloak with gold borders, wide belt with double-eagle buckle, hanging tabard with castle emblem and cross, lace cuffs, tall black leather boots with gold knee plates.",
+ "humanoid": true,
  "rows": [
   {
    "name": "head_front",
@@ -17,7 +18,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat."
+   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
   },
   {
    "name": "body_underlayer_front",
@@ -76,7 +79,9 @@
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat.",
    "seed": 43,
-   "seed_note": "Re-render with seed 43: consistency QC REJECT (a braid started on the scalp and the hair was not tied at the nape); the seed-42 png is moved to rejected\\ and the prompt now says low knot at the nape with two separate braids behind the shoulder."
+   "seed_note": "Re-render with seed 43: consistency QC REJECT (a braid started on the scalp and the hair was not tied at the nape); the seed-42 png is moved to rejected\\ and the prompt now says low knot at the nape with two separate braids behind the shoulder.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
   },
   {
    "name": "head_profile_right",
@@ -86,6 +91,8 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)",
    "mirror_of": "head_profile"
   },
   {
@@ -95,7 +102,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders and the nape of the neck; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
+   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders and the nape of the neck; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
   },
   {
    "name": "head_three_quarter",
@@ -104,7 +113,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
+   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
   },
   {
    "name": "head_top",
@@ -113,7 +124,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man's hair and head shape from the reference image. Change only the camera:",
-   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the hair swept back and the origins of the two braids, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar."
+   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the hair swept back and the origins of the two braids, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
   },
   {
    "name": "hand_open_left",
@@ -405,7 +418,9 @@
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
    "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments.",
    "seed": 43,
-   "seed_note": "Re-render with seed 43: the first image was rejected by the consistency QC (loose hair, earring, white collar, red cloth) and no png is on disk; the prompt now repeats the shared head description."
+   "seed_note": "Re-render with seed 43: the first image was rejected by the consistency QC (loose hair, earring, white collar, red cloth) and no png is on disk; the prompt now repeats the shared head description.",
+   "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+   "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
   },
   {
    "name": "gear_belt_buckle_closeup",
@@ -425,5 +440,7 @@
    "use_ref": false,
    "prompt": "Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   }
- ]
+ ],
+ "age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+ "complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)"
 }

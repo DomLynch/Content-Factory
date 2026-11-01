@@ -1,4 +1,6 @@
 {
+ "kit_age": "about 35 to 40, smooth (concept is 50-60 and gaunt; see the v2 spec)",
+ "kit_complexion": "light warm skin (concept is pale grey-white with a cold undertone; see the v2 spec)",
  "id": "vampire_gpt",
  "template": "config/character_sheet_template_gpt.json",
  "kit_name": "vampire_gpt_sheet",

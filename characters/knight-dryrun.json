@@ -1,4 +1,6 @@
 ﻿{
+    "kit_age":  "about 40, weathered, strong jaw, short cropped hair",
+    "kit_complexion":  "weathered fair skin with a ruddy outdoor tone",
     "id":  "knight_dryrun",
     "template":  "config/character_sheet_template_gpt.json",
     "kit_name":  "knight_dryrun",

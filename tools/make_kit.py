@@ -23,6 +23,15 @@ def build(spec, tpl):
     miss = [k for k in REQUIRED + tpl.get("required_fields", []) if k not in spec]
     if miss:
         raise SystemExit(f"spec is missing fields: {miss}")
+    humanoid = spec.get("humanoid", True) is not False   # a creature spec sets "humanoid": false and skips the head age/complexion requirement
+    kit_keys = {}   # kit keys the Flux head gate reads: template humanoid_kit_keys {key: [spec fields, first non-empty wins]}
+    for key, fields in tpl.get("humanoid_kit_keys", {}).items():
+        val = next((str(spec[f]).strip() for f in fields if str(spec.get(f) or "").strip()), "")
+        if humanoid and not val:
+            raise SystemExit(f"spec field {' or '.join(fields)} is missing or empty: the kit key '{key}' is required for a humanoid spec "
+                             f"(the Flux head gate refuses head rows without it); describe it, or set \"humanoid\": false for a creature")
+        if val:
+            kit_keys[key] = val
     kd = tpl["kit_defaults"]
     base = {**tpl.get("item_defaults", {}), **{k: v for k, v in spec.items() if isinstance(v, (str, int))}}
     base.update({k[:1].upper() + k[1:]: v[:1].upper() + v[1:] for k, v in list(base.items()) if isinstance(v, str) and k[:1].upper() + k[1:] not in base})
@@ -32,7 +41,8 @@ def build(spec, tpl):
            "template": spec.get("template", "config/character_sheet_template.json"), "ref": spec["ref"],
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
            "subject": spec.get("subject", ""), "style": spec.get("style", kd["style"]),
-           "description": spec["description"], "rows": []}
+           "description": spec["description"], "humanoid": humanoid, "rows": []}
+    kit.update(kit_keys)
     rows = []
     for cell in tpl["cells"]:
         items = [None] if "repeat" not in cell else spec[cell["repeat"]]
@@ -64,6 +74,8 @@ def build(spec, tpl):
                 row["swatch_of"] = item["swatch_of"]
             if cell.get("ref_field") and spec.get(cell["ref_field"]) and "ref" not in row:   # optional identity-lock reference from the spec
                 row["ref"] = spec[cell["ref_field"]]
+            if cell["group"] == "head" and kit_keys:   # the gate may read the keys per head row as well as on the kit
+                row.update(kit_keys)
             if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
             rows.append(row)

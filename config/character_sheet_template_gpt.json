@@ -238,6 +238,16 @@
    "prompt": "Flat top-down {texture_kind} of {desc}, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   }
  ],
+ "humanoid_kit_keys": {
+  "age": [
+   "kit_age",
+   "head_age_desc"
+  ],
+  "complexion": [
+   "kit_complexion",
+   "head_skin_desc"
+  ]
+ },
  "required_fields": [
   "eye_desc",
   "hair_style_desc",

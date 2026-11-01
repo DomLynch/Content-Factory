@@ -9,6 +9,7 @@
  "subject": "",
  "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
  "description": "Dracula, red-eyed man with braided swept-back black hair and moustache, crimson damask velvet tunic with hussar frogging and embroidered front panel, black fur-collared cloak with gold borders, wide belt with double-eagle buckle, hanging tabard with castle emblem and cross, lace cuffs, tall black leather boots with gold knee plates.",
+ "humanoid": true,
  "rows": [
   {
    "name": "head_front",
@@ -20,7 +21,9 @@
    "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat. Age and face: a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow. Skin: pale grey-white skin with a cold undertone, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows).",
-   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_ref_crops\\concept_face_crop.png"
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_ref_crops\\concept_face_crop.png",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
   },
   {
    "name": "body_underlayer_front",
@@ -74,7 +77,9 @@
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat. Age and face: a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow. Skin: pale grey-white skin with a cold undertone, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows).",
-   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
   },
   {
    "name": "head_profile_right",
@@ -84,6 +89,8 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat. Age and face: a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow. Skin: pale grey-white skin with a cold undertone, no warm flush.",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush",
    "mirror_of": "head_profile"
   },
   {
@@ -96,7 +103,9 @@
    "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders and the nape of the neck; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat. Skin: pale grey-white skin with a cold undertone, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows).",
-   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
   },
   {
    "name": "head_three_quarter",
@@ -108,7 +117,9 @@
    "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat. Age and face: a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow. Skin: pale grey-white skin with a cold undertone, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows).",
-   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
   },
   {
    "name": "head_top",
@@ -120,7 +131,9 @@
    "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the hair swept back and the origins of the two braids, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar. Skin: pale grey-white skin with a cold undertone, no warm flush.",
    "seed": 45,
    "seed_note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows).",
-   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+   "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
   },
   {
    "name": "hand_open_left",
@@ -512,7 +525,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments. Age and face: a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow. Skin: pale grey-white skin with a cold undertone, no warm flush."
+   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments. Age and face: a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow. Skin: pale grey-white skin with a cold undertone, no warm flush.",
+   "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+   "complexion": "pale grey-white skin with a cold undertone, no warm flush"
   },
   {
    "name": "gear_belt_buckle_closeup",
@@ -532,5 +547,7 @@
    "use_ref": false,
    "prompt": "Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   }
- ]
+ ],
+ "age": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+ "complexion": "pale grey-white skin with a cold undertone, no warm flush"
 }

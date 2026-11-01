@@ -9,6 +9,7 @@
  "subject": "",
  "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
  "description": "Sir Aldric, a stern grey-eyed armoured knight with short cropped brown hair and a trimmed beard, polished steel plate armour over a blue wool surcoat with a white lion emblem, a leather sword belt, steel gauntlets and heavy riveted leather boots.",
+ "humanoid": true,
  "rows": [
   {
    "name": "head_front",
@@ -17,7 +18,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, grey eyes. Short cropped brown hair above a strong brow; short trimmed beard following the jaw; squared chin under the beard; wearing the plain padded gambeson collar, no armour, no helmet."
+   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, grey eyes. Short cropped brown hair above a strong brow; short trimmed beard following the jaw; squared chin under the beard; wearing the plain padded gambeson collar, no armour, no helmet.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone"
   },
   {
    "name": "body_underlayer_front",
@@ -68,7 +71,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp.  Short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar, no armour, no helmet."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp.  Short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar, no armour, no helmet.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone"
   },
   {
    "name": "head_profile_right",
@@ -78,6 +83,8 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp.  Short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar, no armour, no helmet.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone",
    "mirror_of": "head_profile"
   },
   {
@@ -87,7 +94,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing short cropped brown hair with a clean hairline at the nape and the nape of the neck; plain padded gambeson collar rising around the neck, no bare neck or chest, no armour, no helmet."
+   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing short cropped brown hair with a clean hairline at the nape and the nape of the neck; plain padded gambeson collar rising around the neck, no bare neck or chest, no armour, no helmet.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone"
   },
   {
    "name": "head_three_quarter",
@@ -96,7 +105,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, scars and beard. Short cropped brown hair above a strong brow; short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar rising around the neck, no bare neck or chest, no armour, no helmet."
+   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, scars and beard. Short cropped brown hair above a strong brow; short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar rising around the neck, no bare neck or chest, no armour, no helmet.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone"
   },
   {
    "name": "head_top",
@@ -105,7 +116,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man's hair and head shape from the reference image. Change only the camera:",
-   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only brown hair visible, the centre parting, the cropped hair and the crown whorl, a little of both shoulders in a plain padded gambeson. No face visible, no forehead, no helmet, no armour, no coif."
+   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only brown hair visible, the centre parting, the cropped hair and the crown whorl, a little of both shoulders in a plain padded gambeson. No face visible, no forehead, no helmet, no armour, no coif.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone"
   },
   {
    "name": "hand_open_left",
@@ -262,7 +275,9 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the grey eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: short cropped brown hair above a strong brow; plain padded gambeson collar rising around the neck, no bare neck or chest, no earring, no hair ornaments."
+   "prompt": "Extreme close-up of the grey eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: short cropped brown hair above a strong brow; plain padded gambeson collar rising around the neck, no bare neck or chest, no earring, no hair ornaments.",
+   "age": "about 40, weathered, strong jaw, short cropped hair",
+   "complexion": "weathered fair skin with a ruddy outdoor tone"
   },
   {
    "name": "gear_belt_buckle_closeup",
@@ -282,5 +297,7 @@
    "use_ref": false,
    "prompt": "Show ONLY a close-up of the steel gorget with its padded collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no cloth backdrop, no other armour pieces unless part of this item. No person, no head, no face, no hands, no mannequin."
   }
- ]
+ ],
+ "age": "about 40, weathered, strong jaw, short cropped hair",
+ "complexion": "weathered fair skin with a ruddy outdoor tone"
 }
