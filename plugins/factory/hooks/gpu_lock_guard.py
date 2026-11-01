@@ -6,7 +6,8 @@ tools/gpu_guard.ps1 writes Documents/.gpu_lock as {"pid":..,"job":..,"started_ut
 This hook denies a Bash command that starts generate.py, flux_kit.py, run_3d.py, run_character.py or bench/run_kit.ps1 when that lock names a live process.
 A stale lock (dead pid), a missing lock, an unreadable lock or any error means ALLOW: a failing check never blocks work.
 Commands that set CF_DRY (flux_kit dry run) are allowed. Override the lock path with FACTORY_GPU_LOCK.
-STATUS: draft, logic self-checked with synthetic payloads only; not yet exercised inside a real Claude Code session.
+Also guards the factory MCP tools flux_render, trellis_run and upscale (GPU tools).
+Tested offline with synthetic payloads (plugins/factory/tests/test_plugin.py); not yet exercised inside a live Claude Code session.
 """
 from __future__ import annotations
 
@@ -63,18 +64,23 @@ def decide(command: str, lock_text: str | None) -> str:
             "Rule: one GPU job at a time. Wait for it to finish (the lock disappears), then retry.")
 
 
+MCP_GPU = tuple("mcp__plugin_factory_factory__" + t for t in ("flux_render", "trellis_run", "upscale"))
+
+
 def main() -> None:
     raw = sys.stdin.read() or "{}"
     low = raw.lower()
-    if not any(k in low for k in ("generate.py", "flux_kit", "run_3d", "run_character", "run_kit")):
+    if not any(k in low for k in ("generate.py", "flux_kit", "run_3d", "run_character", "run_kit", "mcp__plugin_factory")):
         return  # fast exit
     try:
         payload = json.loads(raw)
-        if payload.get("tool_name") != "Bash":
-            return
-        command = (payload.get("tool_input") or {}).get("command", "")
         lock_text = LOCK.read_text(encoding="utf-8") if LOCK.exists() else None
-        reason = decide(command, lock_text)
+        if payload.get("tool_name") in MCP_GPU:
+            reason = decide("python generate.py", lock_text)   # an MCP GPU tool is a GPU start: same rule as the entry-point scripts
+        elif payload.get("tool_name") == "Bash":
+            reason = decide((payload.get("tool_input") or {}).get("command", ""), lock_text)
+        else:
+            return
     except Exception:
         return
     if reason:

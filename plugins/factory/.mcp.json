@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "factory": {
+      "command": "python",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp/server.py"
+      ],
+      "env": {
+        "FACTORY_HOME": "C:/Users/dom12/Documents/Content-Factory"
+      }
+    }
+  }
+}
