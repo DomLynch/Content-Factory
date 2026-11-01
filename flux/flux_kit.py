@@ -4,6 +4,9 @@ import faulthandler, json, os, sys, time
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tools"))
 import cf_common
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plugins", "factory", "lib"))
+import cf_flux  # quality policy, plugin 0.1.6
+import cf_guard
 
 cfg = cf_common.load_config()
 LOC = cfg["local"]
@@ -23,6 +26,13 @@ use_ref = bool(ref_path) and row.get("use_ref", True)
 if use_ref:
     prompt = row.get("ref_prefix", kit["ref_prefix"]) + " " + prompt
 asset_id = cf_common.slug_id(kit["kit"], row_id, prompt, seed)
+spec = cf_flux.run_spec(kit, row)
+refusals = cf_flux.policy_reasons(spec)
+if refusals and os.environ.get("FACTORY_RAW"):
+    cf_guard.raw_override("FACTORY_RAW=" + os.environ["FACTORY_RAW"], "flux")   # logged exception
+elif refusals:
+    print("\n".join(refusals), flush=True)
+    sys.exit(2)
 out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
 path = os.path.join(out_dir, f"{row['name']}_{W}x{H}.png")
 if os.environ.get("CF_DRY"):
@@ -39,6 +49,8 @@ ram = cf_common.FreeRamWatch(); ram.start()
 t0 = time.time()
 params = {"seed": seed, "w": W, "h": H, "reference": ref_path if use_ref else None, "prompt": prompt, "kit": sys.argv[1], "row_id": row_id}
 model = {"id": cfg["models"]["flux"]["id"], "dir": LOC["flux_model_dir"]}
+params.update(cf_flux.receipt_fields(spec, ref_path if use_ref else None, os.environ.get("CF_ATTN_BACKEND") or cf_flux.flux_cfg()["attention_backend"], "child", False,
+                                      cfg["models"]["flux"].get("vae_tiling"), cfg["models"]["flux"].get("vae_slicing")))
 try:
     blocks = Flux3DistilledAutoBlocks()
     blocks.sub_blocks.pop("prompt_upsampler")

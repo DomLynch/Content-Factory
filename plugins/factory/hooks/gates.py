@@ -2,6 +2,7 @@
 """PreToolUse hook: the token, read-back, parts, lighting and pipeline gates of plugin 0.1.4 (checks live in lib/cf_gates.py).
 
 Covers `run_3d.py` (token gate), the factory MCP tools trellis_run (token gate) and stills (read-back: the GLB must be the recorded output of an ok receipt),
+the Flux quality policy (cf_flux.py) for flux_kit.py, flux_kit_fast.py and the flux_render tool,
 and a real (not --dry-run) `publish.py` (parts, lighting, read-back and pipeline gates against publish/<asset_id>.json).
 A Bash/PowerShell command with FACTORY_RAW=<reason> skips the gates and is logged (the MCP tools have no such door).
 A refusal names the number that failed. An allowed stills or publish call gets the read-back line as context. Any error allows the call (fail open).
@@ -14,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_cmd  # noqa: E402
+import cf_flux  # noqa: E402
 import cf_gates  # noqa: E402
 import cf_guard  # noqa: E402
 
@@ -34,8 +36,15 @@ def decide(payload: dict) -> tuple[str, str]:
         cmd = inp.get("command", "")
         if "FACTORY_RAW" in cmd and cf_guard.raw_override(cmd, "gates"):
             return "", ""
-        for script, args in cf_cmd.script_calls(cmd, ("run_3d.py", "publish.py")):
-            if script == "run_3d.py":
+        for script, args in cf_cmd.script_calls(cmd, ("run_3d.py", "publish.py", "flux_kit.py", "flux_kit_fast.py")):
+            if script.startswith("flux_kit"):
+                pos = [a for a in args if not a.startswith("-") and "=" not in a]
+                found = cf_flux.kit_row(cf_cmd.resolve(pos[0], cwd), pos[1]) if len(pos) > 1 else None
+                if found:
+                    bad = cf_flux.check_row(found[0], found[1], cf_flux.inline_env(cmd))
+                    if bad:
+                        return " | ".join(bad), ""
+            elif script == "run_3d.py":
                 pos = [a for a in args if not a.startswith("-")]
                 preset = _flag(args, "--preset") or cf_guard.config().get("character", {}).get("default_preset", "")
                 if pos:
@@ -52,6 +61,12 @@ def decide(payload: dict) -> tuple[str, str]:
                     if bad:
                         return " | ".join(bad), ""
                     info += lines
+    elif name == MCP_PREFIX + "flux_render" and inp.get("kit") and inp.get("row_id"):
+        kit = str(inp["kit"])
+        found = cf_flux.kit_row(kit if Path(kit).is_absolute() else str(cf_guard.HOME / kit), str(inp["row_id"]))
+        bad = cf_flux.check_row(found[0], found[1], {}) if found else []
+        if bad:
+            return " | ".join(bad), ""
     elif name == MCP_PREFIX + "trellis_run" and inp.get("asset_id"):
         preset = inp.get("preset") or cf_guard.config().get("character", {}).get("default_preset", "")
         why = cf_gates.token_reason(str(inp["asset_id"]), preset, False)
@@ -69,7 +84,7 @@ def decide(payload: dict) -> tuple[str, str]:
 def main() -> None:
     raw = sys.stdin.read() or "{}"
     low = raw.lower()
-    if not any(k in low for k in ("run_3d", "publish.py", "trellis_run", "__stills")):
+    if not any(k in low for k in ("run_3d", "publish.py", "trellis_run", "__stills", "flux_kit", "flux_render")):
         return
     try:
         reason, ctx = decide(json.loads(raw))
