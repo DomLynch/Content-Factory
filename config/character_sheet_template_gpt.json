@@ -81,7 +81,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_desc}; {head_collar_desc}, {head_garment_exclude}."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_rule}; {head_collar_desc}, {head_garment_exclude}."
   },
   {
    "row_id": "head_profile_right",
@@ -91,7 +91,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_desc}; {head_collar_desc}, {head_garment_exclude}."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_rule}; {head_collar_desc}, {head_garment_exclude}."
   },
   {
    "row_id": "head_three_quarter",
@@ -101,7 +101,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on {head_detail}, bare neck, {head_exclude}."
+   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on {head_detail}. {Head_hair_front_desc}; {head_facial_hair_desc}; {head_chin_rule}; {head_collar_rule}, {head_garment_exclude}."
   },
   {
    "row_id": "head_back",
@@ -111,7 +111,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, seen from directly BEHIND, showing the back of the {hair_desc} and {hair_back_detail} and the nape of the neck, {head_exclude}."
+   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing {head_hair_back_desc} and the nape of the neck; {head_collar_rule}, {head_garment_exclude}."
   },
   {
    "row_id": "head_top",
@@ -131,7 +131,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the {eye_desc} and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones."
+   "prompt": "Extreme close-up of the {eye_desc} and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: {head_hair_front_desc}; {head_collar_rule}, {head_accessory_exclude}."
   },
   {
    "row_id": "hand_open_left",
@@ -151,7 +151,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, {hand_skin_desc} with visible veins and knuckles. {hand_wrist_rule} Wearing {hand_accessory}. Three separate views in a row: back of the hand, palm, and side view. {frame_rule}"
+   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, {hand_skin_desc} with visible veins and knuckles. {hand_handedness_right} {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three separate views in a row: back of the hand, palm, and side view. {frame_rule}"
   },
   {
    "row_id": "hand_fist_left",
@@ -171,7 +171,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand in a closed FIST, {hand_skin_desc} with visible knuckles and veins. {hand_wrist_rule} Wearing {hand_accessory}. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. {frame_rule}"
+   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand in a closed FIST, {hand_skin_desc} with visible knuckles and veins. {hand_handedness_right} {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. {frame_rule}"
   },
   {
    "row_id": "hand_back_views",
@@ -181,7 +181,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of both of a {character_noun}'s hands seen from behind with relaxed fingers, side by side, {hand_skin_desc} with visible veins. {hand_wrist_rule} Wearing {hand_accessory}. {frame_rule}"
+   "prompt": "Reference sheet of both of a {character_noun}'s hands seen from behind with relaxed fingers, side by side, {hand_skin_desc} with visible veins. {hand_wrist_rule} {hand_wrist_clean_rule} Wearing {hand_accessory}, {hand_ring_rule}. {frame_rule}"
   },
   {
    "row_id": "foot_left",
@@ -233,11 +233,9 @@
  "required_fields": [
   "eye_desc",
   "hair_style_desc",
-  "hair_back_detail",
   "pronoun",
   "removed_gear",
   "removed_gear_full",
-  "head_exclude",
   "hand_accessory",
   "outfit_desc",
   "back_body_desc",
@@ -249,7 +247,6 @@
   "head_hair_front_desc",
   "head_hair_profile_desc",
   "head_facial_hair_desc",
-  "head_chin_desc",
   "head_chin_front_desc",
   "head_collar_desc",
   "head_garment_exclude",
@@ -267,7 +264,14 @@
   "gear_isolation_head",
   "gear_isolation_negative",
   "gear_person_negative",
-  "gear_closeup_suffix"
+  "gear_closeup_suffix",
+  "head_hair_back_desc",
+  "head_chin_rule",
+  "head_collar_rule",
+  "head_accessory_exclude",
+  "hand_handedness_right",
+  "hand_ring_rule",
+  "hand_wrist_clean_rule"
  ],
  "group_defaults": {
   "hands_feet": {

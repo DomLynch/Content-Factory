@@ -25,7 +25,7 @@
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose:",
    "use_ref": false,
-   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall lean pale man with long black hair swept back and braided into two thick braids that hang down his back, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. We see ONLY his back: the back of his head and braids, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall lean pale man with long black hair swept back and tied at the nape; his two thick braids hang forward over his shoulders and are not visible from behind, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. We see ONLY his back: the back of his head with the hair swept back and tied at the nape, no braids down the back, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_left",
@@ -50,7 +50,7 @@
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose:",
    "use_ref": false,
-   "prompt": "THREE-QUARTER view of a tall lean pale man with a strong jaw, a thin dark moustache, red eyes and long black hair swept back and braided into two thick braids, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "THREE-QUARTER view of a tall lean pale man with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long black hair swept back and braided into two thick braids, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "head_front",
@@ -68,7 +68,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait.  Long upswept thin moustache; clean-shaven chin; plain charcoal high-collared sweater collar, no fur, no coat."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat."
   },
   {
    "name": "head_profile_right",
@@ -77,7 +77,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait.  Long upswept thin moustache; clean-shaven chin; plain charcoal high-collared sweater collar, no fur, no coat."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar, no fur, no coat."
   },
   {
    "name": "head_three_quarter",
@@ -86,7 +86,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache, bare neck, no collar, no fur."
+   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
   },
   {
    "name": "head_back",
@@ -95,7 +95,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, seen from directly BEHIND, showing the back of the black hair and the braids and the nape of the neck, no collar, no fur."
+   "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders and the nape of the neck; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
   },
   {
    "name": "head_top",
@@ -113,7 +113,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones."
+   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments."
   },
   {
    "name": "hand_open_left",
@@ -133,7 +133,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of a man's RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, pale aged skin with visible veins and knuckles. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
+   "prompt": "Reference sheet of a man's RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, pale aged skin with visible veins and knuckles. This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem, one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_fist_left",
@@ -153,7 +153,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of a man's RIGHT hand in a closed FIST, pale aged skin with visible knuckles and veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
+   "prompt": "Reference sheet of a man's RIGHT hand in a closed FIST, pale aged skin with visible knuckles and veins. This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem, one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_back_views",
@@ -163,7 +163,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of both of a man's hands seen from behind with relaxed fingers, side by side, pale aged skin with visible veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
+   "prompt": "Reference sheet of both of a man's hands seen from behind with relaxed fingers, side by side, pale aged skin with visible veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Clean bare wrist, no artefacts. Wearing two gold signet rings, each set with a deep red ruby gem, one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "foot_left",
