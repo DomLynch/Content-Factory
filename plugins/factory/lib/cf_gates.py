@@ -31,7 +31,7 @@ DEFAULTS = {
     "token_floor": {"master": 98304, "hero": 98304},
     "preset_tier": {"hero_rebake": "hero", "tokens98k_fresh": "master"},
     "lighting_tier_required": "three_point",
-    "pipelines": ["TRELLIS", "SCULPT"],
+    "pipelines": ["TRELLIS", "PIXAL3D", "SCULPT"],
 }
 
 
@@ -189,7 +189,12 @@ def producer_of(file_path) -> tuple[str, dict] | None:
 
 def asset_pipeline(asset_id: str) -> str:
     """'TRELLIS' when the asset has a trellis receipt, else ''."""
-    return "TRELLIS" if asset_id and glob.glob(str(cf_guard.HOME / "receipts" / asset_id / "trellis-*.json")) else ""
+    if not asset_id:
+        return ""
+    for stage, name in (("trellis", "TRELLIS"), ("pixal3d", "PIXAL3D")):
+        if glob.glob(str(cf_guard.HOME / "receipts" / asset_id / f"{stage}-*.json")):
+            return name
+    return ""
 
 
 def readback_line(label: str, glb: str, prod: tuple[str, dict]) -> str:

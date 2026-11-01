@@ -329,6 +329,24 @@
     "vae_tiling": null,
     "vae_slicing": null
   },
+  "pixal3d": {
+    "_comment": "plugin 0.1.10. Pixal3D (TencentARC, MIT) single view via tools/run_pixal3d.py. Attention is sdpa (flash-attn and natten are CUDA-only; upstream does not import natten). Paths under config.local.json (pixal3d_*), defaults under work_dir. Presets are first settings: the A/B against TRELLIS on the same input and seed decides.",
+    "default_preset": "standard",
+    "timeout_s": 3600,
+    "guard_match": "pixal3d_entry",
+    "env": {
+      "ATTN_BACKEND": "sdpa",
+      "SPARSE_ATTN_BACKEND": "sdpa",
+      "SPARSE_CONV_BACKEND": "flex_gemm",
+      "HF_HUB_OFFLINE": "1",
+      "PYTHONUNBUFFERED": "1"
+    },
+    "presets": {
+      "draft": {"resolution": 1024, "low_vram": true},
+      "standard": {"resolution": 1024, "low_vram": true},
+      "master": {"resolution": 1536, "low_vram": true}
+    }
+  },
   "gates": {
     "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor = the robot's proven setting (preset tokens98k); hero stays equal until a higher setting is measured on this GPU; presets with no tier (drafts, benchmark profiles) have no floor. A floor is a minimum, not a cap: any run may sample more. Ceiling test (GPU free only): robot_1076 at 131072 and 196608, --attn-auto-gb 28; hero floor = highest that completes in under 2x the 98304 wall time.",
     "min_subject_frac": 0.6,
@@ -344,6 +362,7 @@
     "lighting_tier_required": "three_point",
     "pipelines": [
       "TRELLIS",
+      "PIXAL3D",
       "SCULPT"
     ]
   }
