@@ -47,6 +47,23 @@
    "item": "the pair of heavy riveted brown leather boots",
    "gear_layout": ", seen from the side, standing",
    "gear_exclude": "no person"
+  },
+  {
+   "id": "belt_buckle_closeup",
+   "item": "a plain iron belt buckle on a wide brown leather belt strap",
+   "gear_layout": ", front view",
+   "gear_exclude": "no surcoat, no fabric behind it",
+   "form": "closeup",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "id": "collar_closeup",
+   "item": "a close-up of the steel gorget with its padded collar",
+   "gear_layout": ", front view",
+   "gear_exclude": "no person"
   }
  ],
  "swatches": [
