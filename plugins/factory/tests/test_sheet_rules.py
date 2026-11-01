@@ -37,6 +37,13 @@ class Sheet(Kit):
         m["rows"].setdefault(rid, {})["verdict"] = v
         p.write_text(json.dumps(m))
 
+    def pick(self, rid, by="Dom", sha="s1", candidates=("s1",)):
+        p = self.d / "manifests" / "k.json"
+        m = json.loads(p.read_text()) if p.exists() else {"rows": {}}
+        e = m["rows"].setdefault(rid, {})
+        e.update(pick=sha, picked_by=by, candidates=[{"sha256": c} for c in candidates])
+        p.write_text(json.dumps(m))
+
     def sheet(self, rid):
         return cf_flux.sheet_reasons(self.kit, self.row(rid), str(self.path))
 
@@ -48,7 +55,38 @@ class Sheet(Kit):
         self.verdict("head_front", "WEAK")
         self.assertTrue(any("'WEAK'" in x for x in self.sheet("head_profile")))
         self.verdict("head_front", "PASS")
+        self.assertTrue(any("Dom's pick" in x for x in self.sheet("head_profile")))   # QC PASS alone is not enough
+        self.pick("head_front")
         self.assertEqual(self.sheet("head_profile"), [])
+
+    def test_the_pick_must_be_Doms_and_current(self):
+        self.verdict("head_front", "PASS")
+        self.pick("head_front", by="Hooks Dev")
+        self.assertTrue(any("not Dom" in x for x in self.sheet("head_profile")))
+        self.pick("head_front", by="Dom", sha="s1", candidates=("s1", "s2"))   # re-rendered after the pick
+        self.assertTrue(any("stale" in x for x in self.sheet("head_profile")))
+        self.pick("head_front", by="Dom", sha="s2", candidates=("s1", "s2"))
+        self.assertEqual(self.sheet("head_profile"), [])
+
+    def test_only_Doms_explicit_words_in_the_kit_waive_the_pick_and_not_the_qc_verdict(self):
+        self.kit["skip_identity_review"] = "yes"
+        self.verdict("head_front", "PASS")
+        self.assertTrue(any("Dom's pick" in x for x in self.sheet("head_profile")))   # 'yes' is not the words
+        self.kit["skip_identity_review"] = "Dom 2026-11-02: skip identity review"
+        self.assertEqual(self.sheet("head_profile"), [])
+        self.verdict("head_front", "WEAK")
+        self.assertTrue(any("QC verdict" in x for x in self.sheet("head_profile")))   # the waiver never waives QC
+
+    def test_humanoid_head_rows_need_age_and_complexion(self):
+        del self.kit["age"]
+        r = self.sheet("head_front")
+        self.assertTrue(any("no age" in x for x in r) and not any("complexion" in x for x in r), r)
+        self.kit["complexion"] = ""
+        r = self.sheet("head_front")
+        self.assertTrue(any("age and complexion" in x for x in r), r)
+        self.kit["humanoid"] = False
+        self.assertEqual(self.sheet("head_front"), [])   # a creature kit opts out
+        self.assertEqual(self.sheet("coat"), [])   # gear rows never needed them
 
     def test_a_kit_without_an_identity_cell_is_refused_with_the_reason(self):
         self.kit["rows"] = [r for r in self.kit["rows"] if r["row_id"] != "head_front"]
@@ -106,6 +144,7 @@ class Wiring(Sheet):
         out = self.hook({"tool_name": MCP + "flux_render", "tool_input": {"kit": str(self.path), "row_id": "head_profile"}, "cwd": str(self.d)})
         self.assertIn("reference first", json.dumps(out))
         self.verdict("head_front", "PASS")
+        self.pick("head_front")
         out = self.hook({"tool_name": MCP + "flux_render", "tool_input": {"kit": str(self.path), "row_id": "head_profile"}, "cwd": str(self.d)})
         self.assertNotIn("SHEET RULE", json.dumps(out))
 

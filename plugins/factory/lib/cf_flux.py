@@ -148,7 +148,7 @@ def kit_row(kit_path: str, row_id: str) -> tuple[dict, dict] | None:
 
 # ---- sheet rules (plugin 0.1.20): reference-first, mirrors, re-roll cap -------------------------------------------------------------------------
 # Evidence (the vampire sheet): 31 rejects before the rules, 0 in 9 cells after. Rules:
-#   1 reference first  a non-identity row of a group renders only after the group's identity cell has a QC verdict PASS in manifests/<kit>.json (kit key `identity`
+#   1 reference first  a non-identity row of a group renders only after the group's identity cell has a QC verdict PASS AND Dom's pick (manifest pick, picked_by Dom, current candidate; waived only by kit key skip_identity_review holding Dom's words) in manifests/<kit>.json (kit key `identity`
 #                      {group: row_id}, else config flux.identity_cells). Siblings are judged against that cell.
 #   2 mirrors          a row with `mirror_of` in the kit (data layer, source of truth) is a flip of its source, never a render:
 #                      `python tools/mirror_cell.py <kit> [row_id]`.
@@ -205,6 +205,22 @@ def verdict(kit_name: str, row_id: str) -> str:
         return ""
 
 
+def dom_pick(kit_name: str, row_id: str) -> str:
+    """'' when Dom has picked the CURRENT candidate of this row (manifests/<kit>.json rows[row].pick == newest candidate sha, picked_by Dom), else why not."""
+    try:
+        e = json.loads((cf_guard.HOME / "manifests" / f"{kit_name}.json").read_text(encoding="utf-8-sig"))["rows"][row_id]
+    except Exception:
+        return "no manifest entry"
+    if not e.get("pick"):
+        return "no pick recorded"
+    if not str(e.get("picked_by") or "").strip().lower().startswith("dom"):
+        return f"picked by '{e.get('picked_by') or ''}', not Dom"
+    cands = e.get("candidates") or []
+    if cands and cands[-1].get("sha256") != e["pick"]:
+        return "the cell was re-rendered after Dom picked it (the pick is stale)"
+    return ""
+
+
 def _sheet_reasons(kit: dict, row: dict, kit_path: str | None) -> list[str]:
     bad = []
     rid = row.get("row_id", row.get("name"))
@@ -221,6 +237,17 @@ def _sheet_reasons(kit: dict, row: dict, kit_path: str | None) -> list[str]:
         elif verdict(kname, idrow) != "PASS":
             bad.append(f"SHEET RULE (reference first): {t} row {rid} waits for the identity cell {idrow}: it needs a QC verdict PASS in manifests/{kname}.json "
                        f"(now '{verdict(kname, idrow) or 'none'}'; python tools/manifest.py <kit> --verdict {idrow} PASS). Judge {rid} against it.")
+        else:
+            why = dom_pick(kname, idrow)
+            waived = "skip identity review" in str(kit.get("skip_identity_review") or "").lower()
+            if why and not waived:
+                bad.append(f"SHEET RULE (Dom's pick): {t} row {rid} waits for Dom to see the identity cell {idrow}: {why}. Show him that one cell, record his word with "
+                           f"python tools/manifest.py <kit> --pick {idrow} --by Dom --note \"...\". Only Dom's explicit words 'skip identity review', written into the kit key skip_identity_review, waive it.")
+    if t == "head" and kit.get("humanoid") is not False:   # a humanoid head group cannot leave age and complexion unsaid (the vampire came out 15-20 years younger and warmer than its art)
+        empty = [k for k in ("age", "complexion") if not str(kit.get(k) or "").strip()]
+        if empty:
+            bad.append(f"SHEET RULE (spec): head row {rid}: the kit has no {' and '.join(empty)}. Add {' and '.join(empty)} to the character spec (make_kit copies them to the kit); "
+                       "a humanoid head group must state them. Creature kits set `humanoid: false`.")
     prompt, seed = row_prompt_seed(kit, row)
     ref = row.get("ref", kit.get("ref")) if row.get("use_ref", True) else None
     sha = _sha(ref)

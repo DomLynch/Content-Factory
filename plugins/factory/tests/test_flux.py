@@ -41,7 +41,7 @@ class Kit(unittest.TestCase):
         self.addCleanup(self.t.cleanup)
         self.d = Path(self.t.name)
         self.ref = png(self.d / "ref.png", 1000, 1500)
-        self.kit = {"kit": "k", "seed": 1, "w": 1024, "h": 1536, "ref": self.ref, "ref_prefix": "p", "subject": "", "style": "s", "rows": [
+        self.kit = {"kit": "k", "age": "fifties", "complexion": "pale", "seed": 1, "w": 1024, "h": 1536, "ref": self.ref, "ref_prefix": "p", "subject": "", "style": "s", "rows": [
             {"name": "head_front", "row_id": "head_front", "group": "head", "prompt": "x"},
             {"name": "coat", "row_id": "coat", "part": "gear", "prompt": "x"},
             {"name": "mat_fur", "row_id": "mat_fur", "prompt": "x"},
