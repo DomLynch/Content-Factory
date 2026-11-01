@@ -59,7 +59,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, orthographic FRONT view, neutral expression, high detail on skin pores, hair and moustache, red eyes, bare neck, no collar, no fur."
+   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat."
   },
   {
    "name": "head_profile",
@@ -68,7 +68,7 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, bare neck, no collar, no fur."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait.  Long upswept thin moustache; clean-shaven chin; plain charcoal high-collared sweater collar, no fur, no coat."
   },
   {
    "name": "head_three_quarter",
@@ -94,8 +94,8 @@
    "group": "head",
    "w": 1024,
    "h": 1024,
-   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head seen from directly ABOVE (top view), showing the hair parting, the swept-back braided black hair and the skull shape, shoulders just visible, no hat."
+   "ref_prefix": "Edit instruction: keep this exact same man's hair and head shape from the reference image. Change only the camera:",
+   "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the hair swept back and the origins of the two braids, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar."
   },
   {
    "name": "head_eyes_closeup",
@@ -113,7 +113,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the LEFT hand OPEN with spread fingers, wearing gold signet rings: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and rings."
+   "use_ref": false,
+   "prompt": "Reference sheet of a man's LEFT hand OPEN with spread fingers, exactly five fingers including the thumb, pale aged skin with visible veins and knuckles. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_open_right",
@@ -122,7 +123,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the RIGHT hand OPEN with spread fingers, wearing gold signet rings: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and rings."
+   "use_ref": false,
+   "prompt": "Reference sheet of a man's RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, pale aged skin with visible veins and knuckles. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_fist_left",
@@ -131,7 +133,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the LEFT hand in a closed FIST, wearing gold signet rings: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and rings."
+   "use_ref": false,
+   "prompt": "Reference sheet of a man's LEFT hand in a closed FIST, pale aged skin with visible knuckles and veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_fist_right",
@@ -140,7 +143,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the RIGHT hand in a closed FIST, wearing gold signet rings: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and rings."
+   "use_ref": false,
+   "prompt": "Reference sheet of a man's RIGHT hand in a closed FIST, pale aged skin with visible knuckles and veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_back_views",
@@ -149,7 +153,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of both hands seen from behind with relaxed fingers, wearing gold signet rings, side by side on a plain dark background, no cuffs, high detail."
+   "use_ref": false,
+   "prompt": "Reference sheet of both of a man's hands seen from behind with relaxed fingers, side by side, pale aged skin with visible veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "foot_left",
@@ -158,7 +163,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference of the LEFT foot in a plain dark base-layer sock, no boot: top view, side view and sole in a row on a plain dark background, high detail."
+   "use_ref": false,
+   "prompt": "Reference sheet of ONE single left foot wearing a plain black knitted sock, three views in a row: top view, side view, and the sole of the sock. No shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "foot_right",
@@ -167,7 +173,8 @@
    "w": 1536,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference of the RIGHT foot in a plain dark base-layer sock, no boot: top view, side view and sole in a row on a plain dark background, high detail."
+   "use_ref": false,
+   "prompt": "Reference sheet of ONE single right foot wearing a plain black knitted sock, three views in a row: top view, side view, and the sole of the sock. No shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "gear_coat",
@@ -194,7 +201,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Show ONLY the long black cloak with gold borders and its black fur collar, back and inner velvet lining visible on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
+   "prompt": "Show ONLY the long cloak laid out front-facing: BLACK velvet outer shell with wide gold embroidered borders, a thick black fur collar, and a dark crimson velvet inner lining visible only at the opening. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_cloak_back",
@@ -203,7 +210,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Show ONLY the back of the long black cloak with gold borders, laid flat seen from behind on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
+   "prompt": "Show ONLY the back of the long cloak seen from behind, laid out flat: BLACK velvet outer shell with wide gold embroidered borders and a thick black fur collar at the top; crimson only at the very edges. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_fur_collar",
@@ -239,7 +246,7 @@
    "w": 1024,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Show ONLY a close-up of the gold double-headed eagle belt buckle on black leather, front view on a plain dark background like a game asset sheet, no person, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
+   "prompt": "Close-up of ONLY a gold double-headed eagle belt buckle set with red ruby gems on a wide black leather belt strap, front view, filling the frame, on a plain empty dark grey background: no tunic, no fabric, no lace behind it. No person."
   },
   {
    "name": "gear_tabard",
@@ -248,7 +255,7 @@
    "w": 1536,
    "h": 1024,
    "use_ref": false,
-   "prompt": "Show ONLY the hanging tabard with the embroidered castle emblem and cross, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
+   "prompt": "Show ONLY the hanging tabard made of deep crimson red damask velvet with a gold-thread embroidered border, a gold and bronze embroidered castle emblem with a cross below it, and a pointed lower end, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
    "name": "gear_cuffs",

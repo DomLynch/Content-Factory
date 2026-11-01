@@ -2,6 +2,7 @@
 Writes kits/<kit_name>_kit.json (or the given path). Fails if any {placeholder} is left unfilled.
 Character words live only in the spec; a template may list extra "required_fields" and "group_defaults"
 (row keys such as use_ref applied to every cell of a group unless the cell sets them itself).
+"derived" defines optional clauses ({"name": {"from": field, "prefix": text}}); a cell may have "forms" (prompt variants chosen by the item's "form").
 For every string spec field X, {X} and a capitalised {X} (first letter upper, e.g. {Possessive}) are available."""
 import json, os, string, sys
 
@@ -26,6 +27,7 @@ def build(spec, tpl):
     base = {**tpl.get("item_defaults", {}), **{k: v for k, v in spec.items() if isinstance(v, (str, int))}}
     base.update({k[:1].upper() + k[1:]: v[:1].upper() + v[1:] for k, v in list(base.items()) if isinstance(v, str) and k[:1].upper() + k[1:] not in base})
     gdef = tpl.get("group_defaults", {})
+    derived = tpl.get("derived", {})
     kit = {"kit": spec.get("kit_name", spec["id"] + "_sheet"), "seed": spec["seed"], "w": kd["w"], "h": kd["h"],
            "template": spec.get("template", "config/character_sheet_template.json"), "ref": spec["ref"],
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
@@ -36,6 +38,8 @@ def build(spec, tpl):
         items = [None] if "repeat" not in cell else spec[cell["repeat"]]
         for item in items:
             ctx = {**base, **(item or {})}
+            for dn, dd in derived.items():   # optional clauses: prefix + value, or "" when the value is empty/missing
+                ctx[dn] = dd.get("prefix", "") + str(ctx[dd["from"]]) if ctx.get(dd["from"]) else ""
             rid = fill(cell["row_id"], ctx, "row_id")
             where = "row " + rid
             row = {"name": rid, "row_id": rid, "group": cell["group"]}
@@ -49,7 +53,8 @@ def build(spec, tpl):
             use_ref = cell.get("use_ref", gdef.get(cell["group"], {}).get("use_ref"))
             if use_ref is not None:
                 row["use_ref"] = use_ref
-            row["prompt"] = fill(cell["prompt"], ctx, where)
+            ptext = cell["forms"][ctx.get("form", cell.get("default_form"))] if "forms" in cell else cell["prompt"]
+            row["prompt"] = fill(ptext, ctx, where)
             rows.append(row)
     order = {g: i for i, g in enumerate(tpl["group_priority"])}
     kit["rows"] = sorted(rows, key=lambda r: order[r["group"]])   # stable: GPU priority order
