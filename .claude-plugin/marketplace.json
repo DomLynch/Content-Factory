@@ -1,0 +1,21 @@
+{
+  "name": "content-factory",
+  "owner": {
+    "name": "Dom Lynch",
+    "url": "https://github.com/DomLynch"
+  },
+  "description": "Content-Factory: the Frankendom asset pipeline (Flux, TRELLIS, Blender binder) as Claude Code skills and commands. DRAFT, not yet installed or tested as a plugin.",
+  "plugins": [
+    {
+      "name": "factory",
+      "source": "./plugins/factory",
+      "description": "Skills for the proven Content-Factory stages (character-sheet, trellis-part, bind-humanoid), /factory-status, and a GPU-lock guard hook. DRAFT 0.1.0-draft.",
+      "version": "0.1.0-draft",
+      "homepage": "https://github.com/DomLynch/Content-Factory",
+      "author": {
+        "name": "Dom Lynch",
+        "url": "https://github.com/DomLynch"
+      }
+    }
+  ]
+}

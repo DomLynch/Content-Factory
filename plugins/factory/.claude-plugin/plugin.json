@@ -1,0 +1,11 @@
+{
+  "name": "factory",
+  "version": "0.1.0-draft",
+  "description": "Content-Factory: step-by-step skills for the stages that have run end to end with a receipt (character-sheet, trellis-part, bind-humanoid), a status command, and a guard that blocks a second GPU job. DRAFT: written from receipts, never installed or exercised as a plugin yet.",
+  "author": {
+    "name": "Dom Lynch",
+    "url": "https://github.com/DomLynch"
+  },
+  "repository": "https://github.com/DomLynch/Content-Factory",
+  "homepage": "https://github.com/DomLynch/Content-Factory"
+}
