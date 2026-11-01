@@ -39,6 +39,8 @@ def images(payload: dict) -> list[str]:
                 out.append(cf_cmd.resolve(img, cwd))
     elif name.startswith(MCP_PREFIX) and name[len(MCP_PREFIX):] in ("trellis_run", "pixal3d_run", "cutout") and inp.get("image"):
         out.append(cf_cmd.resolve(str(inp["image"]), cwd))
+    elif name == MCP_PREFIX + "pixal3d_run" and isinstance(inp.get("views"), dict):
+        out += [cf_cmd.resolve(str(v), cwd) for v in inp["views"].values()]   # 0.1.20: each multi-view cut-out passes the input gate
     elif name == MCP_PREFIX + "ab_shape" and inp.get("png") and not inp.get("collect"):
         out.append(cf_cmd.resolve(str(inp["png"]), cwd))   # 0.1.14: the A/B input png
     return out

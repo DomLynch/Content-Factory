@@ -28,7 +28,7 @@ Full PBR set: base colour, normal, roughness/metallic (packed), AO, emissive whe
 Known blocker: the shoe master was dark and grainy and the robot bake came out near-neutral grey against a copper original. The clean-sample test decides input vs bake; until that is closed no asset is "done".
 
 ## 5. Rig and animation
-- Bind to psyche-106 only (never the 65-bone set) by donor weight transfer from the nine MakeHuman bodies; acceptance gate: max edge stretch <= 2.0x, min compression >= 0.5x over Idle/Walk/Attack, zero-weight vertices 0 (except toe-end bones), <= 4 influences, weights sum to 1 within 1e-3.
+- Bind to psyche-106 only (never the 65-bone set) with SkinTokens (the default binder once `config.json -> bind.binder` is `skin_tokens`; the labelled fallback is a donor weight transfer from nine CC0 donor bodies, receipt label `FALLBACK donor (MakeHuman weights)`); acceptance gate (same for both binders): max edge stretch <= 2.0x, min compression >= 0.5x over Idle/Walk/Attack, zero-weight vertices 0 (except toe-end bones), <= 4 influences, weights sum to 1 within 1e-3.
 - Fingers: fixed pre-splayed straightening pose before binding; mitten hands only for crowd and boss bodies, not heroes.
 
 ## 6. Definition of done

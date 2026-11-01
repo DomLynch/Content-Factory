@@ -41,7 +41,7 @@ def decide(payload: dict) -> tuple[str, str]:
                 pos = [a for a in args if not a.startswith("-") and "=" not in a]
                 found = cf_flux.kit_row(cf_cmd.resolve(pos[0], cwd), pos[1]) if len(pos) > 1 else None
                 if found:
-                    bad = cf_flux.check_row(found[0], found[1], cf_flux.inline_env(cmd))
+                    bad = cf_flux.check_row(found[0], found[1], cf_flux.inline_env(cmd), cf_cmd.resolve(pos[0], cwd))
                     if bad:
                         return " | ".join(bad), ""
             elif script == "run_3d.py":
@@ -64,7 +64,7 @@ def decide(payload: dict) -> tuple[str, str]:
     elif name == MCP_PREFIX + "flux_render" and inp.get("kit") and inp.get("row_id"):
         kit = str(inp["kit"])
         found = cf_flux.kit_row(kit if Path(kit).is_absolute() else str(cf_guard.HOME / kit), str(inp["row_id"]))
-        bad = cf_flux.check_row(found[0], found[1], {}) if found else []
+        bad = cf_flux.check_row(found[0], found[1], {}, kit if Path(kit).is_absolute() else str(cf_guard.HOME / kit)) if found else []
         if bad:
             return " | ".join(bad), ""
     elif name == MCP_PREFIX + "trellis_run" and inp.get("asset_id"):

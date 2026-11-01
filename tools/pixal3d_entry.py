@@ -78,6 +78,7 @@ def main() -> None:
     ap.add_argument("--shim-dir", default=DEFAULT_SHIM_DIR, help="directory holding the pure-PyTorch natten package, put first on sys.path ('' = do not)")
     ap.add_argument("--torch-home", default="", help="TORCH_HOME for the torch.hub cache of valeoai/NAF and naf_release.pth ('' = leave unset)")
     ap.add_argument("--no-naf", action="store_true", help="ROUGH fallback: bicubic feature upsample instead of NAF")
+    ap.add_argument("--mv-dir", default="", help="multi-view input dir (tools/pixal3d_mv.py): runs upstream inference_mv instead of the single-view path; <image> is then only the front view, for the log")
     a = ap.parse_args()
 
     os.environ.setdefault("ATTN_BACKEND", "sdpa")
@@ -91,6 +92,9 @@ def main() -> None:
         sys.path.insert(0, a.shim_dir)   # first of all: `import natten` must find the shim, never a stray build
     os.chdir(a.repo)
     print(naf_cache_report(a.torch_home), flush=True)
+    if a.mv_dir:   # plugin 0.1.20: multi-view, all of it in tools/pixal3d_mv.py
+        import pixal3d_mv
+        return pixal3d_mv.run_entry(a)
     print("rembg model:", ensure_licence_clean_rembg(a.model_dir, a.birefnet_dir), flush=True)
 
     import inference as P   # upstream inference.py (its __main__ block does not run on import)
