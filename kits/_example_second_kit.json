@@ -1,0 +1,247 @@
+{
+ "kit": "_example_second",
+ "seed": 7,
+ "w": 1024,
+ "h": 1536,
+ "template": "config/character_sheet_template_gpt.json",
+ "ref": "C:\\placeholder\\knight-ref.png",
+ "ref_prefix": "Edit instruction: keep this exact same character from the reference image, identical face, hair, trimmed beard, costume, colours and materials. Change only the following:",
+ "subject": "",
+ "style": "Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+ "description": "Sir Aldric, a stern grey-eyed armoured knight with short cropped brown hair and a trimmed beard, polished steel plate armour over a blue wool surcoat with a white lion emblem, a leather sword belt, steel gauntlets and heavy riveted leather boots.",
+ "rows": [
+  {
+   "name": "body_underlayer_front",
+   "row_id": "body_underlayer_front",
+   "group": "body",
+   "ref": "C:\\placeholder\\knight-ref.png",
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Remove the plate armour, surcoat, sword belt, gauntlets and boots; he wears only a plain fitted padded gambeson and linen trousers. Change only the camera and pose:",
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+  },
+  {
+   "name": "body_underlayer_back",
+   "row_id": "body_underlayer_back",
+   "group": "body",
+   "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
+   "prompt": "The camera is BEHIND the man: we see only the back of his head and back of his body. His face, chest, belt buckle, trouser fly and pockets are NOT visible; show the back of the plain padded gambeson, the cropped hair at the nape, the back of the linen trousers and the heels of the feet. Orthographic BACK view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+  },
+  {
+   "name": "body_underlayer_left",
+   "row_id": "body_underlayer_left",
+   "group": "body",
+   "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+  },
+  {
+   "name": "body_underlayer_right",
+   "row_id": "body_underlayer_right",
+   "group": "body",
+   "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+  },
+  {
+   "name": "body_underlayer_three_quarter",
+   "row_id": "body_underlayer_three_quarter",
+   "group": "body",
+   "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
+   "prompt": "The man is rotated 45 degrees: his body and face turn toward the left edge of the image so his right shoulder is nearer the camera and his chest is at an angle, THREE-QUARTER view, not facing the camera straight on. Same plain base layer, A-pose, a proud upright posture. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+  },
+  {
+   "name": "head_front",
+   "row_id": "head_front",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, orthographic FRONT view, neutral expression, high detail on skin pores, scars and beard, grey eyes, bare neck, no helmet, no coif."
+  },
+  {
+   "name": "head_profile",
+   "row_id": "head_profile",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, bare neck, no helmet, no coif."
+  },
+  {
+   "name": "head_three_quarter",
+   "row_id": "head_three_quarter",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, scars and beard, bare neck, no helmet, no coif."
+  },
+  {
+   "name": "head_back",
+   "row_id": "head_back",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, seen from directly BEHIND, showing the back of the brown hair and the cropped hairline and the nape of the neck, no helmet, no coif."
+  },
+  {
+   "name": "head_top",
+   "row_id": "head_top",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head seen from directly ABOVE (top view), showing the hair parting, the short cropped brown hair and the skull shape, shoulders just visible, no hat."
+  },
+  {
+   "name": "head_eyes_closeup",
+   "row_id": "head_eyes_closeup",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Extreme close-up of the grey eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones."
+  },
+  {
+   "name": "hand_open_left",
+   "row_id": "hand_open_left",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the LEFT hand OPEN with spread fingers, wearing a plain iron signet ring: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and ring."
+  },
+  {
+   "name": "hand_open_right",
+   "row_id": "hand_open_right",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the RIGHT hand OPEN with spread fingers, wearing a plain iron signet ring: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and ring."
+  },
+  {
+   "name": "hand_fist_left",
+   "row_id": "hand_fist_left",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the LEFT hand in a closed FIST, wearing a plain iron signet ring: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and ring."
+  },
+  {
+   "name": "hand_fist_right",
+   "row_id": "hand_fist_right",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the RIGHT hand in a closed FIST, wearing a plain iron signet ring: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and ring."
+  },
+  {
+   "name": "hand_back_views",
+   "row_id": "hand_back_views",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of both hands seen from behind with relaxed fingers, wearing a plain iron signet ring, side by side on a plain dark background, no cuffs, high detail."
+  },
+  {
+   "name": "foot_left",
+   "row_id": "foot_left",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Reference of the LEFT foot in a plain dark base-layer sock, no boot: top view, side view and sole in a row on a plain dark background, high detail."
+  },
+  {
+   "name": "foot_right",
+   "row_id": "foot_right",
+   "group": "hands_feet",
+   "w": 1536,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
+   "prompt": "Reference of the RIGHT foot in a plain dark base-layer sock, no boot: top view, side view and sole in a row on a plain dark background, high detail."
+  },
+  {
+   "name": "gear_breastplate",
+   "row_id": "gear_breastplate",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the polished steel breastplate with pauldrons, seen from the front on a plain dark background like a game asset sheet, no person, no mannequin, no surcoat. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+  },
+  {
+   "name": "gear_surcoat",
+   "row_id": "gear_surcoat",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the blue wool surcoat with the white lion emblem, laid flat front-facing on a plain dark background like a game asset sheet, no person, no mannequin, no armour. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+  },
+  {
+   "name": "gear_gauntlets",
+   "row_id": "gear_gauntlets",
+   "group": "gear",
+   "w": 1024,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the pair of articulated steel gauntlets, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+  },
+  {
+   "name": "gear_boots",
+   "row_id": "gear_boots",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Materials and look: polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style. Show ONLY the pair of heavy riveted brown leather boots, seen from the side, standing on a plain dark background like a game asset sheet, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated."
+  },
+  {
+   "name": "swatch_polished_steel",
+   "row_id": "swatch_polished_steel",
+   "group": "swatch",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
+   "use_ref": false,
+   "prompt": "Flat top-down seamless tileable texture of polished steel plate with fine scratches, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
+  },
+  {
+   "name": "swatch_blue_wool",
+   "row_id": "swatch_blue_wool",
+   "group": "swatch",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
+   "use_ref": false,
+   "prompt": "Flat top-down seamless tileable texture of coarse blue wool cloth with a visible weave, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
+  },
+  {
+   "name": "swatch_brown_leather",
+   "row_id": "swatch_brown_leather",
+   "group": "swatch",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
+   "use_ref": false,
+   "prompt": "Flat top-down seamless tileable texture of worn brown leather with fine creases, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
+  },
+  {
+   "name": "swatch_skin",
+   "row_id": "swatch_skin",
+   "group": "swatch",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
+   "use_ref": false,
+   "prompt": "Flat top-down texture of weathered human skin with pores and scars, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
+  }
+ ]
+}
