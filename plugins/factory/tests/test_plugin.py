@@ -40,7 +40,8 @@ def png(path: Path, w: int, h: int) -> str:
 
 
 def run_hook(name: str, payload: dict, **env) -> dict | None:
-    e = dict(os.environ, **{k: str(v) for k, v in env.items()})
+    # hermetic: a real stage process running on this box (the Factory's own job) must not trip the 0.1.5 orphan check
+    e = dict(os.environ, FACTORY_TEST_STAGE_TAG="no-such-stage-process", **{k: str(v) for k, v in env.items()})
     r = subprocess.run([PY, str(PLUGIN / "hooks" / name)], input=json.dumps(payload), capture_output=True, text=True, env=e, timeout=60)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout) if r.stdout.strip() else None
@@ -59,7 +60,7 @@ class Packaging(unittest.TestCase):
         plugin = json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         market = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(plugin["name"], "factory")
-        self.assertEqual(plugin["version"], "0.1.4")
+        self.assertEqual(plugin["version"], "0.1.5")
         entry = market["plugins"][0]
         self.assertEqual((entry["name"], entry["source"], entry["version"]), ("factory", "./plugins/factory", plugin["version"]))
         self.assertEqual(market["name"], "content-factory")

@@ -47,19 +47,35 @@ def pid_alive(pid: int) -> bool:
         return False
 
 
+def orphan_reason() -> str:
+    """0.1.5: no live lock, but a stage script (generate.py, flux_kit.py, run_3d.py, run_stills.py) is still running: an orphan from a stopped task still holds the GPU."""
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
+        import cf_proc
+        procs = cf_proc.stage_procs()
+    except Exception:
+        return ""
+    if not procs:
+        return ""
+    pid, cmd = procs[0]
+    more = f" (+{len(procs) - 1} more)" if len(procs) > 1 else ""
+    return (f"A factory stage process is still running with no GPU lock: pid {pid}{more}: {cmd[:160]}. It is probably an orphan from a stopped task and still holds the GPU. "
+            f"Kill its whole tree with: taskkill /PID {pid} /T /F (then retry), or wait if it is a job you started.")
+
+
 def decide(command: str, lock_text: str | None) -> str:
     """'' to allow, else the refusal reason."""
     if not START.search(command or "") or "CF_DRY" in (command or ""):
         return ""
     if not lock_text:
-        return ""
+        return orphan_reason()
     try:
         lock = json.loads(lock_text.lstrip("\ufeff"))
         pid = int(lock.get("pid", 0))
     except (ValueError, TypeError, AttributeError):
-        return ""
+        return orphan_reason()
     if not pid_alive(pid):
-        return ""
+        return orphan_reason()
     return (f"A factory GPU job is already running (job '{lock.get('job', 'unknown')}', pid {pid}, started {lock.get('started_utc', '?')}). "
             "Rule: one GPU job at a time. Wait for it to finish (the lock disappears), then retry.")
 
