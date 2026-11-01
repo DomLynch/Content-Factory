@@ -24,7 +24,8 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose:",
-   "prompt": "The camera is BEHIND the man: we see only the back of his head and back of his body. His face, chest, belt buckle, trouser fly and pockets are NOT visible; show the back of the plain base layer sweater, the two braids hanging down the back, the back of the trousers and the heels of the boots. Orthographic BACK view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "use_ref": false,
+   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, of a tall lean pale man with long black hair swept back and braided into two thick braids that hang down his back, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. We see ONLY his back: the back of his head and braids, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots. His face is not visible. Strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_left",
@@ -48,7 +49,8 @@
    "group": "body",
    "ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose:",
-   "prompt": "The man is rotated 45 degrees: his body and face turn toward the left edge of the image so his right shoulder is nearer the camera and his chest is at an angle, THREE-QUARTER view, not facing the camera straight on. Same plain base layer, A-pose, a little menacing posture. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "use_ref": false,
+   "prompt": "THREE-QUARTER view of a tall lean pale man with a strong jaw, a thin dark moustache, red eyes and long black hair swept back and braided into two thick braids, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "head_front",
