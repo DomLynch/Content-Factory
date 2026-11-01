@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
+import cf_chain  # noqa: E402
 import cf_cmd  # noqa: E402
 import cf_flux  # noqa: E402
 import cf_gates  # noqa: E402
@@ -51,6 +52,9 @@ def decide(payload: dict) -> tuple[str, str]:
                     why = cf_gates.token_reason(pos[0], preset, "--from-latents" in args)
                     if why:
                         return why, ""
+                    chain = cf_chain.part_mesh_reasons(pos[0], "--cutout-png" in args)
+                    if chain:
+                        return " | ".join(chain), ""
             elif script == "publish.py" and "--dry-run" not in args:
                 pos = [a for a in args if not a.startswith("-")]
                 repo = _flag(args, "--repo")
@@ -72,6 +76,9 @@ def decide(payload: dict) -> tuple[str, str]:
         why = cf_gates.token_reason(str(inp["asset_id"]), preset, False)
         if why:
             return why, ""
+        chain = cf_chain.part_mesh_reasons(str(inp["asset_id"]), False)
+        if chain:
+            return " | ".join(chain), ""
     elif name == MCP_PREFIX + "stills" and inp.get("glb"):
         why, line = cf_gates.stills_readback(cf_cmd.resolve(str(inp["glb"]), cwd))
         if why:

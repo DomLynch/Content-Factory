@@ -1,5 +1,7 @@
 {
   "character_id": "vampire-dracula-106",
+  "sheet_kit": "vampire_gpt_sheet",
+  "asset_prefix": "vampire-dracula",
   "label": "Dracula (vampire)",
   "group": "Dracula (vampire)",
   "donor": "tall",

@@ -281,6 +281,15 @@ def main():
     missing = [f"clip {k}={v}" for k, v in spec["clips"].items() if not os.path.exists(os.path.join(loc["mixamo_clips_dir"], v + st["clip_ext"]))]
     if a.dry_run:
         print(f"DRY RUN {spec['character_id']}: {len(units)} units, work dir {plan.work}")
+        sys.path.insert(0, os.path.join(cf_common.REPO, "plugins", "factory", "lib"))
+        os.environ.setdefault("FACTORY_HOME", cf_common.REPO)
+        try:   # the chain status must never stop a dry run (a checkout without the plugin lib just skips it)
+            import cf_chain
+            print("  build-order gates (plugin 0.1.24):")
+            for gate, ok, why in cf_chain.status(spec["character_id"]):
+                print(f"    [{'x' if ok else ' '}] {gate}" + (f"  <- {why}" if why and not ok else ""))
+        except Exception as e:
+            print(f"  build-order gates: not available ({e!r})")
         if missing:
             print("  note: missing clip files:", ", ".join(missing))
         runner = Runner(plan)
@@ -296,6 +305,8 @@ def main():
             elif u["stage"] == "bind":
                 print(f"  binder {plan.binder}, no fallback")
         return 0
+    if any(u["stage"] == "trellis" for u in units):
+        cf_common.plugin_gate("chain", spec["character_id"], False)   # sheet complete + Dom's yes before any part mesh
     if missing:
         sys.exit("cannot start, missing clip files (nothing is downloaded):\n  " + "\n  ".join(missing))
     os.makedirs(plan.work, exist_ok=True)

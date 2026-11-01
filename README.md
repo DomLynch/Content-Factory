@@ -1,5 +1,7 @@
 ﻿# Content-Factory
 
+**Rule: plug gaps, no duplicates.** Before a tool, script or skill is added, name the capability we lacked in one line and check that nothing here already covers it; extend the existing tool instead of writing a second one. The build order is enforced by gates, not documented only: see `docs/build-order.md`.
+
 Everything that makes assets for Frankendom: image prompts and scripts (Flux), TRELLIS run scripts, cut-out helper, rig binding, benchmark queues and the GPU/RAM guard.
 
 - `docs/` asset standard and Windows/ROCm notes
