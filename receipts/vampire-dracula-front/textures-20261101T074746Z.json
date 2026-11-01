@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-front",
+  "stage": "textures",
+  "tool": "tools/run_textures.py",
+  "script_commit": "dae71e5",
+  "model": "none (cv2 inpaint, own metal/rough, detail normal)",
+  "inputs": [
+    {
+      "path": "C:/Users/dom12/Documents/kits_out/3d/vampire-dracula-front/mesh.glb",
+      "sha256": "07aa68f0d46dbd15f1f712b70e9b640ef0de29f908bb4cd3b373dcd14eee1f3e"
+    }
+  ],
+  "params": {
+    "out_name": "vampire-dracula-front",
+    "hole_max_value": 14,
+    "hole_max_area": 400,
+    "normal_strength": 2.5,
+    "compare": {
+      "crop_px": 512,
+      "zoom": 2,
+      "_comment": "crops: height band [lo, hi] as a fraction of the mesh height; the crop is placed where most UV points of the band vertices fall",
+      "crops": {
+        "face": [
+          0.88,
+          0.97
+        ],
+        "coat": [
+          0.4,
+          0.7
+        ]
+      }
+    },
+    "pinhole_texels_before": 75210,
+    "texels_total": 4194304,
+    "pinhole_texels_still_dark_after": 354
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "total_s": 9.3
+  },
+  "memory": {
+    "lowest_free_ram_gb": 3.8
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\textures\\vampire-dracula-front_basecolor.png",
+      "sha256": "71221461910daab3a92e4fe1c1fec8a68f9714c02414fbbbff437bca23e677ca"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\textures\\vampire-dracula-front_mr.png",
+      "sha256": "035c5673118f198245c619caf3dc62d64f472105c41119d580f0ef1e2aec2963"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\textures\\vampire-dracula-front_normal.png",
+      "sha256": "0afd1b379ee82174da9600ec0103491065bc2b9e555085b7b490a82f2990d042"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\textures\\vampire-dracula-front_basecolor_orig.png",
+      "sha256": "a63182319cb6cd72805347093b5f255c30788594430bd60c7c06a64406956fcf"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\textures\\compare.png",
+      "sha256": "a1c66d4a548791fa052dcaceb281e4381ce3ef3abe292bdcd550c8cf80a0f30b"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T07:47:46+00:00"
+}

@@ -3,18 +3,21 @@
 import sys, numpy as np, cv2, trimesh
 src, outdir = sys.argv[1], sys.argv[2]
 prefix = sys.argv[3] if len(sys.argv) > 3 else "asset"
+vmax = int(sys.argv[4]) if len(sys.argv) > 4 else 14      # texel max-channel below this = hole
+max_area = int(sys.argv[5]) if len(sys.argv) > 5 else 400  # components larger than this are real dark areas
 s = trimesh.load(src); g = list(s.geometry.values())[0]; m = g.visual.material
 base = np.array(m.baseColorTexture.convert("RGB"))
 mr = np.array(m.metallicRoughnessTexture.convert("RGB"))
 v = base.max(2)
-holes = (v < 14).astype(np.uint8)
+holes = (v < vmax).astype(np.uint8)
 # only small pinholes; big dark regions are real (gaps between UV islands are handled by dilation already)
 n, lab, stats, _ = cv2.connectedComponentsWithStats(holes, 8)
-small = np.isin(lab, [i for i in range(1, n) if stats[i, cv2.CC_STAT_AREA] < 400]).astype(np.uint8)
+small = np.isin(lab, [i for i in range(1, n) if stats[i, cv2.CC_STAT_AREA] < max_area]).astype(np.uint8)
 small = cv2.dilate(small, np.ones((3, 3), np.uint8))
 print("pinhole texels:", int(small.sum()), "of", small.size)
 fixed = cv2.inpaint(base[..., ::-1], small, 4, cv2.INPAINT_TELEA)
 cv2.imwrite(f"{outdir}/{prefix}_basecolor.png", fixed)
+print("pinhole texels after:", int((fixed.max(2)[small > 0] < vmax).sum()), "of", int(small.sum()), "(masked texels still dark)")
 print("TRELLIS metal mean", mr[..., 2].mean() / 255, "rough mean", mr[..., 1].mean() / 255, "(metal ~1 everywhere: replaced)")
 # own metal/rough from colour: gold/brass trim = metal, skin/horn/cloth = dielectric
 hsv = cv2.cvtColor(fixed, cv2.COLOR_BGR2HSV).astype(np.float32)
