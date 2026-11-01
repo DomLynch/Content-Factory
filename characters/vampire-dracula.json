@@ -1,0 +1,20 @@
+{
+  "character_id": "vampire-dracula-106",
+  "label": "Dracula (vampire)",
+  "group": "Dracula (vampire)",
+  "donor": "tall",
+  "preset": "master_reduced",
+  "clips": {
+    "Idle": "113410901-idle",
+    "Walk": "124540901-walk",
+    "Attack": "9034009-zombie-neck-bite",
+    "Roll": "120430902-sprinting-forward-roll"
+  },
+  "textures": false,
+  "parts": [
+    {"name": "body", "kind": "body", "kit": "kits/vampire_parts_kit.json", "row_id": "body_underlayer"},
+    {"name": "coat", "kind": "gear", "kit": "kits/vampire_parts_kit.json", "row_id": "coat_alone"},
+    {"name": "cloak", "kind": "gear", "kit": "kits/vampire_parts_kit.json", "row_id": "cloak_alone", "repair": {"mirror": 515}},
+    {"name": "boots", "kind": "gear", "kit": "kits/vampire_parts_kit.json", "row_id": "boots_alone"}
+  ]
+}

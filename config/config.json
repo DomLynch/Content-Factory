@@ -264,5 +264,24 @@
     "world_strength": 1.0,
     "rig_name": "Rig",
     "clip_action_name": "clip"
+  },
+  "character": {
+    "_comment": "tools/run_character.py: stage names in run order; pauses and timeouts in seconds",
+    "stages": ["flux", "trellis", "bind", "stills_body", "gear", "assemble", "stills_dressed", "textures"],
+    "pause_s": 15,
+    "flux_timeout_s": 1800,
+    "trellis_timeout_s": 7200,
+    "cpu_timeout_s": 3600,
+    "default_preset": "master_reduced",
+    "default_donor": "tall",
+    "stills_body_suffix": "-bodystills",
+    "stills_dressed_suffix": "-dressed",
+    "stage_times_name": "stage_times.json",
+    "summary_name": "stage_times.txt",
+    "library_row_name": "library_row.json",
+    "markers_subdir": "char_markers",
+    "guard_match": {"flux": "flux_kit", "trellis": "generate.py"},
+    "guard_wait_s": 2,
+    "log_prefix": "char_"
   }
 }
