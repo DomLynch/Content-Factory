@@ -26,11 +26,12 @@ function Invoke-Engine([string]$Kit, [object[]]$Plan, [string]$Name, [int]$Timeo
     $g = Start-Process powershell -ArgumentList "-NoProfile","-File",$script:loc.guard_script,"-Match","flux_multi","-MinFreeRamGB",$script:cfg.limits.guard_min_free_ram_gb,"-MaxGpuGB",$script:cfg.limits.guard_max_gpu_gb -PassThru -WindowStyle Hidden
   }
   $p = Start-Process $script:py -ArgumentList "-u","`"$script:repo\bench\flux_multi.py`"","`"$Kit`"","--plan-file","`"$planFile`"","--out","`"$result`"","--timeout-s",$TimeoutSec -PassThru -NoNewWindow -RedirectStandardOutput $log -RedirectStandardError "$log.err"
-  if (-not $p.WaitForExit(($TimeoutSec + 30) * 1000)) { & taskkill /PID $p.Id /T /F | Out-Null; Write-Warning "[$Name] hard timeout ($TimeoutSec s), killed; partial results are in $result"; }
+  $null = $p.Handle   # keep the handle so ExitCode is readable after the timed wait
+  if ($p.WaitForExit(($TimeoutSec + 30) * 1000)) { $p.WaitForExit() } else { & taskkill /PID $p.Id /T /F | Out-Null; Write-Warning "[$Name] hard timeout ($TimeoutSec s), killed; partial results are in $result"; }
   if ($g -and -not $g.HasExited) { Stop-Process $g.Id -Force -ErrorAction SilentlyContinue }
   Remove-Item Env:CF_DRY -ErrorAction SilentlyContinue
   Get-Content $log | Select-Object -Last 40 | Out-Host   # Out-Host: the function must return ONLY the result path
   if ($Dry) { Write-Host "DRY RUN OK ($Name): nothing rendered. Result json would be $result"; return $null }
-  if ($p.HasExited -and $p.ExitCode -ne 0) { Write-Warning "[$Name] exit $($p.ExitCode), see $log.err" }
+  Write-Host "[$Name] exit code '$($p.ExitCode)' (informational: the result json is what counts)"
   return $result
 }

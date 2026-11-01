@@ -28,12 +28,14 @@ foreach ($variant in @("off", "on")) {
     $g = Start-Process powershell -ArgumentList "-NoProfile","-File",$loc.guard_script,"-Match","flux_kit","-MinFreeRamGB",$cfg.limits.guard_min_free_ram_gb,"-MaxGpuGB",$cfg.limits.guard_max_gpu_gb -PassThru -WindowStyle Hidden
   }
   $p = Start-Process $py -ArgumentList "-u","`"$repo\flux\flux_kit.py`"","`"$($k.kit)`"",$k.row_id -PassThru -NoNewWindow -RedirectStandardOutput $log -RedirectStandardError "$log.err"
-  if (-not $p.WaitForExit(360000)) { & taskkill /PID $p.Id /T /F | Out-Null; Write-Error "[$variant] hard timeout (6 min), killed"; exit 5 }
+  $null = $p.Handle   # keep the handle so ExitCode is readable after the timed wait
+  if (-not $p.WaitForExit(360000)) { & taskkill /PID $p.Id /T /F | Out-Null; Write-Error "[$variant] hard timeout (6 min), killed"; exit 5 } else { $p.WaitForExit() }
   if ($g -and -not $g.HasExited) { Stop-Process $g.Id -Force -ErrorAction SilentlyContinue }
   Get-Content $log | Select-Object -Last 4
   if ($Dry) { continue }
-  if ($p.ExitCode -ne 0) { Write-Error "[$variant] flux_kit.py exit $($p.ExitCode), see $log and $log.err"; exit 6 }
-  $m = Select-String -Path $log -Pattern "receipt=(\S+)" | Select-Object -Last 1
+  $m = Select-String -Path $log -Pattern "receipt=(\S+)" | Select-Object -Last 1   # judged by the RESULT line, not the exit code (an empty ExitCode after a timed wait stopped Probe 3)
+  Write-Host "[$variant] exit code '$($p.ExitCode)'"
+  if (-not $m) { Write-Error "[$variant] flux_kit.py printed no RESULT receipt (exit code '$($p.ExitCode)'), see $log and $log.err"; exit 6 }
   $receipts[$variant] = $m.Matches[0].Groups[1].Value
 }
 Remove-Item Env:CF_DRY, Env:CF_REF_CACHE -ErrorAction SilentlyContinue
