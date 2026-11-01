@@ -45,6 +45,6 @@ Don't
 - Don't go over the default 28 GB attention budget: tiled attention is 6 to 10 times slower.
 - Don't exceed the token cliff (about 24k) without a reason and a receipt.
 - Don't run another GPU job, Flux or a Blender render while this runs (two hard freezes on 2026-10-31).
-- Don't build a cloaked or dressed character as ONE mesh: no leg geometry, cannot be rigged (the fused vampire bound with stretch 29.8).
+- Don't build characters or creatures as ONE mesh: build them in parts (body + gear parts; for creatures the body, head and each limb or attachment as parts). A fused mesh hides geometry (a cloaked coat hides the legs), cannot be rigged and fails the bind gate (the fused vampire bound with stretch 29.8; the T-posed body part bound with 1.31). Applies to humanoids, beasts and anything animated.
 - Don't re-run a failed seed hoping for luck; change the input.
 - Don't trust "done" without a receipt.

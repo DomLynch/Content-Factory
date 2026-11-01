@@ -40,7 +40,7 @@ Do
 
 Don't
 - Don't bind an A-posed body: the binder unbends the arms (A-pose body failed, stretch 18.8).
-- Don't build a cloaked or dressed character as ONE mesh: no leg geometry, cannot rig (fused vampire failed the gate with stretch 29.8).
+- Don't build characters or creatures as ONE mesh: build them in parts (body + gear parts; for creatures the body, head and each limb or attachment as parts). A fused mesh hides geometry (a cloaked coat hides the legs), cannot be rigged and fails the bind gate (the fused vampire bound with stretch 29.8; the T-posed body part bound with 1.31). Applies to humanoids, beasts and anything animated.
 - Don't rely on the auto donor pick for an A-pose.
 - Don't run another GPU job meanwhile (one at a time; two hard freezes on 2026-10-31).
 - Don't assume paths are in config only: `bind/*.py` still hold their own Blender, donor and rig paths (known debt); check them when moving machines.

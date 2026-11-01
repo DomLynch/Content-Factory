@@ -5,7 +5,7 @@ Each plugin release (`plugins/factory`) folds the new lessons into the Do / Don'
 
 Entry format: `- DATE | lesson | source (receipt path or failure) | skill`
 
-- 2026-11-01 | Do not build a cloaked or dressed character as ONE mesh: it has no leg geometry and cannot be rigged. | `receipts/vampire-dracula-front/bind-20261101T061945Z.json` (p99 stretch 29.82, compression 0.275) | bind-humanoid, trellis-part
+- 2026-11-01 | Do not build characters or creatures as ONE mesh: build them in parts (body plus gear parts; creatures: body, head, limbs and attachments). A fused mesh hides geometry (a coat hides the legs), cannot be rigged and fails the bind gate. Universal rule, not only for cloaks. | `receipts/vampire-dracula-front/bind-20261101T061945Z.json` (p99 stretch 29.82, compression 0.275) | bind-humanoid, trellis-part
 - 2026-11-01 | Do not render Flux above 1.5 MP on this box: 2048x1536 thrashed RAM to 0.1 GB free and took hours. At 1.5 MP free RAM still touches 0.4 to 2 GB (guard kills at 2 GB). | session failure 2026-11-01 (no receipt for the 2048x1536 attempt); `receipts/vampire-head_profile-615c32/flux-20261101T050402Z.json` (0.0 GB free at 1.5 MP) | character-sheet
 - 2026-11-01 | Do not run two GPU jobs at once. | two hard freezes on 2026-10-31 (no receipt; see `Documents\crash_monitor.csv` and the handoff note) | all, hook `gpu_lock_guard.py`
 - 2026-11-01 | Do not skip kit pieces: the character sheet is the standard. | owner rule, `config/character_sheet_template.json` | character-sheet
