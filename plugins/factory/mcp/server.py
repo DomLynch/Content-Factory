@@ -37,7 +37,7 @@ import cf_guard  # noqa: E402
 import cf_proc  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.9"
+SERVER_VERSION = "0.1.16"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
