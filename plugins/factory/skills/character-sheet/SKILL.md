@@ -30,6 +30,13 @@ Tool shortcut: the MCP tool `flux_render(kit, row_id)` runs step 4 for one row (
 9. **Upscale the picks.** `python tools\upscale\upscale_match.py <pick.png> <out.png> 1 <asset_id>` (Real-ESRGAN x4, then a Lab mean/std colour match back to the source; a second pass turns 2048 into 8192 on the long side; about 30 s per pass per its docstring, 15.8 to 18.6 s wall in `receipts/vampire-dracula-head/upscale-20261101T095015Z.json` and `receipts/hades_gate-gate_front_elevation/upscale-20261101T062005Z.json`). It writes an `upscale` receipt only when it is given the asset id. The MCP tool `upscale(src, dst)` wraps it. It is a GPU (Vulkan) job: one at a time. The executable path is hard-coded in the script (`~\Documents\pipeline_tools\realesrgan-full\app`). The upscaled file, not the 1024 px Flux file, goes to `trellis-part`.
 10. **Version.** The sheet, its contact sheet, the picks and the receipts are one version (v1, v2, v3). A new Flux pass on a part makes the next version; do not overwrite the old one.
 
+## Sheet rules (plugin 0.1.20, enforced by the Flux gate, not only described)
+Evidence: 31 rejects before these rules, 0 in the 9 cells after. `cf_flux.sheet_reasons` refuses a row that breaks them (hook `gates.py` and `flux_kit.py` exit 2, the refusal names the rule).
+1. **Reference first.** Render and pass the identity cell of each group before any sibling: `head_front` for heads, `body_underlayer_front` for bodies (kit key `identity` {group: row_id} overrides, config `flux.identity_cells` sets defaults). A sibling is refused until the identity cell has an ok flux receipt, and it is judged against that cell. Write the group's fixed description (hair, braids, collar for the vampire) into the manifest once and reuse it in every sibling prompt.
+2. **Mirror what is symmetric.** Right hands, right feet and the right profile are flips of passed left cells: list the pairs in `mirrors.json` next to the kit and run `python tools/mirror_cell.py <kit> <row_id>` (CPU, PIL, writes a `mirror` receipt that is not a Flux roll). A listed row is refused as a render.
+3. **Re-roll cap.** The same prompt, seed and reference may be rolled twice. A third identical roll is refused. A third roll needs a documented change: a QC `prompt_fix` in the prompt, a new seed, or a new identity reference.
+Default kit order: cells that feed 3D first (identity cells, then body views, heads, gear flats), closeups last.
+
 ## Gates
 - Input to 3D: each picked view at least 1024 px on the short side, measured with PIL (`docs/asset-standard.md`, section 1), and upscaled to 2048 px or more (step 9). The hook `input_gate.py` denies a TRELLIS or cut-out call under 1024 px.
 - At most 1.6 MP per render (`limits.max_megapixels`); 1024x1536 is 1.57 MP.

@@ -108,8 +108,8 @@ def policy_reasons(spec: dict) -> list[str]:
     return bad
 
 
-def check_row(kit: dict, row: dict, env: dict | None = None) -> list[str]:
-    return policy_reasons(run_spec(kit, row, env))
+def check_row(kit: dict, row: dict, env: dict | None = None, kit_path: str | None = None) -> list[str]:
+    return policy_reasons(run_spec(kit, row, env)) + (sheet_reasons(kit, row, kit_path) if kit_path else [])
 
 
 def receipt_fields(spec: dict, ref_path, backend: str, process_mode: str, cached: bool, vae_tiling=None, vae_slicing=None) -> dict:
@@ -144,3 +144,80 @@ def kit_row(kit_path: str, row_id: str) -> tuple[dict, dict] | None:
         return kit, row
     except Exception:
         return None
+
+
+# ---- sheet rules (plugin 0.1.20): reference-first, mirrors, re-roll cap -------------------------------------------------------------------------
+# Evidence (the vampire sheet): 31 rejects before the rules, 0 in 9 cells after. Rules:
+#   1 reference first  a non-identity row of a group renders only after the group's identity cell has an ok flux receipt (kit key `identity`
+#                      {group: row_id}, else config flux.identity_cells). Siblings are judged against that cell.
+#   2 mirrors          a row listed in `mirrors.json` next to the kit ({"hands_right": "hands_left"}) is a flip of its source, never a render:
+#                      `python tools/mirror_cell.py <kit> <row_id>`.
+#   3 re-roll cap      the same prompt + seed + reference may be rolled twice; a third identical roll is refused. A change (QC prompt_fix in the
+#                      prompt, a new seed, a new identity reference) makes it a different roll.
+REROLL_CAP = 2
+IDENTITY_DEFAULT = {"head": "head_front", "body": "body_underlayer_front"}
+
+
+def row_prompt_seed(kit: dict, row: dict, default_seed=42) -> tuple[str, object]:
+    """The prompt and seed exactly as flux_kit.py builds them."""
+    seed = kit.get("seed", default_seed)
+    prompt = " ".join([row["prompt"], kit["subject"] if row.get("use_subject", True) else "", kit["style"]]).strip()
+    ref = row.get("ref", kit.get("ref"))
+    if ref and row.get("use_ref", True):
+        prompt = row.get("ref_prefix", kit["ref_prefix"]) + " " + prompt
+    return prompt, seed
+
+
+def _flux_receipts(kit_name: str, row_id: str) -> list[dict]:
+    out = []
+    for p in sorted((cf_guard.HOME / "receipts").glob(f"{kit_name}-{row_id}-*/flux-*.json")):
+        try:
+            out.append(json.loads(p.read_text(encoding="utf-8-sig")))
+        except Exception:
+            continue
+    return out
+
+
+def _sha(path):
+    if not path or not os.path.isfile(path):
+        return None
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def sheet_reasons(kit: dict, row: dict, kit_path: str | None = None) -> list[str]:
+    """Refusals of the three sheet rules; [] when the row may render. Never raises (a failing check allows)."""
+    try:
+        return _sheet_reasons(kit, row, kit_path)
+    except Exception:
+        return []
+
+
+def _sheet_reasons(kit: dict, row: dict, kit_path: str | None) -> list[str]:
+    bad = []
+    rid = row.get("row_id", row.get("name"))
+    kname = kit.get("kit", "")
+    if kit_path:
+        mp = Path(kit_path).with_name("mirrors.json")
+        if mp.is_file():
+            m = json.loads(mp.read_text(encoding="utf-8-sig"))
+            if rid in m:
+                bad.append(f"SHEET RULE (mirror): row {rid} is a mirror of {m[rid]}, not a render. Run tools/mirror_cell.py on the passed {m[rid]} cell.")
+    t = row_type(kit, row)
+    ident = {**IDENTITY_DEFAULT, **(flux_cfg().get("identity_cells") or {}), **(kit.get("identity") or {})}
+    idrow = ident.get(t)
+    if idrow and idrow != rid and any(r.get("row_id", r.get("name")) == idrow for r in kit.get("rows", [])):
+        if not any(r.get("status") == "ok" for r in _flux_receipts(kname, idrow)):
+            bad.append(f"SHEET RULE (reference first): {t} row {rid} waits for the identity cell {idrow}: render it and pass it first, then judge {rid} against it.")
+    prompt, seed = row_prompt_seed(kit, row)
+    ref = row.get("ref", kit.get("ref")) if row.get("use_ref", True) else None
+    sha = _sha(ref)
+    same = [r for r in _flux_receipts(kname, rid)
+            if (r.get("params") or {}).get("prompt") == prompt and (r.get("params") or {}).get("seed") == seed and (r.get("params") or {}).get("ref_sha256") == sha]
+    if len(same) >= REROLL_CAP:
+        bad.append(f"SHEET RULE (re-roll cap): row {rid} was already rolled {len(same)} times with this exact prompt, seed and reference. "
+                   f"A third roll needs a documented change: edit the prompt (QC prompt_fix), change the seed, or change the identity reference.")
+    return bad
