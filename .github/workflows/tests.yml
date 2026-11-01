@@ -1,0 +1,20 @@
+name: offline tests
+
+# The plugin's offline suite: standard library plus pytest, no GPU, no model, no Blender. Tests that need a binary or a GPU skip themselves.
+# Make this check required on main (Settings > Branches) so "N passed" is not self-reported.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  offline:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pytest pillow numpy
+      - run: python -m pytest plugins/factory/tests -q

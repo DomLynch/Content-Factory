@@ -32,6 +32,8 @@ def main():
     miss = [k for k in ("id", "label", "group", "rig", "source", "glb", "thumb", "stills") if k not in spec]
     if miss:
         sys.exit(f"spec missing keys: {miss}")
+    if not a.dry_run:
+        cf_common.plugin_gate("publish", spec)   # parts, lighting, read-back and pipeline gates, also outside Claude Code (plugin 0.1.23)
     res = lambda p: p if os.path.isabs(p) else os.path.join(a.repo, p)
     srcs = [res(spec["glb"]), res(spec["thumb"])] + [res(s) for s in spec["stills"]]
     for s in srcs:
