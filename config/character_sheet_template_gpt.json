@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note. A swatch item with swatch_of {source_row, box (fractions), size} becomes a crop of an approved cell made by tools/swatch_crop.py; the queue skips rows with swatch_of. Optional spec fields (absent = output unchanged): head_age_desc, head_skin_desc, body_age_desc, body_skin_desc add 'Age and face / Skin / Build' sentences to the head, body and foot prompts; head_front_ref and head_lock_ref set the reference image of the identity-lock head rows. Optional spec fields gear_colour_rule (appended to every gear prompt) and palette fields such as coat_palette used inside item strings as {coat_palette}.",
+ "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_cell.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note. A swatch item with swatch_of {source_row, box (fractions), size} becomes a crop of an approved cell made by tools/swatch_crop.py; the queue skips rows with swatch_of. Optional spec fields (absent = output unchanged): head_age_desc, head_skin_desc, body_age_desc, body_skin_desc add 'Age and face / Skin / Build' sentences to the head, body and foot prompts; head_front_ref and head_lock_ref set the reference image of the identity-lock head rows. Optional spec fields gear_colour_rule (appended to every gear prompt) and palette fields such as coat_palette used inside item strings as {coat_palette}. identity_ref (spec) is the reference of head_front; parts_ref is used by gear flats only when gear_use_parts_ref is true (shape only, see gear_ref_prefix).",
  "group_priority": [
   "body",
   "head",
@@ -72,7 +72,7 @@
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
    "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on {head_skin_detail}, {eye_desc}. {Head_hair_front_desc}; {head_facial_hair_desc}; {head_chin_front_desc}; wearing the {head_collar_desc}, {head_garment_exclude}.{head_age_sentence}{head_skin_sentence}",
-   "ref_field": "head_front_ref"
+   "ref_field": "identity_ref"
   },
   {
    "row_id": "head_profile",
@@ -224,7 +224,10 @@
     "flat": "Show ONLY {item}{colour_clause}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}",
     "described": "Show ONLY {item}{gear_layout}: {colour_desc}. {gear_isolation_head}{isolation_clause}. {gear_person_negative}{gear_colour_sentence}",
     "closeup": "Close-up of ONLY {item}{gear_layout}, filling the frame, on a plain empty dark grey background: {gear_exclude}. {gear_closeup_suffix}{gear_colour_sentence}"
-   }
+   },
+   "ref_field": "parts_ref",
+   "use_ref_field": "gear_use_parts_ref",
+   "ref_prefix_field": "gear_ref_prefix"
   },
   {
    "repeat": "swatches",

@@ -62,8 +62,13 @@ def build(spec, tpl):
                 row["seed"], row["seed_note"] = rs["seed"], rs["note"]
             if item and item.get("swatch_of"):   # made by tools/swatch_crop.py (a crop of an approved cell), not rendered
                 row["swatch_of"] = item["swatch_of"]
-            if cell.get("ref_field") and spec.get(cell["ref_field"]) and "ref" not in row:   # optional identity-lock reference from the spec
+            flag = cell.get("use_ref_field")   # optional: the row uses a reference only when this spec flag is true
+            if cell.get("ref_field") and spec.get(cell["ref_field"]) and "ref" not in row and (not flag or spec.get(flag)):   # identity-lock / parts reference from the spec
                 row["ref"] = spec[cell["ref_field"]]
+            if flag and spec.get(flag):
+                row["use_ref"] = True
+                if cell.get("ref_prefix_field") and spec.get(cell["ref_prefix_field"]):
+                    row["ref_prefix"] = spec[cell["ref_prefix_field"]]
             if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
             rows.append(row)

@@ -2,9 +2,9 @@
  "id": "vampire_gpt_v2",
  "template": "config/character_sheet_template_gpt.json",
  "kit_name": "vampire_gpt_sheet_v2",
- "description": "Dracula, red-eyed man with braided swept-back black hair and moustache, crimson damask velvet tunic with hussar frogging and embroidered front panel, black fur-collared cloak with gold borders, wide belt with double-eagle buckle, hanging tabard with castle emblem and cross, lace cuffs, tall black leather boots with gold knee plates.",
+ "description": "Dracula, a gaunt man of about 55 with red eyes, long loose wavy swept-back black hair and a thin upswept moustache, muted oxblood damask long coat with matte wool, dull antique gold embroidery and hussar frogging, matte black wool cloak with a thick dark brown-black fur collar, wide worn black leather belt with an antique gold double-eagle buckle, hanging tabard with a castle emblem and cross, white lace cuffs, tall black leather boots with antique gold knee plates.",
  "seed": 42,
- "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+ "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
  "base_layer_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
  "character_noun": "man",
  "possessive": "his",
@@ -14,7 +14,7 @@
  "head_detail": "skin pores, hair and moustache",
  "hair_desc": "black hair",
  "eye_desc": "red eyes",
- "hair_style_desc": "braided swept-back black hair",
+ "hair_style_desc": "long loose wavy swept-back black hair",
  "pronoun": "he",
  "removed_gear": "the coat, cloak, fur and boots",
  "removed_gear_full": "the coat, cloak, fur, tabard, belt, cuffs and boots",
@@ -22,15 +22,17 @@
  "gear_items": [
   {
    "id": "coat",
-   "item": "the crimson damask velvet tunic coat with hussar frogging, gold embroidered front panel and high collar",
+   "item": "the muted oxblood damask tunic coat with hussar frogging, gold embroidered front panel and high collar",
    "gear_layout": ", laid flat and spread out front-facing",
-   "gear_exclude": "no person, no mannequin, no cloak, no boots"
+   "gear_exclude": "no person, no mannequin, no cloak, no boots",
+   "colour_desc": "in {coat_palette}"
   },
   {
    "id": "coat_back",
-   "item": "the back of the crimson damask velvet tunic coat with gold embroidery",
+   "item": "the back of the muted oxblood damask tunic coat with gold embroidery",
    "gear_layout": ", laid flat seen from behind",
-   "gear_exclude": "no person, no mannequin, no cloak, no boots"
+   "gear_exclude": "no person, no mannequin, no cloak, no boots",
+   "colour_desc": "in {coat_palette}"
   },
   {
    "id": "cloak",
@@ -38,7 +40,7 @@
    "gear_layout": " laid out front-facing",
    "form": "described",
    "gear_isolation_negative": "no other garments",
-   "colour_desc": "BLACK velvet outer shell with wide gold embroidered borders, a thick black fur collar, and a dark crimson velvet inner lining visible only at the opening"
+   "colour_desc": "matte black wool outer shell with wide gold embroidered borders, a thick dark brown-black fur collar, and a dark oxblood lining visible only at the opening"
   },
   {
    "id": "cloak_back",
@@ -46,29 +48,32 @@
    "gear_layout": ", laid out flat",
    "form": "described",
    "gear_isolation_negative": "",
-   "colour_desc": "BLACK velvet outer shell with wide gold embroidered borders and a thick black fur collar at the top; crimson only at the very edges"
+   "colour_desc": "matte black wool outer shell with wide gold embroidered borders and a thick dark brown-black fur collar at the top; oxblood only at the very edges"
   },
   {
    "id": "fur_collar",
-   "item": "the black fur collar of the cloak",
+   "item": "the dark brown-black fur collar of the cloak",
    "gear_layout": ", laid flat in a ring",
-   "gear_exclude": "no person, no mannequin, no coat"
+   "gear_exclude": "no person, no mannequin, no coat",
+   "colour_desc": "in {fur_palette} fur"
   },
   {
    "id": "collar_closeup",
-   "item": "a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar",
+   "item": "a close-up of the high stiff muted oxblood damask collar with gold embroidery and the dark brown-black fur collar",
    "gear_layout": ", front view",
-   "gear_exclude": "no person"
+   "gear_exclude": "no person",
+   "colour_desc": "in {coat_palette}"
   },
   {
    "id": "belt",
    "item": "the wide leather belt with the gold double-headed eagle buckle",
    "gear_layout": ", laid flat and straight",
-   "gear_exclude": "no person, no coat"
+   "gear_exclude": "no person, no coat",
+   "colour_desc": "in {leather_palette}, buckle in {gold_palette}"
   },
   {
    "id": "belt_buckle_closeup",
-   "item": "a gold double-headed eagle belt buckle set with red ruby gems on a wide black leather belt strap",
+   "item": "a gold double-headed eagle belt buckle set with dark red ruby gems on a wide black leather belt strap",
    "gear_layout": ", front view",
    "gear_exclude": "no tunic, no fabric, no lace behind it",
    "size": [
@@ -82,7 +87,7 @@
    "item": "the hanging tabard",
    "gear_layout": ", laid flat front-facing",
    "gear_exclude": "no person, no mannequin",
-   "colour_desc": "made of deep crimson red damask velvet with a gold-thread embroidered border, a gold and bronze embroidered castle emblem with a cross below it, and a pointed lower end"
+   "colour_desc": "made of deep oxblood damask with a gold-thread embroidered border, a dull antique gold embroidered castle emblem with a cross below it, and a pointed lower end"
   },
   {
    "id": "cuffs",
@@ -104,13 +109,15 @@
    "id": "boots_front",
    "item": "the pair of tall black leather boots with gold knee plates",
    "gear_layout": ", seen from the front, standing side by side",
-   "gear_exclude": "no person"
+   "gear_exclude": "no person",
+   "colour_desc": "in {leather_palette}"
   },
   {
    "id": "boots_side",
    "item": "the pair of tall black leather boots with gold knee plates",
    "gear_layout": ", seen from the side, standing",
-   "gear_exclude": "no person"
+   "gear_exclude": "no person",
+   "colour_desc": "in {leather_palette}"
   },
   {
    "id": "knee_plates",
@@ -120,7 +127,8 @@
    "size": [
     1024,
     1024
-   ]
+   ],
+   "colour_desc": "in {gold_palette}"
   },
   {
    "id": "rings",
@@ -130,113 +138,36 @@
    "size": [
     1024,
     1024
-   ]
+   ],
+   "colour_desc": "in {gold_palette}"
   }
  ],
  "swatches": [
   {
    "id": "crimson_damask_velvet",
-   "desc": "crimson damask velvet fabric with a subtle woven pattern",
-   "swatch_of": {
-    "source_row": "gear_coat",
-    "box": [
-     0.35026,
-     0.32422,
-     0.40495,
-     0.40625
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "muted oxblood damask velvet fabric with a subtle woven pattern, matte, {colour_rule}"
   },
   {
    "id": "black_fur",
-   "desc": "dense black fur",
-   "swatch_of": {
-    "source_row": "gear_fur_collar",
-    "box": [
-     0.18229,
-     0.41016,
-     0.33854,
-     0.64453
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "dense {fur_palette} fur, matte, no gloss, photographic colour"
   },
   {
    "id": "gold_embroidery",
-   "desc": "dense gold thread embroidery on crimson cloth",
-   "swatch_of": {
-    "source_row": "gear_coat",
-    "box": [
-     0.45573,
-     0.32227,
-     0.54036,
-     0.44922
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "dense thread embroidery in {gold_palette} on oxblood cloth, {colour_rule}"
   },
   {
    "id": "black_leather",
-   "desc": "worn black leather with fine creases",
-   "swatch_of": {
-    "source_row": "gear_belt",
-    "box": [
-     0.09766,
-     0.45117,
-     0.18229,
-     0.57812
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "{leather_palette} with fine creases, matte, no gloss, photographic colour"
   },
   {
    "id": "pale_skin",
-   "desc": "pale aged human skin with pores and fine wrinkles",
-   "texture_kind": "texture",
-   "swatch_of": {
-    "source_row": "head_front",
-    "box": [
-     0.39062,
-     0.22949,
-     0.48828,
-     0.32715
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "pale, cold, slightly grey aged human skin with pores and fine lines, no warm flush",
+   "texture_kind": "texture"
   },
   {
    "id": "dark_hair",
-   "desc": "straight black hair strands",
-   "texture_kind": "texture",
-   "swatch_of": {
-    "source_row": "head_back",
-    "box": [
-     0.37109,
-     0.14648,
-     0.625,
-     0.40039
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "long wavy black hair strands, loose and swept back",
+   "texture_kind": "texture"
   },
   {
    "id": "steel",
@@ -244,58 +175,32 @@
   },
   {
    "id": "lace",
-   "desc": "white lace fabric with a delicate pattern",
-   "swatch_of": {
-    "source_row": "gear_cuffs",
-    "box": [
-     0.3418,
-     0.20996,
-     0.53711,
-     0.40527
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "ivory lace fabric with a delicate pattern"
   },
   {
    "id": "velvet_lining",
-   "desc": "dark crimson velvet cloak lining with a soft sheen",
-   "swatch_of": {
-    "source_row": "gear_cloak",
-    "box": [
-     0.4362,
-     0.625,
-     0.54036,
-     0.78125
-    ],
-    "size": [
-     1024,
-     1024
-    ]
-   }
+   "desc": "dark oxblood velvet cloak lining with a soft matte sheen, {colour_rule}"
   }
  ],
  "outfit_desc": "a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots",
- "back_body_desc": "a tall lean pale man with long black hair swept back and tied at the nape; his two thick braids hang forward over his shoulders and are not visible from behind",
- "front_body_desc": "a tall lean pale man with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long black hair swept back and braided into two thick braids",
- "back_visible_desc": "the back of his head with the hair swept back and tied at the nape, no braids down the back, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots",
+ "back_body_desc": "a tall lean gaunt pale man of about 55 with long loose wavy black hair swept back and falling to the shoulder blades",
+ "front_body_desc": "a tall lean gaunt pale man of about 55 with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long loose wavy black hair swept back",
+ "back_visible_desc": "the back of his head with the long loose wavy black hair falling over the nape and shoulders, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots",
  "pose_rule": "strict A-pose with arms about 30 degrees away from the body, legs slightly apart",
  "side_pose_rule": "arms hanging slightly forward in an A-pose",
  "head_skin_detail": "skin pores",
- "head_hair_front_desc": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders",
- "head_hair_profile_desc": "hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder",
+ "head_hair_front_desc": "long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids",
+ "head_hair_profile_desc": "long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait",
  "head_facial_hair_desc": "long upswept thin moustache",
  "head_chin_front_desc": "clean-shaven chin with no soul patch",
  "head_collar_desc": "plain charcoal high-collared sweater collar",
  "head_garment_exclude": "no fur, no coat",
  "profile_eye_desc": "red eye",
  "head_top_hair_colour": "black",
- "head_top_hair_desc": "the hair swept back and the origins of the two braids",
+ "head_top_hair_desc": "the long wavy hair swept back from the centre parting",
  "head_top_garment": "a plain charcoal sweater",
  "head_top_exclude": "no coat, no fur, no collar",
- "hand_skin_desc": "pale grey-white aged skin with a cold undertone",
+ "hand_skin_desc": "pale, cold, slightly grey aged skin",
  "hand_wrist_rule": "Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove.",
  "frame_rule": "Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.",
  "foot_desc": "a plain black knitted sock",
@@ -305,7 +210,7 @@
  "gear_isolation_negative": "no other garments, no fabric backdrop, no fur or lace unless it is part of this item",
  "gear_person_negative": "No person, no head, no face, no hands, no mannequin.",
  "gear_closeup_suffix": "No person.",
- "head_hair_back_desc": "hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders",
+ "head_hair_back_desc": "long loose wavy black hair with no braids, swept straight back and falling loose over the nape and the back of the collar",
  "head_chin_rule": "clean-shaven chin with no soul patch, no stubble",
  "head_collar_rule": "plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric",
  "head_accessory_exclude": "no earring, no hair ornaments",
@@ -315,33 +220,43 @@
  "row_seeds": {
   "head_front": {
    "seed": 45,
-   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows)."
   },
   "head_three_quarter": {
    "seed": 45,
-   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows)."
   },
   "head_profile": {
    "seed": 45,
-   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows)."
   },
   "head_back": {
    "seed": 45,
-   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows)."
   },
   "head_top": {
    "seed": 45,
-   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the Flux klein concept (the v1 face read 35 to 40 with warm smooth skin and braids); identity locked to identity_ref (head_front) or to the v2 head_front output (the other head rows)."
   }
  },
- "head_hair_profile_right_desc": "hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp",
- "body_hair_desc": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair",
- "body_hair_front_view": "both braids clearly visible on the chest",
- "body_hair_side_view": "one braid visible hanging over the near shoulder down to the chest, not a short stub",
- "head_age_desc": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
- "head_skin_desc": "pale grey-white skin with a cold undertone, no warm flush",
+ "head_hair_profile_right_desc": "long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait",
+ "body_hair_desc": "long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids",
+ "body_hair_front_view": "loose wavy hair falling to the shoulders on both sides",
+ "body_hair_side_view": "loose wavy hair falling behind the near shoulder",
+ "coat_palette": "muted oxblood damask, matte wool, dull antique gold embroidery",
+ "cloak_palette": "matte black wool, dark brown-black fur collar",
+ "fur_palette": "dark brown-black",
+ "gold_palette": "antique dull gold, not bright",
+ "leather_palette": "worn black leather",
+ "colour_rule": "no saturated red, no gloss, photographic colour",
+ "identity_ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+ "parts_ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+ "head_lock_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+ "head_age_desc": "a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets",
+ "head_skin_desc": "pale, cold, slightly grey skin, no warm flush",
  "body_age_desc": "a man of about 55 with a lean, gaunt build",
- "body_skin_desc": "pale grey-white skin with a cold undertone",
- "head_front_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_ref_crops\\concept_face_crop.png",
- "head_lock_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+ "body_skin_desc": "pale, cold, slightly grey skin, no warm flush",
+ "gear_colour_rule": "no saturated red, no gloss, photographic colour",
+ "gear_use_parts_ref": true,
+ "gear_ref_prefix": "Edit instruction: use this image only for the cut and shape of the garment; take the colour and material from the text. Change only the following:"
 }

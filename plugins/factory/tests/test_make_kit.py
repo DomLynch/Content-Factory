@@ -67,11 +67,20 @@ class OptionalAgeFields(unittest.TestCase):
     def test_v2_identity_lock_refs(self):
         spec = load("characters/vampire-dracula-gpt-sheet-v2.json")
         by = {r["name"]: r for r in make_kit.build(spec, load(spec["template"]))["rows"]}
-        self.assertEqual(by["head_front"]["ref"], spec["head_front_ref"])
+        self.assertEqual(by["head_front"]["ref"], spec["identity_ref"])
         for n in ("head_three_quarter", "head_profile", "head_back", "head_top"):
             self.assertEqual(by[n]["ref"], spec["head_lock_ref"], n)
-        self.assertNotEqual(spec["head_lock_ref"], spec["head_front_ref"])
+        self.assertNotEqual(spec["head_lock_ref"], spec["identity_ref"])
         self.assertTrue(all(by[n]["seed"] == 45 for n in ("head_front", "head_three_quarter", "head_profile", "head_back", "head_top")))
+
+
+    def test_v2_gear_flats_use_parts_ref_for_shape_only(self):
+        spec = load("characters/vampire-dracula-gpt-sheet-v2.json")
+        by = {r["name"]: r for r in make_kit.build(spec, load(spec["template"]))["rows"]}
+        self.assertEqual(by["gear_coat"]["ref"], spec["parts_ref"])
+        self.assertIn("only for the cut and shape", by["gear_coat"]["ref_prefix"])
+        self.assertNotIn("swatch_of", by["swatch_black_fur"])
+        self.assertIs(by["swatch_black_fur"]["use_ref"], False)
 
 
 if __name__ == "__main__":
