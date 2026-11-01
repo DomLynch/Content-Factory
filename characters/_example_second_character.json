@@ -119,5 +119,9 @@
  "head_accessory_exclude": "no earring, no hair ornaments",
  "hand_handedness_right": "This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image.",
  "hand_ring_rule": "worn on the index finger; the same ring design in every view; palm views show only the plain iron band",
- "hand_wrist_clean_rule": "Clean bare wrist, no artefacts."
+ "hand_wrist_clean_rule": "Clean bare wrist, no artefacts.",
+ "head_hair_profile_right_desc": "short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp",
+ "body_hair_desc": "short cropped brown hair with a clean hairline, no loose strands",
+ "body_hair_front_view": "hairline clearly visible above the brow",
+ "body_hair_side_view": "cropped hair and the nape clearly visible"
 }

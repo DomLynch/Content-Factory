@@ -27,7 +27,7 @@
    "size": null,
    "ref": "{ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Remove {removed_gear_full}; {pronoun} wears only {base_layer}. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, {pose_rule}, plain dark neutral grey background, neutral expression, hands bare. {Pronoun} wears {outfit_desc}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, FRONT view, {pose_rule}, plain dark neutral grey background, neutral expression, hands bare. {Pronoun} wears {outfit_desc}. {Body_hair_desc}; {body_hair_front_view}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_back",
@@ -44,7 +44,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. {Pronoun} wears {outfit_desc}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. {Pronoun} wears {outfit_desc}. {Body_hair_desc}; {body_hair_side_view}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_right",
@@ -52,7 +52,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. {Pronoun} wears {outfit_desc}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. {Pronoun} wears {outfit_desc}. {Body_hair_desc}; {body_hair_side_view}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_three_quarter",
@@ -91,7 +91,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_rule}; {head_collar_desc}, {head_garment_exclude}.",
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_right_desc}.  {Head_facial_hair_desc}; {head_chin_rule}; {head_collar_desc}, {head_garment_exclude}.",
    "mirror_of": "head_profile"
   },
   {
@@ -274,7 +274,11 @@
   "head_accessory_exclude",
   "hand_handedness_right",
   "hand_ring_rule",
-  "hand_wrist_clean_rule"
+  "hand_wrist_clean_rule",
+  "body_hair_desc",
+  "body_hair_front_view",
+  "body_hair_side_view",
+  "head_hair_profile_right_desc"
  ],
  "group_defaults": {
   "hands_feet": {
