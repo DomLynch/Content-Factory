@@ -12,6 +12,7 @@ ap.add_argument("asset_id")
 ap.add_argument("image")
 ap.add_argument("--preset", default=None)
 ap.add_argument("--seed", type=int, default=None)
+ap.add_argument("--no-naf", action="store_true", help="ROUGH fallback: bicubic feature upsample instead of NAF (also config pixal3d.naf = false)")
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
@@ -36,12 +37,22 @@ missing = [p for p in (repo, py, *dirs.values()) if not os.path.exists(p)]
 if missing:
     sys.exit("missing: " + ", ".join(missing))
 
+naf = bool(px.get("naf", True)) and not a.no_naf
+quality_label = "" if naf else px.get("naf_off_label", "ROUGH / NAF-off")
+shim_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), *px.get("shim_dir", "pixal3d_shims").split("/"))
+torch_home = path("pixal3d_torch_home", ["models", "torch-hub"])
+if naf and not os.path.isfile(os.path.join(shim_dir, "natten", "__init__.py")):
+    sys.exit(f"missing natten shim: {shim_dir}")
+
 out_dir = os.path.join(loc["outputs_dir"], "3d", a.asset_id)
 os.makedirs(out_dir, exist_ok=True)
 glb = os.path.join(out_dir, f"pixal3d_{preset_name}.glb")
 env = dict(os.environ, **px["env"])
 cmd = [py, os.path.join(os.path.dirname(os.path.abspath(__file__)), "pixal3d_entry.py"), a.image, glb, "--repo", repo, "--model-dir", dirs["model"],
-       "--dino-dir", dirs["dino"], "--moge-dir", dirs["moge"], "--birefnet-dir", dirs["birefnet"], "--seed", str(seed), "--resolution", str(preset["resolution"])]
+       "--dino-dir", dirs["dino"], "--moge-dir", dirs["moge"], "--birefnet-dir", dirs["birefnet"], "--seed", str(seed), "--resolution", str(preset["resolution"]),
+       "--shim-dir", shim_dir, "--torch-home", torch_home]
+if not naf:
+    cmd.append("--no-naf")
 if preset.get("low_vram"):
     cmd.append("--low-vram")
 
@@ -57,7 +68,7 @@ except Exception:
     commit = ""
 ok = r.returncode == 0 and os.path.exists(glb)
 cf_common.write_receipt(cfg, a.asset_id, "pixal3d", tool="pixal3d_entry.py", model={"id": "Pixal3D (TencentARC, MIT)", "repo": repo, "commit": commit, "weights": dirs["model"]},
-                        inputs=[a.image], params={"preset": preset_name, **preset, "seed": seed, "env": px["env"], "log": log, "helpers": dirs, "rembg": "BiRefNet (MIT), not RMBG-2.0"},
+                        inputs=[a.image], params={"preset": preset_name, **preset, "seed": seed, "naf": naf, "quality_label": quality_label, "natten_shim": shim_dir if naf else "", "torch_home": torch_home, "env": px["env"], "log": log, "helpers": dirs, "rembg": "BiRefNet (MIT), not RMBG-2.0"},
                         timing={"wall_s": round(time.time() - t0, 1)}, memory={"lowest_free_ram_gb": ram.stop()},
                         outputs=[glb] if os.path.exists(glb) else [], status="ok" if ok else "fail", error="" if ok else f"exit {r.returncode}, see {log}")
 sys.exit(0 if ok else 1)

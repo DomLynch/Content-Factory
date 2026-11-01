@@ -5,7 +5,7 @@ description: "Image to textured GLB with Pixal3D (TencentARC, MIT) through the p
 
 > **STATUS: DRAFT, not yet run end to end.** Weights are downloaded and checksummed and the tool, hooks and tests exist, but the model has not been run in the factory and no receipt exists yet. The A/B against TRELLIS has not run.
 >
-> Unproven: that Pixal3D runs on this ROCm stack at all, its wall time and peak memory, and whether it beats TRELLIS on the vampire body cell.
+> Unproven: the natten shim has never been compared with real natten (no CUDA here), only with a plain-Python reference written from NATTEN's documented semantics; that Pixal3D runs on this ROCm stack at all, its wall time and peak memory, and whether it beats TRELLIS on the vampire body cell.
 
 # Pixal3D (pipeline label PIXAL3D)
 
@@ -21,7 +21,16 @@ TencentARC Pixal3D, MIT (code, weights and NOTICE re-read 2026-11-01). Single im
 ## What the entry script changes (in memory only)
 - DINOv3 and MoGe-2 are read from local folders (no network, no token).
 - The background remover in the weights' `pipeline.json` is rewritten once from briaai/RMBG-2.0 (licence bria-rmbg-2.0, non-commercial) to ZhengPeng7/BiRefNet (MIT); the original is kept as `pipeline.json.orig`.
-- Attention is sdpa. flash-attn and natten are CUDA-only; upstream does not import natten.
+- Attention is sdpa (flash-attn is only used when asked).
+- NAF and natten (plugin 0.1.15): the image-conditioning models (shape_512, shape_1024, tex_1024) load the NAF feature upsampler (valeoai/NAF, Apache-2.0) with `torch.hub.load`, and its hubconf declares the CUDA-only `natten` as a dependency, which the ROCm venv cannot install. The entry puts `tools/pixal3d_shims/natten` (pure PyTorch 2-D neighborhood attention, same window rule and scaling, no stride, no causal, no position bias, slower than the CUDA kernels) FIRST on `sys.path`. The venv and the Pixal3D clone are not touched. Other launchers: `PYTHONPATH=<repo>	ools\pixal3d_shims`.
+- NAF cache: the entry sets `TORCH_HOME` to config.local `pixal3d_torch_home` (default `work_dir/models/torch-hub`). torch.hub fetches the GitHub zip of valeoai/NAF into `hub/valeoai_NAF_main` and `naf_release.pth` into `hub/checkpoints` on first use, so pre-fetch both once with the network up (commands below) and the run stays offline. The entry prints whether each is present.
+- NAF-off fallback: `--no-naf` on `run_pixal3d.py` (or config `pixal3d.naf` false) replaces NAF with a bicubic upsample of the DINOv3 map. `use_naf_upsample=False` is NOT used: the shipped flow models take 2 x 1024 projection channels (lr ++ hr) and would crash on 1024. The receipt then has `params.naf=false` and `params.quality_label="ROUGH / NAF-off"`; with NAF on, `params.naf=true`. A NAF-off mesh is a rough proof, never a final, and is not an A/B result against TRELLIS.
+
+## NAF pre-fetch (once, network up, no GPU needed)
+Set `T` to the folder in `pixal3d_torch_home`, then with the Pixal3D venv python (the shim satisfies hubconf's `natten` check; it loads on CPU and downloads, nothing else):
+`PowerShell: $env:TORCH_HOME=$T; & <Pixal3D-312 python> -c "import sys; sys.path.insert(0, r'<repo>	ools\pixal3d_shims'); import torch; torch.hub.load('valeoai/NAF','naf',pretrained=True,device='cpu',trust_repo=True)"`
+Or by hand: the zip `https://github.com/valeoai/NAF/archive/refs/heads/main.zip` extracted so that `$T\hubaleoai_NAF_main\hubconf.py` exists (the zip's top folder is NAF-main: rename it), and `https://github.com/valeoai/NAF/releases/download/model/naf_release.pth` saved as `$T\hub\checkpoints
+af_release.pth`. Do not run this while a GPU job runs on a tight-RAM box without need; it uses a few hundred MB.
 
 ## The A/B (decision rule from OpenTrident Dev)
 Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
