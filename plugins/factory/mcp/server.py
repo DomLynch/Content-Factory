@@ -29,9 +29,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_guard  # noqa: E402
+import cf_proc  # noqa: E402
 
 HOME = cf_guard.HOME
-SERVER_VERSION = "0.1.1"
+SERVER_VERSION = "0.1.5"
 PROTOCOL_DEFAULT = "2024-11-05"
 
 
@@ -95,13 +96,21 @@ def run_stage(tool: str, cmd: list[str], *, cwd=None, env=None, timeout: int, gu
         time.sleep(c["character"]["guard_wait_s"])
     t0 = time.time()
     nonce = cf_guard.issue_nonce(tool)   # the plugin's own token: the child carries it, the Bash/PowerShell hook (plugin_guard.py) honours it
+    proc = job = None
     try:
         with open(log, "w", encoding="utf-8") as lf:
-            rc: object = subprocess.run(cmd, cwd=cwd or str(HOME), env=dict(os.environ, **(env or {}), **({cf_guard.TOKEN_ENV: nonce} if nonce else {})),
-                                        stdout=lf, stderr=subprocess.STDOUT, timeout=timeout).returncode
-    except subprocess.TimeoutExpired:
-        rc = "timeout"
+            proc = subprocess.Popen(cmd, cwd=cwd or str(HOME), env=dict(os.environ, **(env or {}), **({cf_guard.TOKEN_ENV: nonce} if nonce else {})),
+                                    stdout=lf, stderr=subprocess.STDOUT, start_new_session=(os.name != "nt"))
+            job = cf_proc.bind_to_job(proc.pid)   # 0.1.5: if this server is killed (TaskStop, crash) the kernel kills the whole stage tree
+            try:
+                rc: object = proc.wait(timeout=timeout)
+            except subprocess.TimeoutExpired:
+                rc = "timeout"
     finally:
+        # 0.1.5: any way out (timeout, cancel, error) kills the WHOLE tree of the stage, and only then are the guard and the lock released
+        if proc is not None:
+            cf_proc.kill_tree(proc.pid)
+        cf_proc.close_job(job)
         cf_guard.revoke_nonce(nonce)
         if gproc and gproc.poll() is None:
             gproc.kill()
@@ -345,7 +354,18 @@ def handle(msg: dict) -> dict | None:
     return {"jsonrpc": "2.0", "id": mid, "result": result}
 
 
+def _on_term(signum, frame):
+    raise SystemExit(0)   # unwinds through run_stage's finally, which kills the running stage's tree
+
+
 def main() -> None:
+    import signal
+    for name in ("SIGTERM", "SIGBREAK"):
+        if hasattr(signal, name):
+            try:
+                signal.signal(getattr(signal, name), _on_term)
+            except (ValueError, OSError):
+                pass
     for line in sys.stdin:
         line = line.strip()
         if not line:
