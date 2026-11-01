@@ -131,6 +131,20 @@
       "weight_sum_tol": 0.001
     }
   },
+  "clean": {
+    "_comment": "fallback pre-bind mesh clean (tools/run_clean.py -> bind/clean_mesh.py); distances in metres; voxel_m 0 = voxel remesh off (then the original texture is kept as is)",
+    "script_dir": "bind",
+    "script": "clean_mesh.py",
+    "out_name": "clean.glb",
+    "timeout_s": 480,
+    "merge_dist_m": 0.0002,
+    "min_shell_verts": 200,
+    "count_weld_m": 0.000001,
+    "voxel_m": 0,
+    "tex_size": 2048,
+    "bake_margin_px": 8,
+    "bake_extrude_m": 0.01
+  },
   "gear": {
     "script": "bind_gear.py",
     "glb_prefix": "gear_",
