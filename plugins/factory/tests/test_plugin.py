@@ -25,7 +25,7 @@ import cf_cmd  # noqa: E402
 PY = sys.executable
 MCP_P = "mcp__plugin_factory_factory__"
 PROVEN = {"character-sheet", "trellis-part", "bind-humanoid"}
-DRAFT = {"skin-tokens", "bind-beast", "assemble-character", "stills-and-turntable", "publish-to-library", "environment", "hero-rebake", "pixal3d", "motion-generate", "ab-shape"}
+DRAFT = {"skin-tokens", "bind-beast", "assemble-character", "stills-and-turntable", "publish-to-library", "environment", "hero-rebake", "pixal3d", "motion-generate", "ab-shape", "materials"}
 
 
 def png(path: Path, w: int, h: int) -> str:
@@ -60,7 +60,7 @@ class Packaging(unittest.TestCase):
         plugin = json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         market = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(plugin["name"], "factory")
-        self.assertEqual(plugin["version"], "0.1.15")
+        self.assertEqual(plugin["version"], "0.1.17")
         entry = market["plugins"][0]
         self.assertEqual((entry["name"], entry["source"], entry["version"]), ("factory", "./plugins/factory", plugin["version"]))
         self.assertEqual(market["name"], "content-factory")
@@ -292,7 +292,7 @@ class McpServer(unittest.TestCase):
         self.assertEqual(init["serverInfo"]["name"], "factory")
         self.assertIn("tools", init["capabilities"])
         tools = {t["name"]: t for t in by_id[2]["result"]["tools"]}
-        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "qc", "motion_generate", "pixal3d_run", "ab_shape"})
+        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "qc", "motion_generate", "pixal3d_run", "ab_shape", "materials"})
         for t in tools.values():
             self.assertEqual(t["inputSchema"]["type"], "object")
             self.assertTrue(t["description"])
