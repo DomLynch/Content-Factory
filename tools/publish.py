@@ -6,7 +6,8 @@ import cf_common
 
 # Library-relative layout (see docs/library-format.md); overridable via config.json "publish".
 DEFAULTS = {"spec_dir": "publish", "models_dir": "models/unity", "thumbs_dir": "thumbs", "stills_dir": "stills",
-            "data_file": "site/data/unity.json", "template_id": "demon2-106", "variant": "standard", "branch_prefix": "publish/"}
+            "data_file": "site/data/unity.json", "template_id": "demon2-106", "variant": "standard", "branch_prefix": "publish/",
+            "site_dir": "site", "max_git_bytes": 50_000_000, "default_receipt": "https://github.com/DomLynch/Content-Factory/tree/main/receipts"}
 
 
 def find_v(text):
@@ -51,13 +52,29 @@ def main():
     glb_rel = f"{mdir}/{spec['id']}.glb"
     thumb_rel = f"{mdir}/{o['thumbs_dir']}/{spec['id']}.png"
     still_rels = [f"{mdir}/{spec['id']}/{o['stills_dir']}/{os.path.basename(s)}" for s in spec["stills"]]
+    names = {"head": "Head crop", **spec.get("still_names", {})}
+    stills = [{"name": names.get(os.path.splitext(os.path.basename(s))[0], os.path.splitext(os.path.basename(s))[0].title()),
+               "file": f"{r}?v={v}"} for s, r in zip(spec["stills"], still_rels)]
     row = {"id": spec["id"], "label": spec["label"], "group": spec["group"], "file": f"{glb_rel}?v={v}", "rigged": True,
            "rig": spec["rig"], "bytes": os.path.getsize(srcs[0]), "source": spec["source"],
-           "thumb": f"{thumb_rel}?v={v}", "variant": o["variant"]}
+           "thumb": f"{thumb_rel}?v={v}", "variant": o["variant"], "stills": stills,
+           "receipt": spec.get("receipt", o["default_receipt"])}
+    if spec.get("clips"):
+        row["clips"] = spec["clips"]
     if template:  # follow the template row's key order
         order = list(template.keys())
         row = {**{k: row[k] for k in order if k in row}, **{k: row[k] for k in row if k not in order}}
     copies = list(zip(srcs, [glb_rel, thumb_rel] + still_rels))
+    big = os.path.getsize(srcs[0]) > o["max_git_bytes"]
+    if big:  # too big for git: row is still written, binary is not copied/committed
+        import hashlib
+        h = hashlib.sha256()
+        with open(srcs[0], "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        print(f"WARNING: GLB is {os.path.getsize(srcs[0])/1e6:.1f} MB (> {o['max_git_bytes']/1e6:.0f} MB): do NOT commit it. "
+              f"Send path + sha256 to the library owner (tools/beast/MODELS.md):\n  {srcs[0]}\n  sha256 {h.hexdigest()}")
+        copies = copies[1:]
     print(f"library: {lib}")
     print(f"{'update' if old else 'add'} row {spec['id']} (?v={v}) in {o['data_file']}"
           + ("" if template else f" [template row {o['template_id']} not found: using documented shape]"))
@@ -66,7 +83,7 @@ def main():
     print("  row: " + json.dumps(row, ensure_ascii=False))
     br = f"{o['branch_prefix']}{spec['id']}-v{v}"
     git = [f'git -C "{lib}" checkout -b {br}',
-           f'git -C "{lib}" add {mdir} {o["data_file"]}',
+           f'git -C "{lib}" add ' + o["site_dir"] + "/" + mdir + " " + o["data_file"],
            f'git -C "{lib}" commit -m "Add/update {spec["id"]} (?v={v})"',
            f'git -C "{lib}" push -u origin {br}',
            "then open the PR yourself (publish is by PR only)"]
@@ -74,7 +91,7 @@ def main():
         print("dry run: nothing written")
     else:
         for s, d in copies:
-            dst = os.path.join(lib, *d.split("/"))
+            dst = os.path.join(lib, o["site_dir"], *d.split("/"))
             os.makedirs(os.path.dirname(dst), exist_ok=True)
             shutil.copyfile(s, dst)
         if old:
@@ -87,7 +104,7 @@ def main():
         rp = cf_common.write_receipt(cfg, a.asset_id, "publish", tool="publish.py", model={}, inputs=[spec_path] + srcs,
                                      params={"library": lib, "row_id": spec["id"], "version": v},
                                      timing={"wall_s": round(time.time() - t0, 1)},
-                                     outputs=[os.path.join(lib, *d.split("/")) for _, d in copies])
+                                     outputs=[os.path.join(lib, o["site_dir"], *d.split("/")) for _, d in copies])
         print(f"receipt: {rp}")
     print("\nNext (run yourself; this tool never pushes):")
     for g in git:

@@ -1,0 +1,18 @@
+{
+  "id": "vampire-dracula-106",
+  "label": "Dracula (vampire) - body",
+  "group": "Dracula (vampire)",
+  "rig": "106 Mixamo joints",
+  "source": "Flux klein sheet, TRELLIS mesh, hybrid bind; stage receipts in Content-Factory.",
+  "glb": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\bound.glb",
+  "thumb": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\thumb.png",
+  "stills": [
+    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\head.png",
+    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\idle.png",
+    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\walk.png",
+    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\attack.png"
+  ],
+  "still_names": {"head": "Head crop", "idle": "Idle", "walk": "Walk", "attack": "Attack", "roll": "Roll"},
+  "clips": {"Idle": "113410901-idle", "Walk": "124540901-walk", "Attack": "9034009-zombie-neck-bite", "Roll": "120430902-sprinting-forward-roll"},
+  "receipt": "https://github.com/DomLynch/Content-Factory/tree/main/receipts"
+}
