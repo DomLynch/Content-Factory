@@ -16,10 +16,20 @@
   },
   "trellis_repo_dir": "C:\\Users\\USER\\Documents\\Trellis-3-312",
   "trellis_python": "C:\\Users\\USER\\Documents\\Trellis-3-312\\.venv\\Scripts\\python.exe",
+  "skin_tokens_repo_dir": "C:\\Users\\USER\\Documents\\SkinTokens",
+  "skin_tokens_python": "C:\\Users\\USER\\Documents\\SkinTokens-312\\Scripts\\python.exe",
+  "skin_tokens_bpy_python": "C:\\Users\\USER\\Documents\\SkinTokens-bpy311\\Scripts\\python.exe",
   "cutout_repo_dir": "C:\\Users\\USER\\Documents\\Trellis-3",
   "cutout_python": "C:\\Users\\USER\\Documents\\Trellis-3\\.venv\\Scripts\\python.exe",
   "blender_exe": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
   "donors_dir": "C:\\Users\\USER\\Documents\\donors\\makehuman",
   "rig_glb": "C:\\HANDOVER-Macbook\\extracted\\batch1-2\\dev\\demon2-build\\ref\\psyche-106-v3.glb",
-  "mixamo_clips_dir": "C:\\HANDOVER-Macbook\\extracted\\3-opentrident-demon-threejs\\dev\\opentrident-steam\\site\\models\\mixamo\\clips"
+  "mixamo_clips_dir": "C:\\HANDOVER-Macbook\\extracted\\3-opentrident-demon-threejs\\dev\\opentrident-steam\\site\\models\\mixamo\\clips",
+  "motion_python": "C:\\Users\\USER\\Documents\\Motion-312\\Scripts\\python.exe",
+  "ardy_repo_dir": "C:\\Users\\USER\\Documents\\ardy",
+  "kimodo_repo_dir": "C:\\Users\\USER\\Documents\\kimodo",
+  "ardy_checkpoints_dir": "C:\\Users\\USER\\Documents\\models\\ardy",
+  "kimodo_checkpoints_dir": "C:\\Users\\USER\\Documents\\models\\kimodo",
+  "text_encoders_dir": "C:\\Users\\USER\\Documents\\models\\text_encoders",
+  "llama_mirror_dir": "C:\\Users\\USER\\Documents\\models\\llama-3-8b-instruct-mirror"
 }

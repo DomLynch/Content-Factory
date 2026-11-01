@@ -1,0 +1,105 @@
+diff --git a/demo.py b/demo.py
+index a2cb3a2..fd70cfb 100755
+--- a/demo.py
++++ b/demo.py
+@@ -40,7 +40,7 @@ HF_PATHS = [
+ 
+ def start_bpy_server():
+     popen_kwargs = dict(
+-        args=[sys.executable, "bpy_server.py"],
++        args=[os.environ.get("SKINTOKENS_BPY_PYTHON", sys.executable), "bpy_server.py"],  # bpy has no cp312 wheel: the bpy server may run in another python
+         stdout=None,
+         stderr=None,
+     )
+diff --git a/src/model/attn_compat.py b/src/model/attn_compat.py
+new file mode 100644
+index 0000000..6db0f69
+--- /dev/null
++++ b/src/model/attn_compat.py
+@@ -0,0 +1,39 @@
++"""flash-attn is optional: use it when it imports (CUDA builds), else PyTorch scaled_dot_product_attention (ROCm, CPU).
++
++flash_attn_func(q, k, v) takes (batch, seq, heads, head_dim) and returns (out, None), the shape contract the callers in this repo expect.
++Force the fallback with SKINTOKENS_ATTN=sdpa.
++"""
++import os
++
++import torch
++import torch.nn.functional as F
++
++try:
++    if os.environ.get("SKINTOKENS_ATTN", "").lower() == "sdpa":
++        raise ImportError("SKINTOKENS_ATTN=sdpa")
++    try:
++        from flash_attn_interface import flash_attn_func as _fa  # FlashAttention 3 returns (out, lse)
++
++        def flash_attn_func(q, k, v, **kwargs):
++            res = _fa(q, k, v, **kwargs)
++            return res if isinstance(res, tuple) else (res, None)
++    except ImportError:
++        from flash_attn.flash_attn_interface import flash_attn_func as _fa2
++
++        def flash_attn_func(q, k, v, **kwargs):
++            return _fa2(q, k, v, **kwargs), None
++    HAS_FLASH = True
++except ImportError:
++    HAS_FLASH = False
++
++    def flash_attn_func(q, k, v, **kwargs):
++        q, k, v = (t.transpose(1, 2) for t in (q, k, v))  # (B, H, L, D)
++        k, v = k.to(q.dtype), v.to(q.dtype)
++        if q.shape[1] != k.shape[1]:
++            rep = q.shape[1] // k.shape[1]
++            k, v = k.repeat_interleave(rep, dim=1), v.repeat_interleave(rep, dim=1)
++        out = F.scaled_dot_product_attention(q, k, v, is_causal=bool(kwargs.get("causal", False)))
++        return out.transpose(1, 2), None  # (B, L, H, D)
++
++
++LLM_ATTN_IMPL = "flash_attention_2" if HAS_FLASH else "sdpa"
+diff --git a/src/model/skin_vae_model.py b/src/model/skin_vae_model.py
+index a2b4e88..227ca37 100755
+--- a/src/model/skin_vae_model.py
++++ b/src/model/skin_vae_model.py
+@@ -15,13 +15,7 @@ from src.rig_package.info.asset import Asset
+ from .spec import ModelSpec, ModelInput, VaeInput
+ from .skin_vae.autoencoders import SkinFSQCVAEModel
+ 
+-try:
+-    from flash_attn_interface import flash_attn_func # type: ignore
+-except Exception as e:
+-    from flash_attn.flash_attn_interface import flash_attn_func as _flash_attn_func
+-    def flash_attn_func(*args, **kwargs):
+-        res = _flash_attn_func(*args, **kwargs)
+-        return res, None
++from .attn_compat import flash_attn_func  # flash-attn optional (sdpa fallback)
+ 
+ class Perceiver(nn.Module):
+     def __init__(self, channels, out_tokens, num_heads=8):
+diff --git a/src/model/tokenrig.py b/src/model/tokenrig.py
+index ab35e3f..7e46159 100755
+--- a/src/model/tokenrig.py
++++ b/src/model/tokenrig.py
+@@ -22,13 +22,7 @@ from ..tokenizer.spec import Tokenizer
+ from ..tokenizer.spec import DetokenizeOutput
+ from ..tokenizer.parse import get_tokenizer
+ 
+-try:
+-    from flash_attn_interface import flash_attn_func # type: ignore
+-except Exception as e:
+-    from flash_attn.flash_attn_interface import flash_attn_func as _flash_attn_func
+-    def flash_attn_func(*args, **kwargs):
+-        res = _flash_attn_func(*args, **kwargs)
+-        return res, None
++from .attn_compat import flash_attn_func, LLM_ATTN_IMPL  # flash-attn optional (sdpa fallback)
+ 
+ class VocabSwitchingLogitsProcessor(LogitsProcessor):
+     def __init__(self, tokenizer: Tokenizer, switch_token_id, eos_token_id, tokens_per_skin, init):
+@@ -106,7 +100,7 @@ class TokenRig(ModelSpec):
+         llm_config.torch_dtype = torch.bfloat16
+         llm_config.pre_norm = True
+         self.llm_config = llm_config
+-        self.transformer = AutoModelForCausalLM.from_config(config=llm_config, attn_implementation="flash_attention_2").to(torch.bfloat16)
++        self.transformer = AutoModelForCausalLM.from_config(config=llm_config, attn_implementation=LLM_ATTN_IMPL).to(torch.bfloat16)
+         
+         self.output_proj = nn.Sequential(
+             nn.Linear(self.mesh_encoder.width, self.hidden_size),
