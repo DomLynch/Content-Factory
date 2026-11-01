@@ -320,12 +320,12 @@
     "log_prefix": "char_"
   },
   "gates": {
-    "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor values are the first setting (24k = the cliff in LESSONS): the owner confirms them.",
+    "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor = the robot's proven setting (preset tokens98k); hero stays equal until a higher setting is measured on this GPU; presets with no tier (drafts, benchmark profiles) have no floor.",
     "min_subject_frac": 0.6,
     "min_head_px": 512,
     "token_floor": {
-      "master": 24576,
-      "hero": 24576
+      "master": 98304,
+      "hero": 98304
     },
     "preset_tier": {
       "hero_rebake": "hero",

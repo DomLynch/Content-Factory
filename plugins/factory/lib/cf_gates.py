@@ -25,7 +25,7 @@ import cf_guard
 DEFAULTS = {
     "min_subject_frac": 0.60,
     "min_head_px": 512,
-    "token_floor": {"master": 24576, "hero": 24576},
+    "token_floor": {"master": 98304, "hero": 98304},
     "preset_tier": {"hero_rebake": "hero", "tokens98k_fresh": "master"},
     "lighting_tier_required": "three_point",
     "pipelines": ["TRELLIS", "SCULPT"],

@@ -86,7 +86,24 @@ class TokenGate(unittest.TestCase):
     def test_vampire_rebake_from_20167_tokens_refused(self):
         r = cf_gates.token_reason("vampire-dracula-front", "hero_rebake", True)
         self.assertIn("20167", r)
-        self.assertIn("24576", r)
+        self.assertIn("98304", r)
+
+    def test_vampire_shape_sampled_at_49152_is_refused(self):
+        # today's faceted vampire shape (reported 49152 hr tokens) must not pass the floor; the repo receipt only holds the older 20167, so mirror it in a fixture
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / "receipts" / "vamp").mkdir(parents=True)
+        (d / "config").mkdir()
+        (d / "config" / "config.json").write_text(json.dumps(json.load(open(REPO / "config" / "config.json", encoding="utf-8-sig"))))
+        (d / "receipts" / "vamp" / "trellis-20261101T000000Z.json").write_text(json.dumps({"params": {"stage_tokens": {"shape_hr_tokens": 49152}}}))
+        cf_guard.HOME = d
+        try:
+            r = cf_gates.token_reason("vamp", "hero_rebake", True)
+        finally:
+            cf_guard.HOME = REPO
+        self.assertIn("49152", r)
+        self.assertIn("floor is 98304", r)
+        self.assertEqual(cf_gates.token_reason("vamp", "master_reduced", True), "")   # draft/benchmark preset: no floor
 
     def test_hook_refuses_bash_rebake(self):
         cmd = "python tools/run_3d.py vampire-dracula-front --preset hero_rebake --from-latents"
