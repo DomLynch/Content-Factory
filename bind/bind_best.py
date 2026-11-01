@@ -33,7 +33,8 @@ def main():
     bd = os.path.join(HERE, 'bind_donor.py'); mt = os.path.join(HERE, 'metrics2.py')
     B = {k: os.path.join(work, k + '.blend') for k in ('auto', 'donor', 'hybrid')}
     print('binding', mesh, flush=True)
-    run(bd, [mesh, B['hybrid'], '--mode', 'hybrid'], os.path.join(work, 'hybrid.log'))
+    fd = os.environ.get('BIND_FORCE_DONOR')   # explicit donor (e.g. 'tall'); default: the binder picks by chest width, which misreads A-posed arms
+    run(bd, [mesh, B['hybrid'], '--mode', 'hybrid'] + (['--donor', fd] if fd else []), os.path.join(work, 'hybrid.log'))
     run(bd, [mesh, B['donor'], '--mode', 'donor', '--donor', json.load(open(os.path.splitext(B['hybrid'])[0] + '.report.json'))['donor']], os.path.join(work, 'donor.log'))
     if '--with-auto' in a: run(BIND2, [mesh, B['auto']], os.path.join(work, 'auto.log'))
     donor = json.load(open(os.path.splitext(B['hybrid'])[0] + '.report.json'))['donor']
