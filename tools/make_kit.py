@@ -21,8 +21,8 @@ def build(spec, tpl):
         raise SystemExit(f"spec is missing fields: {miss}")
     kd = tpl["kit_defaults"]
     base = {**tpl.get("item_defaults", {}), **{k: v for k, v in spec.items() if isinstance(v, (str, int))}}
-    kit = {"kit": spec["id"] + "_sheet", "seed": spec["seed"], "w": kd["w"], "h": kd["h"],
-           "template": "config/character_sheet_template.json", "ref": spec["ref"],
+    kit = {"kit": spec.get("kit_name", spec["id"] + "_sheet"), "seed": spec["seed"], "w": kd["w"], "h": kd["h"],
+           "template": spec.get("template", "config/character_sheet_template.json"), "ref": spec["ref"],
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
            "subject": spec.get("subject", ""), "style": spec.get("style", kd["style"]),
            "description": spec["description"], "rows": []}
@@ -57,9 +57,9 @@ def main():
     if len(sys.argv) < 2:
         raise SystemExit(__doc__)
     spec = json.load(open(sys.argv[1], encoding="utf-8-sig"))
-    tpl = json.load(open(os.path.join(REPO, "config", "character_sheet_template.json"), encoding="utf-8-sig"))
+    tpl = json.load(open(os.path.join(REPO, spec.get("template", "config/character_sheet_template.json")), encoding="utf-8-sig"))
     kit = build(spec, tpl)
-    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "kits", spec["id"] + "_sheet_kit.json")
+    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "kits", spec.get("kit_name", spec["id"] + "_sheet") + "_kit.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(kit, f, indent=1, ensure_ascii=False)
     print(out, len(kit["rows"]), "rows")
