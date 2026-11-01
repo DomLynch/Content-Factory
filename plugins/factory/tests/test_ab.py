@@ -528,6 +528,36 @@ class EndToEnd(unittest.TestCase):
         self.assertFalse(r.scorecard("body10")["rough"])
 
 
+class Render(unittest.TestCase):
+    """The Blender turntable script is UNRUN: only its source and the keys it reads are checked here."""
+
+    def test_script_reads_only_keys_the_config_has(self):
+        import ast
+        src = (REPO / "tools" / "ab" / "turntable_blender.py").read_text(encoding="utf-8")
+        ast.parse(src)
+        r = ab_core.matched_render_config(AB)
+        for k in ("engine", "device", "samples", "resolution", "angles_deg", "world", "lights", "camera", "face_crop"):
+            self.assertIn(k, r)
+        for k in ("lens_mm", "frame_margin", "height_frac"):
+            self.assertIn(k, r["camera"])
+        for k in ("lens_mm", "frame_margin", "height_frac"):
+            self.assertIn(k, r["face_crop"])
+        for name in ("key", "fill", "rim"):
+            self.assertEqual(set(r["lights"][name]), {"energy", "location", "size"})
+        for key in ('cfg["glb"]', 'cfg["out_dir"]', 'cfg["config_hash"]', 'cfg["glb_sha256"]', 'cfg["label"]'):
+            self.assertIn(key, src)
+        self.assertIn("turntable.json", src)
+
+    def test_contact_sheet_has_the_two_blind_columns(self):
+        import contact_sheet_ab
+        d = Path(tempfile.mkdtemp())
+        imgs = {l: [png(d / f"{l}{i}.png", 40, 60) for i in range(2)] for l in ("A", "B")}
+        eng = {"pixal3d": {"images": {"frames": imgs["A"], "face_crop": imgs["A"][0], "hair_crop": None}}, "trellis": {"images": {"frames": imgs["B"], "face_crop": imgs["B"][0], "hair_crop": None}}}
+        out = contact_sheet_ab.make(eng, {"pixal3d": "A", "trellis": "B"}, str(d))
+        self.assertTrue(out and Path(out).exists() and Path(out).name.startswith("contact_sheet"))
+        self.assertIsNone(contact_sheet_ab.make({"pixal3d": {"images": {}}}, {"pixal3d": "A"}, str(d)))
+
+
 class Wiring(unittest.TestCase):
     def test_tool_is_registered_with_the_requested_arguments(self):
         import server

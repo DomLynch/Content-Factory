@@ -443,14 +443,14 @@
       "engine": "CYCLES",
       "device": "CPU",
       "angles_deg": [0, 45, 90, 135, 180, 270],
-      "face_crop": {"height_frac": 0.14, "lens_mm": 85, "distance_mult": 3.0},
+      "face_crop": {"height_frac": 0.14, "lens_mm": 85, "frame_margin": 1.6},
       "lights": {
         "key": {"energy": 900, "location": [2.5, -3.0, 3.0], "size": 2.0},
         "fill": {"energy": 300, "location": [-3.0, -2.0, 1.5], "size": 3.0},
         "rim": {"energy": 700, "location": [0.0, 3.5, 3.0], "size": 1.5}
       },
       "world": {"color": [0.05, 0.05, 0.05], "strength": 1.0},
-      "camera": {"lens_mm": 50, "distance_mult": 3.2, "height_frac": 0.5}
+      "camera": {"lens_mm": 50, "frame_margin": 1.15, "height_frac": 0.5}
     },
     "scoring": {"criteria": ["face", "hair", "colour_match", "bake_faults"], "min": 0, "max": 10, "win_margin": 1.0, "win_criteria_needed": 2}
   },
