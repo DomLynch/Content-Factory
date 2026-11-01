@@ -1,7 +1,8 @@
 # Pull TRELLIS base-colour / metal-rough maps out of the GLB and inpaint the black
 # pinholes the voxel bake leaves (texels with no voxel hit come out ~black).
 import sys, numpy as np, cv2, trimesh
-src, outdir = sys.argv[1], sys.argv[2]\nprefix = sys.argv[3] if len(sys.argv) > 3 else "asset"
+src, outdir = sys.argv[1], sys.argv[2]
+prefix = sys.argv[3] if len(sys.argv) > 3 else "asset"
 s = trimesh.load(src); g = list(s.geometry.values())[0]; m = g.visual.material
 base = np.array(m.baseColorTexture.convert("RGB"))
 mr = np.array(m.metallicRoughnessTexture.convert("RGB"))
