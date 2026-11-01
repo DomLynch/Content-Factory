@@ -41,5 +41,6 @@
   "ardy_checkpoints_dir": "C:\\Users\\USER\\Documents\\models\\ardy",
   "kimodo_checkpoints_dir": "C:\\Users\\USER\\Documents\\models\\kimodo",
   "text_encoders_dir": "C:\\Users\\USER\\Documents\\models\\text_encoders",
-  "llama_mirror_dir": "C:\\Users\\USER\\Documents\\models\\llama-3-8b-instruct-mirror"
+  "llama_mirror_dir": "C:\\Users\\USER\\Documents\\models\\llama-3-8b-instruct-mirror",
+  "materials_dir": "C:\\Users\\USER\\Documents\\materials"
 }

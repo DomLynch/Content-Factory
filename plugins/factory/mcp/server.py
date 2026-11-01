@@ -12,6 +12,7 @@
   stills(asset_id, glb)                head/idle/walk/attack   -> tools/run_stills.py     (CPU Blender)
   upscale(src, dst)                    Real-ESRGAN x4 + match  -> tools/upscale/upscale_match.py (GPU, Vulkan)
   motion_generate(text, ...)           ARDY (default) or Kimodo (backend, optional constraints) text-to-motion + Blender retarget onto psyche-106 -> tools/run_motion.py (GPU, then CPU Blender), a Mixamo-format clip GLB
+  materials(asset_id, glb, part, swatch | character_spec)  scanned CC0 PBR material on a gear part vs its baked texture, same three-point rig -> tools/run_materials.py (CPU Blender, no GPU lock, 10 GB RAM, blender_job.lock)
   qc(asset_id, glb, concept)           geometry/texture/silhouette checks -> tools/run_qc.py (CPU, numpy, light RAM gate; hooks/qc_gate.py makes `stills` wait for its pass)
 
 Every tool runs the EXISTING script as a subprocess in the Content-Factory checkout (FACTORY_HOME, default <home>\\Documents\\Content-Factory), never reimplements it,
@@ -435,6 +436,63 @@ def t_stills(asset_id: str, glb: str) -> dict:
                   {"tier_note": "run_stills.py lights with one sun and a flat world colour (config stills.sun_energy / world_color): proof tier, not a three-point-lit PBR presentation."})
 
 
+def _materials_plan(c: dict, spec_path: Path, root: str) -> dict:
+    """The swatch -> scanned set plan of a character spec (parts coat, cloak, boots), read from config/materials.json and the sets on disk. Nothing is started."""
+    mapping = cf_guard.read_json(HOME / c["materials"]["mapping"])
+    spec = cf_guard.read_json(spec_path)
+    rows = []
+    for part in spec.get("parts", []):
+        name = part.get("name")
+        if name not in mapping["parts"]:
+            continue
+        sw = mapping["parts"][name]["swatch"]
+        row = mapping["swatches"].get(sw, {})
+        mat = row.get("material")
+        have = bool(mat) and (Path(root) / mat / "manifest.json").is_file()
+        rows.append({"part": name, "swatch": sw, "material": mat, "fit": row.get("fit"), "on_disk": have, "licence": mapping["materials"][mat]["licence"] if mat else None})
+    gaps = sorted(k for k, v in mapping["swatches"].items() if not v.get("material"))
+    return {"status": "plan", "character": spec.get("character_id"), "parts": rows, "swatches_without_a_scan": gaps,
+            "next": "Run materials(asset_id, glb, part) per part once on_disk is true; fetch_materials.py downloads only with the owner's yes (it is not a plugin tool)."}
+
+
+def t_materials(asset_id: str = "", glb: str = "", character_spec: str = "", part: str = "coat", swatch: str = "") -> dict:
+    """0.1.17: scanned CC0 PBR material on ONE gear-part GLB under the A/B three-point rig, side by side with the baked texture (tools/run_materials.py, CPU Blender, no GPU).
+    With character_spec and no glb: the swatch -> scanned set plan only."""
+    c = cfg()
+    m = c["materials"]
+    loc = c["local"]
+    root = loc.get("materials_dir") or os.path.join(loc.get("work_dir", ""), "materials")
+    if character_spec and not glb:
+        p = Path(character_spec) if os.path.isabs(character_spec) else HOME / character_spec
+        miss = need_file(str(p), "character_spec")
+        return {"status": "refused", "error": miss} if miss else _materials_plan(c, p, root)
+    if not asset_id or not glb:
+        return {"status": "refused", "error": "asset_id and glb are required (or only character_spec for the plan)"}
+    if part not in ("coat", "cloak", "boots"):
+        return {"status": "refused", "error": f"part must be coat, cloak or boots, not {part!r}"}
+    miss = need_file(glb, "glb")
+    if miss:
+        return {"status": "refused", "error": miss}
+    mapping = cf_guard.read_json(HOME / m["mapping"])
+    sw = swatch or mapping["parts"][part]["swatch"]
+    row = mapping["swatches"].get(sw)
+    if row is None:
+        return {"status": "refused", "error": f"unknown swatch {sw!r}; choose from {sorted(mapping['swatches'])}"}
+    if not row.get("material"):
+        return {"status": "refused", "error": f"swatch {sw} has no scanned set: {row['fit']}"}
+    if not (Path(root) / row["material"] / "manifest.json").is_file():
+        return {"status": "refused", "error": f"scanned set {row['material']} is not on disk under {root}: tools/materials/fetch_materials.py downloads it, only with the owner's yes"}
+    why = gate(gpu=False, heavy=False) or cf_guard.ram_reason(cf_guard.free_ram_gb(), m["min_free_ram_gb"])   # CPU Blender: no GPU lock; 10 GB free RAM for a Blender job
+    if why:
+        return {"status": "refused", "error": why}
+    cmd = [loc["python"], str(HOME / "tools" / "run_materials.py"), asset_id, glb, "--part", part] + (["--swatch", swatch] if swatch else [])
+    # run_materials.py waits up to ram_wait_s for RAM/Flux and lock_wait_s for blender_job.lock, then runs two renders and a compose
+    rc, log, t0 = run_stage("materials", cmd, timeout=m["ram_wait_s"] + m["lock_wait_s"] + 3 * m["timeout_s"] + 120)
+    res = finish("materials", rc, log, t0, ["materials"], asset_id, {"part": part, "swatch": sw, "material": row["material"], "licence": "CC0-1.0", "fit": row["fit"],
+                 "tier_note": "Draft: first scanned-material path, box-projected UVs in metres (part height assumption in config/materials.json). LOOK at the side-by-side before using it."})
+    return res
+
+
 def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0, render: str = "") -> dict:
     c = cfg()
     q = c["qc"]
@@ -579,7 +637,15 @@ TOOLS = {
                           "asset_id": {**_STR, "description": "optional, default the folder of mesh.glb or the file stem"}}, ["glb"], True, True),
     "stills": (t_stills, "Render head, idle, walk, attack stills and a thumbnail of a bound GLB (tools/run_stills.py, Cycles on CPU). Proof-tier lighting. Refused (hooks/qc_gate.py) until the latest `qc` receipt for the asset passes. Returns the receipt path.",
                {"asset_id": _STR, "glb": _STR}, ["asset_id", "glb"], False, True),
-    "qc": (t_qc, "Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
+    "materials": (t_materials, "Scanned CC0 PBR material (Poly Haven / ambientCG, config/materials.json) on ONE gear-part GLB (coat, cloak or boots) rendered with the SAME camera and three-point rig as the A/B turntable, "
+                  "side by side with the baked-texture render (tools/run_materials.py, CPU Blender, NO GPU lock). Give asset_id + glb (+ part, + swatch), or only character_spec for the swatch -> scanned set plan. "
+                  "Refuses on free RAM under materials.min_free_ram_gb (10), a missing glb or scanned set, an unknown part or swatch, and a swatch with no scan (pale_skin, dark_hair, lace). Waits for a Flux model load and for "
+                  "blender_job.lock. Writes a materials receipt. Never downloads: tools/materials/fetch_materials.py does that, only with the owner's yes.",
+                  {"asset_id": _STR, "glb": {**_STR, "description": "the gear part GLB, e.g. kits_out/3d/vampire-dracula-coat/mesh.glb"},
+                   "character_spec": {**_STR, "description": "characters/<id>.json: with no glb, returns the swatch -> scanned set plan"},
+                   "part": {"type": "string", "enum": ["coat", "cloak", "boots"], "description": "default coat"},
+                   "swatch": {**_STR, "description": "optional, default config/materials.json parts[part].swatch, e.g. velvet_lining, black_leather"}}, [], False, True),
+    "qc": (t_qc,"Deterministic QC of a textured mesh GLB (tools/run_qc.py, CPU, numpy only): non-manifold and boundary edges, loose shells, triangles vs budget, faceting; near-black "
            "texels, UV coverage and stretch, luminance/saturation against the concept image (flags linear-not-encoded); front silhouette coverage vs the concept matte (thin-structure loss). "
            "Thresholds: config/config.json qc. Writes receipts/<asset>/qc-*.json with pass/fail per metric and overall; `stills` is refused until the latest one passes. Optional concept (image path) and budget_tris.",
            {"asset_id": _STR, "glb": _STR, "concept": {**_STR, "description": "concept/cutout image (RGBA matte preferred); without it the concept checks are skipped"},
