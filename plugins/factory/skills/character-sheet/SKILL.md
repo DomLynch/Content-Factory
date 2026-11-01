@@ -66,3 +66,9 @@ Don't
 - Don't render above 1.5 MP on this box: 2048x1536 thrashed RAM to 0.1 GB free and took hours; at 1.5 MP free RAM still touches 0.4 to 2 GB, so the guard must be armed.
 - Don't skip kit pieces to save time.
 - Don't ask for a dressed character as one body image to feed 3D (see `bind-humanoid`).
+
+
+## Spec fields are the only place character words live (GPT-ref sheet)
+`config/character_sheet_template_gpt.json` is character-neutral: placeholders only, plus a `group_defaults` block (gear and swatch rows get `use_ref: false`) and a `required_fields` list. Every character word lives in the spec (`characters/<id>-gpt-sheet.json`). For a second character copy `characters/_example_second_character.json`, fill every field, then run `python tools/make_kit.py <spec> [out_kit.json] [--kit-name NAME]`. `make_kit.py` fails if a field is missing or a placeholder is left unfilled, and `{Field}` (capitalised first letter) is available for every string field.
+Required spec fields: id, description, seed, ref, base_layer_ref, character_noun, possessive, pronoun, facial_hair, base_layer, three_quarter_posture, head_detail, hair_desc, hair_style_desc, hair_top_desc, hair_back_detail, eye_desc, head_exclude, removed_gear, removed_gear_full, hand_accessory, hand_accessory_short, back_view_detail, material_look, gear_isolation_suffix, gear_items, swatches.
+Check a regeneration against an existing kit with `python tools/compare_kits.py <kit_a> <kit_b>` (row names, group, w, h, ref, use_ref, prompt, ref_prefix; prints every difference). Never hand-edit a generated kit: change the spec or template and regenerate.

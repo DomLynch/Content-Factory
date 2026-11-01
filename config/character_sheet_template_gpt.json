@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "GPT-ref Dracula sheet: 42 cells, every cell image-conditioned on the ref. Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref.",
+ "note": "Character-neutral GPT-ref sheet: 42 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref.",
  "group_priority": [
   "body",
   "head",
@@ -26,7 +26,7 @@
    "group": "body",
    "size": null,
    "ref": "{ref}",
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair and {facial_hair} from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs and boots; he wears only {base_layer}. Change only the camera and pose:",
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Remove {removed_gear_full}; {pronoun} wears only {base_layer}. Change only the camera and pose:",
    "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
@@ -34,32 +34,32 @@
    "group": "body",
    "size": null,
    "ref": "{base_layer_ref}",
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, BACK view seen from directly behind, same plain base layer, strict A-pose with arms about 30 degrees away from the body, legs slightly apart. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
+   "prompt": "The camera is BEHIND the {character_noun}: we see only the back of {possessive} head and back of {possessive} body. {Possessive} face, chest, belt buckle, trouser fly and pockets are NOT visible; show {back_view_detail}. Orthographic BACK view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_left",
    "group": "body",
    "size": null,
    "ref": "{base_layer_ref}",
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, strict LEFT SIDE view, camera at exactly 90 degrees, the man facing left in pure profile, same plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_right",
    "group": "body",
    "size": null,
    "ref": "{base_layer_ref}",
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, strict RIGHT SIDE view, camera at exactly 90 degrees, the man facing right in pure profile, same plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_three_quarter",
    "group": "body",
    "size": null,
    "ref": "{base_layer_ref}",
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "THREE-QUARTER view, the man turned 45 degrees to his left, same plain base layer, A-pose, {three_quarter_posture}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
+   "prompt": "The {character_noun} is rotated 45 degrees: {possessive} body and face turn toward the left edge of the image so {possessive} right shoulder is nearer the camera and {possessive} chest is at an angle, THREE-QUARTER view, not facing the camera straight on. Same plain base layer, A-pose, {three_quarter_posture}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "head_front",
@@ -68,8 +68,8 @@
     1024,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, orthographic FRONT view, neutral expression, high detail on {head_detail}, red eyes, bare neck, no collar, no fur."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, orthographic FRONT view, neutral expression, high detail on {head_detail}, {eye_desc}, bare neck, {head_exclude}."
   },
   {
    "row_id": "head_profile",
@@ -78,8 +78,8 @@
     1024,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, bare neck, no collar, no fur."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, bare neck, {head_exclude}."
   },
   {
    "row_id": "head_three_quarter",
@@ -88,8 +88,8 @@
     1024,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on {head_detail}, bare neck, no collar, no fur."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on {head_detail}, bare neck, {head_exclude}."
   },
   {
    "row_id": "head_back",
@@ -98,8 +98,8 @@
     1024,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck only, seen from directly BEHIND, showing the back of the {hair_desc} and the braids and the nape of the neck, no collar, no fur."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck only, seen from directly BEHIND, showing the back of the {hair_desc} and {hair_back_detail} and the nape of the neck, {head_exclude}."
   },
   {
    "row_id": "head_top",
@@ -108,8 +108,8 @@
     1024,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head seen from directly ABOVE (top view), showing the hair parting, the swept-back braided {hair_desc} and the skull shape, shoulders just visible, no hat."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head seen from directly ABOVE (top view), showing the hair parting, the {hair_top_desc} and the skull shape, shoulders just visible, no hat."
   },
   {
    "row_id": "head_eyes_closeup",
@@ -118,8 +118,8 @@
     1024,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, red eyes, braided swept-back black hair, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Extreme close-up of the {eye_desc} and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones."
   },
   {
    "row_id": "hand_open_left",
@@ -128,8 +128,8 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the LEFT hand OPEN with spread fingers, wearing gold signet rings: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and rings."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the LEFT hand OPEN with spread fingers, wearing {hand_accessory}: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and {hand_accessory_short}."
   },
   {
    "row_id": "hand_open_right",
@@ -138,8 +138,8 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the RIGHT hand OPEN with spread fingers, wearing gold signet rings: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and rings."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the RIGHT hand OPEN with spread fingers, wearing {hand_accessory}: back of the hand, palm and a side view in a row on a plain dark background, no cuffs, high detail on skin, veins and {hand_accessory_short}."
   },
   {
    "row_id": "hand_fist_left",
@@ -148,8 +148,8 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the LEFT hand in a closed FIST, wearing gold signet rings: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and rings."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the LEFT hand in a closed FIST, wearing {hand_accessory}: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and {hand_accessory_short}."
   },
   {
    "row_id": "hand_fist_right",
@@ -158,8 +158,8 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of the RIGHT hand in a closed FIST, wearing gold signet rings: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and rings."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of the RIGHT hand in a closed FIST, wearing {hand_accessory}: front, back and side view in a row on a plain dark background, no cuffs, high detail on knuckles, skin and {hand_accessory_short}."
   },
   {
    "row_id": "hand_back_views",
@@ -168,8 +168,8 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
-   "prompt": "Close-up reference of both hands seen from behind with relaxed fingers, wearing gold signet rings, side by side on a plain dark background, no cuffs, high detail."
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
+   "prompt": "Close-up reference of both hands seen from behind with relaxed fingers, wearing {hand_accessory}, side by side on a plain dark background, no cuffs, high detail."
   },
   {
    "row_id": "foot_left",
@@ -178,7 +178,7 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
    "prompt": "Reference of the LEFT foot in a plain dark base-layer sock, no boot: top view, side view and sole in a row on a plain dark background, high detail."
   },
   {
@@ -188,7 +188,7 @@
     1536,
     1024
    ],
-   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing:",
+   "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
    "prompt": "Reference of the RIGHT foot in a plain dark base-layer sock, no boot: top view, side view and sole in a row on a plain dark background, high detail."
   },
   {
@@ -199,7 +199,7 @@
     1536,
     1024
    ],
-   "prompt": "Show ONLY {item}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}."
+   "prompt": "Materials and look: {material_look}. Show ONLY {item}{gear_layout} on a plain dark background like a game asset sheet{gear_extra}, {gear_exclude}. {gear_isolation_suffix}"
   },
   {
    "repeat": "swatches",
@@ -212,5 +212,28 @@
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "prompt": "Flat top-down {texture_kind} of {desc}, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
   }
- ]
+ ],
+ "required_fields": [
+  "eye_desc",
+  "hair_style_desc",
+  "hair_back_detail",
+  "pronoun",
+  "removed_gear",
+  "removed_gear_full",
+  "head_exclude",
+  "hand_accessory",
+  "hand_accessory_short",
+  "back_view_detail",
+  "material_look",
+  "gear_isolation_suffix",
+  "hair_top_desc"
+ ],
+ "group_defaults": {
+  "gear": {
+   "use_ref": false
+  },
+  "swatch": {
+   "use_ref": false
+  }
+ }
 }

@@ -1,0 +1,41 @@
+{
+ "id": "knight_example",
+ "template": "config/character_sheet_template_gpt.json",
+ "kit_name": "_example_second",
+ "description": "Sir Aldric, a stern grey-eyed armoured knight with short cropped brown hair and a trimmed beard, polished steel plate armour over a blue wool surcoat with a white lion emblem, a leather sword belt, steel gauntlets and heavy riveted leather boots.",
+ "seed": 7,
+ "ref": "C:\\placeholder\\knight-ref.png",
+ "base_layer_ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
+ "character_noun": "man",
+ "possessive": "his",
+ "pronoun": "he",
+ "facial_hair": "trimmed beard",
+ "base_layer": "a plain fitted padded gambeson and linen trousers",
+ "three_quarter_posture": "a proud upright posture",
+ "head_detail": "skin pores, scars and beard",
+ "hair_desc": "brown hair",
+ "hair_style_desc": "short cropped brown hair",
+ "hair_top_desc": "short cropped brown hair",
+ "hair_back_detail": "the cropped hairline",
+ "eye_desc": "grey eyes",
+ "head_exclude": "no helmet, no coif",
+ "removed_gear": "the armour, surcoat and boots",
+ "removed_gear_full": "the plate armour, surcoat, sword belt, gauntlets and boots",
+ "hand_accessory": "a plain iron signet ring",
+ "hand_accessory_short": "ring",
+ "back_view_detail": "the back of the plain padded gambeson, the cropped hair at the nape, the back of the linen trousers and the heels of the feet",
+ "material_look": "polished steel plate with fine scratches, blue wool cloth, white painted lion emblem, worn brown leather, iron rivets; plain medieval knight style",
+ "gear_isolation_suffix": "No person, no head, no face, no hands, no mannequin; the item alone, isolated.",
+ "gear_items": [
+  {"id": "breastplate", "item": "the polished steel breastplate with pauldrons", "gear_layout": ", seen from the front", "gear_exclude": "no person, no mannequin, no surcoat"},
+  {"id": "surcoat", "item": "the blue wool surcoat with the white lion emblem", "gear_layout": ", laid flat front-facing", "gear_exclude": "no person, no mannequin, no armour"},
+  {"id": "gauntlets", "item": "the pair of articulated steel gauntlets", "gear_layout": ", laid out neatly", "gear_exclude": "no hands, no person", "size": [1024, 1024]},
+  {"id": "boots", "item": "the pair of heavy riveted brown leather boots", "gear_layout": ", seen from the side, standing", "gear_exclude": "no person"}
+ ],
+ "swatches": [
+  {"id": "polished_steel", "desc": "polished steel plate with fine scratches"},
+  {"id": "blue_wool", "desc": "coarse blue wool cloth with a visible weave"},
+  {"id": "brown_leather", "desc": "worn brown leather with fine creases"},
+  {"id": "skin", "desc": "weathered human skin with pores and scars", "texture_kind": "texture"}
+ ]
+}

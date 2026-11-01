@@ -1,5 +1,8 @@
-"""Fill config/character_sheet_template.json from a short character spec: make_kit.py <character_spec.json> [out_kit.json]
-Writes kits/<id>_sheet_kit.json (or the given path). Fails if any {placeholder} is left unfilled."""
+"""Fill a character sheet template from a short character spec: make_kit.py <character_spec.json> [out_kit.json] [--kit-name NAME]
+Writes kits/<kit_name>_kit.json (or the given path). Fails if any {placeholder} is left unfilled.
+Character words live only in the spec; a template may list extra "required_fields" and "group_defaults"
+(row keys such as use_ref applied to every cell of a group unless the cell sets them itself).
+For every string spec field X, {X} and a capitalised {X} (first letter upper, e.g. {Possessive}) are available."""
 import json, os, string, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,11 +19,13 @@ def fill(text, ctx, where):
 
 
 def build(spec, tpl):
-    miss = [k for k in REQUIRED if k not in spec]
+    miss = [k for k in REQUIRED + tpl.get("required_fields", []) if k not in spec]
     if miss:
         raise SystemExit(f"spec is missing fields: {miss}")
     kd = tpl["kit_defaults"]
     base = {**tpl.get("item_defaults", {}), **{k: v for k, v in spec.items() if isinstance(v, (str, int))}}
+    base.update({k[:1].upper() + k[1:]: v[:1].upper() + v[1:] for k, v in list(base.items()) if isinstance(v, str) and k[:1].upper() + k[1:] not in base})
+    gdef = tpl.get("group_defaults", {})
     kit = {"kit": spec.get("kit_name", spec["id"] + "_sheet"), "seed": spec["seed"], "w": kd["w"], "h": kd["h"],
            "template": spec.get("template", "config/character_sheet_template.json"), "ref": spec["ref"],
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
@@ -41,8 +46,9 @@ def build(spec, tpl):
                 row["ref"] = fill(cell["ref"], ctx, where)
             if cell.get("ref_prefix"):
                 row["ref_prefix"] = fill(cell["ref_prefix"], ctx, where)
-            if "use_ref" in cell:
-                row["use_ref"] = cell["use_ref"]
+            use_ref = cell.get("use_ref", gdef.get(cell["group"], {}).get("use_ref"))
+            if use_ref is not None:
+                row["use_ref"] = use_ref
             row["prompt"] = fill(cell["prompt"], ctx, where)
             rows.append(row)
     order = {g: i for i, g in enumerate(tpl["group_priority"])}
@@ -56,10 +62,19 @@ def build(spec, tpl):
 def main():
     if len(sys.argv) < 2:
         raise SystemExit(__doc__)
-    spec = json.load(open(sys.argv[1], encoding="utf-8-sig"))
+    args = sys.argv[1:]
+    if "--kit-name" in args:
+        i = args.index("--kit-name")
+        kit_name = args[i + 1]
+        del args[i:i + 2]
+    else:
+        kit_name = None
+    spec = json.load(open(args[0], encoding="utf-8-sig"))
+    if kit_name:
+        spec["kit_name"] = kit_name
     tpl = json.load(open(os.path.join(REPO, spec.get("template", "config/character_sheet_template.json")), encoding="utf-8-sig"))
     kit = build(spec, tpl)
-    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "kits", spec.get("kit_name", spec["id"] + "_sheet") + "_kit.json")
+    out = args[1] if len(args) > 1 else os.path.join(REPO, "kits", spec.get("kit_name", spec["id"] + "_sheet") + "_kit.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(kit, f, indent=1, ensure_ascii=False)
     print(out, len(kit["rows"]), "rows")
