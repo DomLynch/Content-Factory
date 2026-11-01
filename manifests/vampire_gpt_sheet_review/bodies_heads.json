@@ -1,0 +1,149 @@
+{
+  "reviewer": "Claude (strict art QC, bodies and heads group)",
+  "date": "2026-11-01",
+  "concept": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+  "summary": {"PASS": 5, "WEAK": 5, "REJECT": 1},
+  "cross_cell_inconsistencies": [
+    "Trousers: front/left/right are brown-grey, lighter, scuffed fabric; back and three_quarter are near-black charcoal.",
+    "Boots: front/left/right are brown-grey scuffed leather lace-ups; back and three_quarter are plain black boots.",
+    "Sweater: front/left/right have a flat stand collar and no ribbed cuffs; back and three_quarter have visible ribbed cuffs and a different knit (three_quarter has a crew neck with a collar on top).",
+    "Braids: short (end at chest) in front, long (to mid-back) in back view; side views show only one thin braid with dark clips at the collar.",
+    "Moustache/chin: body_front has a clean chin; all head cells have a soul patch plus stubble; three_quarter body has a short thick moustache and heavy stubble (different man-ish).",
+    "Heads: head_front has loose wavy hair and no visible braids; head_profile has a scalp plait instead of hanging braids; head_back has braids hanging; head_top has costume (crimson collar) that must not be in a head cell.",
+    "Body left and right are not A-pose: arms hang forward near the thighs, legs wide."
+  ],
+  "cells": [
+    {
+      "row": "body_underlayer_front",
+      "file": "body_underlayer_front_1024x1536.png",
+      "score": 9,
+      "identity": "yes",
+      "view_ok": true,
+      "artifacts": "none; hands clean, symmetric A-pose, no text",
+      "framing": "full figure head to boots, fills about 90 percent of height",
+      "verdict": "PASS",
+      "notes": "Face, red eyes, upswept moustache, two braids, lean build all match the concept. Reference cell for the group.",
+      "fix": ""
+    },
+    {
+      "row": "body_underlayer_back",
+      "file": "body_underlayer_back_1024x1536.png",
+      "score": 9,
+      "identity": "yes",
+      "view_ok": true,
+      "artifacts": "none; plain sweater back, back pockets on trousers, clean hands",
+      "framing": "full figure, about 90 percent of height",
+      "verdict": "PASS",
+      "notes": "True back view, two long braids with ties. Trousers and boots are darker/blacker than front, and braids longer than front shows.",
+      "fix": ""
+    },
+    {
+      "row": "body_underlayer_left",
+      "file": "body_underlayer_left_1024x1536.png",
+      "score": 7,
+      "identity": "partial",
+      "view_ok": true,
+      "artifacts": "no limb errors; dark clasp-like detail at collar by braid; chest looks overly bulged in profile; hair has reddish tint",
+      "framing": "full figure, about 90 percent of height",
+      "verdict": "WEAK",
+      "notes": "Real side view (faces viewer left), but arms hang forward and are not in A-pose, legs very wide; the sweater collar and trousers colour do not match the back view. Usable as a silhouette/proportion reference.",
+      "fix": "Add: 'strict A-pose, both arms straight and angled 30 degrees away from the body, seen from the exact side, one braid hanging down the chest side with no clips or fasteners, same charcoal trousers and black boots as the back view, flat slim chest'. Use body_underlayer_back as the ref image for garment colours."
+    },
+    {
+      "row": "body_underlayer_right",
+      "file": "body_underlayer_right_1024x1536.png",
+      "score": 7,
+      "identity": "partial",
+      "view_ok": true,
+      "artifacts": "no limb errors; small dark clips at collar near braid; arm hangs near thigh",
+      "framing": "full figure, about 90 percent of height",
+      "verdict": "WEAK",
+      "notes": "True right profile (faces viewer right), good face and moustache. Same issues as left: not A-pose, brown-grey trousers and boots do not match the back cell.",
+      "fix": "Same as left: 'strict A-pose, arm angled 30 degrees away from body, exact side view, braid with no clips, charcoal trousers and black boots to match the back view'."
+    },
+    {
+      "row": "body_underlayer_three_quarter",
+      "file": "body_underlayer_three_quarter_1024x1536.png",
+      "score": 7,
+      "identity": "partial",
+      "view_ok": true,
+      "artifacts": "none structural; frown is more brutish and the moustache is shorter and thicker than the concept, with heavy stubble",
+      "framing": "full figure, about 92 percent of height",
+      "verdict": "WEAK",
+      "notes": "Correct three-quarter turn, two braids visible, clean hands. Face drifts from the concept (scowl, short moustache, stubble); sweater has a crew neck and ribbed cuffs unlike the front; arms are close to the body, not A-pose.",
+      "fix": "Add: 'neutral calm expression, long upswept waxed moustache exactly as in the reference, clean-shaven chin, arms 30 degrees from body in A-pose, same sweater as the front view with stand-up collar and plain cuffs'. Re-run with the front cell as the ref."
+    },
+    {
+      "row": "head_front",
+      "file": "head_front_1024x1024.png",
+      "score": 6,
+      "identity": "partial",
+      "view_ok": true,
+      "artifacts": "bust cut off in a flat sharp edge at the shoulders; soul patch and stubble not in concept; hair loose and wavy",
+      "framing": "head fills the frame well",
+      "verdict": "WEAK",
+      "notes": "Strong realistic face and red eyes, but the braids are missing (hair hangs loose past the ears) and the moustache is flat, not upswept. Not the same hair as the body cells.",
+      "fix": "Add: 'hair swept straight back off the face and tied into two thick braids that hang forward over each shoulder, visible on both sides of the neck; long waxed moustache with upswept tips; clean-shaven chin, no soul patch, no stubble; show neck and collar bone with a plain dark sweater collar instead of bare cut shoulders'."
+    },
+    {
+      "row": "head_profile",
+      "file": "head_profile_1024x1024.png",
+      "score": 6,
+      "identity": "partial",
+      "view_ok": true,
+      "artifacts": "bust cut with a diagonal black patch at the bottom; a scalp plait runs along the skull instead of the braid hanging behind the ear; stubble",
+      "framing": "head fills about 75 percent of frame, a bit low and cropped at the neck",
+      "verdict": "WEAK",
+      "notes": "True profile (faces left). Nose, brow, moustache and red eye read well. The hair construction conflicts with the body and back cells.",
+      "fix": "Add: 'exact left profile, hair swept straight back and tied low at the nape, two thick braids hanging down behind the ear, no scalp plait or cornrow, clean-shaven chin, plain dark sweater collar at the neck instead of a bare cut bust'."
+    },
+    {
+      "row": "head_three_quarter",
+      "file": "head_three_quarter_1024x1024.png",
+      "score": 8,
+      "identity": "yes",
+      "view_ok": true,
+      "artifacts": "none significant; curved bust cut, slight soul patch",
+      "framing": "head fills the frame well",
+      "verdict": "PASS",
+      "notes": "Best head cell: red eyes, upswept moustache, swept-back hair and a visible braid behind the ear, consistent with the body cells.",
+      "fix": ""
+    },
+    {
+      "row": "head_back",
+      "file": "head_back_1024x1024.png",
+      "score": 8,
+      "identity": "yes",
+      "view_ok": true,
+      "artifacts": "none; hair twisted into a low gather above the nape, then two braids on the sides",
+      "framing": "head and neck fill the frame well",
+      "verdict": "PASS",
+      "notes": "True back view with two braids and clean hair flow. The braids start from behind the ears here, whereas the body back view shows them from the nape centre; minor.",
+      "fix": ""
+    },
+    {
+      "row": "head_top",
+      "file": "head_top_1024x1024.png",
+      "score": 3,
+      "identity": "partial",
+      "view_ok": false,
+      "artifacts": "wears the crimson embroidered coat collar and fur, which must not be in a base-layer head cell; not a top view at all, it is a high-angle front view",
+      "framing": "face fills the frame, no top-of-head visible",
+      "verdict": "REJECT",
+      "notes": "Wrong view and wrong costume: the model copied the concept's coat instead of rendering the top of the skull. Cannot be used for the hair parting, crown or braid origin.",
+      "fix": "Regenerate with: 'top-down view of the head from directly above, camera looking straight down at the crown, only hair visible: the parting line, hair swept back to a low nape knot, the two braids starting at the sides; no face visible, no clothing, shoulders only as plain dark sweater, plain dark neutral grey background'. Do not use the concept as the ref image; use head_back and head_three_quarter as the refs."
+    },
+    {
+      "row": "head_eyes_closeup",
+      "file": "head_eyes_closeup_1024x1024.png",
+      "score": 8,
+      "identity": "yes",
+      "view_ok": true,
+      "artifacts": "tiny ear piercing on the right ear; eyes slightly uneven gaze; otherwise clean",
+      "framing": "eyes, brow, nose and moustache, correctly tight",
+      "verdict": "PASS",
+      "notes": "Red irises, heavy brows, upswept moustache and skin detail match the concept. Good reference for the eye material.",
+      "fix": ""
+    }
+  ]
+}

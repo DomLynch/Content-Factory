@@ -15,3 +15,5 @@ __pycache__/
 config/config.local.json
 logs/
 state/
+*.blend
+kits_out/
