@@ -1,4 +1,4 @@
-"""compare_kits.py <kit_a.json> <kit_b.json>: row-by-row diff (name, group, w, h, ref, use_ref, prompt, ref_prefix, seed, seed_note, mirror_of) plus kit-level fields.
+"""compare_kits.py <kit_a.json> <kit_b.json> [--ignore-order]: row-by-row diff (name, group, w, h, ref, use_ref, prompt, ref_prefix, seed, seed_note, mirror_of) plus kit-level fields.
 Prints every difference; exit code 1 if any (kit name is reported but ignored)."""
 import json, sys
 
@@ -11,6 +11,7 @@ def load(p):
 
 
 def main():
+    ign = "--ignore-order" in sys.argv
     a, b = load(sys.argv[1]), load(sys.argv[2])
     diffs = 0
     print("kit names:", a["kit"], "|", b["kit"], "(ignored)")
@@ -18,7 +19,7 @@ def main():
         if a.get(k) != b.get(k):
             diffs += 1; print(f"KIT {k}:\n  A={a.get(k)!r}\n  B={b.get(k)!r}")
     na, nb = [r["name"] for r in a["rows"]], [r["name"] for r in b["rows"]]
-    if na != nb:
+    if (sorted(na) != sorted(nb)) if ign else (na != nb):
         diffs += 1; print("ROW NAMES/ORDER differ:", [n for n in na if n not in nb], [n for n in nb if n not in na])
     rb = {r["name"]: r for r in b["rows"]}
     for r in a["rows"]:

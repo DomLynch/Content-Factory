@@ -11,6 +11,15 @@
  "description": "Dracula, red-eyed man with braided swept-back black hair and moustache, crimson damask velvet tunic with hussar frogging and embroidered front panel, black fur-collared cloak with gold borders, wide belt with double-eagle buckle, hanging tabard with castle emblem and cross, lace cuffs, tall black leather boots with gold knee plates.",
  "rows": [
   {
+   "name": "head_front",
+   "row_id": "head_front",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat."
+  },
+  {
    "name": "body_underlayer_front",
    "row_id": "body_underlayer_front",
    "group": "body",
@@ -59,15 +68,6 @@
    "prompt": "THREE-QUARTER view of a tall lean pale man with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long black hair swept back and braided into two thick braids, wearing a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
-   "name": "head_front",
-   "row_id": "head_front",
-   "group": "head",
-   "w": 1024,
-   "h": 1024,
-   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, orthographic FRONT view, neutral expression, high detail on skin pores, red eyes. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch; wearing the plain charcoal high-collared sweater collar, no fur, no coat."
-  },
-  {
    "name": "head_profile",
    "row_id": "head_profile",
    "group": "head",
@@ -87,15 +87,6 @@
    "mirror_of": "head_profile"
   },
   {
-   "name": "head_three_quarter",
-   "row_id": "head_three_quarter",
-   "group": "head",
-   "w": 1024,
-   "h": 1024,
-   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
-  },
-  {
    "name": "head_back",
    "row_id": "head_back",
    "group": "head",
@@ -105,6 +96,15 @@
    "prompt": "Head and neck and shoulders, seen from directly BEHIND, showing hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders and the nape of the neck; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
   },
   {
+   "name": "head_three_quarter",
+   "row_id": "head_three_quarter",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat."
+  },
+  {
    "name": "head_top",
    "row_id": "head_top",
    "group": "head",
@@ -112,17 +112,6 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man's hair and head shape from the reference image. Change only the camera:",
    "prompt": "Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the hair swept back and the origins of the two braids, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar."
-  },
-  {
-   "name": "head_eyes_closeup",
-   "row_id": "head_eyes_closeup",
-   "group": "head",
-   "w": 1024,
-   "h": 1024,
-   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments.",
-   "seed": 43,
-   "seed_note": "Re-render with seed 43: the first image was rejected by the consistency QC (loose hair, earring, white collar, red cloth) and no png is on disk; the prompt now repeats the shared head description."
   },
   {
    "name": "hand_open_left",
@@ -244,15 +233,6 @@
    "prompt": "Show ONLY the black fur collar of the cloak, laid flat in a ring on a plain dark background like a game asset sheet, no person, no mannequin, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   },
   {
-   "name": "gear_collar_closeup",
-   "row_id": "gear_collar_closeup",
-   "group": "gear",
-   "w": 1536,
-   "h": 1024,
-   "use_ref": false,
-   "prompt": "Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
-  },
-  {
    "name": "gear_belt",
    "row_id": "gear_belt",
    "group": "gear",
@@ -260,15 +240,6 @@
    "h": 1024,
    "use_ref": false,
    "prompt": "Show ONLY the wide leather belt with the gold double-headed eagle buckle, laid flat and straight on a plain dark background like a game asset sheet, no person, no coat. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
-  },
-  {
-   "name": "gear_belt_buckle_closeup",
-   "row_id": "gear_belt_buckle_closeup",
-   "group": "gear",
-   "w": 1024,
-   "h": 1024,
-   "use_ref": false,
-   "prompt": "Close-up of ONLY a gold double-headed eagle belt buckle set with red ruby gems on a wide black leather belt strap, front view, filling the frame, on a plain empty dark grey background: no tunic, no fabric, no lace behind it. No person."
   },
   {
    "name": "gear_tabard",
@@ -422,6 +393,35 @@
    "ref_prefix": "Edit instruction: use the reference image only for the colour and material. Change only the following:",
    "use_ref": false,
    "prompt": "Flat top-down seamless tileable texture of dark crimson velvet cloak lining with a soft sheen, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch."
+  },
+  {
+   "name": "head_eyes_closeup",
+   "row_id": "head_eyes_closeup",
+   "group": "head",
+   "w": 1024,
+   "h": 1024,
+   "ref_prefix": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing:",
+   "prompt": "Extreme close-up of the red eyes and brow only, front view, both eyes fully visible with eyelids, lashes, iris detail and fine skin wrinkles, framed from forehead to cheekbones. Same face as the front view: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no earring, no hair ornaments.",
+   "seed": 43,
+   "seed_note": "Re-render with seed 43: the first image was rejected by the consistency QC (loose hair, earring, white collar, red cloth) and no png is on disk; the prompt now repeats the shared head description."
+  },
+  {
+   "name": "gear_belt_buckle_closeup",
+   "row_id": "gear_belt_buckle_closeup",
+   "group": "gear",
+   "w": 1024,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Close-up of ONLY a gold double-headed eagle belt buckle set with red ruby gems on a wide black leather belt strap, front view, filling the frame, on a plain empty dark grey background: no tunic, no fabric, no lace behind it. No person."
+  },
+  {
+   "name": "gear_collar_closeup",
+   "row_id": "gear_collar_closeup",
+   "group": "gear",
+   "w": 1536,
+   "h": 1024,
+   "use_ref": false,
+   "prompt": "Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin."
   }
  ]
 }
