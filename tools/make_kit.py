@@ -37,6 +37,8 @@ def build(spec, tpl):
     for cell in tpl["cells"]:
         items = [None] if "repeat" not in cell else spec[cell["repeat"]]
         for item in items:
+            if item:   # item strings may use spec placeholders (e.g. {coat_palette}); expanded once
+                item = {k: (fill(v, {**base, **item}, "item " + str(item.get("id"))) if isinstance(v, str) and "{" in v else v) for k, v in item.items()}
             ctx = {**base, **(item or {})}
             for dn, dd in derived.items():   # optional clauses: prefix + value, or "" when the value is empty/missing
                 ctx[dn] = dd.get("prefix", "") + str(ctx[dd["from"]]) + dd.get("suffix", "") if ctx.get(dd["from"]) else ""
