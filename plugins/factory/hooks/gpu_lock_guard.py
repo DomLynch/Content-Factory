@@ -19,7 +19,7 @@ from pathlib import Path
 
 # A python/pwsh invocation whose script is one of the GPU entry points (so `cat flux_kit.py` or a git message that mentions it is not matched).
 START = re.compile(
-    r"(?:\bpython[\w.]*(?:\.exe)?[\"']?\s+(?:-\S+\s+)*[\"']?[^\s;&|]*(?:generate|flux_kit|run_3d|run_character|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d)\.py\b"
+    r"(?:\bpython[\w.]*(?:\.exe)?[\"']?\s+(?:-\S+\s+)*[\"']?[^\s;&|]*(?:generate|flux_kit|run_3d|run_character|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d|run_ab)\.py\b"
     r"|\b(?:powershell|pwsh)(?:\.exe)?\s+[^;&|]*run_kit\.ps1\b"
     r"|(?:^|[;&|]\s*)\.?[\/]?[^\s;&|]*run_kit\.ps1\b)",
     re.I,
@@ -67,6 +67,8 @@ def decide(command: str, lock_text: str | None) -> str:
     """'' to allow, else the refusal reason."""
     if not START.search(command or "") or "CF_DRY" in (command or ""):
         return ""
+    if re.search(r"run_ab\.py", command) and ("--collect" in command or "--decide" in command):
+        return ""   # 0.1.14: the A/B collect and decide steps are CPU only (bind, QC, Blender, scorecard)
     if not lock_text:
         return orphan_reason()
     try:
@@ -80,13 +82,13 @@ def decide(command: str, lock_text: str | None) -> str:
             "Rule: one GPU job at a time. Wait for it to finish (the lock disappears), then retry.")
 
 
-MCP_GPU = tuple("mcp__plugin_factory_factory__" + t for t in ("flux_render", "trellis_run", "upscale", "skin_tokens_bind", "motion_generate", "pixal3d_run"))
+MCP_GPU = tuple("mcp__plugin_factory_factory__" + t for t in ("flux_render", "trellis_run", "upscale", "skin_tokens_bind", "motion_generate", "pixal3d_run", "ab_shape"))
 
 
 def main() -> None:
     raw = sys.stdin.read() or "{}"
     low = raw.lower()
-    if not any(k in low for k in ("generate.py", "flux_kit", "run_3d", "run_character", "run_skin_tokens", "run_kit", "run_motion", "ardy_generate", "kimodo_generate", "run_pixal3d", "mcp__plugin_factory")):
+    if not any(k in low for k in ("generate.py", "flux_kit", "run_3d", "run_character", "run_skin_tokens", "run_kit", "run_motion", "ardy_generate", "kimodo_generate", "run_pixal3d", "run_ab", "mcp__plugin_factory")):
         return  # fast exit
     try:
         payload = json.loads(raw)
@@ -94,6 +96,8 @@ def main() -> None:
         if payload.get("tool_name") in MCP_GPU:
             if payload.get("tool_name", "").endswith("motion_generate") and (payload.get("tool_input") or {}).get("device") == "cpu":
                 return   # motion_generate on the CPU does not touch the GPU (it still passes the RAM gate)
+            if payload.get("tool_name", "").endswith("ab_shape") and (payload.get("tool_input") or {}).get("collect"):
+                return   # ab_shape collect=true runs no GPU half (it still passes the RAM gate)
             reason = decide("python generate.py", lock_text)   # an MCP GPU tool is a GPU start: same rule as the entry-point scripts
         elif payload.get("tool_name") == "Bash":
             reason = decide((payload.get("tool_input") or {}).get("command", ""), lock_text)

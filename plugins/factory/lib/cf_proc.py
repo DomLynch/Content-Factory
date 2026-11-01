@@ -7,7 +7,7 @@ by hand at 15:52, and every Flux start meanwhile died on the RAM guard. Stopping
                         (TaskStop and crashes included, where no Python code runs). Returns a handle for close_job(); None elsewhere or on any error.
   close_job(handle)     closes the job: every process still inside it is killed.
   kill_tree(pid)        kill a process and everything it started (Windows taskkill /T /F, else the process group). Returns True once pid is gone.
-  stage_procs()         [(pid, command line)] of live processes running a stage script (generate.py, flux_kit.py, run_3d.py, run_stills.py), for the lock guard.
+  stage_procs()         [(pid, command line)] of live processes running a stage script (generate.py, flux_kit.py, run_3d.py, run_stills.py, run_ab.py ...), for the lock guard.
 
 Nothing here raises: every function returns an empty or false value when it cannot tell.
 """
@@ -20,7 +20,7 @@ import signal
 import subprocess
 import time
 
-STAGE_SCRIPTS = ("generate.py", "flux_kit.py", "run_3d.py", "run_stills.py", "run_skin_tokens.py", "run_motion.py", "ardy_generate.py", "kimodo_generate.py", "run_pixal3d.py", "pixal3d_entry.py")
+STAGE_SCRIPTS = ("generate.py", "flux_kit.py", "run_3d.py", "run_stills.py", "run_skin_tokens.py", "run_motion.py", "ardy_generate.py", "kimodo_generate.py", "run_pixal3d.py", "pixal3d_entry.py", "run_ab.py")
 _STAGE_RE = re.compile(r"(?:%s)\b" % "|".join(re.escape(s) for s in STAGE_SCRIPTS), re.I)
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
@@ -136,7 +136,7 @@ def stage_procs() -> list[tuple[int, str]]:
     rows: list[tuple[int, str]] = []
     try:
         if os.name == "nt":
-            ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|flux_kit|run_3d|run_stills|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d|pixal3d_entry)\\.py' } "
+            ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|flux_kit|run_3d|run_stills|run_skin_tokens|run_motion|ardy_generate|kimodo_generate|run_pixal3d|pixal3d_entry|run_ab)\\.py' } "
                   "| Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress")
             out = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps], capture_output=True, text=True, timeout=float(os.environ.get("FACTORY_PS_TIMEOUT", "8")),
                                  creationflags=NO_WINDOW).stdout.strip()
@@ -154,3 +154,36 @@ def stage_procs() -> list[tuple[int, str]]:
         return []
     only = os.environ.get("FACTORY_TEST_STAGE_TAG", "")   # TEST ONLY: look at nothing but processes whose command line holds this tag
     return [(pid, cmd) for pid, cmd in rows if (not only or only in cmd) and pid not in me and _STAGE_RE.search(cmd) and "Get-CimInstance" not in cmd and "cf_proc" not in cmd]
+
+def descendants(pid: int) -> set[int]:
+    """0.1.14: pids of every process started (directly or not) by pid, for the A/B harness's own-children exclusion. set() when it cannot tell."""
+    try:
+        pairs: list[tuple[int, int]] = []
+        if os.name == "nt":
+            ps = "Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId | ConvertTo-Json -Compress"
+            out = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps], capture_output=True, text=True,
+                                 timeout=float(os.environ.get("FACTORY_PS_TIMEOUT", "8")), creationflags=NO_WINDOW).stdout.strip()
+            data = json.loads(out) if out else []
+            pairs = [(int(d["ProcessId"]), int(d["ParentProcessId"])) for d in (data if isinstance(data, list) else [data])]
+        else:
+            for p in os.listdir("/proc"):
+                if p.isdigit():
+                    try:
+                        stat = open(f"/proc/{p}/stat").read()
+                        pairs.append((int(p), int(stat.rsplit(")", 1)[1].split()[1])))
+                    except (OSError, ValueError, IndexError):
+                        pass
+        kids: dict[int, list[int]] = {}
+        for c, par in pairs:
+            kids.setdefault(par, []).append(c)
+        out_set: set[int] = set()
+        todo = [pid]
+        while todo:
+            for c in kids.get(todo.pop(), []):
+                if c not in out_set and c != pid:
+                    out_set.add(c)
+                    todo.append(c)
+        return out_set
+    except Exception:
+        return set()
+

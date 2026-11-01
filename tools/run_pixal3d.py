@@ -1,5 +1,5 @@
 """One picked, cut-out image to a textured GLB with Pixal3D, one receipt (stage "pixal3d", same shape as the trellis receipt).
-Usage: run_pixal3d.py <asset_id> <cutout.png> [--preset NAME] [--seed N]
+Usage: run_pixal3d.py <asset_id> <cutout.png> [--preset NAME] [--seed N] [--no-naf]
 Settings come from config/config.json ("pixal3d") and config.local.json (paths, with defaults under work_dir); nothing here is a literal path or flag.
 Must be started with nothing else on the GPU (the plugin tool and its hooks enforce the lock, the RAM gate and the input gate)."""
 import argparse, os, subprocess, sys, time
@@ -12,6 +12,7 @@ ap.add_argument("asset_id")
 ap.add_argument("image")
 ap.add_argument("--preset", default=None)
 ap.add_argument("--seed", type=int, default=None)
+ap.add_argument("--no-naf", action="store_true")   # 0.1.14 A/B: run with NAF off (ROUGH); passed through to pixal3d_entry.py, whose --no-naf flag and config pixal3d.naf the natten-shim branch adds
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
@@ -44,6 +45,9 @@ cmd = [py, os.path.join(os.path.dirname(os.path.abspath(__file__)), "pixal3d_ent
        "--dino-dir", dirs["dino"], "--moge-dir", dirs["moge"], "--birefnet-dir", dirs["birefnet"], "--seed", str(seed), "--resolution", str(preset["resolution"])]
 if preset.get("low_vram"):
     cmd.append("--low-vram")
+naf = bool(px.get("naf", True)) and not a.no_naf
+if not naf:
+    cmd.append("--no-naf")
 
 cf_common.wait_for_free_ram(cfg, "pixal3d")
 ram = cf_common.FreeRamWatch(); ram.start()
@@ -57,7 +61,7 @@ except Exception:
     commit = ""
 ok = r.returncode == 0 and os.path.exists(glb)
 cf_common.write_receipt(cfg, a.asset_id, "pixal3d", tool="pixal3d_entry.py", model={"id": "Pixal3D (TencentARC, MIT)", "repo": repo, "commit": commit, "weights": dirs["model"]},
-                        inputs=[a.image], params={"preset": preset_name, **preset, "seed": seed, "env": px["env"], "log": log, "helpers": dirs, "rembg": "BiRefNet (MIT), not RMBG-2.0"},
+                        inputs=[a.image], params={"preset": preset_name, **preset, "seed": seed, "naf": naf, "quality_label": "" if naf else "ROUGH / NAF-off", "env": px["env"], "log": log, "helpers": dirs, "rembg": "BiRefNet (MIT), not RMBG-2.0"},
                         timing={"wall_s": round(time.time() - t0, 1)}, memory={"lowest_free_ram_gb": ram.stop()},
                         outputs=[glb] if os.path.exists(glb) else [], status="ok" if ok else "fail", error="" if ok else f"exit {r.returncode}, see {log}")
 sys.exit(0 if ok else 1)

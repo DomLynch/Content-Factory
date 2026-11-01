@@ -1,9 +1,10 @@
 """Cut-out then TRELLIS for one picked image, one receipt per stage.
-Usage: run_3d.py <asset_id> <picked_image.png> [--preset NAME] [--from-latents PATH --out-name STEM]
+Usage: run_3d.py <asset_id> <picked_image.png> [--preset NAME] [--seed N] [--cutout-png PNG [--cutout-receipt R]] [--from-latents PATH --out-name STEM]
 Settings come from config/config.json ("trellis") and config.local.json; nothing here is a literal path or flag.
+--cutout-png uses an already cut-out RGBA png as work/<asset>/cutout.png and skips the cut-out (the A/B gives both engines the same cut-out).
 --from-latents re-decodes and re-bakes saved latents (no sampling, no cut-out): the hero/master tier on the same asset id.
 Must be started with nothing else on the GPU."""
-import argparse, os, subprocess, sys, time
+import argparse, os, shutil, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
@@ -14,6 +15,9 @@ ap.add_argument("image")
 ap.add_argument("--preset", default="master_reduced")
 ap.add_argument("--from-latents", default=None)
 ap.add_argument("--out-name", default="mesh")
+ap.add_argument("--cutout-png", default=None)   # A/B fairness: an ALREADY cut-out RGBA png (the Factory's one cutout stage): copied to work/<asset>/cutout.png, the cutout stage is skipped
+ap.add_argument("--cutout-receipt", default=None)   # with --cutout-png: path of the cutout receipt that made that png, recorded in the trellis receipt
+ap.add_argument("--seed", type=int, default=None)   # A/B harness: same seed as the Pixal3D half; omitted = generate.py default (42)
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
@@ -26,7 +30,13 @@ os.makedirs(work, exist_ok=True)
 env = dict(os.environ, **tr["env"])
 cut = os.path.join(work, "cutout.png")
 
-if not a.from_latents:
+if a.cutout_png:
+    if a.from_latents:
+        sys.exit("--cutout-png and --from-latents do not combine")
+    if not os.path.isfile(a.cutout_png):
+        sys.exit(f"--cutout-png not found: {a.cutout_png}")
+    shutil.copyfile(a.cutout_png, cut)   # no cutout stage and no cutout receipt of ours: the Factory's receipt is referenced below
+elif not a.from_latents:
     # stage: cutout (CPU, about 105 s)
     ram = cf_common.FreeRamWatch(); ram.start()
     t0 = time.time()
@@ -46,6 +56,8 @@ ram = cf_common.FreeRamWatch(); ram.start()
 out_prefix = os.path.join(work, a.out_name)
 cmd = [loc["trellis_python"], "generate.py", cut, "--preset", preset["preset"], "--texture-size", str(preset["texture_size"]),
        "--bake-faces", str(preset["bake_faces"]), "--device", "rocm", "--single-process", "--profile-memory", "--output", out_prefix] + preset.get("extra", [])
+if a.seed is not None:
+    cmd += ["--seed", str(a.seed)]
 if a.from_latents:
     cmd += ["--from-latents", a.from_latents, "--normal-map"]
 t0 = time.time()
@@ -55,7 +67,8 @@ with open(log, "w", encoding="utf-8") as lf:
 outs = [p for p in (out_prefix + ".glb", out_prefix + ".receipt.json") if os.path.exists(p)]
 cf_common.write_receipt(cfg, a.asset_id, "trellis", tool="generate.py", model={"id": "TRELLIS.2-4B", "repo": repo_dir},
                         inputs=[cut] + ([a.from_latents] if a.from_latents else []),
-                        params={"preset": a.preset, **preset, "env": tr["env"], "log": log, "from_latents": a.from_latents, "out_name": a.out_name},
+                        params={"preset": a.preset, **preset, "env": tr["env"], "log": log, "from_latents": a.from_latents, "out_name": a.out_name, "seed": a.seed,
+                                **({"cutout_png": a.cutout_png, "cutout_png_sha256": cf_common.sha256(a.cutout_png), "cutout_receipt": a.cutout_receipt} if a.cutout_png else {})},
                         timing={"wall_s": round(time.time() - t0, 1)}, memory={"lowest_free_ram_gb": ram.stop()},
                         outputs=outs, status="ok" if r.returncode == 0 and any(p.endswith(".glb") for p in outs) else "fail",
                         error="" if r.returncode == 0 else f"exit {r.returncode}, see log")
