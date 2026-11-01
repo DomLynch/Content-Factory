@@ -69,6 +69,12 @@
           "--max-tokens",
           "98304"
         ]
+      },
+      "plain": {
+        "preset": "master",
+        "texture_size": 2048,
+        "bake_faces": 500000,
+        "extra": []
       }
     }
   },
