@@ -8,7 +8,7 @@ It runs ARDY's own scripts/generate.py unmodified (runpy). Only the text encoder
   TEXT_ENCODERS_DIR         a folder holding McGill-NLP/<LLM2Vec adapters>; their adapter_config.json points at the LOCAL Llama 3 mirror (prepare_text_encoder.py)
   HF_HUB_OFFLINE=1          no network, no token: nothing here reads or sends a Hugging Face token
   TEXT_ENCODER_DEVICE       cpu keeps the encoder on the CPU (ARDY reads it at load time, but then moves the encoder with .to(cuda): patched below so cpu stays cpu)
-Two guards on the encoder (both asserted, never silent):
+Two guards on the encoder (both asserted, never silent; the code is in encoder_patch.py, shared with kimodo_generate.py):
   - LLM2Vec only applies the Llama 3 chat template when config._name_or_path is exactly meta-llama/Meta-Llama-3-8B-Instruct; a local mirror path would silently change
     every embedding, so that name is enforced after loading.
   - embeddings are moved to the model device after a CPU encode.
@@ -30,6 +30,7 @@ def args():
     p.add_argument("--text-encoders-dir", default="")
     p.add_argument("--text-encoder-device", default="")
     p.add_argument("--device", default="gpu", choices=["gpu", "cpu"])
+    p.add_argument("--llama-id", default=LLAMA_ID, help="config motion.text_encoder_name: the exact name LLM2Vec needs for the Llama 3 chat template")
     p.add_argument("--no-postprocess", action="store_true")
     p.add_argument("--diffusion-steps", type=int, default=0)
     return p.parse_args()
@@ -49,36 +50,11 @@ def steer_environment(a):
     os.environ["CHECKPOINTS_DIR"] = a.checkpoints_dir
 
 
-def patch_encoder():
-    import torch
-    from ardy.model.llm2vec import llm2vec as l2v
-    from ardy.model.llm2vec import llm2vec_wrapper as wrap
-    orig_from = l2v.LLM2Vec.from_pretrained.__func__
-
-    def from_pretrained(cls, *a, **k):
-        m = orig_from(cls, *a, **k)
-        if m.model.config._name_or_path != LLAMA_ID:
-            print(f"ENCODER NOTE: config._name_or_path was {m.model.config._name_or_path!r}, set to {LLAMA_ID} so the chat template applies", flush=True)
-            m.model.config._name_or_path = LLAMA_ID
-        assert m.model.config._name_or_path == LLAMA_ID
-        return m
-    l2v.LLM2Vec.from_pretrained = classmethod(from_pretrained)
-
-    pinned = os.environ.get("TEXT_ENCODER_DEVICE", "")
-    orig_to, orig_call = wrap.LLM2VecEncoder.to, wrap.LLM2VecEncoder.__call__
-
-    def to(self, device=None, dtype=None):
-        if pinned == "cpu" and device is not None and str(device) != "cpu":
-            print(f"ENCODER NOTE: TEXT_ENCODER_DEVICE=cpu, keeping the encoder on the CPU (asked for {device})", flush=True)
-            device = "cpu"
-        return orig_to(self, device, dtype)
-
-    def call(self, text):
-        feat, lengths = orig_call(self, text)
-        if pinned == "cpu" and torch.cuda.is_available():
-            feat = feat.to("cuda")
-        return feat, lengths
-    wrap.LLM2VecEncoder.to, wrap.LLM2VecEncoder.__call__ = to, call
+def patch_encoder(a):
+    """The two encoder guards (chat-template name, cpu stays cpu) live in encoder_patch.py, shared with kimodo_generate.py."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import encoder_patch
+    encoder_patch.patch("ardy", a.llama_id, a.text_encoder_device)
 
 
 def export_json(npz_path, json_path, a, postprocess=False):
@@ -106,7 +82,7 @@ def main():
     steer_environment(a)
     sys.path.insert(0, a.ardy_repo)
     os.makedirs(a.out_dir, exist_ok=True)
-    patch_encoder()
+    patch_encoder(a)
     stem = os.path.join(a.out_dir, "ardy_motion")
     argv = ["generate.py", a.text, "--model", a.model, "--duration", str(a.duration), "--seed", str(a.seed), "--output", stem, "--checkpoints_dir", a.checkpoints_dir]
     import importlib.util

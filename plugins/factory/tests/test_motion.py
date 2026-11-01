@@ -30,6 +30,8 @@ PY = sys.executable
 MCP_P = "mcp__plugin_factory_factory__"
 CFG = json.loads((REPO / "config" / "config.json").read_text(encoding="utf-8-sig"))
 M = CFG["motion"]
+M["llama_shard_bytes"] = {"model-00001-of-00001.safetensors": 1}   # the fake mirror below has one 1-byte shard; the real sizes are checked in test_motion_kimodo.py
+M["kimodo_weights_bytes"] = 1                                       # the fake Kimodo weights file is 1 byte
 PRE = M["bone_prefix"]
 GATED = "meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -71,11 +73,20 @@ def fake_local(t: Path, **over) -> dict:
         (d / "adapter_model.safetensors").write_bytes(b"a")
     for f in ("config.json", "tokenizer.json", "tokenizer_config.json"):
         (enc / pte.ADAPTERS[0] / f).write_text("{}", encoding="utf-8")
+    kck = t / "models" / "kimodo" / M["kimodo_model_dir"]   # Kimodo: no kimodo_* keys in the local config, everything is found under work_dir (the default layout)
+    (kck / "stats" / "motion").mkdir(parents=True, exist_ok=True)
+    for f in ("config.yaml", "model.safetensors", "LICENSE"):
+        (kck / f).write_bytes(b"k")
+    (t / "kimodo" / "kimodo" / "scripts").mkdir(parents=True, exist_ok=True)
+    (t / "kimodo" / "kimodo" / "scripts" / "generate.py").write_text("", encoding="utf-8")
+    kpy = t / M["kimodo_venv_name"] / ("Scripts" if os.name == "nt" else "bin") / ("python.exe" if os.name == "nt" else "python")
+    kpy.parent.mkdir(parents=True, exist_ok=True)
+    kpy.write_bytes(b"x")
     (t / "clips").mkdir(exist_ok=True)
     (t / "rig.glb").write_bytes(b"glTF")
     (t / "blender.exe").write_bytes(b"x")
     (t / "logs").mkdir(exist_ok=True)
-    loc = {"python": PY, "outputs_dir": str(t / "out"), "logs_dir": str(t / "logs"), "blender_exe": str(t / "blender.exe"), "rig_glb": str(t / "rig.glb"),
+    loc = {"work_dir": str(t), "python": PY, "outputs_dir": str(t / "out"), "logs_dir": str(t / "logs"), "blender_exe": str(t / "blender.exe"), "rig_glb": str(t / "rig.glb"),
            "mixamo_clips_dir": str(t / "clips"), "motion_python": PY, "ardy_repo_dir": str(t), "ardy_checkpoints_dir": str(t / "ardy"), "text_encoders_dir": str(t / "enc"),
            "llama_mirror_dir": str(mirror), "guard_script": str(t / "no_guard.ps1"), "machine": {"name": "test"}}
     loc.update(over)
@@ -83,7 +94,7 @@ def fake_local(t: Path, **over) -> dict:
 
 
 def ns(**kw) -> argparse.Namespace:
-    d = dict(asset_id="a", text="A person walks forward.", duration=None, seed=None, clip_id="", in_place=False, install=False, device="gpu", encoder_device="", backend="ardy")
+    d = dict(asset_id="a", text="A person walks forward.", duration=None, seed=None, clip_id="", in_place=False, install=False, device="gpu", encoder_device="", backend="ardy", constraints=None)
     d.update(kw)
     return argparse.Namespace(**d)
 
@@ -102,7 +113,7 @@ class Problems(unittest.TestCase):
 
     def test_each_refusal_names_its_reason(self):
         cases = [(ns(text="  "), "text is empty"), (ns(text="x" * 301), "limit is 300"), (ns(duration=0.2), "outside 1 to 10"), (ns(duration=60), "outside 1 to 10"),
-                 (ns(duration=float("nan")), "outside 1 to 10"), (ns(clip_id="../evil"), "not a plain file name"), (ns(backend="kimodo"), "not enabled"),
+                 (ns(duration=float("nan")), "outside 1 to 10"), (ns(clip_id="../evil"), "not a plain file name"), (ns(backend="nope"), "not enabled"),
                  (ns(encoder_device="cpu"), "needs about 24 GB")]
         for args, needle in cases:
             probs = run_motion.problems(self.cfg, args, 10.0)
@@ -388,7 +399,7 @@ class McpMotion(unittest.TestCase):
 
     def test_input_refusals_start_nothing(self):
         for args, needle in (({"text": ""}, "text is empty"), ({"text": "x" * 400}, "limit is 300"), ({"text": "A person walks.", "duration": 0}, "outside 1 to 10"),
-                             ({"text": "A person walks.", "backend": "kimodo"}, "not enabled"), ({"text": "A person walks.", "device": "tpu"}, "device must be gpu or cpu"),
+                             ({"text": "A person walks.", "backend": "nope"}, "not enabled"), ({"text": "A person walks.", "device": "tpu"}, "device must be gpu or cpu"),
                              ({"text": "A person walks.", "encoder_device": "cpu"}, "needs about 24 GB")):
             err, text = self.call(args, FACTORY_FAKE_FREE_RAM_GB=20)
             self.assertTrue(err, args)
@@ -501,7 +512,8 @@ class Packaging(unittest.TestCase):
 
     def test_config_local_example_has_the_motion_paths(self):
         ex = json.loads((REPO / "config" / "config.local.example.json").read_text(encoding="utf-8"))
-        for k in ("motion_python", "ardy_repo_dir", "ardy_checkpoints_dir", "text_encoders_dir", "llama_mirror_dir", "blender_exe", "rig_glb", "mixamo_clips_dir"):
+        for k in ("motion_python", "ardy_repo_dir", "ardy_checkpoints_dir", "kimodo_python", "kimodo_repo_dir", "kimodo_checkpoints_dir", "text_encoders_dir", "llama_mirror_dir",
+                  "blender_exe", "rig_glb", "mixamo_clips_dir"):
             self.assertIn(k, ex)
         self.assertIn("Motion-312", ex["motion_python"])
         self.assertNotIn("Trellis-3-312", ex["motion_python"])   # never install into the Trellis venv
