@@ -347,7 +347,7 @@ def t_qc(asset_id: str, glb: str, concept: str = "", budget_tris: int = 0, rende
     if budget_tris:
         cmd += ["--budget-tris", str(int(budget_tris))]
     moge = q.get("moge") or {}
-    if render and moge.get("enabled"):   # 0.1.13, optional and off by default: run_qc.py scores the render against the concept with MoGe-2
+    if render and moge.get("enabled"):   # 0.1.12, optional and off by default: run_qc.py scores the render against the concept with MoGe-2
         cmd += ["--render", render]
     rc, log, t0 = run_stage("qc", cmd, timeout=q.get("timeout_s", 600) + (moge.get("timeout_s", 600) if moge.get("enabled") else 0))
     res = finish("qc", rc, log, t0, ["qc"], asset_id)
