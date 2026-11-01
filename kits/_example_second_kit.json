@@ -16,7 +16,7 @@
    "group": "body",
    "ref": "C:\\placeholder\\knight-ref.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Remove the plate armour, surcoat, sword belt, gauntlets and boots; he wears only a plain fitted padded gambeson and linen trousers. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_back",
@@ -33,7 +33,7 @@
    "group": "body",
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_right",
@@ -41,7 +41,7 @@
    "group": "body",
    "ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair and trimmed beard from the reference image. Change only the camera and pose:",
-   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. He wears a plain fitted padded gambeson, a plain brown leather belt, linen trousers and brown leather boots. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "name": "body_underlayer_three_quarter",
@@ -77,7 +77,8 @@
    "w": 1024,
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, face, grey eyes, short cropped brown hair, trimmed beard and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp.  Short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar, no armour, no helmet."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, grey eye, short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp.  Short trimmed beard following the jaw; squared chin under the trimmed beard, no stray stubble outside the beard line; plain padded gambeson collar, no armour, no helmet.",
+   "mirror_of": "head_profile"
   },
   {
    "name": "head_three_quarter",
@@ -123,7 +124,7 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of a man's LEFT hand OPEN with spread fingers, exactly five fingers including the thumb, weathered tanned skin with visible veins and knuckles. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove. Wearing one plain iron signet ring on each hand. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
+   "prompt": "Reference sheet of a man's LEFT hand OPEN with spread fingers, exactly five fingers including the thumb, weathered tanned skin with visible veins and knuckles. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove. Wearing one plain iron signet ring on each hand, worn on the index finger; the same ring design in every view; palm views show only the plain iron band. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
   },
   {
    "name": "hand_open_right",
@@ -133,7 +134,8 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of a man's RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, weathered tanned skin with visible veins and knuckles. This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove. Wearing one plain iron signet ring on each hand, worn on the index finger; the same ring design in every view; palm views show only the plain iron band. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
+   "prompt": "Reference sheet of a man's RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, weathered tanned skin with visible veins and knuckles. This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove. Wearing one plain iron signet ring on each hand, worn on the index finger; the same ring design in every view; palm views show only the plain iron band. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.",
+   "mirror_of": "hand_open_left"
   },
   {
    "name": "hand_fist_left",
@@ -153,7 +155,8 @@
    "h": 1024,
    "ref_prefix": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the armour, surcoat and boots; plain base layer. Change only the camera and framing:",
    "use_ref": false,
-   "prompt": "Reference sheet of a man's RIGHT hand in a closed FIST, weathered tanned skin with visible knuckles and veins. This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove. Wearing one plain iron signet ring on each hand, worn on the index finger; the same ring design in every view; palm views show only the plain iron band. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text."
+   "prompt": "Reference sheet of a man's RIGHT hand in a closed FIST, weathered tanned skin with visible knuckles and veins. This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove. Wearing one plain iron signet ring on each hand, worn on the index finger; the same ring design in every view; palm views show only the plain iron band. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.",
+   "mirror_of": "hand_fist_left"
   },
   {
    "name": "hand_back_views",

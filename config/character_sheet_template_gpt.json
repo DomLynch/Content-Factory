@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref.",
+ "note": "Character-neutral GPT-ref sheet: 43 cells, every cell image-conditioned on the ref. All character words come from the spec (see plugins/factory/skills/character-sheet/SKILL.md). Select with the spec field 'template'. body_underlayer_front is generated from the ref, the other body cells use its output as base_layer_ref. Row keys: mirror_of marks a row made by flipping another row's png (tools/mirror_rows.py), the queue skips it. A per-row re-render seed lives in the spec field row_seeds {row_id: {seed, note}} and is emitted as the row's seed and seed_note.",
  "group_priority": [
   "body",
   "head",
@@ -27,7 +27,7 @@
    "size": null,
    "ref": "{ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Remove {removed_gear_full}; {pronoun} wears only {base_layer}. Change only the camera and pose:",
-   "prompt": "Orthographic character turnaround, FRONT view, {pose_rule}, plain dark neutral grey background, neutral expression, hands bare. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "Orthographic character turnaround, FRONT view, {pose_rule}, plain dark neutral grey background, neutral expression, hands bare. {Pronoun} wears {outfit_desc}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_back",
@@ -44,7 +44,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. {Pronoun} wears {outfit_desc}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_right",
@@ -52,7 +52,7 @@
    "size": null,
    "ref": "{base_layer_ref}",
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc} and {facial_hair} from the reference image. Change only the camera and pose:",
-   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
+   "prompt": "The {character_noun} is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the right edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing right. {Pronoun} wears {outfit_desc}. Plain base layer, {side_pose_rule}. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred."
   },
   {
    "row_id": "body_underlayer_three_quarter",
@@ -91,7 +91,8 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, face, {eye_desc}, {hair_style_desc}, {facial_hair} and skin from the reference image. Change only the camera and framing:",
-   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_rule}; {head_collar_desc}, {head_garment_exclude}."
+   "prompt": "Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing right, neutral expression, high detail, {profile_eye_desc}, {head_hair_profile_desc}.  {Head_facial_hair_desc}; {head_chin_rule}; {head_collar_desc}, {head_garment_exclude}.",
+   "mirror_of": "head_profile"
   },
   {
    "row_id": "head_three_quarter",
@@ -141,7 +142,7 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of a {character_noun}'s LEFT hand OPEN with spread fingers, exactly five fingers including the thumb, {hand_skin_desc} with visible veins and knuckles. {hand_wrist_rule} Wearing {hand_accessory}. Three separate views in a row: back of the hand, palm, and side view. {frame_rule}"
+   "prompt": "Reference sheet of a {character_noun}'s LEFT hand OPEN with spread fingers, exactly five fingers including the thumb, {hand_skin_desc} with visible veins and knuckles. {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three separate views in a row: back of the hand, palm, and side view. {frame_rule}"
   },
   {
    "row_id": "hand_open_right",
@@ -151,7 +152,8 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, {hand_skin_desc} with visible veins and knuckles. {hand_handedness_right} {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three separate views in a row: back of the hand, palm, and side view. {frame_rule}"
+   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand OPEN with spread fingers, exactly five fingers including the thumb, {hand_skin_desc} with visible veins and knuckles. {hand_handedness_right} {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three separate views in a row: back of the hand, palm, and side view. {frame_rule}",
+   "mirror_of": "hand_open_left"
   },
   {
    "row_id": "hand_fist_left",
@@ -171,7 +173,8 @@
     1024
    ],
    "ref_prefix": "Edit instruction: keep this exact same {character_noun}, skin and build from the reference image. Remove {removed_gear}; plain base layer. Change only the camera and framing:",
-   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand in a closed FIST, {hand_skin_desc} with visible knuckles and veins. {hand_handedness_right} {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. {frame_rule}"
+   "prompt": "Reference sheet of a {character_noun}'s RIGHT hand in a closed FIST, {hand_skin_desc} with visible knuckles and veins. {hand_handedness_right} {hand_wrist_rule} Wearing {hand_accessory}, {hand_ring_rule}. Three different views in a row: front of the fist with the fingers curled, back of the hand, and side view. {frame_rule}",
+   "mirror_of": "hand_fist_left"
   },
   {
    "row_id": "hand_back_views",

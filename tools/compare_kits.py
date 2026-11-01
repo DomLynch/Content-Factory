@@ -1,8 +1,8 @@
-"""compare_kits.py <kit_a.json> <kit_b.json>: row-by-row diff (name, group, w, h, ref, use_ref, prompt, ref_prefix) plus kit-level fields.
+"""compare_kits.py <kit_a.json> <kit_b.json>: row-by-row diff (name, group, w, h, ref, use_ref, prompt, ref_prefix, seed, seed_note, mirror_of) plus kit-level fields.
 Prints every difference; exit code 1 if any (kit name is reported but ignored)."""
 import json, sys
 
-ROW = ["group", "w", "h", "ref", "use_ref", "prompt", "ref_prefix"]
+ROW = ["group", "w", "h", "ref", "use_ref", "prompt", "ref_prefix", "seed", "seed_note", "mirror_of"]
 KIT = ["seed", "w", "h", "template", "ref", "ref_prefix", "subject", "style", "description"]
 
 
