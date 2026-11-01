@@ -50,3 +50,6 @@ Outputs, models and binaries are not in git (`outputs_dir` on the laptop).
 - `bind/*.py` still hold hard-coded Blender, donor and rig paths; `run_bind.py` skips the relative-to-control gate clause.
 - `run_3d.py --from-latents` and the hero preset are unproven.
 - Add a lock-and-RAM check to `/factory-run` once it exists.
+
+## Quality bar
+Final assets must score 9/10 or higher against the best of Unreal Engine 5.8 in 2026. Always open and look at every image and output before saying a stage is done. Anything lower is a labelled proof.
