@@ -80,7 +80,11 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
     }
     d = os.path.join(REPO, "receipts", asset_id)
     os.makedirs(d, exist_ok=True)
-    path = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}.json")
+    base = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}")
+    path, n = base + ".json", 0
+    while os.path.exists(path):   # two receipts of one asset and stage in the same second used to overwrite each other (CI caught it): b, c, ... sort after the plain name
+        n += 1
+        path = base + (chr(ord("a") + n) if n < 25 else f"z{n}") + ".json"
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(rec, f, indent=2)
     return path

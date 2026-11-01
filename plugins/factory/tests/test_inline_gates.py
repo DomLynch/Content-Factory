@@ -47,6 +47,15 @@ class Inline(unittest.TestCase):
         r = subprocess.run([PY, str(self.repo / "tools" / "run_3d.py"), "nosuch", "x.png", "--preset", "draft_fast"], capture_output=True, text=True, env=e, cwd=str(self.repo))
         self.assertNotIn("TOKEN GATE", r.stdout + r.stderr)
 
+    def test_two_receipts_in_one_second_do_not_overwrite_each_other(self):
+        code = ("import sys, json; sys.path.insert(0, r'%s'); import cf_common; cfg = cf_common.load_config();"
+                "ps = [cf_common.write_receipt(cfg, 'a1', 'ab', tool='t', model={}) for _ in range(3)]; print(json.dumps(sorted(ps)))" % (self.repo / "tools"))
+        r = subprocess.run([PY, "-c", code], capture_output=True, text=True, cwd=str(self.repo))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        paths = json.loads(r.stdout.strip().splitlines()[-1])
+        self.assertEqual(len(set(paths)), 3, paths)
+        self.assertEqual(len(list((self.repo / "receipts" / "a1").glob("ab-*.json"))), 3)
+
     def test_plugin_gate_helper_fails_open(self):
         code = ("import sys; sys.path.insert(0, r'%s'); import cf_common; cf_common.plugin_gate('nosuchkind', 1); print('allowed')" % (self.repo / "tools"))
         r = subprocess.run([PY, "-c", code], capture_output=True, text=True, cwd=str(self.repo))
