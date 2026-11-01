@@ -5,6 +5,7 @@
   flux_render(kit, row_id)             one Flux row            -> flux/flux_kit.py        (GPU)
   trellis_run(asset_id, image, preset) cut-out then TRELLIS    -> tools/run_3d.py         (GPU)
   pixal3d_run(asset_id, image, preset) Pixal3D single view     -> tools/run_pixal3d.py   (GPU)
+  ab_shape(png, seed, asset_id, engines, collect)  Pixal3D vs TRELLIS A/B harness -> tools/run_ab.py (GPU halves under the lock, TRELLIS first; collect = bind gate, QC, turntables, scorecard on the CPU)
   cutout(asset_id, image)              BiRefNet cut-out (CPU)  -> tools/cutout_cpu.py
   bind(asset_id, mesh)                 hybrid donor bind       -> tools/run_bind.py       (CPU Blender)
   skin_tokens_bind(glb, skeleton)      SkinTokens skin weights -> tools/run_skin_tokens.py (GPU, gated like bind + relative-to-control)
@@ -230,6 +231,60 @@ def t_pixal3d_run(asset_id: str, image: str, preset: str = "") -> dict:
                   {"preset": preset, "pipeline": "PIXAL3D", "note": "A different pipeline from TRELLIS: label it PIXAL3D, and compare it with TRELLIS only through the A/B on the same input and seed."})
 
 
+def t_ab_shape(png: str, asset_id: str, seed: int | None = None, engines: str = "both", collect: bool = False, bind: str = "auto", naf: str = "on") -> dict:
+    """0.1.14: the Pixal3D vs TRELLIS A/B on ONE png and ONE seed. Each GPU half is its own guarded stage (TRELLIS first), run_ab.py --collect gathers the receipts
+    (bind gate on both meshes with the same donor, QC, matched turntables, contact sheet, blind scorecard). engines: both | trellis | pixal3d. collect=true runs no GPU half."""
+    c = cfg()
+    ab = c["ab"]
+    if engines not in ("both", "trellis", "pixal3d"):
+        return {"status": "refused", "error": f"engines must be both, trellis or pixal3d, not {engines!r}"}
+    if bind not in ("auto", "yes", "no"):
+        return {"status": "refused", "error": f"bind must be auto, yes or no, not {bind!r}"}
+    if naf not in ("on", "off"):
+        return {"status": "refused", "error": f"naf must be on or off, not {naf!r}"}
+    miss = need_file(png, "png")
+    if miss:
+        return {"status": "refused", "error": miss}
+    seed = c["defaults"]["seed"] if seed is None else int(seed)
+    sys.path.insert(0, str(HOME / "tools" / "ab"))
+    import ab_core   # pure checks only
+    why = ab_core.rgba_reason(png)   # the input is the Factory's already cut-out RGBA png, the same file for both engines
+    if why:
+        return {"status": "refused", "error": why}
+    why = gate(gpu=not collect, heavy=True, image=None if collect else png)
+    if why:
+        return {"status": "refused", "error": why}
+    if not collect:   # the sheet queue is alive = refuse: a stage process, a live lock or low RAM (nothing is started)
+        why = ab_core.alive_reason(own=ab_core.own_pids)
+        if why:
+            return {"status": "refused", "error": why}
+    halves = list(ab["order"]) if engines == "both" else [engines]
+    py, script = c["local"]["python"], str(HOME / "tools" / "run_ab.py")
+    results, ok = {}, True
+    if not collect:
+        for e in halves:   # TRELLIS first, each half under its own gpu_guard.ps1 (which writes the GPU lock) and with the whole tree killed on any exit
+            eng = ab["engines"][e]
+            cmd = [py, script, asset_id, png, "--seed", str(seed), "--engines", e] + (["--naf", naf] if e == "pixal3d" else [])
+            rc, log, t0 = run_stage(f"ab_shape_{e}", cmd, timeout=ab["wall_hard_cap_s"] + 1200, guard=eng["guard_match"])
+            results[e] = finish(f"ab_shape_{e}", rc, log, t0, ["ab"], asset_id, {"engine": e, "pipeline": eng["pipeline"]})
+            if results[e]["status"] != "ok":
+                ok = False
+                break
+    out = {"tool": "ab_shape", "asset_id": asset_id, "seed": seed, "engines": halves, "halves": results}
+    if (collect or (engines == "both" and ok)):
+        b = c["bind"]
+        cmd = [py, script, asset_id, png, "--seed", str(seed), "--engines", engines, "--collect", "--bind", bind]
+        rc, log, t0 = run_stage("ab_shape_collect", cmd, timeout=2 * (b["timeout_s"] + b["export_timeout_s"] + 60) + ab["qc"]["timeout_s"] * 2 + ab["render"]["timeout_s"] + 600)
+        out["collect"] = finish("ab_shape_collect", rc, log, t0, ["ab"], asset_id)
+        ok = ok and out["collect"]["status"] == "ok"
+        if out["collect"].get("outputs"):
+            out["scorecard"] = next((o for o in out["collect"]["outputs"] if o.endswith("scorecard.md")), None)
+    out["status"] = "ok" if ok else "fail"
+    out["next"] = ("Score blind (A/B, 0-10: face, hair, colour match, bake faults) in scorecard.json, then `python tools/run_ab.py --decide <scorecard.json>`. "
+                   "The two meshes are labelled TRELLIS and PIXAL3D and are compared only through this A/B. LOOK at the turntables yourself.")
+    return out
+
+
 def t_cutout(asset_id: str, image: str) -> dict:
     c = cfg()
     loc, tr = c["local"], c["trellis"]
@@ -452,6 +507,15 @@ TOOLS = {
     "pixal3d_run": (t_pixal3d_run, "One cut-out image to a textured GLB with Pixal3D (tools/run_pixal3d.py) under the GPU guard. Presets from config/config.json pixal3d.presets. Refuses on a live GPU lock, "
                     "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D.",
                     {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
+    "ab_shape": (t_ab_shape, "Pixal3D vs TRELLIS A/B on ONE cut-out png and ONE seed (tools/run_ab.py). engines=both|trellis|pixal3d runs the GPU half(s), TRELLIS first (preset tokens98k_fresh, then Pixal3D preset standard), "
+                 "each under the GPU lock and RAM gate; a half REFUSES while a stage process (the sheet queue), a live GPU lock or low RAM says the GPU is not free. collect=true runs no GPU half: it gathers the finished halves "
+                 "from receipts, binds both meshes with the same donor (bind gate numbers), runs QC, renders matched lit turntables, writes a contact sheet and a blind A/B scorecard (JSON + Markdown). "
+                 "Decision: Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria AND its bind gate is no worse (python tools/run_ab.py --decide).",
+                 {"png": {**_STR, "description": "the Factory's already cut-out RGBA png (alpha required, short side >= 1024 px), the same file for both engines"}, "asset_id": _STR, "seed": {"type": "integer", "description": "default config defaults.seed (42); the same seed goes to both engines"},
+                  "engines": {"type": "string", "enum": ["both", "trellis", "pixal3d"], "description": "which half(s) to run, or with collect which to gather (default both)"},
+                  "collect": {"type": "boolean", "description": "true = no GPU half: gather results from receipts, bind, QC, turntables, scorecard"},
+                  "bind": {"type": "string", "enum": ["auto", "yes", "no"], "description": "auto (default) binds when the mesh looks like a body-only T-pose and says why when it skips; yes refuses if it is not; no skips"},
+                  "naf": {"type": "string", "enum": ["on", "off"], "description": "Pixal3D half only (default on). off = run_pixal3d.py --no-naf: labelled ROUGH / NAF-off, the scorecard is never decisive"}}, ["png", "asset_id"], True, True),
     "cutout": (t_cutout, "BiRefNet cut-out on the CPU (tools/cutout_cpu.py) with TRELLIS3_REMBG removed from its environment. Refuses on low RAM or a short side under 1024 px. Returns the receipt path.",
                {"asset_id": _STR, "image": _STR}, ["asset_id", "image"], False, True),
     "bind": (t_bind, "Bind a body mesh to the psyche-106 rig (tools/run_bind.py, CPU Blender) with the donor forced (default from config). Returns the receipt path, the gate metrics and a "

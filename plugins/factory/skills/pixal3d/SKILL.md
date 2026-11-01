@@ -33,7 +33,7 @@ Or by hand: the zip `https://github.com/valeoai/NAF/archive/refs/heads/main.zip`
 af_release.pth`. Do not run this while a GPU job runs on a tight-RAM box without need; it uses a few hundred MB.
 
 ## The A/B (decision rule from OpenTrident Dev)
-Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
+Run it with the `ab_shape` tool (skill ab-shape). Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
 
 ## Do / Don't
 - Do LOOK at every image and output yourself before calling a stage done: open the GLB, the turntable and the stills, check for black, cropped or speckled results; a receipt only proves the tool ran.

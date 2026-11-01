@@ -19,7 +19,7 @@ import cf_cmd  # noqa: E402
 import cf_gates  # noqa: E402
 import cf_guard  # noqa: E402
 
-SCRIPTS = ("run_3d.py", "run_pixal3d.py", "generate.py", "cutout_cpu.py")
+SCRIPTS = ("run_3d.py", "run_pixal3d.py", "run_ab.py", "generate.py", "cutout_cpu.py")
 MCP_PREFIX = "mcp__plugin_factory_factory__"
 
 
@@ -32,11 +32,15 @@ def images(payload: dict) -> list[str]:
         for script, args in cf_cmd.script_calls(inp.get("command", ""), SCRIPTS):
             if script == "run_3d.py" and "--from-latents" in args:
                 continue
+            if script == "run_ab.py" and ("--collect" in args or "--decide" in args):
+                continue   # collect and decide run no engine
             img = cf_cmd.first_image(args)
             if img:
                 out.append(cf_cmd.resolve(img, cwd))
     elif name.startswith(MCP_PREFIX) and name[len(MCP_PREFIX):] in ("trellis_run", "pixal3d_run", "cutout") and inp.get("image"):
         out.append(cf_cmd.resolve(str(inp["image"]), cwd))
+    elif name == MCP_PREFIX + "ab_shape" and inp.get("png") and not inp.get("collect"):
+        out.append(cf_cmd.resolve(str(inp["png"]), cwd))   # 0.1.14: the A/B input png
     return out
 
 
@@ -54,7 +58,7 @@ def decide(payload: dict) -> str:
 def main() -> None:
     raw = sys.stdin.read() or "{}"
     low = raw.lower()
-    if not any(k in low for k in ("run_3d", "run_pixal3d", "generate.py", "cutout", "trellis_run", "pixal3d_run")):
+    if not any(k in low for k in ("run_3d", "run_pixal3d", "generate.py", "cutout", "trellis_run", "pixal3d_run", "ab_shape", "run_ab")):
         return
     try:
         reason = decide(json.loads(raw))

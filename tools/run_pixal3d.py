@@ -1,5 +1,5 @@
 """One picked, cut-out image to a textured GLB with Pixal3D, one receipt (stage "pixal3d", same shape as the trellis receipt).
-Usage: run_pixal3d.py <asset_id> <cutout.png> [--preset NAME] [--seed N]
+Usage: run_pixal3d.py <asset_id> <cutout.png> [--preset NAME] [--seed N] [--no-naf]
 Settings come from config/config.json ("pixal3d") and config.local.json (paths, with defaults under work_dir); nothing here is a literal path or flag.
 Must be started with nothing else on the GPU (the plugin tool and its hooks enforce the lock, the RAM gate and the input gate)."""
 import argparse, os, subprocess, sys, time
@@ -55,6 +55,9 @@ if not naf:
     cmd.append("--no-naf")
 if preset.get("low_vram"):
     cmd.append("--low-vram")
+naf = bool(px.get("naf", True)) and not a.no_naf
+if not naf:
+    cmd.append("--no-naf")
 
 cf_common.wait_for_free_ram(cfg, "pixal3d")
 ram = cf_common.FreeRamWatch(); ram.start()

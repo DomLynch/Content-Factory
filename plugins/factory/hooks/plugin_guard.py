@@ -21,10 +21,10 @@ import cf_cmd  # noqa: E402
 import cf_guard  # noqa: E402
 
 STAGES = ("generate.py", "flux_kit.py", "run_3d.py", "run_character.py", "run_bind.py", "run_skin_tokens.py", "run_stills.py", "run_gear.py", "run_textures.py",
-          "run_clean.py", "assemble_character.py", "cutout_cpu.py", "upscale_match.py", "run_kit.ps1", "run_motion.py", "ardy_generate.py", "kimodo_generate.py", "run_pixal3d.py")
+          "run_clean.py", "assemble_character.py", "cutout_cpu.py", "upscale_match.py", "run_kit.ps1", "run_motion.py", "ardy_generate.py", "kimodo_generate.py", "run_pixal3d.py", "run_ab.py")
 SHELLS = ("Bash", "PowerShell")
 TOOLS = {"generate.py": "flux_render/trellis_run", "flux_kit.py": "flux_render", "run_3d.py": "trellis_run", "run_bind.py": "bind", "run_skin_tokens.py": "skin_tokens_bind", "run_stills.py": "stills",
-         "cutout_cpu.py": "cutout", "upscale_match.py": "upscale", "run_motion.py": "motion_generate", "ardy_generate.py": "motion_generate", "kimodo_generate.py": "motion_generate", "run_pixal3d.py": "pixal3d_run"}
+         "cutout_cpu.py": "cutout", "upscale_match.py": "upscale", "run_motion.py": "motion_generate", "ardy_generate.py": "motion_generate", "kimodo_generate.py": "motion_generate", "run_pixal3d.py": "pixal3d_run", "run_ab.py": "ab_shape"}
 
 
 def decide(payload: dict) -> str:
@@ -35,6 +35,8 @@ def decide(payload: dict) -> str:
     calls = cf_cmd.script_calls(cmd, STAGES)
     if not calls or "CF_DRY" in cmd or "--dry-run" in cmd or "--help" in cmd:
         return ""
+    if calls[0][0] == "run_ab.py" and "--decide" in cmd:
+        return ""   # 0.1.14: --decide only applies the decision rule to a scorecard (no engine, no GPU)
     m = re.search(r"FACTORY_PLUGIN_TOKEN[=:]\s*['\"]?([0-9a-f]{16,64})", cmd)
     if m and cf_guard.nonce_valid(m.group(1)):
         return ""

@@ -425,6 +425,39 @@
       "master": {"resolution": 1536, "low_vram": true}
     }
   },
+  "ab": {
+    "_comment": "plugin 0.1.14: A/B harness Pixal3D vs TRELLIS (tools/run_ab.py, tool ab_shape). Decision rule from OpenTrident Dev: same cut-out PNG, same seed, about 10 min wall each (wall_budget_s is REPORTED, not a kill; wall_hard_cap_s is the safety kill), TRELLIS first, one GPU job at a time under the lock; blind scores 0-10 on face, hair, colour match, bake faults; Pixal3D wins only if it beats TRELLIS by win_margin or more on win_criteria_needed criteria AND its bind gate is no worse.",
+    "engines": {
+      "trellis": {"script": "run_3d.py", "preset": "tokens98k_fresh", "stage": "trellis", "pipeline": "TRELLIS", "asset_suffix": "-trellis", "guard_match": "generate.py"},
+      "pixal3d": {"script": "run_pixal3d.py", "preset": "standard", "stage": "pixal3d", "pipeline": "PIXAL3D", "asset_suffix": "-pixal3d", "guard_match": "pixal3d_entry"}
+    },
+    "order": ["trellis", "pixal3d"],
+    "wall_budget_s": 600,
+    "wall_hard_cap_s": 1800,
+    "out_subdir": "ab",
+    "donor": "tall",
+    "bind": {"min_span_over_height": 0.8, "tolerance": 0.0},
+    "qc": {"enabled": true, "timeout_s": 600},
+    "render": {
+      "enabled": true,
+      "script": "tools/ab/turntable_blender.py",
+      "timeout_s": 3600,
+      "resolution": [768, 1024],
+      "samples": 32,
+      "engine": "CYCLES",
+      "device": "CPU",
+      "angles_deg": [0, 45, 90, 135, 180, 270],
+      "face_crop": {"height_frac": 0.14, "lens_mm": 85, "frame_margin": 1.6},
+      "lights": {
+        "key": {"energy": 900, "location": [2.5, -3.0, 3.0], "size": 2.0},
+        "fill": {"energy": 300, "location": [-3.0, -2.0, 1.5], "size": 3.0},
+        "rim": {"energy": 700, "location": [0.0, 3.5, 3.0], "size": 1.5}
+      },
+      "world": {"color": [0.05, 0.05, 0.05], "strength": 1.0},
+      "camera": {"lens_mm": 50, "frame_margin": 1.15, "height_frac": 0.5}
+    },
+    "scoring": {"criteria": ["face", "hair", "colour_match", "bake_faults"], "min": 0, "max": 10, "win_margin": 1.0, "win_criteria_needed": 2}
+  },
   "gates": {
     "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor = the robot's proven setting (preset tokens98k); hero stays equal until a higher setting is measured on this GPU; presets with no tier (drafts, benchmark profiles) have no floor. A floor is a minimum, not a cap: any run may sample more. Ceiling test (GPU free only): robot_1076 at 131072 and 196608, --attn-auto-gb 28; hero floor = highest that completes in under 2x the 98304 wall time.",
     "min_subject_frac": 0.6,

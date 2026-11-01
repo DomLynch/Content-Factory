@@ -25,7 +25,7 @@ import cf_cmd  # noqa: E402
 PY = sys.executable
 MCP_P = "mcp__plugin_factory_factory__"
 PROVEN = {"character-sheet", "trellis-part", "bind-humanoid"}
-DRAFT = {"skin-tokens", "bind-beast", "assemble-character", "stills-and-turntable", "publish-to-library", "environment", "hero-rebake", "pixal3d", "motion-generate"}
+DRAFT = {"skin-tokens", "bind-beast", "assemble-character", "stills-and-turntable", "publish-to-library", "environment", "hero-rebake", "pixal3d", "motion-generate", "ab-shape"}
 
 
 def png(path: Path, w: int, h: int) -> str:
@@ -292,7 +292,7 @@ class McpServer(unittest.TestCase):
         self.assertEqual(init["serverInfo"]["name"], "factory")
         self.assertIn("tools", init["capabilities"])
         tools = {t["name"]: t for t in by_id[2]["result"]["tools"]}
-        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "qc", "motion_generate", "pixal3d_run"})
+        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "qc", "motion_generate", "pixal3d_run", "ab_shape"})
         for t in tools.values():
             self.assertEqual(t["inputSchema"]["type"], "object")
             self.assertTrue(t["description"])
