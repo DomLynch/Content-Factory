@@ -49,7 +49,8 @@ ram = cf_common.FreeRamWatch(); ram.start()
 t0 = time.time()
 params = {"seed": seed, "w": W, "h": H, "reference": ref_path if use_ref else None, "prompt": prompt, "kit": sys.argv[1], "row_id": row_id}
 model = {"id": cfg["models"]["flux"]["id"], "dir": LOC["flux_model_dir"]}
-params.update(cf_flux.receipt_fields(spec, ref_path if use_ref else None, os.environ.get("FACTORY_FLUX_ATTENTION") or cf_flux.flux_cfg()["attention_backend"], "per_cell", False))
+params.update(cf_flux.receipt_fields(spec, ref_path if use_ref else None, os.environ.get("CF_ATTN_BACKEND") or cf_flux.flux_cfg()["attention_backend"], "child", False,
+                                      cfg["models"]["flux"].get("vae_tiling"), cfg["models"]["flux"].get("vae_slicing")))
 try:
     blocks = Flux3DistilledAutoBlocks()
     blocks.sub_blocks.pop("prompt_upsampler")

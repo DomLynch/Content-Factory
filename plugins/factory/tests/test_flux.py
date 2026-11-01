@@ -46,6 +46,7 @@ class Kit(unittest.TestCase):
             {"name": "coat", "row_id": "coat", "part": "gear", "prompt": "x"},
             {"name": "mat_fur", "row_id": "mat_fur", "prompt": "x"},
             {"name": "hands_open", "row_id": "hands_open", "prompt": "x"},
+            {"name": "feet_a", "row_id": "feet_a", "group": "hands_feet", "prompt": "x"},
             {"name": "sky", "row_id": "sky", "prompt": "x", "use_ref": False}]}
         self.path = self.d / "kit.json"
         self.path.write_text(json.dumps(self.kit))
@@ -60,18 +61,18 @@ class Kit(unittest.TestCase):
 class Policy(Kit):
     def test_row_type_from_field_group_part_or_name(self):
         types = {r["row_id"]: cf_flux.row_type(self.kit, r) for r in self.kit["rows"]}
-        self.assertEqual(types, {"head_front": "head", "coat": "gear", "mat_fur": "swatch", "hands_open": "hands", "sky": "other"})
+        self.assertEqual(types, {"head_front": "head", "coat": "gear", "mat_fur": "swatch", "hands_open": "hands", "feet_a": "hands", "sky": "other"})
         self.assertEqual(cf_flux.row_type({"row_type": "body"}, {"name": "x", "group": "gear"}), "gear")   # a row's own group beats the kit default
         self.assertEqual(cf_flux.row_type({"row_type": "body"}, {"name": "x"}), "body")
         self.assertEqual(cf_flux.row_type({}, {"name": "x", "row_type": "Head"}), "head")
 
     def test_defaults_pass(self):
-        for rid in ("head_front", "coat", "mat_fur", "hands_open", "sky"):
+        for rid in ("head_front", "coat", "mat_fur", "hands_open", "feet_a", "sky"):
             self.assertEqual(self.reasons(rid), [], rid)
 
     def test_steps_below_16_refused_for_every_row_type(self):
         for rid in ("head_front", "coat", "mat_fur", "hands_open", "sky"):
-            r = self.reasons(rid, {"FACTORY_FLUX_STEPS": "8"})
+            r = self.reasons(rid, {"CF_STEPS": "8"})
             self.assertTrue(any("8 steps" in x and "floor is 16" in x for x in r), (rid, r))
 
     def test_resolution_below_the_row_refused(self):
@@ -80,15 +81,16 @@ class Policy(Kit):
         self.assertEqual(self.reasons("head_front", {"FACTORY_FLUX_W": "2048", "FACTORY_FLUX_H": "3072"}), [])
 
     def test_body_head_hands_need_the_full_size_reference(self):
-        for rid in ("head_front", "hands_open"):
-            r = self.reasons(rid, {"FACTORY_FLUX_REF_MAX_SIDE": "768"})
+        for rid in ("head_front", "hands_open", "feet_a"):
+            r = self.reasons(rid, {"CF_REF_LONG": "768"})
             self.assertTrue(any("from 1500 to 768" in x and "full-size reference (1000x1500)" in x for x in r), (rid, r))
-        self.assertEqual(self.reasons("head_front", {"FACTORY_FLUX_REF_MAX_SIDE": "1500"}), [])   # a cap at or above the real size changes nothing
+        self.assertEqual(self.reasons("head_front", {"CF_REF_LONG": "1500"}), [])   # a cap at or above the real size changes nothing
+        self.assertEqual(self.reasons("head_front", {"CF_REF_LONG": "0"}), [])   # 0 = full size, as in flux_kit_fast.py
 
     def test_gear_and_swatch_may_downscale_to_640(self):
         for rid in ("coat", "mat_fur"):
-            self.assertEqual(self.reasons(rid, {"FACTORY_FLUX_REF_MAX_SIDE": "640"}), [], rid)
-            r = self.reasons(rid, {"FACTORY_FLUX_REF_MAX_SIDE": "512"})
+            self.assertEqual(self.reasons(rid, {"CF_REF_LONG": "640"}), [], rid)
+            r = self.reasons(rid, {"CF_REF_LONG": "512"})
             self.assertTrue(any("to 512 px" in x and "is 640" in x for x in r), (rid, r))
 
     def test_row_level_steps_and_resolution_come_from_the_kit_json(self):
@@ -100,13 +102,13 @@ class Policy(Kit):
 
     def test_receipt_fields(self):
         spec = cf_flux.run_spec(self.kit, self.row("head_front"), {})
-        f = cf_flux.receipt_fields(spec, self.ref, "sdpa", "per_cell", False)
+        f = cf_flux.receipt_fields(spec, self.ref, "native", "child", False, True, True)
         self.assertEqual(f["steps"], 16)
         self.assertEqual(f["ref_size"], [1000, 1500])
         self.assertEqual(len(f["ref_sha256"]), 64)
         self.assertEqual(cf_flux.receipt_reason({"params": {"reference": self.ref, **f}}), "")
         self.assertIn("steps", cf_flux.receipt_reason({"params": {"reference": self.ref}}))
-        self.assertEqual(cf_flux.receipt_reason({"params": {"reference": None, "steps": 16, "attention_backend": "auto", "process_mode": "per_cell", "cached_ref_conds": False}}), "")
+        self.assertEqual(cf_flux.receipt_reason({"params": {"reference": None, "steps": 16, "attention_backend": "native", "process_mode": "child", "cached_ref_conds": False, "w": 1, "h": 1, "vae_tiling": True, "vae_slicing": True}}), "")
 
 
 class Hook(Kit):
@@ -124,7 +126,7 @@ class Hook(Kit):
         self.assertEqual(self.hook({"tool_name": MCP + "flux_render", "tool_input": {"kit": str(self.path), "row_id": "coat"}}), {})
 
     def test_bash_inline_switch_refused_and_raw_override_allowed(self):
-        cmd = f"FACTORY_FLUX_REF_MAX_SIDE=512 python flux/flux_kit.py {self.path.as_posix()} head_front"
+        cmd = f"CF_REF_LONG=512 python flux/flux_kit.py {self.path.as_posix()} head_front"
         out = self.hook({"tool_name": "Bash", "tool_input": {"command": cmd}})
         self.assertEqual(out["hookSpecificOutput"]["permissionDecision"], "deny")
         self.assertIn("full-size reference", out["hookSpecificOutput"]["permissionDecisionReason"])
@@ -153,10 +155,10 @@ class FluxKitExit2(Kit):
         root = self.make_repo()
         ok = self.run_kit(root, "head_front")
         self.assertEqual(ok.returncode, 0, ok.stdout + ok.stderr)
-        bad = self.run_kit(root, "head_front", FACTORY_FLUX_STEPS="8")
+        bad = self.run_kit(root, "head_front", CF_STEPS="8")
         self.assertEqual(bad.returncode, 2, bad.stdout + bad.stderr)
         self.assertIn("8 steps", bad.stdout)
-        raw = self.run_kit(root, "head_front", FACTORY_FLUX_STEPS="8", FACTORY_RAW="test-case")
+        raw = self.run_kit(root, "head_front", CF_STEPS="8", FACTORY_RAW="test-case")
         self.assertEqual(raw.returncode, 0, raw.stdout + raw.stderr)
         self.assertTrue((root / "logs" / "factory_raw_override.log").exists())
 
