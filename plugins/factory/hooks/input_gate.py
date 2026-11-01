@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""PreToolUse hook: 1024 px input gate. Deny a TRELLIS or cut-out call whose input image has a short side under 1024 px.
+"""PreToolUse hook: input gate (0.1.4: 1024 px short side, subject >= 60% of frame height, portrait or square, head parts >= 512 px; lib/cf_gates.input_reason).
+
+First gate, kept as the original docstring says: Deny a TRELLIS or cut-out call whose input image has a short side under 1024 px.
 
 Rule: docs/asset-standard.md section 1 (each view >= 1024 px on the short side before any run); tools/cutout_cpu.py enforces the same GATE_PX itself.
 The pipeline also wants inputs upscaled to 2048 px or more (LESSONS.md, 2026-11-01), so the message says to upscale, not to retry.
@@ -14,6 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 import cf_cmd  # noqa: E402
+import cf_gates  # noqa: E402
 import cf_guard  # noqa: E402
 
 SCRIPTS = ("run_3d.py", "generate.py", "cutout_cpu.py")
@@ -39,8 +42,10 @@ def images(payload: dict) -> list[str]:
 
 def decide(payload: dict) -> str:
     """'' to allow, else the refusal reason."""
+    if payload.get("tool_name") == "Bash" and "FACTORY_RAW" in (payload.get("tool_input") or {}).get("command", "") and cf_guard.raw_override(payload["tool_input"]["command"], "input"):
+        return ""
     for img in images(payload):
-        reason = cf_guard.small_image_reason(img)
+        reason = cf_guard.small_image_reason(img) or cf_gates.input_reason(img)
         if reason:
             return reason
     return ""

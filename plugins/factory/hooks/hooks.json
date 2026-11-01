@@ -339,7 +339,8 @@
                                                            "if":  "PowerShell(*run_kit*)"
                                                        }
                                                    ]
-                                     }
+                                     },
+                                 {"matcher":"Bash","hooks":[{"type":"command","command":"python \"${CLAUDE_PLUGIN_ROOT}/hooks/gates.py\"","timeout":15,"if":"Bash(*run_3d*)"},{"type":"command","command":"python \"${CLAUDE_PLUGIN_ROOT}/hooks/gates.py\"","timeout":15,"if":"Bash(*publish.py*)"}]},{"matcher":"PowerShell","hooks":[{"type":"command","command":"python \"${CLAUDE_PLUGIN_ROOT}/hooks/gates.py\"","timeout":15,"if":"PowerShell(*run_3d*)"},{"type":"command","command":"python \"${CLAUDE_PLUGIN_ROOT}/hooks/gates.py\"","timeout":15,"if":"PowerShell(*publish.py*)"}]},{"matcher":"mcp__plugin_factory_factory__(trellis_run|stills)","hooks":[{"type":"command","command":"python \"${CLAUDE_PLUGIN_ROOT}/hooks/gates.py\"","timeout":15}]}
                                  ]
               }
 }

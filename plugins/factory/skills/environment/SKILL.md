@@ -1,6 +1,6 @@
 ---
 name: environment
-description: DRAFT. Build a game environment: Flux backdrops and prop references, tileable materials, TRELLIS props, Infinigen filler, and assembly in Unity. Use for a set like the Hades gate. Only the Flux, upscale and one-prop TRELLIS steps have receipts.
+description: "DRAFT. Build a game environment: Flux backdrops and prop references, tileable materials, TRELLIS props, Infinigen filler, and assembly in Unity. Use for a set like the Hades gate. Only the Flux, upscale and one-prop TRELLIS steps have receipts."
 ---
 
 > **STATUS: DRAFT, not yet run end to end.** Written from the repo's scripts, config and receipts; this stage has no complete run with a receipt.

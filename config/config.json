@@ -243,6 +243,7 @@
   },
   "stills": {
     "subdir": "stills",
+    "lighting_tier": "proof",
     "timeout_s": 1800,
     "clips": {
       "idle": "113410901-idle",
@@ -317,5 +318,23 @@
     },
     "guard_wait_s": 2,
     "log_prefix": "char_"
+  },
+  "gates": {
+    "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor = the robot's proven setting (preset tokens98k); hero stays equal until a higher setting is measured on this GPU; presets with no tier (drafts, benchmark profiles) have no floor. A floor is a minimum, not a cap: any run may sample more. Ceiling test (GPU free only): robot_1076 at 131072 and 196608, --attn-auto-gb 28; hero floor = highest that completes in under 2x the 98304 wall time.",
+    "min_subject_frac": 0.6,
+    "min_head_px": 512,
+    "token_floor": {
+      "master": 98304,
+      "hero": 98304
+    },
+    "preset_tier": {
+      "hero_rebake": "hero",
+      "tokens98k_fresh": "master"
+    },
+    "lighting_tier_required": "three_point",
+    "pipelines": [
+      "TRELLIS",
+      "SCULPT"
+    ]
   }
 }
