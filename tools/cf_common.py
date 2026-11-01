@@ -113,7 +113,11 @@ def plugin_gate(kind, *args):
         if lib not in sys.path:
             sys.path.insert(0, lib)
         import cf_gates, cf_guard
-        bad = [r for r in [cf_gates.token_reason(*args)] if r] if kind == "token" else list(cf_gates.publish_reasons(*args)[0])
+        if kind == "chain":
+            import cf_chain
+            bad = cf_chain.part_mesh_reasons(*args)
+        else:
+            bad = [r for r in [cf_gates.token_reason(*args)] if r] if kind == "token" else list(cf_gates.publish_reasons(*args)[0])
     except Exception:
         return
     if not bad:

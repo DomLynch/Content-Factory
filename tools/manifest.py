@@ -11,6 +11,7 @@ ap.add_argument("kit")
 ap.add_argument("--pick", nargs="*", default=[])
 ap.add_argument("--by", default="")
 ap.add_argument("--note", default="")
+ap.add_argument("--consistency", metavar="REVIEW.json", help="record the consistency pass of the sheet (plugin 0.1.24 chain gate 1): the review file, its sha256, its counts")
 ap.add_argument("--score", type=int, default=None, help="QC score 0-10 recorded with --verdict")
 ap.add_argument("--prompt-fix", default="", help="QC prompt_fix recorded with --verdict")
 ap.add_argument("--import-review", action="append", default=[], metavar="REVIEW.json",
@@ -52,7 +53,11 @@ for rev in a.import_review:
             set_verdict(rid, c["verdict"], c.get("notes") or "", c.get("score"), c.get("prompt_fix") or c.get("fix") or "")
 for vrow, v in a.verdict:
     set_verdict(vrow, v, a.note, a.score, a.prompt_fix)
+consistency = old.get("consistency")
+if a.consistency:
+    rv = json.load(open(a.consistency, encoding="utf-8-sig"))
+    consistency = {"file": os.path.abspath(a.consistency), "sha256": cf_common.sha256(a.consistency), "recorded_utc": now, "counts": rv.get("counts"), "reviewer": rv.get("reviewer")}
 os.makedirs(os.path.dirname(mpath), exist_ok=True)
 with open(mpath, "w", encoding="utf-8", newline="\n") as f:
-    json.dump({"schema": 1, "kit": kit["kit"], "rows": rows}, f, indent=1)
+    json.dump({"schema": 1, "kit": kit["kit"], "rows": rows, **({"consistency": consistency} if consistency else {})}, f, indent=1)
 print(mpath, {k: bool(v["pick"]) for k, v in rows.items()})
