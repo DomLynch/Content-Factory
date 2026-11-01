@@ -1,0 +1,347 @@
+{
+ "id": "vampire_gpt_v2",
+ "template": "config/character_sheet_template_gpt.json",
+ "kit_name": "vampire_gpt_sheet_v2",
+ "description": "Dracula, red-eyed man with braided swept-back black hair and moustache, crimson damask velvet tunic with hussar frogging and embroidered front panel, black fur-collared cloak with gold borders, wide belt with double-eagle buckle, hanging tabard with castle emblem and cross, lace cuffs, tall black leather boots with gold knee plates.",
+ "seed": 42,
+ "ref": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+ "base_layer_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
+ "character_noun": "man",
+ "possessive": "his",
+ "facial_hair": "moustache",
+ "base_layer": "a plain fitted dark base layer and trousers",
+ "three_quarter_posture": "a little menacing posture",
+ "head_detail": "skin pores, hair and moustache",
+ "hair_desc": "black hair",
+ "eye_desc": "red eyes",
+ "hair_style_desc": "braided swept-back black hair",
+ "pronoun": "he",
+ "removed_gear": "the coat, cloak, fur and boots",
+ "removed_gear_full": "the coat, cloak, fur, tabard, belt, cuffs and boots",
+ "hand_accessory": "two gold signet rings, each set with a deep red ruby gem",
+ "gear_items": [
+  {
+   "id": "coat",
+   "item": "the crimson damask velvet tunic coat with hussar frogging, gold embroidered front panel and high collar",
+   "gear_layout": ", laid flat and spread out front-facing",
+   "gear_exclude": "no person, no mannequin, no cloak, no boots"
+  },
+  {
+   "id": "coat_back",
+   "item": "the back of the crimson damask velvet tunic coat with gold embroidery",
+   "gear_layout": ", laid flat seen from behind",
+   "gear_exclude": "no person, no mannequin, no cloak, no boots"
+  },
+  {
+   "id": "cloak",
+   "item": "the long cloak",
+   "gear_layout": " laid out front-facing",
+   "form": "described",
+   "gear_isolation_negative": "no other garments",
+   "colour_desc": "BLACK velvet outer shell with wide gold embroidered borders, a thick black fur collar, and a dark crimson velvet inner lining visible only at the opening"
+  },
+  {
+   "id": "cloak_back",
+   "item": "the back of the long cloak seen from behind",
+   "gear_layout": ", laid out flat",
+   "form": "described",
+   "gear_isolation_negative": "",
+   "colour_desc": "BLACK velvet outer shell with wide gold embroidered borders and a thick black fur collar at the top; crimson only at the very edges"
+  },
+  {
+   "id": "fur_collar",
+   "item": "the black fur collar of the cloak",
+   "gear_layout": ", laid flat in a ring",
+   "gear_exclude": "no person, no mannequin, no coat"
+  },
+  {
+   "id": "collar_closeup",
+   "item": "a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar",
+   "gear_layout": ", front view",
+   "gear_exclude": "no person"
+  },
+  {
+   "id": "belt",
+   "item": "the wide leather belt with the gold double-headed eagle buckle",
+   "gear_layout": ", laid flat and straight",
+   "gear_exclude": "no person, no coat"
+  },
+  {
+   "id": "belt_buckle_closeup",
+   "item": "a gold double-headed eagle belt buckle set with red ruby gems on a wide black leather belt strap",
+   "gear_layout": ", front view",
+   "gear_exclude": "no tunic, no fabric, no lace behind it",
+   "size": [
+    1024,
+    1024
+   ],
+   "form": "closeup"
+  },
+  {
+   "id": "tabard",
+   "item": "the hanging tabard",
+   "gear_layout": ", laid flat front-facing",
+   "gear_exclude": "no person, no mannequin",
+   "colour_desc": "made of deep crimson red damask velvet with a gold-thread embroidered border, a gold and bronze embroidered castle emblem with a cross below it, and a pointed lower end"
+  },
+  {
+   "id": "cuffs",
+   "item": "the pair of white lace cuffs",
+   "gear_layout": ", laid out neatly",
+   "gear_exclude": "no hands, no person",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "id": "trousers",
+   "item": "the pair of dark fitted trousers",
+   "gear_layout": ", laid flat and spread out",
+   "gear_exclude": "no person, no boots"
+  },
+  {
+   "id": "boots_front",
+   "item": "the pair of tall black leather boots with gold knee plates",
+   "gear_layout": ", seen from the front, standing side by side",
+   "gear_exclude": "no person"
+  },
+  {
+   "id": "boots_side",
+   "item": "the pair of tall black leather boots with gold knee plates",
+   "gear_layout": ", seen from the side, standing",
+   "gear_exclude": "no person"
+  },
+  {
+   "id": "knee_plates",
+   "item": "the pair of gilded engraved boot knee plates",
+   "gear_layout": ", laid out neatly",
+   "gear_exclude": "no person, no boots",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "id": "rings",
+   "item": "the gold signet rings with red gems",
+   "gear_layout": ", laid out neatly",
+   "gear_exclude": "no hands, no person",
+   "size": [
+    1024,
+    1024
+   ]
+  }
+ ],
+ "swatches": [
+  {
+   "id": "crimson_damask_velvet",
+   "desc": "crimson damask velvet fabric with a subtle woven pattern",
+   "swatch_of": {
+    "source_row": "gear_coat",
+    "box": [
+     0.35026,
+     0.32422,
+     0.40495,
+     0.40625
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "black_fur",
+   "desc": "dense black fur",
+   "swatch_of": {
+    "source_row": "gear_fur_collar",
+    "box": [
+     0.18229,
+     0.41016,
+     0.33854,
+     0.64453
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "gold_embroidery",
+   "desc": "dense gold thread embroidery on crimson cloth",
+   "swatch_of": {
+    "source_row": "gear_coat",
+    "box": [
+     0.45573,
+     0.32227,
+     0.54036,
+     0.44922
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "black_leather",
+   "desc": "worn black leather with fine creases",
+   "swatch_of": {
+    "source_row": "gear_belt",
+    "box": [
+     0.09766,
+     0.45117,
+     0.18229,
+     0.57812
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "pale_skin",
+   "desc": "pale aged human skin with pores and fine wrinkles",
+   "texture_kind": "texture",
+   "swatch_of": {
+    "source_row": "head_front",
+    "box": [
+     0.39062,
+     0.22949,
+     0.48828,
+     0.32715
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "dark_hair",
+   "desc": "straight black hair strands",
+   "texture_kind": "texture",
+   "swatch_of": {
+    "source_row": "head_back",
+    "box": [
+     0.37109,
+     0.14648,
+     0.625,
+     0.40039
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "steel",
+   "desc": "brushed dark steel with fine scratches"
+  },
+  {
+   "id": "lace",
+   "desc": "white lace fabric with a delicate pattern",
+   "swatch_of": {
+    "source_row": "gear_cuffs",
+    "box": [
+     0.3418,
+     0.20996,
+     0.53711,
+     0.40527
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  },
+  {
+   "id": "velvet_lining",
+   "desc": "dark crimson velvet cloak lining with a soft sheen",
+   "swatch_of": {
+    "source_row": "gear_cloak",
+    "box": [
+     0.4362,
+     0.625,
+     0.54036,
+     0.78125
+    ],
+    "size": [
+     1024,
+     1024
+    ]
+   }
+  }
+ ],
+ "outfit_desc": "a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots",
+ "back_body_desc": "a tall lean pale man with long black hair swept back and tied at the nape; his two thick braids hang forward over his shoulders and are not visible from behind",
+ "front_body_desc": "a tall lean pale man with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long black hair swept back and braided into two thick braids",
+ "back_visible_desc": "the back of his head with the hair swept back and tied at the nape, no braids down the back, the plain smooth back of the sweater with no buckle and no pockets, the back of the trousers and the heels of the boots",
+ "pose_rule": "strict A-pose with arms about 30 degrees away from the body, legs slightly apart",
+ "side_pose_rule": "arms hanging slightly forward in an A-pose",
+ "head_skin_detail": "skin pores",
+ "head_hair_front_desc": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders",
+ "head_hair_profile_desc": "hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder",
+ "head_facial_hair_desc": "long upswept thin moustache",
+ "head_chin_front_desc": "clean-shaven chin with no soul patch",
+ "head_collar_desc": "plain charcoal high-collared sweater collar",
+ "head_garment_exclude": "no fur, no coat",
+ "profile_eye_desc": "red eye",
+ "head_top_hair_colour": "black",
+ "head_top_hair_desc": "the hair swept back and the origins of the two braids",
+ "head_top_garment": "a plain charcoal sweater",
+ "head_top_exclude": "no coat, no fur, no collar",
+ "hand_skin_desc": "pale grey-white aged skin with a cold undertone",
+ "hand_wrist_rule": "Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove.",
+ "frame_rule": "Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.",
+ "foot_desc": "a plain black knitted sock",
+ "foot_sole_desc": "the sole of the sock",
+ "foot_negative": "No shoe, no tread, no second foot, no leg above the ankle.",
+ "gear_isolation_head": "Only this single item, centred, on a plain empty dark grey background with nothing else in the frame",
+ "gear_isolation_negative": "no other garments, no fabric backdrop, no fur or lace unless it is part of this item",
+ "gear_person_negative": "No person, no head, no face, no hands, no mannequin.",
+ "gear_closeup_suffix": "No person.",
+ "head_hair_back_desc": "hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders",
+ "head_chin_rule": "clean-shaven chin with no soul patch, no stubble",
+ "head_collar_rule": "plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric",
+ "head_accessory_exclude": "no earring, no hair ornaments",
+ "hand_handedness_right": "This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image.",
+ "hand_ring_rule": "one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands",
+ "hand_wrist_clean_rule": "Clean bare wrist, no artefacts.",
+ "row_seeds": {
+  "head_front": {
+   "seed": 45,
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+  },
+  "head_three_quarter": {
+   "seed": 45,
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+  },
+  "head_profile": {
+   "seed": 45,
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+  },
+  "head_back": {
+   "seed": 45,
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+  },
+  "head_top": {
+   "seed": 45,
+   "note": "v2 head pass: re-roll with seed 45 for the age, gauntness and cold pale skin of the concept (the v1 face read 35-40 with warm smooth skin); identity locked to the concept face crop (head_front) or to the v2 head_front output (the other head rows)."
+  }
+ },
+ "head_hair_profile_right_desc": "hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp",
+ "body_hair_desc": "hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair",
+ "body_hair_front_view": "both braids clearly visible on the chest",
+ "body_hair_side_view": "one braid visible hanging over the near shoulder down to the chest, not a short stub",
+ "head_age_desc": "a man of about 55, gaunt, hollow cheeks, sharp cheekbones, deep-set eyes with dark shadowed sockets, fine lines at the eyes and brow",
+ "head_skin_desc": "pale grey-white skin with a cold undertone, no warm flush",
+ "body_age_desc": "a man of about 55 with a lean, gaunt build",
+ "body_skin_desc": "pale grey-white skin with a cold undertone",
+ "head_front_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_ref_crops\\concept_face_crop.png",
+ "head_lock_ref": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+}

@@ -39,7 +39,7 @@ def build(spec, tpl):
         for item in items:
             ctx = {**base, **(item or {})}
             for dn, dd in derived.items():   # optional clauses: prefix + value, or "" when the value is empty/missing
-                ctx[dn] = dd.get("prefix", "") + str(ctx[dd["from"]]) if ctx.get(dd["from"]) else ""
+                ctx[dn] = dd.get("prefix", "") + str(ctx[dd["from"]]) + dd.get("suffix", "") if ctx.get(dd["from"]) else ""
             rid = fill(cell["row_id"], ctx, "row_id")
             where = "row " + rid
             row = {"name": rid, "row_id": rid, "group": cell["group"]}
@@ -60,6 +60,8 @@ def build(spec, tpl):
                 row["seed"], row["seed_note"] = rs["seed"], rs["note"]
             if item and item.get("swatch_of"):   # made by tools/swatch_crop.py (a crop of an approved cell), not rendered
                 row["swatch_of"] = item["swatch_of"]
+            if cell.get("ref_field") and spec.get(cell["ref_field"]) and "ref" not in row:   # optional identity-lock reference from the spec
+                row["ref"] = spec[cell["ref_field"]]
             if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
             rows.append(row)
