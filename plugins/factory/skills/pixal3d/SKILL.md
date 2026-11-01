@@ -35,6 +35,29 @@ af_release.pth`. Do not run this while a GPU job runs on a tight-RAM box without
 ## The A/B (decision rule from OpenTrident Dev)
 Run it with the `ab_shape` tool (skill ab-shape). Same cut-out PNG, same seed, about 10 minutes each, one GPU job at a time under the lock, TRELLIS first. Score blind on lit turntables, four criteria 0 to 10: face, hair, colour match to the sheet, bake faults. Run the bind gate on both. Pixal3D wins only if it beats TRELLIS by 1 point or more on two criteria and the bind gate is no worse.
 
+## Multi-view (plugin 0.1.20, DRAFT: nothing here has run on a GPU)
+Capability we lacked: four-view input and pixel back-projection (joining the sheet's views into one shape). Single-view mode exists only for the A/B against Trellis-3; Pixal3D stays only if the A/B or the multi-view proof earns it.
+
+How it works. Upstream `inference_mv.py` (weights `ckpts/*_mv`, config `pipeline_mv.json`) takes V views with GIVEN cameras (`transforms.json`, no MoGe), projects every view's DINOv3 features into the same 3D grid and averages them, so a profile and a back view constrain the shape directly. `tools/pixal3d_mv.py` (CPU only) turns the sheet's cut-out PNGs into that input directory; `pixal3d_run(asset_id, views=...)` or `run_pixal3d.py <asset> --views <folder|mapping.json|inline json>` assembles and runs it. The receipt is stage `pixal3d`, label PIXAL3D, `params.mode = "multiview"`.
+
+| sheet cell | role | azimuth | note |
+|---|---|---|---|
+| head_front / body_underlayer_front | front, frame 0 (main view) | 0 | must be the canonical front view |
+| head_profile / body_underlayer_left | profile, subject faces image-left | 90 | facing set by eye 2026-11-01, override with `facing` in a mapping file |
+| body_underlayer_right | profile, subject faces image-right | 270 | reads as a three-quarter, not a true profile: nominal angle, flagged |
+| head_three_quarter | three-quarter, faces image-left | 45 (nominal) | NOT on the 90 degree orbit; upstream accepts any camera matrix and averages features, so it is included; leave out with `--no-three-quarter` / `three_quarter=false` |
+| head_back / body_underlayer_back | back | 180 | |
+
+Rig: the upstream example (20 degree fov, distance 3.1192, elevation 0, mesh_scale 1). Each cut-out is re-framed onto a transparent 1024 square, subject height 85% of the frame, box centred, so every view has the same scale (upstream never crops or rescales). Upstream takes any number of views, so a missing opposite profile is NOT invented: `--mirror-profile` / `mirror_profile=true` mirrors the one profile to make it (opt-in, flagged `mirrored_profile`; asymmetric detail is copied to the other side).
+
+Refuses, with numbers, before any GPU work: a view without alpha or with a fully opaque alpha, views of different sizes, a view under the 1024 px short side or 60% subject rule (per view, also in the input gate hook), a pose too wide for the frame, a missing or short `_mv` weight file (the exact list, e.g. `ckpts/ss_flow_img_dit_1_3B_64_bf16_mv.safetensors`, shape 512 / 1024 and tex 1024 `_mv`, their json, `pipeline_mv.json`; the tool never downloads), a mix of head and body cells, no front cell.
+
+Model folder and GLB export. Multi-view loads `config pixal3d.mv_model_dir` (default `work_dir/Pixal3D-run`: the patched offline `pipeline_mv.json`, which already names the local BiRefNet and DINOv3, plus a `ckpts` link to `models/Pixal3D/ckpts` holding the four `_mv` weights). `inference_mv.py` exports the GLB with the SAME cumesh call as single view, which crashes on this ROCm build (io.hip:134). Hook point: `config pixal3d.export.module` (default empty = upstream as is) is imported and its `install()` called BEFORE the upstream call; the CPU exporter `pixal3d_glb_cpu` from the export-fix PR (branch `factory/pixal-export-0.1.16`) is meant for it (set `export.module` to `pixal3d_glb_cpu`, `export.path` to its folder; label such a run PX-CPUGLB). This PR does not depend on that one: until it is merged and configured, a multi-view run on this box dies at the export. The receipt records `params.export_module`.
+
+Known risks (sheet review of 2026-11-01): the cells disagree (head_front has loose hair, head_profile a scalp plait, head_back hanging braids; the sheet's right body cell is turned). Averaged features from inconsistent views blur; look at the result and at the receipt flags before judging the method. `pipeline_mv.json` names RMBG-2.0 (non-commercial) like `pipeline.json`: the entry rewrites it once to the local BiRefNet (original kept as `pipeline_mv.json.orig`). Every view carries alpha, so no matting runs.
+
+Head proof (when the `_mv` weights are on disk and one GPU window exists): `pixal3d_run(asset_id="vampire-head-mv", views={"head_front": <cutout>, "head_profile": <cutout>, "head_three_quarter": <cutout>, "head_back": <cutout>}, preset="standard")`, then again with `three_quarter=false` and with `mirror_profile=true`, and compare each against the single-view TRELLIS head of 2026-11-01 (`kits_out/3d/vampire-dracula-head-v2`) on lit turntables. The A/B harness (`ab_shape`) stays single-view: a multi-view engine was not added because the A/B is one png in, one seed, two engines, and the multi-view comparison needs different inputs; compare by hand as above.
+
 ## Do / Don't
 - Do LOOK at every image and output yourself before calling a stage done: open the GLB, the turntable and the stills, check for black, cropped or speckled results; a receipt only proves the tool ran.
 - Do treat a 9/10 or higher result by Dom's eye as the bar for a final; anything below is a proof and is labelled a proof.
@@ -47,3 +70,5 @@ Run it with the `ab_shape` tool (skill ab-shape). Same cut-out PNG, same seed, a
 - Don't build characters or creatures as ONE mesh: build them in parts (body, head, hands, gear) and run each through the pipeline.
 - Don't use RMBG-2.0 (non-commercial) or run two GPU jobs at once.
 - Don't call a run done without the receipt and a look at the output.
+- Do read the receipt's `params.assumptions` flags on a multi-view run (facing by eye, nominal three-quarter angle, mirrored profile) before judging the method.
+- Don't mirror a profile or guess a facing silently: both are flagged assumptions in the receipt.
