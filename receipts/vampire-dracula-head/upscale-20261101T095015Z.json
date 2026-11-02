@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-head",
+  "stage": "upscale",
+  "tool": "upscale_match.py",
+  "script_commit": "c9c6260",
+  "model": {
+    "id": "realesrgan-x4plus (ncnn-vulkan)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire\\head_front_1024x1024.png",
+      "sha256": "bdcd34459f230cc8bd92f98fc459bb51509d1325bfe45d3a7f52b42294990e4a"
+    }
+  ],
+  "params": {
+    "passes": 1,
+    "colour_match": "Lab mean/std"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 15.8
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire-dracula-head_4x.png",
+      "sha256": "030a4d07e11e403d5ce51220b040cee243312dcf88b8744d52e837e127cf22f9"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:50:15+00:00"
+}

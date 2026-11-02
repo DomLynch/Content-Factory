@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet_v2-body_underlayer_front-81a318",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_front_4k.png",
+      "sha256": "6c2039dd82640109c6f79f9e90f74a11dd4ae7abc1e944837f3e73ff5ccafe7d"
+    }
+  ],
+  "params": {
+    "seed": 49,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_front_4k.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs, shirt, hose and boots; he wears only fitted plain dark briefs, bare torso, arms and legs. Change only the camera and pose: Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. He wears fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. Long loose wavy black hair swept back from the forehead and falling to the shoulders, no braids; loose wavy hair falling to the shoulders on both sides. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_v2_kit.json",
+    "row_id": "body_underlayer_front",
+    "mean_brightness": 69.1
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 1134.2,
+    "load_s": 20.4,
+    "generate_s": 1113.6
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 22.4,
+    "peak_gpu_reserved_gb": 25.8,
+    "lowest_free_ram_gb": 10.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_front_1024x1536.png",
+      "sha256": "3658df526455a7f556b307239500a696fb2a6495ab9302877bb77463a446080e"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-02T05:05:06+00:00"
+}

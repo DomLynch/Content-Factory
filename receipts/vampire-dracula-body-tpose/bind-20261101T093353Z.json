@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-body-tpose",
+  "stage": "bind",
+  "tool": "clean_mesh.py",
+  "script_commit": "cdf4e46",
+  "model": {
+    "id": "mesh clean (blender)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\mesh.glb",
+      "sha256": "b0fa04c81edede49dceffe63dc75a706286b7b2a95e1ac5ada1a5dcc43bcc9a9"
+    }
+  ],
+  "params": {
+    "clean": true,
+    "settings": {
+      "merge_dist_m": 0.0002,
+      "min_shell_verts": 200,
+      "count_weld_m": 1e-06,
+      "voxel_m": 0,
+      "tex_size": 2048,
+      "bake_margin_px": 8,
+      "bake_extrude_m": 0.01
+    },
+    "blender": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\clean_vampire-dracula-body-tpose.txt",
+    "before": {
+      "vertices": 182779,
+      "loose_shells": 34,
+      "non_manifold_edges": 78689
+    },
+    "after": {
+      "vertices": 180464,
+      "loose_shells": 2,
+      "non_manifold_edges": 74100
+    },
+    "deleted_shell_verts": 531
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 13.8
+  },
+  "memory": {
+    "lowest_free_ram_gb": 7.8
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\clean.glb",
+      "sha256": "a0b73243525b863321673e0244168c26b62b91822810b96922ad4a343ec87e70"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\clean.report.json",
+      "sha256": "267c1efafdb208a44eb6d2e59d787a03e28e0f730f4b46bbefe6e201f8dcd5d4"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:33:53+00:00"
+}

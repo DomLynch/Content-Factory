@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "asset_id": "robot-control-lod0",
+  "stage": "trellis",
+  "tool": "generate.py",
+  "script_commit": "2b6e7e5",
+  "model": {
+    "id": "TRELLIS.2-4B",
+    "repo": "C:\\Users\\dom12\\Documents\\Trellis-3-312"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\robot-control-lod0\\cutout.png",
+      "sha256": "01e1c91d0736432600979387c754b48da1c12a66a17d65588c1cb9de6b830806"
+    }
+  ],
+  "params": {
+    "preset": "master",
+    "texture_size": 4096,
+    "bake_faces": 1000000,
+    "extra": [],
+    "env": {
+      "ATTN_BACKEND": "sdpa",
+      "SPARSE_ATTN_BACKEND": "sdpa",
+      "SPARSE_CONV_BACKEND": "flex_gemm",
+      "TRELLIS3_OVOXEL": "native",
+      "HF_HUB_OFFLINE": "1",
+      "TRELLIS3_REMBG": "none",
+      "PYTHONUNBUFFERED": "1"
+    },
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\trellis_robot-control-lod0_mesh.txt",
+    "from_latents": null,
+    "out_name": "mesh"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 704.3
+  },
+  "memory": {
+    "lowest_free_ram_gb": 0.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\robot-control-lod0\\mesh.glb",
+      "sha256": "94d1bb0c622866755a5b5be08b498606d6b9a21635ca36c80d1f95a09ebb8b99"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\robot-control-lod0\\mesh.receipt.json",
+      "sha256": "c5e12b88b56c7eb87045d5324f8bf3f1d4a11a721f8d6faa10b19f0628d2b799"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T11:13:25+00:00"
+}

@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-front",
+  "stage": "stills",
+  "tool": "run_stills.py (Blender Cycles CPU)",
+  "script_commit": "8711351",
+  "model": {
+    "id": "Blender Blender 5.2"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\bound.glb",
+      "sha256": "d71c4991617acfef530469690d48d331f52550758ddc04b02eec20e9d5a93711"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\mixamo_clips\\113410901-idle.glb",
+      "sha256": "78d9a86fc192ac7f6b68959354d2c4d13bef03dd7e1a1dcd2020afe70cc2274f"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\mixamo_clips\\124540901-walk.glb",
+      "sha256": "08608e17c00226e843b6cdbdca83b14d716183aad1f5f6455b15a332568a7753"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\mixamo_clips\\9034009-zombie-neck-bite.glb",
+      "sha256": "41b9c723d818cd611a8738dcebbbef79e9155e55fff6828c4839a5c49432f06b"
+    }
+  ],
+  "params": {
+    "timeout_s": 1800,
+    "clip_ext": ".glb",
+    "clip_frame": "mid",
+    "engine": "CYCLES",
+    "device": "CPU",
+    "samples": 24,
+    "denoise": false,
+    "threads": 0,
+    "width": 1024,
+    "height": 1024,
+    "thumb_px": 256,
+    "thumb_source": "idle",
+    "lens_mm": 50,
+    "sensor_mm": 36,
+    "body_margin": 1.15,
+    "head_height_frac": 0.18,
+    "head_bone": "mixamorig:Head",
+    "hips_bone": "mixamorig:Hips",
+    "camera_dir": [
+      0,
+      -1,
+      0
+    ],
+    "cam_height_frac": 0.5,
+    "sun_energy": 3.0,
+    "sun_euler_deg": [
+      50,
+      0,
+      35
+    ],
+    "world_color": [
+      0.18,
+      0.2,
+      0.24
+    ],
+    "world_strength": 1.0,
+    "rig_name": "Rig",
+    "clip_action_name": "clip",
+    "clips": {
+      "idle": "113410901-idle",
+      "walk": "124540901-walk",
+      "attack": "9034009-zombie-neck-bite"
+    },
+    "clips_dir": "C:\\Users\\dom12\\Documents\\mixamo_clips",
+    "blender": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\stills_vampire-dracula-front.txt",
+    "result": {
+      "renders": {
+        "head": {
+          "s": 4.4
+        },
+        "idle": {
+          "frame": 199,
+          "matched_bones": 52,
+          "s": 2.2
+        },
+        "walk": {
+          "frame": 11,
+          "matched_bones": 52,
+          "s": 2.8
+        },
+        "attack": {
+          "frame": 48,
+          "matched_bones": 52,
+          "s": 3.3
+        }
+      },
+      "body_height_m": 2.752,
+      "total_s": 21.0
+    }
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 47.7
+  },
+  "memory": {
+    "lowest_free_ram_gb": 5.9
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\stills\\head.png",
+      "sha256": "9e35512ff36032c9fe61135cce05bb302b128b430039a0fada793448c333178e"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\stills\\idle.png",
+      "sha256": "d369f6e089259540cbac953868a19b795866dd49adb84e8bcfd039d7ba46c436"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\stills\\walk.png",
+      "sha256": "93af28b7852564fdcbab6b2b9aa969295b1019116d512766310ab4e9771cff9c"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\stills\\attack.png",
+      "sha256": "4cfdb0ca6f8c9ed18bf5515cabdae733497f774bf7a906f3ccdf830fad5a50b8"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-front\\stills\\thumb.png",
+      "sha256": "c22a8032bc74b0e0d6937baf9ae83b2ed1969e7ba3b14cbad5d02d79458f07e4"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T07:49:36+00:00"
+}

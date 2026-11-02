@@ -1,0 +1,20 @@
+{
+ "mirrors": [
+  {
+   "row": "hand_fist_right",
+   "source_row": "hand_fist_left",
+   "method": "horizontal flip",
+   "reason": "symmetric anatomy; guarantees left/right agreement (Strategy rule 2)",
+   "created": "2026-11-01T21:13:07",
+   "sha256": "1e73bd384b47f868"
+  },
+  {
+   "row": "hand_open_right",
+   "source_row": "hand_open_left",
+   "method": "horizontal flip",
+   "reason": "symmetric anatomy; guarantees left/right agreement (Strategy rule 2)",
+   "created": "2026-11-01T21:13:07",
+   "sha256": "9514bef7d114acc8"
+  }
+ ]
+}

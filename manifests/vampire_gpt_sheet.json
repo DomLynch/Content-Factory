@@ -1,0 +1,655 @@
+{
+ "schema": 1,
+ "kit": "vampire_gpt_sheet",
+ "rows": {
+  "head_front": {
+   "candidates": [
+    {
+     "sha256": "a7e27afefa69a7e060fa4cecb0517893be52a6f2c011f7618d4db2365bc1369c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_front_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Reference head: swept-back hair, two braids forward, red eyes, moustache, charcoal roll-neck; moustache a bit thick, collar is a turtleneck.",
+   "verdict_at": "2026-11-01T18:06:40+00:00",
+   "score": 8,
+   "prompt_fix": "Add: 'hair swept straight back off the face and tied into two thick braids that hang forward over each shoulder, visible on both sides of the neck; long waxed moustache with upswept tips; clean-shaven chin, no soul patch, no stubble; show neck and collar bone with a plain dark sweater collar instead of bare cut shoulders'."
+  },
+  "body_underlayer_front": {
+   "candidates": [
+    {
+     "sha256": "1a187884fdd639cebdf60581a126a90cb8d70e290c4e05926aee7d3ca2cba108",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "re-roll seed 44: braids on chest, outfit matches fixed description, identity cell",
+   "verdict_at": "2026-11-01T18:29:50+00:00",
+   "score": 9,
+   "prompt_fix": "Add: charcoal trousers, black leather boots, dark brown belt, same fabric colour as the back view."
+  },
+  "body_underlayer_back": {
+   "candidates": [
+    {
+     "sha256": "663c2525ea801309bc81328778778d90e66f2261376193da6a19074a4a3e2acf",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_back_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Charcoal high-collar sweater, dark brown belt, charcoal trousers, black boots, nape-tied hair with two braids forward; clean A-pose.",
+   "verdict_at": "2026-11-01T18:06:42+00:00",
+   "score": 8,
+   "prompt_fix": "Add: the two thick braids hang forward over the shoulders and are not visible from behind; only the hair swept back and tied at the nape shows, no braids down the back."
+  },
+  "body_underlayer_left": {
+   "candidates": [
+    {
+     "sha256": "6b1dd3efc6573799de79935364cb96d67d5b4c7900cea0552b850795fd856ee8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_left_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "re-roll seed 43: true profile, braids to chest, outfit matches front",
+   "verdict_at": "2026-11-01T18:37:41+00:00",
+   "score": 9,
+   "prompt_fix": "Add: charcoal trousers, black leather boots, black hair with no red tint, two thick braids hanging forward over the shoulders to the chest."
+  },
+  "body_underlayer_right": {
+   "candidates": [
+    {
+     "sha256": "07dc4581f93643dc978697546a6df456ee2501cf1771efb56faedf94a33a6fd1",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_right_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "re-roll seed 43: true right profile, braids to chest, outfit matches front",
+   "verdict_at": "2026-11-01T18:45:56+00:00",
+   "score": 9,
+   "prompt_fix": "Add: charcoal trousers, black leather boots; the two thick braids hang forward over the shoulder and chest to the same length as the front view."
+  },
+  "body_underlayer_three_quarter": {
+   "candidates": [
+    {
+     "sha256": "0a540241b477ed78b624734e5a31d53dd0ce71b011f184d66abb2e1d11c20be8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_three_quarter_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Charcoal stand-collar sweater, brown belt, charcoal trousers, black boots, two forward braids, moustache; face slightly stubbly and eyes dim.",
+   "verdict_at": "2026-11-01T18:06:43+00:00",
+   "score": 8,
+   "prompt_fix": "Add: long upswept thin moustache, clean-shaven chin with no stubble and no beard."
+  },
+  "head_profile": {
+   "candidates": [
+    {
+     "sha256": "a8d9d920efc01e4f508fbe9c01651e3267118600d874278725efbeec780b5a81",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_profile_1024x1024.png"
+    },
+    {
+     "sha256": "6e16d61c0a336d8b6f0ea3faa33ad645a9cf7d1d55d76ee8e7c43720647068de",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_profile_1024x1024.png"
+    },
+    {
+     "sha256": "9a71db3748900c914345044dd787eb93236917d832997f098f79909f2428058c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_profile_right_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "re-roll seed 43: hair tied at nape, braids behind shoulder, no scalp plait",
+   "verdict_at": "2026-11-01T18:29:50+00:00",
+   "score": 9,
+   "prompt_fix": "Side profile, hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder."
+  },
+  "head_profile_right": {
+   "candidates": [
+    {
+     "sha256": "9a71db3748900c914345044dd787eb93236917d832997f098f79909f2428058c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_profile_right_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Faces right as required. Agrees with head_profile, but both disagree with front/top/back on the scalp plait.",
+   "verdict_at": "2026-11-01T18:04:52+00:00",
+   "score": 5,
+   "prompt_fix": "Add: hair tied at the nape with the two braids hanging down behind the shoulder, no scalp plait; smooth swept-back hair over the whole scalp, facing right."
+  },
+  "head_back": {
+   "candidates": [
+    {
+     "sha256": "5639b5556a20c2e1955cf3451913af12f4140f05095913435c0681f9e0bdebb8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_back_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Smooth hair tied at nape, two braids forward over shoulders, plain charcoal high collar; hair slightly greyer than front.",
+   "verdict_at": "2026-11-01T18:06:41+00:00",
+   "score": 8,
+   "prompt_fix": "Add: plain charcoal high-collared sweater collar rising behind the neck, hair swept straight back and tied at the nape with the two braids hanging forward over the shoulders, no bare neck."
+  },
+  "head_three_quarter": {
+   "candidates": [
+    {
+     "sha256": "276f49ed0dbc708971a6aa1e4ce0855c2ee791081d6f33acabaca94a71f31760",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_three_quarter_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Matches front: swept-back hair, two forward braids, upswept moustache, red eyes, charcoal roll-neck, clean chin.",
+   "verdict_at": "2026-11-01T18:06:41+00:00",
+   "score": 8,
+   "prompt_fix": "Add: clean-shaven chin with no soul patch; hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar, no bare chest or neck."
+  },
+  "head_top": {
+   "candidates": [
+    {
+     "sha256": "43c3d0bd77fdb4e7d1b1aee5cbbc34a6598c4f4082e8bcb8f0249a57e6420a3b",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_top_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Swept-back hair with centre parting, braid tops visible at the sides, charcoal sweater; consistent.",
+   "verdict_at": "2026-11-01T18:06:42+00:00",
+   "score": 8,
+   "prompt_fix": "Regenerate with: 'top-down view of the head from directly above, camera looking straight down at the crown, only hair visible: the parting line, hair swept back to a low nape knot, the two braids starting at the sides; no face visible, no clothing, shoulders only as plain dark sweater, plain dark neutral grey background'. Do not use the concept as the ref image; use head_back and head_three_quarter as the refs."
+  },
+  "hand_open_left": {
+   "candidates": [
+    {
+     "sha256": "c6937c8d0855f78978103c10a6f8ec3505f385a1b1b564f1fe6b0e6dbabf3692",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_open_left_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Ring design differs from fist and back_views cells.",
+   "verdict_at": "2026-11-01T18:04:52+00:00",
+   "score": 7,
+   "prompt_fix": "Add: two gold signet rings with a deep red ruby each, one on the index and one on the ring finger; on the palm view show only the plain gold bands, no gems."
+  },
+  "hand_open_right": {
+   "candidates": [
+    {
+     "sha256": "9514bef7d114acc8aa1c8d56ca6c487c6b31eecc36d06279ecb16cbbf057e86e",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_open_right_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Side, palm, back: five digits each, bare wrist, gold ruby rings (one on palm view, two on back).",
+   "verdict_at": "2026-11-01T18:06:51+00:00",
+   "score": 8,
+   "prompt_fix": "Add: this is the RIGHT hand, back view thumb on the left; two gold signet rings with a deep red ruby each, plain bands only on the palm view."
+  },
+  "hand_fist_left": {
+   "candidates": [
+    {
+     "sha256": "10f1059bcee73e0fecda5ceb7e826207771816f596c670037ed7b5146fd2b149",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_fist_left_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Three fist views, bare wrist, gold rubies rings; ring count varies by angle.",
+   "verdict_at": "2026-11-01T18:06:50+00:00",
+   "score": 8,
+   "prompt_fix": "Add: 'three DIFFERENT views: 1) back of fist with knuckles, 2) front of fist showing curled fingers and thumb over them, 3) side profile of fist. Hands fully inside the frame with dark margin above the wrist. Gold signet rings each set with a visible red ruby.'"
+  },
+  "hand_fist_right": {
+   "candidates": [
+    {
+     "sha256": "1e73bd384b47f8685db2ff7db3d64eef311d9004a93a404750de92eedb168274",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_fist_right_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Three fist views, bare wrist, two gold rubies rings visible; clean anatomy.",
+   "verdict_at": "2026-11-01T18:06:50+00:00",
+   "score": 8,
+   "prompt_fix": "Add: this is the RIGHT fist, back view thumb side on the left; two gold signet rings with a deep red ruby each."
+  },
+  "hand_back_views": {
+   "candidates": [
+    {
+     "sha256": "2a9dae7e47e7d81103a0b3dddf7bf308077095521dbebaf44f20363c88efbfa6",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_back_views_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Two backs of hands, five digits each, bare wrists, gold signet rings with red stones (two on one hand, one on the other).",
+   "verdict_at": "2026-11-01T18:06:49+00:00",
+   "score": 8,
+   "prompt_fix": "Add: two gold signet rings with a deep red ruby each, plain band, one on the index and one on the ring finger; clean bare wrist, no artefacts."
+  },
+  "foot_left": {
+   "candidates": [
+    {
+     "sha256": "546aaf55da219a3b441b6dbda6328da226ccd7ea2e0c3ee30c4bb8f2c99e15ec",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\foot_left_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Plain black socks but three feet/views in one cell with legs cropped; brief says one foot.",
+   "verdict_at": "2026-11-01T18:06:43+00:00",
+   "score": 6,
+   "prompt_fix": "One single bare-ankled left foot in a plain black sock, one view only, whole foot in frame on a plain dark background."
+  },
+  "foot_right": {
+   "candidates": [
+    {
+     "sha256": "f92bf5408e639c65df80ef2503fe736be9ec2e7d9bc845138f2d5bb8e4e99c5f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\foot_right_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Plain black socks but three feet/views in one cell, legs cropped; brief says one foot.",
+   "verdict_at": "2026-11-01T18:06:44+00:00",
+   "score": 6,
+   "prompt_fix": "One single bare-ankled right foot in a plain black sock, one view only, whole foot in frame on a plain dark background."
+  },
+  "gear_coat": {
+   "candidates": [
+    {
+     "sha256": "18a5844708700c6776f1c4f74307924a52d0fbb1413b7b6694f4c3bb32187a9f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_coat_1536x1024.png"
+    },
+    {
+     "sha256": "e04c2bee7abcaa77a198c4ab8e8edc4df371577ca356b6391e289a2de391a184",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_coat_back_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Isolated crimson-burgundy velvet coat, gold frogging and embroidered stand collar and cuffs; velvet is plain, not damask.",
+   "verdict_at": "2026-11-01T18:06:46+00:00",
+   "score": 8
+  },
+  "gear_coat_back": {
+   "candidates": [
+    {
+     "sha256": "e04c2bee7abcaa77a198c4ab8e8edc4df371577ca356b6391e289a2de391a184",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_coat_back_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Isolated crimson velvet coat back, gold embroidery on hem, cuffs and collar; clean.",
+   "verdict_at": "2026-11-01T18:06:47+00:00",
+   "score": 8
+  },
+  "gear_cloak": {
+   "candidates": [
+    {
+     "sha256": "223ed73b4889de4c2ff4c10bafd091b0982e004b5ad424955f6ab8c8bc4da28f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_cloak_1536x1024.png"
+    },
+    {
+     "sha256": "4751063f6e333d104adf90b99fe33fbcc009918cacf460e3f57a8c394d47dca8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_cloak_back_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Isolated black velvet cloak, gold embroidered borders, black fur collar, dark crimson lining; lining is plain not damask.",
+   "verdict_at": "2026-11-01T18:06:45+00:00",
+   "score": 8,
+   "prompt_fix": "Add: 'the cloak OUTER shell is black damask velvet with wide gold embroidered borders, lined with crimson on the inside edges only; the front is open and EMPTY showing only the cloak lining, no tunic panel, no jewelled strip, no second garment inside.'"
+  },
+  "gear_cloak_back": {
+   "candidates": [
+    {
+     "sha256": "4751063f6e333d104adf90b99fe33fbcc009918cacf460e3f57a8c394d47dca8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_cloak_back_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Black velvet back with gold border and fur collar, but the burgundy flanks make the layout confusing and read as a flattened cape.",
+   "verdict_at": "2026-11-01T18:06:45+00:00",
+   "score": 7,
+   "prompt_fix": "Back of the black velvet cloak laid flat and symmetrical, gold embroidered border, black fur collar, crimson damask lining visible only as a narrow edge."
+  },
+  "gear_fur_collar": {
+   "candidates": [
+    {
+     "sha256": "ed28f906e8d766af4d022bb34d3bc212aae33b661e213699c7c6af823bdb8758",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_fur_collar_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Isolated black fur collar ring, good fur; faint noise patch lower right of background.",
+   "verdict_at": "2026-11-01T18:06:48+00:00",
+   "score": 8
+  },
+  "gear_belt": {
+   "candidates": [
+    {
+     "sha256": "2e2920f49e9116440fed479256420b8793e33f1c42f15005fd989c169a3f7e9f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_belt_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "One dark brown belt with gold eagle buckle, but the buckle is an open frame showing black behind and a garbled picture square in the centre.",
+   "verdict_at": "2026-11-01T18:06:44+00:00",
+   "score": 7,
+   "prompt_fix": "A single dark brown leather belt with a solid gold double-headed eagle buckle, fully filled metal, no cut-out and no inset picture."
+  },
+  "gear_tabard": {
+   "candidates": [
+    {
+     "sha256": "2c527ca0d75e8667d645e4ba96894f671f795589868c8c937b09d911a202424e",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_tabard_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Crimson damask velvet tabard with gold border, castle and cross, matches concept; hung on a rod.",
+   "verdict_at": "2026-11-01T18:06:48+00:00",
+   "score": 8
+  },
+  "gear_cuffs": {
+   "candidates": [
+    {
+     "sha256": "e000f1acb3242f71d1ab33dc544ba11bc106e3831cd0469324631ae5923f40c5",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_cuffs_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "Pair of white lace cuffs on plain dark background; good lace, concept's gold-embroidered cuff part absent.",
+   "verdict_at": "2026-11-01T18:06:47+00:00",
+   "score": 8,
+   "prompt_fix": "Optional polish: 'ruffled white lace frill cuffs, bright white, pleated edge'."
+  },
+  "gear_trousers": {
+   "candidates": [
+    {
+     "sha256": "f05f226185cce2675f7014c5c8681f46dd6717684efbe7828c8071a0f3bfbb0c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_trousers_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Charcoal trousers fine, but includes a black leather belt with silver buckle (belt is a separate dark brown item) and a noise patch lower right.",
+   "verdict_at": "2026-11-01T18:06:49+00:00",
+   "score": 7,
+   "prompt_fix": "Charcoal trousers only on a plain dark background, bare plain waistband with no belt and no buckle."
+  },
+  "gear_boots_front": {
+   "candidates": [
+    {
+     "sha256": "9b65502956563b9f8034850e7eaed8928e714086e5105155b1c5660d213f597d",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_boots_front_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "isolated pair, tall black leather, gold knee plates; plates plain brass not engraved; faint noise patch lower right",
+   "verdict_at": "2026-11-01T18:50:09+00:00",
+   "score": 8
+  },
+  "gear_boots_side": {
+   "candidates": [
+    {
+     "sha256": "1735c67523097d0e928b6c7d99a548776633aa09ba8dd61e3ef8052ec7c53b85",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_boots_side_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "three-quarter not true side; plates are plain brass slabs with box tops, not engraved; accepted with note (non-identity WEAK is not re-rolled)",
+   "verdict_at": "2026-11-01T18:57:36+00:00",
+   "score": 7,
+   "prompt_fix": "true side view of the boots, plates engraved gilt knee plates with scrollwork"
+  },
+  "gear_knee_plates": {
+   "candidates": [
+    {
+     "sha256": "ae7b3aaa16dedacd03e925d67b7aaf1ba860856991ec8c8a4dfa43f45b72172f",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_knee_plates_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "matched pair of engraved gilded plates, isolated; the engraved reference for the boots",
+   "verdict_at": "2026-11-01T18:57:35+00:00",
+   "score": 9
+  },
+  "gear_rings": {
+   "candidates": [
+    {
+     "sha256": "bde9e84a27b2e4e99fe758834f6419551d482a392adc2fcf0eb640d5c685098c",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_rings_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "single gold signet ring with ruby, textured band, isolated; one ring not several",
+   "verdict_at": "2026-11-01T18:59:10+00:00",
+   "score": 9
+  },
+  "swatch_crimson_damask_velvet": {
+   "candidates": [
+    {
+     "sha256": "95f61a5cabba8dc29b0e42915907dd8a15def28861279940b36ca30bc6f57066",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_crimson_damask_velvet_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "PASS",
+   "verdict_note": "full-frame flat oxblood damask, matte, no saturated red; new palette",
+   "verdict_at": "2026-11-01T19:06:41+00:00",
+   "score": 9
+  },
+  "swatch_black_fur": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_gold_embroidery": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_black_leather": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_pale_skin": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_dark_hair": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_steel": {
+   "candidates": [
+    {
+     "sha256": "4acbbd700af8c1ec32c11002daaa504d778c9d9a38ed8e0ed475d710e308b5e2",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_steel_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_lace": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "swatch_velvet_lining": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "head_eyes_closeup": {
+   "candidates": [
+    {
+     "sha256": "48945ad6a64b7b3285e460c32a35ff4b3bacd9e96667d36b26386fb4b01e5560",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_eyes_closeup_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "REJECT",
+   "verdict_note": "Also has a silver earring and an older, more wrinkled face than head_front (identity drift).",
+   "verdict_at": "2026-11-01T18:04:52+00:00",
+   "score": 4,
+   "prompt_fix": "Add: hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; plain charcoal high-collared sweater collar, no white shirt, no red fabric, no earring, no hair ornaments; same face as the front view."
+  },
+  "gear_belt_buckle_closeup": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "WEAK",
+   "verdict_note": "Great hero detail, fails the isolation rule; usable as a detail reference only.",
+   "verdict_at": "2026-11-01T18:04:51+00:00",
+   "score": 6,
+   "prompt_fix": "Prompt: 'ONLY the gold double-headed eagle belt buckle with red ruby gems on a short section of black leather belt, centred on a plain empty dark grey background. No tunic, no velvet, no lace, no clothing behind it; belt ends cleanly inside the frame.'"
+  },
+  "gear_collar_closeup": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  }
+ }
+}

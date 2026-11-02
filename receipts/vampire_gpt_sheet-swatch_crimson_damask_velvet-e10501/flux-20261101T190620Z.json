@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-swatch_crimson_damask_velvet-e10501",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "adf5f70",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Flat top-down seamless tileable texture of muted oxblood damask velvet fabric with a subtle woven pattern, matte, no saturated red, no gloss, photographic colour, evenly lit, no perspective, no garment shape, fills the whole frame, material swatch.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "swatch_crimson_damask_velvet",
+    "mean_brightness": 56.7
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 73.6,
+    "load_s": 29.2,
+    "generate_s": 44.4
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 6.9
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_crimson_damask_velvet_1024x1024.png",
+      "sha256": "95f61a5cabba8dc29b0e42915907dd8a15def28861279940b36ca30bc6f57066"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T19:06:20+00:00"
+}

@@ -1,6 +1,10 @@
-"""Fill config/character_sheet_template.json from a short character spec: make_kit.py <character_spec.json> [out_kit.json]
-Writes kits/<id>_sheet_kit.json (or the given path). Fails if any {placeholder} is left unfilled."""
-import json, os, string, sys
+"""Fill a character sheet template from a short character spec: make_kit.py <character_spec.json> [out_kit.json] [--kit-name NAME]
+Writes kits/<kit_name>_kit.json (or the given path). Fails if any {placeholder} is left unfilled.
+Character words live only in the spec; a template may list extra "required_fields" and "group_defaults"
+(row keys such as use_ref applied to every cell of a group unless the cell sets them itself).
+"derived" defines optional clauses ({"name": {"from": field, "prefix": text}}); a cell may have "forms" (prompt variants chosen by the item's "form").
+For every string spec field X, {X} and a capitalised {X} (first letter upper, e.g. {Possessive}) are available."""
+import hashlib, json, os, string, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REQUIRED = ["id", "description", "seed", "ref", "base_layer_ref", "character_noun", "possessive", "facial_hair",
@@ -21,24 +25,52 @@ def fill(text, ctx, where):
 
 
 def build(spec, tpl):
-    miss = [k for k in REQUIRED if k not in spec]
+    for dk, dv in tpl.get("spec_defaults", {}).items():   # character-neutral template defaults for fields the spec leaves out
+        if dk not in spec:
+            spec = {**spec, dk: fill(dv, spec, "spec_default " + dk)}
+    miss = [k for k in REQUIRED + tpl.get("required_fields", []) if k not in spec]
     if miss:
         raise SystemExit(f"spec is missing fields: {miss}")
     kd = tpl["kit_defaults"]
     base = {**tpl.get("item_defaults", {}), **{k: v for k, v in spec.items() if isinstance(v, (str, int))}}
-    kit = {"kit": spec["id"] + "_sheet", "seed": spec["seed"], "w": kd["w"], "h": kd["h"],
-           "template": "config/character_sheet_template.json", "ref": spec["ref"],
+    base.update({k[:1].upper() + k[1:]: v[:1].upper() + v[1:] for k, v in list(base.items()) if isinstance(v, str) and k[:1].upper() + k[1:] not in base})
+    gdef = tpl.get("group_defaults", {})
+    derived = tpl.get("derived", {})
+    kit = {"kit": spec.get("kit_name", spec["id"] + "_sheet"), "seed": spec["seed"], "w": kd["w"], "h": kd["h"],
+           "template": spec.get("template", "config/character_sheet_template.json"), "ref": spec["ref"],
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
            "subject": spec.get("subject", ""), "style": spec.get("style", kd["style"]),
            "description": spec["description"], "rows": []}
     for k in ("age", "complexion", "humanoid"):   # the head rows need them (0.1.25 gate); a creature spec says humanoid: false
         if k in spec:
             kit[k] = spec[k]
+    refs = {}   # record the identity / parts / back reference files with their sha256 (a changed file shows up in the kit)
+    for rn in ("identity_ref", "parts_ref", "back_ref"):
+        if spec.get(rn):
+            ent = {"path": spec[rn]}
+            if spec.get(rn + "_sha256"):
+                ent["sha256"] = spec[rn + "_sha256"]
+                if os.path.exists(spec[rn]):
+                    h = hashlib.sha256()
+                    with open(spec[rn], "rb") as fh:
+                        for blk in iter(lambda: fh.read(1 << 20), b""):
+                            h.update(blk)
+                    if h.hexdigest() != ent["sha256"]:
+                        print("WARNING:", rn, "file does not match the sha256 in the spec:", spec[rn])
+            refs[rn] = ent
+    if refs:
+        kit["refs"] = refs
     rows = []
     for cell in tpl["cells"]:
+        if cell.get("requires_field") and not spec.get(cell["requires_field"]):   # optional cell: only characters that fill this field get it
+            continue
         items = [None] if "repeat" not in cell else spec[cell["repeat"]]
         for item in items:
+            if item:   # item strings may use spec placeholders (e.g. {coat_palette}); expanded once
+                item = {k: (fill(v, {**base, **item}, "item " + str(item.get("id"))) if isinstance(v, str) and "{" in v else v) for k, v in item.items()}
             ctx = {**base, **(item or {})}
+            for dn, dd in derived.items():   # optional clauses: prefix + value, or "" when the value is empty/missing
+                ctx[dn] = dd.get("prefix", "") + str(ctx[dd["from"]]) + dd.get("suffix", "") if ctx.get(dd["from"]) else ""
             rid = fill(cell["row_id"], ctx, "row_id")
             where = "row " + rid
             row = {"name": rid, "row_id": rid, "group": cell["group"]}
@@ -49,18 +81,43 @@ def build(spec, tpl):
                 row["ref"] = fill(cell["ref"], ctx, where)
             if cell.get("ref_prefix"):
                 row["ref_prefix"] = fill(cell["ref_prefix"], ctx, where)
-            if "use_ref" in cell:
-                row["use_ref"] = cell["use_ref"]
-            row["prompt"] = fill(cell["prompt"], ctx, where)
-            row["needs"] = []   # rows that read another row's output list it here; the queue holds until it has a verdict
-            row["ref_mode"] = "sheet" if rid in ANGLE else "identity"
+            use_ref = cell.get("use_ref", gdef.get(cell["group"], {}).get("use_ref"))
+            if use_ref is not None:
+                row["use_ref"] = use_ref
+            ptext = cell["forms"][ctx.get("form", cell.get("default_form"))] if "forms" in cell else cell["prompt"]
+            row["prompt"] = fill(ptext, ctx, where)
+            rs = spec.get("row_seeds", {}).get(rid)   # per-row re-render seed with the reason it was changed
+            if rs:
+                row["seed"], row["seed_note"] = rs["seed"], rs["note"]
+            if item and item.get("swatch_of"):   # made by tools/swatch_crop.py (a crop of an approved cell), not rendered
+                row["swatch_of"] = item["swatch_of"]
+            flag = cell.get("use_ref_field")   # optional: the row uses a reference only when this spec flag is true
+            if cell.get("ref_field") and spec.get(cell["ref_field"]) and "ref" not in row and (not flag or spec.get(flag)):   # identity-lock / parts reference from the spec
+                row["ref"] = spec[cell["ref_field"]]
+            if flag and spec.get(flag):
+                row["use_ref"] = True
+                if cell.get("ref_prefix_field") and spec.get(cell["ref_prefix_field"]):
+                    row["ref_prefix"] = spec[cell["ref_prefix_field"]]
+            if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
+                row["mirror_of"] = cell["mirror_of"]
+            row.setdefault("needs", [])   # rows that read another row's output list it here; the queue holds until it has a verdict (plugin 0.1.26)
+            row.setdefault("ref_mode", "sheet" if rid in ANGLE else "identity")
             if rid in YAW:
-                row["yaw_deg"] = YAW[rid]
+                row.setdefault("yaw_deg", YAW[rid])
             row.update({k: cell[k] for k in PASS_KEYS if k in cell})
-            row.update((spec.get("row_overrides") or {}).get(rid, {}))   # e.g. {"hands": {"supplied_by": "Dom", "file": "C:\\...\\hands.png"}}
+            row.update((spec.get("row_overrides") or {}).get(rid, {}))   # e.g. {"hands": {"supplied_by": "Dom", "file": "..."}}
             rows.append(row)
-    order = {g: i for i, g in enumerate(tpl["group_priority"])}
-    kit["rows"] = sorted(rows, key=lambda r: order[r["group"]])   # stable: GPU priority order
+    if tpl.get("order"):   # explicit emit order: row_id or "group:<g>" entries, a row_id beats its group, unlisted rows last
+        pos = {e: i for i, e in enumerate(tpl["order"])}
+        rank = lambda r: pos.get(r["row_id"], pos.get("group:" + r["group"], len(pos)))
+    else:
+        order = {g: i for i, g in enumerate(tpl["group_priority"])}
+        rank = lambda r: order[r["group"]]
+    kit["rows"] = sorted(rows, key=rank)   # stable: GPU priority order
+    inactive = {c["row_id"] for c in tpl["cells"] if c.get("requires_field") and not spec.get(c["requires_field"])}
+    unmatched = [e for e in tpl.get("order", []) if e not in inactive and not any(e in (r["row_id"], "group:" + r["group"]) for r in rows)]
+    if unmatched:
+        print("WARNING: template 'order' entries match no row (renamed or missing cell?):", unmatched)
     ids = [r["row_id"] for r in kit["rows"]]
     if len(ids) != len(set(ids)):
         raise SystemExit("duplicate row_id in generated kit")
@@ -70,10 +127,19 @@ def build(spec, tpl):
 def main():
     if len(sys.argv) < 2:
         raise SystemExit(__doc__)
-    spec = json.load(open(sys.argv[1], encoding="utf-8-sig"))
-    tpl = json.load(open(os.path.join(REPO, "config", "character_sheet_template.json"), encoding="utf-8-sig"))
+    args = sys.argv[1:]
+    if "--kit-name" in args:
+        i = args.index("--kit-name")
+        kit_name = args[i + 1]
+        del args[i:i + 2]
+    else:
+        kit_name = None
+    spec = json.load(open(args[0], encoding="utf-8-sig"))
+    if kit_name:
+        spec["kit_name"] = kit_name
+    tpl = json.load(open(os.path.join(REPO, spec.get("template", "config/character_sheet_template.json")), encoding="utf-8-sig"))
     kit = build(spec, tpl)
-    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "kits", spec["id"] + "_sheet_kit.json")
+    out = args[1] if len(args) > 1 else os.path.join(REPO, "kits", spec.get("kit_name", spec["id"] + "_sheet") + "_kit.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(kit, f, indent=1, ensure_ascii=False)
     print(out, len(kit["rows"]), "rows")

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet_v2-head_profile-6cb6c5",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 46,
+    "w": 1024,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Strict LEFT SIDE PROFILE portrait, camera exactly 90 degrees to his face: we see only the left side of his head, ONE eye in profile, the nose and moustache in silhouette pointing to the left edge of the frame, one ear, the jaw line and neck in profile, the back of his head and hair on the right of the frame. He is NOT looking at the camera and NOT facing forward. red eye, long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_v2_kit.json",
+    "row_id": "head_profile",
+    "mean_brightness": 56.2
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 67.4,
+    "load_s": 25.1,
+    "generate_s": 42.3
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 7.1
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_profile_1024x1024.png",
+      "sha256": "f12b9a3e049dd0facf17fed3bbc9a3eb0593c4cbe06d5a82787aad2d49a8d1a5"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T19:39:37+00:00"
+}

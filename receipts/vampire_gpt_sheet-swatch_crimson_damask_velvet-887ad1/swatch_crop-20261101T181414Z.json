@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-swatch_crimson_damask_velvet-887ad1",
+  "stage": "swatch_crop",
+  "tool": "swatch_crop.py",
+  "script_commit": "4f63119",
+  "model": "Pillow crop (LANCZOS only if resized)",
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_coat_1536x1024.png",
+      "sha256": "18a5844708700c6776f1c4f74307924a52d0fbb1413b7b6694f4c3bb32187a9f"
+    }
+  ],
+  "params": {
+    "row": "swatch_crimson_damask_velvet",
+    "source_row": "gear_coat",
+    "box": [
+      0.35026,
+      0.32422,
+      0.40495,
+      0.40625
+    ],
+    "crop_px": [
+      538,
+      332,
+      622,
+      416
+    ],
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 0.2
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_crimson_damask_velvet_1024x1024.png",
+      "sha256": "04cf2b00b0cd8352e8da2192ed83b20d5344c5afbfc6d2a65b97d9f437e488fb"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T18:14:14+00:00"
+}

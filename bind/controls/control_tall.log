@@ -1,0 +1,46 @@
+[INFO ] services.locationservice ...............: Not adding link to MakeHuman user data, since neither explicit path nor auto-discovery is set in preferences.
+[INFO ] mpfb.init ..............................: Build info 20261010
+[INFO ] mpfb.init ..............................: Online access preference is not enabled. Not checking if MakeHuman is online.
+[INFO ] mpfb.init ..............................: MPFB initialization has finished.
+13:14:19 | INFO: Data are loaded, start creating Blender stuff
+13:14:19 | INFO: Blender create Mesh node Mesh.002
+13:14:19 | INFO: Blender create Mesh node Mesh.003
+13:14:20 | INFO: glTF import finished in 0.88s
+R> rig: 106 bones, 80 body (deform), 26 non-body (use_deform -> False)
+13:14:20 | INFO: Data are loaded, start creating Blender stuff
+13:14:20 | INFO: Blender create Mesh node MhTall01.001
+13:14:20 | INFO: glTF import finished in 0.08s
+R> mesh glb objects: [('MESH', 'donor_male_tpose')] -> using [('donor_male_tpose', 20671)]
+R> merge-by-distance 1e-5: verts 20671 -> 19166
+R> mesh joined: verts 19166 polys 34774
+R> facing: toes toward -Y already (foot-shin -0.131 m)
+R> scale x0.7020 -> height 1.752 m (rig target 1.752), centred x by -0.010, feet on z=0
+R> arms: {"Left": {"centreline_pts": 22, "arm_len_mesh": 0.663, "arm_len_rig": 0.699, "max_dev_from_T_deg": 32.6, "mean_dev_deg": 8.6, "action": "unbent to T", "arm_scale": 1.044, "moved_verts": 2219}, "Right": {"centreline_pts": 21, "arm_len_mesh": 0.623, "arm_len_rig": 0.699, "max_dev_from_T_deg": 23.5, "mean_dev_deg": 6.6, "action": "unbent to T", "arm_scale": 1.111, "moved_verts": 2162}}
+R> aligned mesh dims [1.694, 0.24, 1.752] (rig fingertip-to-fingertip 1.709)
+R> donors prepared/loaded in 0.0s (cached: ['male', 'female', 'brute', 'dwarf', 'giant', 'mage', 'ogre', 'child', 'tall'])
+R> target features {'chest_w': 0.1302, 'chest_d': 0.0957, 'hip_w': 0.164, 'crotch': 0.4, 'arm': 0.367, 'height': 2.4959} (raw height 2.496 m)
+R>   donor male    dist 3.541  height=1.806 chest_w=0.195 chest_d=0.102 hip_w=0.186 crotch=0.440 arm=0.417
+R>   donor female  dist 2.919  height=1.671 chest_w=0.170 chest_d=0.125 hip_w=0.190 crotch=0.350 arm=0.378
+R>   donor brute   dist 4.877  height=2.141 chest_w=0.206 chest_d=0.177 hip_w=0.204 crotch=0.430 arm=0.403
+R>   donor dwarf   dist 6.383  height=1.506 chest_w=0.250 chest_d=0.146 hip_w=0.239 crotch=0.400 arm=0.423
+R>   donor giant   dist 4.766  height=2.560 chest_w=0.203 chest_d=0.149 hip_w=0.186 crotch=0.450 arm=0.438
+R>   donor mage    dist 3.113  height=2.140 chest_w=0.152 chest_d=0.130 hip_w=0.189 crotch=0.480 arm=0.378
+R>   donor ogre    dist 4.275  height=2.505 chest_w=0.192 chest_d=0.161 hip_w=0.205 crotch=0.400 arm=0.408
+R>   donor child   dist 3.644  height=1.239 chest_w=0.192 chest_d=0.131 hip_w=0.181 crotch=0.410 arm=0.405
+R>   donor tall    dist 0.190  height=2.496 chest_w=0.130 chest_d=0.096 hip_w=0.164 crotch=0.400 arm=0.363
+R> DONOR CHOICE: tall (requested tall)
+R> donor arm fit: {"Left": {"arm_scale_x": 1.083, "hand_dyz": [-0.008, -0.064]}, "Right": {"arm_scale_x": 1.132, "hand_dyz": [-0.013, -0.051]}}
+R> finger straighten (query only, target restored): {"Left_Thumb": "rotated 7.4 deg (206 verts)", "Left_Index": "rotated 5.6 deg (102 verts)", "Left_Middle": "ok 3.3 deg (512 verts)", "Left_Ring": "rotated 6.6 deg (461 verts)", "Left_Pinky": "skipped (0 verts)", "Right_Thumb": "rotated 8.2 deg (164 verts)", "Right_Index": "skipped (13 verts)", "Right_Middle": "rotated 5.3 deg (597 verts)", "Right_Ring": "rotated 5.4 deg (377 verts)", "Right_Pinky": "skipped (0 verts)"}
+R> transfer: 19166 target verts, k=4, donor tall (20837 verts), 0.3s; mean nn dist 0.0029 m, max 0.0448 m
+R> finger chain repair: {}
+R> zero-weight verts 0 | max influences 4 | sum min/max 1.00000 1.00000 | bones with no vert >0.05: ['mixamorig:LeftToe_End', 'mixamorig:RightToe_End']
+R>   verts>0.05 on mixamorig:LeftHandIndex4 168
+R>   verts>0.05 on mixamorig:LeftHandMiddle2 191
+R>   verts>0.05 on mixamorig:LeftHandRing3 152
+R>   verts>0.05 on mixamorig:LeftHandPinky4 231
+R>   verts>0.05 on mixamorig:LeftHandThumb3 162
+Info: Saved as "control_tall.blend"
+R> saved C:\Users\dom12\Documents\Content-Factory\bind\controls\control_tall.blend total 2.4s
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-body",
+  "stage": "bind",
+  "tool": "bind_best.py",
+  "script_commit": "8711351",
+  "model": {
+    "id": "psyche-106 hybrid donor transfer"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body\\mesh.glb",
+      "sha256": "50273e3d1ff55fafe98ccaa5b82363b04cf3204816da3efb35b04a3b3d6bd714"
+    },
+    {
+      "path": "C:\\HANDOVER-Macbook\\extracted\\batch1-2\\dev\\demon2-build\\ref\\psyche-106-v3.glb",
+      "sha256": "d928bdf6fcf31238f76f65158199f2c739379b9af671bada9c10784cf88487dc"
+    }
+  ],
+  "params": {
+    "gate": {
+      "min_edge_mm": 5,
+      "p99_stretch_max": 2.0,
+      "p99_compression_ratio_min": 0.5,
+      "zero_weight_vertices_max": 0,
+      "max_influences": 4,
+      "weight_sum_tol": 0.001
+    },
+    "blender": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
+    "rig": "C:\\HANDOVER-Macbook\\extracted\\batch1-2\\dev\\demon2-build\\ref\\psyche-106-v3.glb",
+    "donors_dir": "C:\\Users\\dom12\\Documents\\donors\\makehuman",
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\bind_vampire-dracula-body.txt",
+    "metrics": {
+      "edges_measured_ge_5mm": 202366,
+      "p99_stretch": 18.7929,
+      "p99_compression_ratio": 0.1867,
+      "diag_max_stretch": 87.91,
+      "diag_min_ratio": 0.0038,
+      "violating_edges_by_region": {
+        "hands": 1544,
+        "feet": 168,
+        "neck": 433,
+        "shoulders": 2237,
+        "crotch": 40,
+        "other": 15340
+      },
+      "score": 9.3965,
+      "gate_pass": false,
+      "weights": {
+        "zero_weight_vertices": 0,
+        "max_influences": 4,
+        "weight_sum_max_dev": 2.3245811462402344e-06,
+        "unweighted_bones": [
+          "mixamorig:LeftToe_End",
+          "mixamorig:RightToe_End"
+        ],
+        "unweighted_bones_other_than_toe_end": []
+      },
+      "checks": {
+        "edges_measured_ge_min": true,
+        "p99_stretch": false,
+        "p99_compression_ratio": false,
+        "zero_weight_vertices": true,
+        "max_influences": true,
+        "weight_sum_dev": true
+      },
+      "gate_passed": false,
+      "binder": "donor",
+      "donor": "dwarf",
+      "bind_best_gate": "GATE_FAIL",
+      "binders": {
+        "donor": {
+          "score": 9.3965,
+          "p99_stretch": 18.7929,
+          "p99_compression_ratio": 0.1867,
+          "gate_pass": false,
+          "regions": {
+            "hands": 1544,
+            "feet": 168,
+            "neck": 433,
+            "shoulders": 2237,
+            "crotch": 40,
+            "other": 15340
+          }
+        },
+        "hybrid": {
+          "score": 9.3965,
+          "p99_stretch": 18.7929,
+          "p99_compression_ratio": 0.1867,
+          "gate_pass": false,
+          "regions": {
+            "hands": 1544,
+            "feet": 168,
+            "neck": 433,
+            "shoulders": 2237,
+            "crotch": 40,
+            "other": 15341
+          }
+        }
+      }
+    }
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 305.5
+  },
+  "memory": {
+    "lowest_free_ram_gb": 2.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body\\bound.glb",
+      "sha256": "6bab2b064926a7cabb24b5363f2de684aa445cf04baa74cfb631c4d386d7b553"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body\\bound.blend",
+      "sha256": "a87978b8616220d8c0a1b2af8f91ff4060cd1217193ef5b9425d656e350febf2"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body\\bound.best.json",
+      "sha256": "8634f77715b565e9bc3035bf3694a4a77da293880d1b6bc043c1a54bde761053"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body\\bind_work\\donor.metrics.json",
+      "sha256": "2ffe8871982773bd041eb35650c7e59800926cdcbb9f9797027ec934dbf09762"
+    }
+  ],
+  "status": "fail",
+  "error": "gate failed: p99_stretch,p99_compression_ratio",
+  "created_utc": "2026-11-01T08:40:11+00:00"
+}

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-gear_cuffs-6fe40a",
+  "stage": "flux",
+  "tool": "flux_kit_pre.py",
+  "script_commit": "61e17bb",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Show ONLY the pair of white lace cuffs, laid out neatly on a plain dark background like a game asset sheet, no hands, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "gear_cuffs",
+    "embeds_sha256": "071a3211a3b6dd725b9891ef308a765ba7d254abe11137d7c9ac82c9f9292da9",
+    "embeds_file": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\embeds\\vampire_gpt_sheet\\gear_cuffs.pt",
+    "steps": "default",
+    "mean_brightness": 109.1,
+    "pixel_sha256": "7575a561d976555817a9bae2ff6269c92774ee0d420306f0a374681208f8aa11"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 175.4,
+    "load_s": 35.5,
+    "generate_s": 139.9
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 13.5,
+    "peak_gpu_reserved_gb": 14.2,
+    "lowest_free_ram_gb": 5.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\_pre_test\\gear_cuffs_1024x1024.png",
+      "sha256": "e000f1acb3242f71d1ab33dc544ba11bc106e3831cd0469324631ae5923f40c5"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T13:56:41+00:00"
+}

@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-ab-body-front",
+  "stage": "qc",
+  "tool": "run_qc.py",
+  "script_commit": "09dbeb6",
+  "model": {
+    "id": "none (deterministic numpy checks)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-front\\mesh.glb",
+      "sha256": "7a25321c38698cd9b636e16790bc1a2d347b0d01a42bcf8eb700a0d246749d35"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-front\\cutout.png",
+      "sha256": "f2847f6ec946aa535d9b6df9d68d650bfe68fce602c182fda66733def0e01f3a"
+    }
+  ],
+  "params": {
+    "concept": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-front\\cutout.png",
+    "budget_tris": null,
+    "thresholds": {
+      "min_free_ram_gb": 2.5,
+      "timeout_s": 600,
+      "_comment": "tools/run_qc.py thresholds, loose to start; tune from real receipts. A metric whose limit is null, or whose input is missing (no concept, no budget), is skipped, not failed.",
+      "geometry": {
+        "max_non_manifold_edge_pct": 8.0,
+        "max_boundary_edge_pct": 10.0,
+        "max_loose_shells": 200,
+        "budget_tris": null,
+        "budget_tolerance": 1.0,
+        "max_faceting_deg": 25.0
+      },
+      "texture": {
+        "max_raster_px": 2048,
+        "near_black_value": 14,
+        "max_near_black_pct": 0.2,
+        "max_black_patch_pct": 0.03,
+        "min_uv_coverage": 0.3,
+        "max_uv_stretch_p99": 12.0,
+        "max_uv_degenerate_pct": 10.0,
+        "min_luminance_ratio": 0.6,
+        "min_saturation_ratio": 0.15
+      },
+      "thin": {
+        "raster_px": 512,
+        "iou_px": 256,
+        "min_coverage_ratio": 0.8,
+        "min_iou": 0.4
+      }
+    },
+    "metrics": {
+      "geometry": {
+        "triangles": 195695,
+        "degenerate_triangles": 0,
+        "non_manifold_edges": 30011,
+        "boundary_edges": 15074,
+        "non_manifold_edge_pct": 11.0514,
+        "boundary_edge_pct": 5.5509,
+        "edges": 271558,
+        "loose_shells": 154,
+        "largest_shell_tri_pct": 95.987,
+        "faceting_score": 45.0742,
+        "bbox_min": [
+          -0.27545,
+          -0.49994,
+          -0.10807
+        ],
+        "bbox_max": [
+          0.27537,
+          0.49971,
+          0.10689
+        ]
+      },
+      "texture": {
+        "uv_coverage": 0.6379,
+        "near_black_pct": 20.111,
+        "largest_black_patch_pct": 0.188,
+        "uv_stretch_p99": 3.256,
+        "uv_degenerate_pct": 4.412,
+        "mean_luminance": 0.2004,
+        "mean_saturation": 0.2696,
+        "concept_luminance": 0.1725,
+        "concept_saturation": 0.1078,
+        "luminance_ratio": 1.162,
+        "saturation_ratio": 2.4998,
+        "colour_flag": "ok"
+      },
+      "thin": {
+        "mesh_coverage": 0.1825,
+        "concept_coverage": 0.1969,
+        "coverage_ratio": 0.9269,
+        "mesh_aspect_w_over_h": 0.5519,
+        "concept_aspect_w_over_h": 0.545,
+        "iou": 0.8482
+      }
+    },
+    "checks": [
+      {
+        "metric": "non_manifold_edge_pct",
+        "value": 11.0514,
+        "op": "<=",
+        "limit": 8.0,
+        "pass": false
+      },
+      {
+        "metric": "boundary_edge_pct",
+        "value": 5.5509,
+        "op": "<=",
+        "limit": 10.0,
+        "pass": true
+      },
+      {
+        "metric": "loose_shells",
+        "value": 154,
+        "op": "<=",
+        "limit": 200,
+        "pass": true
+      },
+      {
+        "metric": "faceting_score",
+        "value": 45.0742,
+        "op": "<=",
+        "limit": 25.0,
+        "pass": false
+      },
+      {
+        "metric": "near_black_pct",
+        "value": 20.111,
+        "op": "<=",
+        "limit": 0.2,
+        "pass": false
+      },
+      {
+        "metric": "largest_black_patch_pct",
+        "value": 0.188,
+        "op": "<=",
+        "limit": 0.03,
+        "pass": false
+      },
+      {
+        "metric": "uv_coverage",
+        "value": 0.6379,
+        "op": ">=",
+        "limit": 0.3,
+        "pass": true
+      },
+      {
+        "metric": "uv_stretch_p99",
+        "value": 3.256,
+        "op": "<=",
+        "limit": 12.0,
+        "pass": true
+      },
+      {
+        "metric": "uv_degenerate_pct",
+        "value": 4.412,
+        "op": "<=",
+        "limit": 10.0,
+        "pass": true
+      },
+      {
+        "metric": "luminance_ratio",
+        "value": 1.162,
+        "op": ">=",
+        "limit": 0.6,
+        "pass": true
+      },
+      {
+        "metric": "saturation_ratio",
+        "value": 2.4998,
+        "op": ">=",
+        "limit": 0.15,
+        "pass": true
+      },
+      {
+        "metric": "silhouette_coverage_ratio",
+        "value": 0.9269,
+        "op": ">=",
+        "limit": 0.8,
+        "pass": true
+      },
+      {
+        "metric": "silhouette_iou",
+        "value": 0.8482,
+        "op": ">=",
+        "limit": 0.4,
+        "pass": true
+      }
+    ],
+    "skipped": [
+      "triangles"
+    ],
+    "failed": [
+      "non_manifold_edge_pct",
+      "faceting_score",
+      "near_black_pct",
+      "largest_black_patch_pct"
+    ],
+    "overall": "fail",
+    "colour_flag": "ok"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 6.0
+  },
+  "memory": {
+    "lowest_free_ram_gb": 18.4
+  },
+  "outputs": [],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T15:42:39+00:00"
+}
