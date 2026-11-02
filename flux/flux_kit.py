@@ -36,6 +36,7 @@ elif refusals:
     sys.exit(3 if cf_flux.is_hold(refusals) else 2)   # 3 = HOLD (a dependency row is not ready): the queue waits, it does not fail
 if not os.environ.get("CF_DRY"):
     cf_common.plugin_gate("models", "flux")   # latest-models gate (plugin 0.1.27)
+    cf_common.plugin_gate("power")   # power gate (plugin 0.1.28): not on battery, not in Silent
 cf_common.keep_awake()
 out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
 path = os.path.join(out_dir, f"{row['name']}_{W}x{H}.png")

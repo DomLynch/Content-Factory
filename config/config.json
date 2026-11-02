@@ -11,12 +11,14 @@
     "publish"
   ],
   "limits": {
-    "guard_min_free_ram_gb": 3,
+    "guard_min_free_ram_gb": 0,
+    "_guard_comment": "plugin 0.1.28: 0 = no physical-RAM floor for the GPU job itself. With the Variable Graphics Memory split its allocations come out of system RAM (a healthy 1024 decode reads 0.0 GB free), so tools/gpu_guard.ps1 watches commit headroom instead (-MinFreeCommitGB, default 2). start_min_free_ram_gb still applies BEFORE a start.",
     "guard_max_gpu_gb": 0,
     "max_megapixels": 1.6,
     "watchdog_seconds": 1500,
     "start_min_free_ram_gb": 6,
     "share_min_free_ram_gb": 8,
+    "power_refuse_schemes": ["silent"],
     "load_stage_s": 300,
     "_share_comment": "plugin 0.1.27 RAM-sharing rule: a cut-out, upscale or Blender job refuses to start while a Trellis/Pixal3D process younger than load_stage_s (still loading weights) exists, or with available RAM under share_min_free_ram_gb. load_stage_s is an estimate: tune it from the load times in the trellis receipts.",
     "start_wait_max_s": 1800
