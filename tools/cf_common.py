@@ -213,6 +213,9 @@ def plugin_gate(kind, *args):
                 else:
                     bad = [f"QUALITY GATE: '{preset}' is a speed preset for {tool} (reduced settings). Quality first is the default; run the default preset, or pass --speed-reason \"<reason>\" "
                            "(written to the receipt). Dom's standing order: no speed, max quality."]
+        elif kind == "pythonpath":   # stubs dir never on PYTHONPATH (plugin 0.1.29)
+            import cf_proc
+            bad = [r for r in [cf_proc.stub_path_reason(sys_path=sys.path[:6])] if r]
         elif kind == "power":   # power gate (plugin 0.1.28): GPU runs only on AC and outside a throttled scheme; the state goes into the receipt
             import cf_proc
             global POWER

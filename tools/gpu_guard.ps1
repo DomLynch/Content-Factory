@@ -4,7 +4,7 @@
 # With the Variable Graphics Memory split the GPU job's own allocations are carved out of system RAM, so "available RAM" falls toward 0 during a healthy decode or bake
 # (13:30 2026-11-02: a 1024 decode was killed at 0.0 GB free with 52 GB free before it). The guard therefore watches COMMIT headroom (-MinFreeCommitGB, default 2)
 # and treats -MinFreeRamGB 0 as "no physical-RAM floor"; config limits.guard_min_free_ram_gb is 0 for that reason.
-param([string]$Match, [double]$MinFreeRamGB = 4, [double]$MaxGpuGB = 30, [double]$MinFreeCommitGB = 2)
+param([string]$Match, [double]$MinFreeRamGB = 4, [double]$MaxGpuGB = 30, [double]$MinFreeCommitGB = 2, [string]$KillLog = "")
 $log = "$env:USERPROFILE\Documents\crash_monitor.csv"
 $strikes = 0; $gone = 0; $lockPath = "$env:USERPROFILE\Documents\.gpu_lock"; $haveLock = $false
 # GPU lock (Bonsai and other background helpers yield while it exists). CPU-only Blender guards do not take it.
@@ -35,6 +35,8 @@ while ($true) {
     $why = "free RAM {0:N1} GB (min {1}) / free commit {4:N1} GB (min {5}) / GPU dedicated {2:N1} GB (max {3})" -f $free, $MinFreeRamGB, $gpu, $MaxGpuGB, $freeCommit, $MinFreeCommitGB
     foreach ($p in $procs) { Stop-Process -Id $p.ProcessId -Force -ErrorAction SilentlyContinue }
     "$(Get-Date -Format s),GUARD_ABORT,job '$Match' killed: $why" | Out-File $log -Append -Encoding ascii
+    # plugin 0.1.29: every kill of a GPU job is logged with reason + pid + who into the run folder (-KillLog <run>\kill.log)
+    if ($KillLog) { "$(Get-Date -Format s) gpu_guard killed pid $(($procs | ForEach-Object { $_.ProcessId }) -join ',') (job '$Match'): $why" | Out-File $KillLog -Append -Encoding ascii }
     Remove-Lock
     break
   }
