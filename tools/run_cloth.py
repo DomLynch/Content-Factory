@@ -19,6 +19,7 @@ ap.add_argument("--preset", default=""); ap.add_argument("--mode", default="rest
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
+cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
 gm, bg = os.path.abspath(a.part_mesh), os.path.abspath(a.body_glb)
 
 

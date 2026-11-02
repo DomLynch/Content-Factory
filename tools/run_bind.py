@@ -16,6 +16,7 @@ cf_common.plugin_gate("models", "bind")   # latest-models gate (plugin 0.1.27): 
 asset_id, mesh = sys.argv[1], os.path.abspath(sys.argv[2])
 
 cfg = cf_common.load_config()
+cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
 loc, bd = cfg["local"], cfg["bind"]
 gate = bd["gate"]
 work = os.path.join(loc["outputs_dir"], "3d", asset_id)

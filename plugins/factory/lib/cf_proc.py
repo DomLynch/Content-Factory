@@ -155,6 +155,37 @@ def stage_procs() -> list[tuple[int, str]]:
     only = os.environ.get("FACTORY_TEST_STAGE_TAG", "")   # TEST ONLY: look at nothing but processes whose command line holds this tag
     return [(pid, cmd) for pid, cmd in rows if (not only or only in cmd) and pid not in me and _STAGE_RE.search(cmd) and "Get-CimInstance" not in cmd and "cf_proc" not in cmd]
 
+
+def loading_procs(load_stage_s: float) -> list[tuple[int, str, float]]:
+    """(pid, command line, age in seconds) of Trellis / Pixal3D generation processes younger than load_stage_s: they are still loading weights. [] when it cannot tell (plugin 0.1.27)."""
+    me = {os.getpid(), os.getppid()}
+    if os.name != "nt":
+        return []
+    try:
+        ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '(generate|run_pixal3d|pixal3d_entry)\\.py' -and $_.CommandLine -notmatch 'Get-CimInstance' } "
+              "| ForEach-Object { [pscustomobject]@{ProcessId=$_.ProcessId; CommandLine=$_.CommandLine; Age=((Get-Date)-$_.CreationDate).TotalSeconds} } | ConvertTo-Json -Compress")
+        out = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps], capture_output=True, text=True,
+                             timeout=float(os.environ.get("FACTORY_PS_TIMEOUT", "8")), creationflags=NO_WINDOW).stdout.strip()
+        data = json.loads(out) if out else []
+        rows = [(int(d["ProcessId"]), str(d.get("CommandLine") or ""), float(d["Age"])) for d in (data if isinstance(data, list) else [data])]
+        return [r for r in rows if r[0] not in me and r[2] < load_stage_s]
+    except Exception:
+        return []
+
+
+def ram_share_reason(limits: dict, free_gb: float | None, loading: list | None = None) -> str:
+    """RAM-sharing rule (plugin 0.1.27): a cut-out, upscale or Blender job does not start while a Trellis / Pixal3D process is loading, or with available RAM under
+    limits.share_min_free_ram_gb. The Factory killed the GPU lane's run three times in one day this way. '' = may start."""
+    need = float(limits.get("share_min_free_ram_gb", 8))
+    if loading:
+        pid, cmd, age = loading[0]
+        return (f"RAM-SHARE GATE: a Trellis/Pixal3D process (pid {pid}, started {age:.0f} s ago) is still loading its weights; a cut-out, upscale or Blender job started now takes its RAM. "
+                f"Wait until it has finished loading (limits.load_stage_s = {limits.get('load_stage_s', 300)} s).")
+    if free_gb is not None and free_gb < need:
+        return f"RAM-SHARE GATE: {free_gb:.1f} GB RAM available, under limits.share_min_free_ram_gb = {need:g} GB. A cut-out, upscale or Blender job waits for headroom."
+    return ""
+
+
 def descendants(pid: int) -> set[int]:
     """0.1.14: pids of every process started (directly or not) by pid, for the A/B harness's own-children exclusion. set() when it cannot tell."""
     try:

@@ -16,6 +16,9 @@
     "max_megapixels": 1.6,
     "watchdog_seconds": 1500,
     "start_min_free_ram_gb": 6,
+    "share_min_free_ram_gb": 8,
+    "load_stage_s": 300,
+    "_share_comment": "plugin 0.1.27 RAM-sharing rule: a cut-out, upscale or Blender job refuses to start while a Trellis/Pixal3D process younger than load_stage_s (still loading weights) exists, or with available RAM under share_min_free_ram_gb. load_stage_s is an estimate: tune it from the load times in the trellis receipts.",
     "start_wait_max_s": 1800
   },
   "quality": {
@@ -61,7 +64,7 @@
         "preset": "hero",
         "texture_size": 8192,
         "bake_faces": 2000000,
-        "extra": ["--attn-auto-gb", "24", "--max-tokens", "98304"]
+        "extra": ["--attn-auto-gb", "0", "--max-tokens", "98304"]
       },
       "master_reduced": {
         "preset": "master",

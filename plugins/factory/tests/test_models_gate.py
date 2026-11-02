@@ -13,6 +13,7 @@ sys.path.insert(0, str(REPO / "plugins" / "factory" / "lib"))
 sys.path.insert(0, str(REPO / "tools"))
 import cf_guard  # noqa: E402
 import cf_models  # noqa: E402
+sys.path.insert(0, str(REPO / "plugins" / "factory" / "lib"))
 import cf_common  # noqa: E402
 
 
@@ -185,6 +186,43 @@ class Quality(unittest.TestCase):
             self.assertEqual(sys.argv, ["x", "a", "b"])
         finally:
             sys.argv = old
+
+
+class RamShare(unittest.TestCase):
+    """RAM-sharing rule (plugin 0.1.27): cut-out / upscale / Blender jobs wait for a loading Trellis/Pixal3D process and for 8 GB available."""
+    LIM = {"share_min_free_ram_gb": 8, "load_stage_s": 300}
+
+    def test_refused_while_a_gpu_process_is_loading_or_under_8_gb(self):
+        import cf_proc
+        self.assertEqual(cf_proc.ram_share_reason(self.LIM, 20.0, []), "")
+        self.assertEqual(cf_proc.ram_share_reason(self.LIM, None, []), "")   # cannot tell: allow
+        r = cf_proc.ram_share_reason(self.LIM, 20.0, [(123, "python generate.py", 40.0)])
+        self.assertTrue("RAM-SHARE GATE" in r and "pid 123" in r and "loading" in r)
+        r = cf_proc.ram_share_reason(self.LIM, 7.9, [])
+        self.assertTrue("7.9 GB" in r and "8 GB" in r)
+        self.assertEqual(cf_proc.ram_share_reason(self.LIM, 8.0, []), "")
+
+    def test_gate_exits_2_and_the_entry_scripts_call_it(self):
+        import cf_proc
+        old = (cf_common.load_config, cf_guard.free_ram_gb, cf_proc.loading_procs)
+        cf_common.load_config = lambda: {"limits": self.LIM}
+        cf_guard.free_ram_gb = lambda: 3.0
+        cf_proc.loading_procs = lambda s: []
+        try:
+            with self.assertRaises(SystemExit) as e:
+                cf_common.plugin_gate("ram_share")
+            self.assertEqual(e.exception.code, 2)
+        finally:
+            cf_common.load_config, cf_guard.free_ram_gb, cf_proc.loading_procs = old
+        for rel in ("tools/upscale/upscale_match.py", "tools/cutout_cpu.py", "tools/run_stills.py", "tools/run_clean.py", "tools/run_gear.py", "tools/run_cloth.py",
+                    "tools/assemble_character.py", "tools/run_bind.py"):
+            self.assertIn('plugin_gate("ram_share")', (REPO / rel).read_text(encoding="utf-8"), rel)
+
+    def test_hero_default_uses_fused_attention_and_the_limits_exist(self):
+        cfg = json.loads((REPO / "config" / "config.json").read_text(encoding="utf-8-sig"))
+        extra = cfg["trellis"]["presets"][cfg["character"]["default_preset"]]["extra"]
+        self.assertEqual(extra[extra.index("--attn-auto-gb") + 1], "0")   # fused SDPA flash; tiled was measured 8x slower
+        self.assertEqual((cfg["limits"]["share_min_free_ram_gb"], cfg["limits"]["load_stage_s"]), (8, 300))
 
 
 if __name__ == "__main__":

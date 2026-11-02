@@ -190,6 +190,10 @@ def plugin_gate(kind, *args):
                 else:
                     bad = [f"QUALITY GATE: '{preset}' is a speed preset for {tool} (reduced settings). Quality first is the default; run the default preset, or pass --speed-reason \"<reason>\" "
                            "(written to the receipt). Dom's standing order: no speed, max quality."]
+        elif kind == "ram_share":   # RAM-sharing rule (plugin 0.1.27): cut-out / upscale / Blender jobs
+            import cf_proc
+            lim = load_config()["limits"]
+            bad = [r for r in [cf_proc.ram_share_reason(lim, cf_guard.free_ram_gb(), cf_proc.loading_procs(float(lim.get("load_stage_s", 300))))] if r]
         elif kind == "chain":
             import cf_chain
             bad = cf_chain.part_mesh_reasons(*args)

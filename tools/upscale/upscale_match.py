@@ -10,6 +10,7 @@ EXE = os.path.expanduser(r"~\Documents\pipeline_tools\realesrgan-full\app\reales
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 import cf_common
 cf_common.pop_allow_stale()
+cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
 cf_common.plugin_gate("models", "upscale")   # latest-models gate (plugin 0.1.27)
 src, dst = sys.argv[1], sys.argv[2]
 passes = int(sys.argv[3]) if len(sys.argv) > 3 else 1
