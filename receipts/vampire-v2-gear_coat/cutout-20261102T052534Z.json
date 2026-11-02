@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-v2-gear_coat",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire_v2_gear_coat_up.png",
+      "sha256": "d97ff332923f872468e6ab1a4db291d5559947a5de1f8c7a5c8c0b7582641e9f"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 162.5
+  },
+  "memory": {
+    "lowest_free_ram_gb": 15.4
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-v2-gear_coat\\cutout.png",
+      "sha256": "33b02d0f01db2b170140dff8f092e79e31da4d1c699aa3e20c6c333b7043fa21"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-02T05:25:34+00:00"
+}

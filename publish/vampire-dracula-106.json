@@ -1,18 +1,29 @@
 {
-  "id": "vampire-dracula-106",
-  "label": "Dracula (vampire) - body",
-  "group": "Dracula (vampire)",
-  "rig": "106 Mixamo joints",
-  "source": "Flux klein sheet, TRELLIS mesh, hybrid bind; stage receipts in Content-Factory.",
-  "glb": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\bound.glb",
-  "thumb": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\thumb.png",
-  "stills": [
-    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\head.png",
-    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\idle.png",
-    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\walk.png",
-    "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\attack.png"
-  ],
-  "still_names": {"head": "Head crop", "idle": "Idle", "walk": "Walk", "attack": "Attack", "roll": "Roll"},
-  "clips": {"Idle": "113410901-idle", "Walk": "124540901-walk", "Attack": "9034009-zombie-neck-bite", "Roll": "120430902-sprinting-forward-roll"},
-  "receipt": "https://github.com/DomLynch/Content-Factory/tree/main/receipts"
+ "id": "vampire-dracula-106",
+ "label": "Dracula (vampire) - body (proof)",
+ "group": "Dracula (vampire)",
+ "rig": "106 Mixamo joints",
+ "source": "Proof tier: Flux klein T-pose sheet, TRELLIS mesh, hybrid bind on the 106 rig. Gate: absolute checks pass (p99 stretch 1.31, compression 0.61); relative-to-donor-control compression 0.612 vs 0.649 misses (reported, not blocking for TRELLIS meshes). Texture still speckled; dressed version (coat, cloak, boots as parts) in progress. Receipts in Content-Factory.",
+ "glb": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\bound.glb",
+ "thumb": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\thumb.png",
+ "stills": [
+  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\head.png",
+  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\idle.png",
+  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\walk.png",
+  "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\stills\\attack.png"
+ ],
+ "still_names": {
+  "head": "Head crop",
+  "idle": "Idle",
+  "walk": "Walk",
+  "attack": "Attack",
+  "roll": "Roll"
+ },
+ "clips": {
+  "Idle": "113410901-idle",
+  "Walk": "124540901-walk",
+  "Attack": "9034009-zombie-neck-bite",
+  "Roll": "120430902-sprinting-forward-roll"
+ },
+ "receipt": "https://github.com/DomLynch/Content-Factory/tree/main/receipts"
 }

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet_v2-head_back-054510",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_back_2v.png",
+      "sha256": "d3d700acc1a2178e1f0f4643c0fd764aede82f98bdb4fae0ca562cb870bd9999"
+    }
+  ],
+  "params": {
+    "seed": 47,
+    "w": 1024,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\dracula_back_2v.png",
+    "prompt": "Edit instruction: the reference shows this exact same man from behind. Keep his long loose wavy black hair and the collar and shoulders exactly as in the reference. Change only the framing, a close portrait of his head and shoulders from behind: Head and neck and shoulders, seen from directly BEHIND, showing long loose wavy black hair with no braids, swept straight back and falling loose over the nape and the back of the collar and the nape of the neck; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no bare chest, no sweater, no knit, no turtleneck, no fur, no coat. Skin: pale, cold, slightly grey skin, no warm flush.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_v2_kit.json",
+    "row_id": "head_back",
+    "mean_brightness": 62.9
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 861.4,
+    "load_s": 25.1,
+    "generate_s": 836.1
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 22.0,
+    "peak_gpu_reserved_gb": 25.3,
+    "lowest_free_ram_gb": 7.5
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_back_1024x1024.png",
+      "sha256": "6e3ca47b41e71e91889627cdcbddd3692a721b9261a7fb48fe64893e81a430e9"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T20:09:17+00:00"
+}

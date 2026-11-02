@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-head_top-338b9e",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "09dbeb6",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+      "sha256": "97d6482aa6369c98da9b39b2b91ea6560c935badfc532d36e62d4f937007edd3"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+    "prompt": "Edit instruction: keep this exact same man's hair and head shape from the reference image. Change only the camera: Seen from directly ABOVE, a pure top-down view looking straight down at the crown of his head: only black hair visible, the centre parting, the hair swept back and the origins of the two braids, a little of both shoulders in a plain charcoal sweater. No face visible, no forehead, no coat, no fur, no collar.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "head_top",
+    "mean_brightness": 50.9
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 305.6,
+    "load_s": 45.2,
+    "generate_s": 260.4
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 5.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_top_1024x1024.png",
+      "sha256": "43c3d0bd77fdb4e7d1b1aee5cbbc34a6598c4f4082e8bcb8f0249a57e6420a3b"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T15:06:02+00:00"
+}

@@ -1,0 +1,71 @@
+{
+  "_about": "Defaults for tools/vampire_asm.py (stage A port from the Demon 2 build). Paths are NOT here: outputs_dir comes from config/config.local.json. Command line flags override anything below.",
+  "asset_id": "vampire-v1",
+  "body_asset": "vampire-v1-body",
+  "head_asset": "vampire-v1-head",
+  "part_glb_name": "mesh.glb",
+  "out_name": "assembled.glb",
+  "report_name": "assemble.report.json",
+  "debug_dir_name": "assemble_debug",
+  "hands": [],
+
+  "neck": {
+    "mode": "auto",
+    "fixed_frac": 0.86,
+    "search_lo": 0.80,
+    "search_hi": 0.93,
+    "bins": 60,
+    "column_half_frac": 0.14,
+    "min_head_to_neck_ratio": 1.3,
+    "cut_offset_frac": 0.0
+  },
+
+  "cleanup": {
+    "weld_decimals": 5,
+    "min_component_faces": { "body": 20, "head": 30, "hands": 20 },
+    "min_component_frac": 0.0005,
+    "needle_aspect": { "body": 40, "head": 40, "hands": 40 },
+    "face_loss_budget_pct": 5.0,
+    "gate_per_part": false
+  },
+
+  "inpaint": {
+    "enabled": true,
+    "parts": ["body", "head", "hands"],
+    "lum": 8,
+    "max_blob_px_at_2048": 500,
+    "reference_px": 2048,
+    "dilate_iterations": 2,
+    "telea_radius": 3,
+    "save_debug_images": true
+  },
+
+  "cap": {
+    "required": true,
+    "band_frac": 0.05,
+    "max_radius_frac": 0.12,
+    "dome_frac": 0.012,
+    "min_loop_vertices": 8
+  },
+
+  "head": {
+    "match": "width",
+    "fixed_scale": 1.0,
+    "scale_min": 0.6,
+    "scale_max": 1.6,
+    "upper_frac": 0.6,
+    "sink_frac": 0.02,
+    "dx_frac": 0.0,
+    "dz_frac": 0.0,
+    "collar_trim_frac": 0.0
+  },
+
+  "hands_place": {
+    "length_frac": 0.11,
+    "cut_body_hands": false,
+    "rotate_deg": { "left": [0, 0, 0], "right": [0, 0, 0] },
+    "inward_frac": 0.5
+  },
+
+  "material": { "metallic": 0.0, "roughness": 0.6 }
+}

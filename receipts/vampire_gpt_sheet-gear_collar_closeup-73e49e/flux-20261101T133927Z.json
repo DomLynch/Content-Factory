@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-gear_collar_closeup-73e49e",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "db647e8",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Materials and look: crimson damask velvet with a woven floral pattern, dense raised gold thread embroidery, black fur, aged gold metal with red gemstones, worn black leather, white lace; dark gothic aristocratic style. Show ONLY a close-up of the high stiff crimson damask collar with gold embroidery and the black fur collar, front view on a plain dark background like a game asset sheet, no person. No person, no head, no face, no hands, no mannequin; the item alone, isolated.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "gear_collar_closeup",
+    "mean_brightness": 46.3
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 146.1,
+    "load_s": 30.9,
+    "generate_s": 115.1
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 27.7,
+    "peak_gpu_reserved_gb": 29.7,
+    "lowest_free_ram_gb": 6.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_collar_closeup_1536x1024.png",
+      "sha256": "e13b255e5a4b05c958fcaa2109666aea71537e51ae2c5ceb89b3045aea3b2866"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T13:39:27+00:00"
+}

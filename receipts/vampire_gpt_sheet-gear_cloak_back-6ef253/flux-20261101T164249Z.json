@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-gear_cloak_back-6ef253",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "afe8d4a",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Show ONLY the back of the long cloak seen from behind, laid out flat: BLACK velvet outer shell with wide gold embroidered borders and a thick black fur collar at the top; crimson only at the very edges. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame. No person, no head, no face, no hands, no mannequin.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "gear_cloak_back",
+    "mean_brightness": 52.3
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 100.1,
+    "load_s": 28.7,
+    "generate_s": 71.4
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 9.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_cloak_back_1536x1024.png",
+      "sha256": "4751063f6e333d104adf90b99fe33fbcc009918cacf460e3f57a8c394d47dca8"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T16:42:49+00:00"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_parts-body_underlayer-2039f7",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "8711351",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+    "prompt": "Edit instruction: keep this exact same character from the reference image: identical face, hair, moustache, skin and body build. Change only the following: Remove the cloak, fur mantle, coat, tabard, belt, medallions and boots. He stands in a neutral A-pose facing the camera, arms slightly away from the body, wearing only a plain form-fitting dark grey long-sleeve base layer, trousers and plain dark shoes, with the same pale gaunt face, long black hair and thin moustache. Hands bare, fingers relaxed and slightly apart.  Photorealistic, ultra-detailed, soft even studio lighting, plain neutral grey background, centred, full figure head to feet fully visible, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_parts_kit.json",
+    "row_id": "body_underlayer",
+    "mean_brightness": 64.1
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 302.2,
+    "load_s": 22.7,
+    "generate_s": 279.5
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 6.7
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\body_underlayer_1024x1536.png",
+      "sha256": "66a543ea3ce996c605f26e33802cfb66d808a96921b59a7664707c39ca2308db"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T08:14:16+00:00"
+}

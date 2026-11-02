@@ -40,6 +40,352 @@
    "prompt": "Remove the cloak, fur mantle, coat, tabard, belt, medallions and boots. He stands in a strict T-pose facing the camera: both arms stretched straight out horizontally to the sides at shoulder height, palms facing down, fingers straight and slightly apart, legs straight and a little apart, feet flat, wearing only a plain form-fitting dark grey long-sleeve base layer, trousers and plain dark shoes, with the same pale gaunt face, long black hair and thin moustache. The whole body including both hands is fully inside the picture with space around it.",
    "w": 1536,
    "h": 1024
+  },
+  {
+   "name": "head_swept",
+   "row_id": "head_swept",
+   "part": "head",
+   "w": 1024,
+   "h": 1024,
+   "prompt": "Head and neck only, orthographic FRONT view, neutral expression, bare neck and no collar. The long black hair is swept straight back and tied tight against the skull so the whole face, forehead, ears and jaw are clearly visible and the hair is one smooth solid mass with no loose strands. Same face, moustache and skin. High detail on skin pores."
+  }
+ ],
+ "sheet_cells": [
+  {
+   "row_id": "body_underlayer_front",
+   "group": "body",
+   "size": [
+    1024,
+    1536
+   ]
+  },
+  {
+   "row_id": "body_underlayer_back",
+   "group": "body",
+   "size": [
+    1024,
+    1536
+   ]
+  },
+  {
+   "row_id": "body_underlayer_left",
+   "group": "body",
+   "size": [
+    1024,
+    1536
+   ]
+  },
+  {
+   "row_id": "body_underlayer_right",
+   "group": "body",
+   "size": [
+    1024,
+    1536
+   ]
+  },
+  {
+   "row_id": "body_underlayer_three_quarter",
+   "group": "body",
+   "size": [
+    1024,
+    1536
+   ]
+  },
+  {
+   "row_id": "head_front",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "head_profile",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "head_three_quarter",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "head_back",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "head_top",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "head_eyes_closeup",
+   "group": "head",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "hand_open_left",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "hand_open_right",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "hand_fist_left",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "hand_fist_right",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "hand_back_views",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "foot_left",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "foot_right",
+   "group": "hands_feet",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_coat",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_coat_back",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_cloak",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_cloak_back",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_fur_collar",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_collar_closeup",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_belt",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_belt_buckle_closeup",
+   "group": "gear",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_tabard",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_cuffs",
+   "group": "gear",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_trousers",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_boots_front",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_boots_side",
+   "group": "gear",
+   "size": [
+    1536,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_knee_plates",
+   "group": "gear",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "gear_rings",
+   "group": "gear",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_crimson_damask_velvet",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_black_fur",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_gold_embroidery",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_black_leather",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_pale_skin",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_dark_hair",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_steel",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_lace",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "row_id": "swatch_velvet_lining",
+   "group": "swatch",
+   "size": [
+    1024,
+    1024
+   ]
   }
  ]
 }

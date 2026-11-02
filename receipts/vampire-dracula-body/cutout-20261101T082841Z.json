@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-body",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "8711351",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\body_underlayer_1024x1536.png",
+      "sha256": "1d02204a8af684d8cd88b3c8e206b2b07e56bfe3d96aebc96d734fe4b8370f49"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 136.3
+  },
+  "memory": {
+    "lowest_free_ram_gb": 4.3
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body\\cutout.png",
+      "sha256": "ea06353ec9b6c2466f29d97bf2ccc46042638f37d3b410ebfea090018052cad2"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T08:28:41+00:00"
+}

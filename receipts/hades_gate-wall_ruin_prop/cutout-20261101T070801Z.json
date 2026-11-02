@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "hades_gate-wall_ruin_prop",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "f6e457b",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\hades_gate\\wall_ruin_prop_1024x1024.png",
+      "sha256": "2613f6f4e262ad3e239afa085f3ff3e89271004d6ceea669a183e3c103b680e0"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 118.5
+  },
+  "memory": {
+    "lowest_free_ram_gb": 0.2
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\hades_gate-wall_ruin_prop\\cutout.png",
+      "sha256": "2768e78e18975de8834da68d25fe9f5f46b8e80be48e1991b6ea138aa50399a5"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T07:08:01+00:00"
+}

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-foot_left-f372a3",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "09dbeb6",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Reference sheet of ONE single left foot wearing a plain black knitted sock, three views in a row: top view, side view, and the sole of the sock. No shoe, no tread, no second foot, no leg above the ankle. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "foot_left",
+    "mean_brightness": 58.2
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 141.3,
+    "load_s": 38.4,
+    "generate_s": 102.8
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 8.1
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\foot_left_1536x1024.png",
+      "sha256": "546aaf55da219a3b441b6dbda6328da226ccd7ea2e0c3ee30c4bb8f2c99e15ec"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T15:45:00+00:00"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-hand_back_views-2b4f2d",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "61e17bb",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+      "sha256": "97d6482aa6369c98da9b39b2b91ea6560c935badfc532d36e62d4f937007edd3"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+    "prompt": "Edit instruction: keep this exact same man, skin and build from the reference image. Remove the coat, cloak, fur and boots; plain base layer. Change only the camera and framing: Close-up reference of both hands seen from behind with relaxed fingers, wearing gold signet rings, side by side on a plain dark background, no cuffs, high detail.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "hand_back_views",
+    "mean_brightness": 62.5
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 474.6,
+    "load_s": 30.8,
+    "generate_s": 443.7
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 6.4
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_back_views_1536x1024.png",
+      "sha256": "37def3b30346e5c85279c5ae20ecb30553c160c0bcc27b4cd6347f9ee98c2c5f"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T14:23:49+00:00"
+}

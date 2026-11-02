@@ -18,7 +18,7 @@ os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 kit = json.load(open(sys.argv[1], encoding="utf-8-sig"))
 row = next(r for r in kit["rows"] if r.get("row_id", r["name"]) == sys.argv[2])
 row_id = row.get("row_id", row["name"])
-seed = kit.get("seed", cfg["defaults"]["seed"])
+seed = row.get("seed", kit.get("seed", cfg["defaults"]["seed"]))   # a re-render with a documented change may carry its own row seed
 prompt = " ".join([row["prompt"], kit["subject"] if row.get("use_subject", True) else "", kit["style"]]).strip()
 W, H = row.get("w", kit.get("w", cfg["defaults"]["w"])), row.get("h", kit.get("h", cfg["defaults"]["h"]))
 ref_path = row.get("ref", kit.get("ref"))   # a row may use its own identity reference

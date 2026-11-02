@@ -1,0 +1,130 @@
+{
+ "id": "knight_example",
+ "template": "config/character_sheet_template_gpt.json",
+ "kit_name": "_example_second",
+ "description": "Sir Aldric, a stern grey-eyed armoured knight with short cropped brown hair and a trimmed beard, polished steel plate armour over a blue wool surcoat with a white lion emblem, a leather sword belt, steel gauntlets and heavy riveted leather boots.",
+ "seed": 7,
+ "ref": "C:\\placeholder\\knight-ref.png",
+ "base_layer_ref": "C:\\placeholder\\kits_out\\_example_second\\body_underlayer_front_1024x1536.png",
+ "character_noun": "man",
+ "possessive": "his",
+ "pronoun": "he",
+ "facial_hair": "trimmed beard",
+ "base_layer": "a plain fitted padded gambeson and linen trousers",
+ "three_quarter_posture": "a proud upright posture",
+ "head_detail": "skin pores, scars and beard",
+ "hair_desc": "brown hair",
+ "hair_style_desc": "short cropped brown hair",
+ "eye_desc": "grey eyes",
+ "removed_gear": "the armour, surcoat and boots",
+ "removed_gear_full": "the plate armour, surcoat, sword belt, gauntlets and boots",
+ "hand_accessory": "one plain iron signet ring on each hand",
+ "gear_items": [
+  {
+   "id": "breastplate",
+   "item": "the polished steel breastplate with pauldrons",
+   "gear_layout": ", seen from the front",
+   "gear_exclude": "no person, no mannequin, no surcoat"
+  },
+  {
+   "id": "surcoat",
+   "item": "the blue wool surcoat with the white lion emblem",
+   "gear_layout": ", laid flat front-facing",
+   "gear_exclude": "no person, no mannequin, no armour"
+  },
+  {
+   "id": "gauntlets",
+   "item": "the pair of articulated steel gauntlets",
+   "gear_layout": ", laid out neatly",
+   "gear_exclude": "no hands, no person",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "id": "boots",
+   "item": "the pair of heavy riveted brown leather boots",
+   "gear_layout": ", seen from the side, standing",
+   "gear_exclude": "no person"
+  },
+  {
+   "id": "belt_buckle_closeup",
+   "item": "a plain iron belt buckle on a wide brown leather belt strap",
+   "gear_layout": ", front view",
+   "gear_exclude": "no surcoat, no fabric behind it",
+   "form": "closeup",
+   "size": [
+    1024,
+    1024
+   ]
+  },
+  {
+   "id": "collar_closeup",
+   "item": "a close-up of the steel gorget with its padded collar",
+   "gear_layout": ", front view",
+   "gear_exclude": "no person"
+  }
+ ],
+ "swatches": [
+  {
+   "id": "polished_steel",
+   "desc": "polished steel plate with fine scratches"
+  },
+  {
+   "id": "blue_wool",
+   "desc": "coarse blue wool cloth with a visible weave"
+  },
+  {
+   "id": "brown_leather",
+   "desc": "worn brown leather with fine creases"
+  },
+  {
+   "id": "skin",
+   "desc": "weathered human skin with pores and scars",
+   "texture_kind": "texture"
+  }
+ ],
+ "back_body_desc": "a tall broad-shouldered man with short cropped brown hair",
+ "front_body_desc": "a tall broad-shouldered man with a square jaw, a trimmed beard, no stubble outside the beard line, grey eyes and short cropped brown hair",
+ "back_visible_desc": "the back of his head with the cropped hair and clean hairline at the nape, the bare back with no garment, the back of the legs and the heels of the feet",
+ "pose_rule": "strict A-pose with arms about 30 degrees away from the body, legs slightly apart",
+ "side_pose_rule": "arms hanging slightly forward in an A-pose",
+ "head_skin_detail": "skin pores",
+ "head_hair_front_desc": "short cropped brown hair above a strong brow",
+ "head_hair_profile_desc": "short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp",
+ "head_facial_hair_desc": "short trimmed beard following the jaw",
+ "head_chin_front_desc": "squared chin under the beard",
+ "head_collar_desc": "plain padded gambeson collar",
+ "head_garment_exclude": "no armour, no helmet",
+ "profile_eye_desc": "grey eye",
+ "head_top_hair_colour": "brown",
+ "head_top_hair_desc": "the cropped hair and the crown whorl",
+ "head_top_garment": "a plain padded gambeson",
+ "head_top_exclude": "no helmet, no armour, no coif",
+ "hand_skin_desc": "weathered tanned skin",
+ "hand_wrist_rule": "Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no gauntlet, no glove.",
+ "frame_rule": "Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.",
+ "foot_desc": "wearing a plain grey wool sock",
+ "foot_sole_desc": "the sole of the sock",
+ "foot_negative": "No shoe, no tread, no second foot, no leg above the ankle.",
+ "gear_isolation_head": "Only this single item, centred, on a plain empty dark grey background with nothing else in the frame",
+ "gear_isolation_negative": "no other garments, no cloth backdrop, no other armour pieces unless part of this item",
+ "gear_person_negative": "No person, no head, no face, no hands, no mannequin.",
+ "gear_closeup_suffix": "No person.",
+ "head_hair_back_desc": "short cropped brown hair with a clean hairline at the nape",
+ "head_chin_rule": "squared chin under the trimmed beard, no stray stubble outside the beard line",
+ "head_collar_rule": "plain padded gambeson collar rising around the neck, no bare neck or chest",
+ "head_accessory_exclude": "no earring, no hair ornaments",
+ "hand_handedness_right": "This is the RIGHT hand: seen from the back the thumb is on the LEFT of the image.",
+ "hand_ring_rule": "worn on the index finger; the same ring design in every view; palm views show only the plain iron band",
+ "hand_wrist_clean_rule": "Clean bare wrist, no artefacts.",
+ "head_hair_profile_right_desc": "short cropped brown hair with a clean hairline at the nape, smooth over the whole scalp",
+ "body_hair_desc": "short cropped brown hair with a clean hairline, no loose strands",
+ "body_hair_front_view": "hairline clearly visible above the brow",
+ "body_hair_side_view": "cropped hair and the nape clearly visible",
+ "body_underlayer_desc": "fitted plain dark briefs, bare torso, arms and legs, weathered tanned skin, standard A-pose",
+ "shirt_desc": "a loose undyed linen arming shirt with a plain collar and plain cuffs, laid flat",
+ "shirt_collar_desc": "a plain undyed linen shirt collar, open at the throat",
+ "shirt_cuffs_desc": "the pair of plain undyed linen shirt cuffs, laid out neatly"
+}

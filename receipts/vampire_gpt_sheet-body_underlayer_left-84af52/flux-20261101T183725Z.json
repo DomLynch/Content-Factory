@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-body_underlayer_left-84af52",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "c02993a",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
+      "sha256": "1a187884fdd639cebdf60581a126a90cb8d70e290c4e05926aee7d3ca2cba108"
+    }
+  ],
+  "params": {
+    "seed": 43,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose: The man is turned exactly 90 degrees and seen in PURE SIDE PROFILE facing the left edge of the image: one shoulder, one arm and one leg nearest the camera, only one eye visible, the nose pointing left. He wears a plain fitted dark charcoal long-sleeve knit sweater with a high stand-up collar, a plain dark brown leather belt, dark charcoal trousers and black leather boots. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders onto the chest, no loose hair; one braid visible hanging over the near shoulder down to the chest, not a short stub. Plain base layer, arms hanging slightly forward in an A-pose. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "body_underlayer_left",
+    "mean_brightness": 65.5
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 438.0,
+    "load_s": 33.4,
+    "generate_s": 404.5
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 7.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_left_1024x1536.png",
+      "sha256": "6b1dd3efc6573799de79935364cb96d67d5b4c7900cea0552b850795fd856ee8"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T18:37:25+00:00"
+}

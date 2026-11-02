@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-swatch_black_fur-675c04",
+  "stage": "swatch_crop",
+  "tool": "swatch_crop.py",
+  "script_commit": "4f63119",
+  "model": "Pillow crop (LANCZOS only if resized)",
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_fur_collar_1536x1024.png",
+      "sha256": "ed28f906e8d766af4d022bb34d3bc212aae33b661e213699c7c6af823bdb8758"
+    }
+  ],
+  "params": {
+    "row": "swatch_black_fur",
+    "source_row": "gear_fur_collar",
+    "box": [
+      0.18229,
+      0.41016,
+      0.33854,
+      0.64453
+    ],
+    "crop_px": [
+      280,
+      420,
+      520,
+      660
+    ],
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 0.37
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_black_fur_1024x1024.png",
+      "sha256": "ea076734717cf76bb084584c03377cc5fde6c91283d67a237723500c39911099"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T18:14:15+00:00"
+}

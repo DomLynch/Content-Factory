@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_parts-body_tpose-4d1d1d",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "8711351",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+    "prompt": "Edit instruction: keep this exact same character from the reference image: identical face, hair, moustache, skin and body build. Change only the following: Remove the cloak, fur mantle, coat, tabard, belt, medallions and boots. He stands in a strict T-pose facing the camera: both arms stretched straight out horizontally to the sides at shoulder height, palms facing down, fingers straight and slightly apart, legs straight and a little apart, feet flat, wearing only a plain form-fitting dark grey long-sleeve base layer, trousers and plain dark shoes, with the same pale gaunt face, long black hair and thin moustache. The whole body including both hands is fully inside the picture with space around it.  Photorealistic, ultra-detailed, soft even studio lighting, plain neutral grey background, centred, full figure head to feet fully visible, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_parts_kit.json",
+    "row_id": "body_tpose",
+    "mean_brightness": 84.3
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 353.8,
+    "load_s": 37.8,
+    "generate_s": 315.9
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 3.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\body_tpose_1536x1024.png",
+      "sha256": "805b576be3cf5bb0cc2c0defda5a1dc177e817aa7fb2d2a357269e0fe34297da"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:00:39+00:00"
+}

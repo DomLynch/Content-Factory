@@ -1,0 +1,180 @@
+{
+ "cells": [
+  {
+   "row": "head_front",
+   "file": "head_front_1024x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Reference head: swept-back hair, two braids forward, red eyes, moustache, charcoal roll-neck; moustache a bit thick, collar is a turtleneck.",
+   "fix": ""
+  },
+  {
+   "row": "head_profile",
+   "file": "head_profile_1024x1024.png",
+   "score": 5,
+   "verdict": "REJECT",
+   "notes": "Braid starts high on the scalp/crown and runs down as a scalp plait; hair not tied at the nape; hair mass wavy, disagrees with head_front.",
+   "fix": "Side profile, hair swept smoothly straight back and tied at the nape in a low knot, no braid starting on the scalp, two separate loose braids hanging from behind the ears behind the shoulder."
+  },
+  {
+   "row": "head_back",
+   "file": "head_back_1024x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Smooth hair tied at nape, two braids forward over shoulders, plain charcoal high collar; hair slightly greyer than front.",
+   "fix": ""
+  },
+  {
+   "row": "head_three_quarter",
+   "file": "head_three_quarter_1024x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Matches front: swept-back hair, two forward braids, upswept moustache, red eyes, charcoal roll-neck, clean chin.",
+   "fix": ""
+  },
+  {
+   "row": "head_top",
+   "file": "head_top_1024x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Swept-back hair with centre parting, braid tops visible at the sides, charcoal sweater; consistent.",
+   "fix": ""
+  },
+  {
+   "row": "body_underlayer_back",
+   "file": "body_underlayer_back_1024x1536.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Charcoal high-collar sweater, dark brown belt, charcoal trousers, black boots, nape-tied hair with two braids forward; clean A-pose.",
+   "fix": ""
+  },
+  {
+   "row": "body_underlayer_three_quarter",
+   "file": "body_underlayer_three_quarter_1024x1536.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Charcoal stand-collar sweater, brown belt, charcoal trousers, black boots, two forward braids, moustache; face slightly stubbly and eyes dim.",
+   "fix": ""
+  },
+  {
+   "row": "foot_left",
+   "file": "foot_left_1536x1024.png",
+   "score": 6,
+   "verdict": "WEAK",
+   "notes": "Plain black socks but three feet/views in one cell with legs cropped; brief says one foot.",
+   "fix": "One single bare-ankled left foot in a plain black sock, one view only, whole foot in frame on a plain dark background."
+  },
+  {
+   "row": "foot_right",
+   "file": "foot_right_1536x1024.png",
+   "score": 6,
+   "verdict": "WEAK",
+   "notes": "Plain black socks but three feet/views in one cell, legs cropped; brief says one foot.",
+   "fix": "One single bare-ankled right foot in a plain black sock, one view only, whole foot in frame on a plain dark background."
+  },
+  {
+   "row": "gear_belt",
+   "file": "gear_belt_1536x1024.png",
+   "score": 7,
+   "verdict": "WEAK",
+   "notes": "One dark brown belt with gold eagle buckle, but the buckle is an open frame showing black behind and a garbled picture square in the centre.",
+   "fix": "A single dark brown leather belt with a solid gold double-headed eagle buckle, fully filled metal, no cut-out and no inset picture."
+  },
+  {
+   "row": "gear_cloak",
+   "file": "gear_cloak_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Isolated black velvet cloak, gold embroidered borders, black fur collar, dark crimson lining; lining is plain not damask.",
+   "fix": ""
+  },
+  {
+   "row": "gear_cloak_back",
+   "file": "gear_cloak_back_1536x1024.png",
+   "score": 7,
+   "verdict": "WEAK",
+   "notes": "Black velvet back with gold border and fur collar, but the burgundy flanks make the layout confusing and read as a flattened cape.",
+   "fix": "Back of the black velvet cloak laid flat and symmetrical, gold embroidered border, black fur collar, crimson damask lining visible only as a narrow edge."
+  },
+  {
+   "row": "gear_coat",
+   "file": "gear_coat_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Isolated crimson-burgundy velvet coat, gold frogging and embroidered stand collar and cuffs; velvet is plain, not damask.",
+   "fix": ""
+  },
+  {
+   "row": "gear_coat_back",
+   "file": "gear_coat_back_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Isolated crimson velvet coat back, gold embroidery on hem, cuffs and collar; clean.",
+   "fix": ""
+  },
+  {
+   "row": "gear_cuffs",
+   "file": "gear_cuffs_1024x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Pair of white lace cuffs on plain dark background; good lace, concept's gold-embroidered cuff part absent.",
+   "fix": ""
+  },
+  {
+   "row": "gear_fur_collar",
+   "file": "gear_fur_collar_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Isolated black fur collar ring, good fur; faint noise patch lower right of background.",
+   "fix": ""
+  },
+  {
+   "row": "gear_tabard",
+   "file": "gear_tabard_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Crimson damask velvet tabard with gold border, castle and cross, matches concept; hung on a rod.",
+   "fix": ""
+  },
+  {
+   "row": "gear_trousers",
+   "file": "gear_trousers_1536x1024.png",
+   "score": 7,
+   "verdict": "WEAK",
+   "notes": "Charcoal trousers fine, but includes a black leather belt with silver buckle (belt is a separate dark brown item) and a noise patch lower right.",
+   "fix": "Charcoal trousers only on a plain dark background, bare plain waistband with no belt and no buckle."
+  },
+  {
+   "row": "hand_back_views",
+   "file": "hand_back_views_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Two backs of hands, five digits each, bare wrists, gold signet rings with red stones (two on one hand, one on the other).",
+   "fix": ""
+  },
+  {
+   "row": "hand_fist_left",
+   "file": "hand_fist_left_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Three fist views, bare wrist, gold rubies rings; ring count varies by angle.",
+   "fix": ""
+  },
+  {
+   "row": "hand_fist_right",
+   "file": "hand_fist_right_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Three fist views, bare wrist, two gold rubies rings visible; clean anatomy.",
+   "fix": ""
+  },
+  {
+   "row": "hand_open_right",
+   "file": "hand_open_right_1536x1024.png",
+   "score": 8,
+   "verdict": "PASS",
+   "notes": "Side, palm, back: five digits each, bare wrist, gold ruby rings (one on palm view, two on back).",
+   "fix": ""
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-hand_open_left-33446e",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "4f63119",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 43,
+    "w": 1536,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Reference sheet of a man's LEFT hand OPEN with spread fingers, exactly five fingers including the thumb, pale aged skin with visible veins and knuckles. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Wearing two gold signet rings, each set with a deep red ruby gem, one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands. Three separate views in a row: back of the hand, palm, and side view. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "hand_open_left",
+    "mean_brightness": 89.6
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 189.7,
+    "load_s": 33.1,
+    "generate_s": 156.5
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 7.3
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_open_left_1536x1024.png",
+      "sha256": "c6937c8d0855f78978103c10a6f8ec3505f385a1b1b564f1fe6b0e6dbabf3692"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T18:12:00+00:00"
+}

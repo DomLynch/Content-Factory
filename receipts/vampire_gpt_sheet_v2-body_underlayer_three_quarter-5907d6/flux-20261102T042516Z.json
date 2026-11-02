@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet_v2-body_underlayer_three_quarter-5907d6",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1536,
+    "reference": null,
+    "prompt": "THREE-QUARTER view of a tall lean gaunt pale man of about 55 with a strong jaw, a long upswept thin moustache, a clean-shaven chin with no stubble and no beard, red eyes and long loose wavy black hair swept back, wearing fitted plain dark briefs, bare torso, arms and legs, pale aged cold skin per identity_ref, standard A-pose. His whole body and face are rotated 45 degrees to his left so we see his right shoulder and the right side of his face and chest at an angle; he is NOT facing the camera straight on. A-pose, a little menacing posture, plain dark neutral grey background, photorealistic game character reference. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred. Build: a man of about 55 with a lean, gaunt build. Skin: pale, cold, slightly grey skin, no warm flush.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_v2_kit.json",
+    "row_id": "body_underlayer_three_quarter",
+    "mean_brightness": 71.2
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 88.5,
+    "load_s": 20.4,
+    "generate_s": 68.1
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 10.5
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_three_quarter_1024x1536.png",
+      "sha256": "518b6b827c5ad24781a2cc963d824e94e753d0d034064713bb3488658f6e9ea4"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-02T04:25:16+00:00"
+}

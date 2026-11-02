@@ -1,0 +1,91 @@
+{
+ "mesh": "C:\\Users\\dom12\\Documents\\Content-Factory\\bind\\controls\\donor_tall_tpose.glb",
+ "out": "C:\\Users\\dom12\\Documents\\Content-Factory\\bind\\controls\\control_tall.blend",
+ "verts": 19166,
+ "facing_confidence": 0.0526,
+ "scale": 0.702,
+ "arms": {
+  "Left": {
+   "centreline_pts": 22,
+   "arm_len_mesh": 0.663,
+   "arm_len_rig": 0.699,
+   "max_dev_from_T_deg": 32.6,
+   "mean_dev_deg": 8.6,
+   "action": "unbent to T",
+   "arm_scale": 1.044,
+   "moved_verts": 2219
+  },
+  "Right": {
+   "centreline_pts": 21,
+   "arm_len_mesh": 0.623,
+   "arm_len_rig": 0.699,
+   "max_dev_from_T_deg": 23.5,
+   "mean_dev_deg": 6.6,
+   "action": "unbent to T",
+   "arm_scale": 1.111,
+   "moved_verts": 2162
+  }
+ },
+ "mode": "donor",
+ "donor": "tall",
+ "donor_distances": {
+  "male": 3.541,
+  "female": 2.919,
+  "brute": 4.877,
+  "dwarf": 6.383,
+  "giant": 4.766,
+  "mage": 3.113,
+  "ogre": 4.275,
+  "child": 3.644,
+  "tall": 0.19
+ },
+ "target_features": {
+  "chest_w": 0.1302,
+  "chest_d": 0.0957,
+  "hip_w": 0.164,
+  "crotch": 0.4,
+  "arm": 0.367,
+  "height": 2.4959
+ },
+ "donor_arm_fit": {
+  "Left": {
+   "arm_scale_x": 1.083,
+   "hand_dyz": [
+    -0.008,
+    -0.064
+   ]
+  },
+  "Right": {
+   "arm_scale_x": 1.132,
+   "hand_dyz": [
+    -0.013,
+    -0.051
+   ]
+  }
+ },
+ "finger_straighten": {
+  "Left_Thumb": "rotated 7.4 deg (206 verts)",
+  "Left_Index": "rotated 5.6 deg (102 verts)",
+  "Left_Middle": "ok 3.3 deg (512 verts)",
+  "Left_Ring": "rotated 6.6 deg (461 verts)",
+  "Left_Pinky": "skipped (0 verts)",
+  "Right_Thumb": "rotated 8.2 deg (164 verts)",
+  "Right_Index": "skipped (13 verts)",
+  "Right_Middle": "rotated 5.3 deg (597 verts)",
+  "Right_Ring": "rotated 5.4 deg (377 verts)",
+  "Right_Pinky": "skipped (0 verts)"
+ },
+ "nn_dist_mean": 0.0029,
+ "nn_dist_max": 0.04476,
+ "smooth": {
+  "passes": 2,
+  "alpha": 0.5
+ },
+ "finger_chain_repair": {},
+ "zero_bones": [
+  "mixamorig:LeftToe_End",
+  "mixamorig:RightToe_End"
+ ],
+ "max_influences": 4,
+ "bind_time_s": 2.4
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-head_three_quarter-f8420d",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "981d795",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+      "sha256": "97d6482aa6369c98da9b39b2b91ea6560c935badfc532d36e62d4f937007edd3"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing: Head and neck and shoulders, THREE-QUARTER view turned 45 degrees, neutral expression, high detail on skin pores, hair and moustache. Hair swept straight back from the forehead and braided into two thick braids that hang forward over the shoulders; long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; plain charcoal high-collared sweater collar rising around the neck, no bare neck or chest, no white shirt, no red fabric, no fur, no coat.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "head_three_quarter",
+    "mean_brightness": 57.1
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 334.4,
+    "load_s": 31.2,
+    "generate_s": 303.2
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 6.7
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\head_three_quarter_1024x1024.png",
+      "sha256": "276f49ed0dbc708971a6aa1e4ce0855c2ee791081d6f33acabaca94a71f31760"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T17:36:06+00:00"
+}

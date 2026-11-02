@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-body-tpose",
+  "stage": "trellis",
+  "tool": "generate.py",
+  "script_commit": "bf700cc",
+  "model": {
+    "id": "TRELLIS.2-4B",
+    "repo": "C:\\Users\\dom12\\Documents\\Trellis-3-312"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\cutout.png",
+      "sha256": "b8b19d92448b99d13b58bbceb450ca2ffc3386e85841ef919b6c2fcd8fec44aa"
+    }
+  ],
+  "params": {
+    "preset": "master",
+    "texture_size": 2048,
+    "bake_faces": 500000,
+    "extra": [
+      "--attn-auto-gb",
+      "28"
+    ],
+    "env": {
+      "ATTN_BACKEND": "sdpa",
+      "SPARSE_ATTN_BACKEND": "sdpa",
+      "SPARSE_CONV_BACKEND": "flex_gemm",
+      "TRELLIS3_OVOXEL": "native",
+      "HF_HUB_OFFLINE": "1",
+      "TRELLIS3_REMBG": "none",
+      "PYTHONUNBUFFERED": "1"
+    },
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\trellis_vampire-dracula-body-tpose_mesh.txt",
+    "from_latents": null,
+    "out_name": "mesh"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 517.8
+  },
+  "memory": {
+    "lowest_free_ram_gb": 0.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\mesh.glb",
+      "sha256": "b0fa04c81edede49dceffe63dc75a706286b7b2a95e1ac5ada1a5dcc43bcc9a9"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\mesh.receipt.json",
+      "sha256": "8b22d324cfb12b41ba98a06f731b79777fb3c6207488d57250f1b16e9cc44ff3"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:12:47+00:00"
+}

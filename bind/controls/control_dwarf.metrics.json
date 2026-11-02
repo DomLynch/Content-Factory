@@ -1,0 +1,71 @@
+{
+ "blend": "C:\\Users\\dom12\\Documents\\Content-Factory\\bind\\controls\\control_dwarf.blend",
+ "verts": 18859,
+ "edges": 54771,
+ "faces": 35960,
+ "weights": {
+  "zero_weight_vertices": 0,
+  "max_influences": 4,
+  "weight_sum_max_dev": 9.238719940185547e-07,
+  "unweighted_bones": [
+   "mixamorig:LeftToe_End",
+   "mixamorig:RightToe_End"
+  ],
+  "unweighted_bones_other_than_toe_end": []
+ },
+ "edges_measured_ge_5mm": 30981,
+ "clips": {
+  "Idle": {
+   "file": "107900901--Breathing Idle.fbx",
+   "frames": 299,
+   "matched_bones": "64/65",
+   "p99_stretch": 1.295,
+   "p01_ratio": 0.674,
+   "diag_max_stretch": 5.42,
+   "diag_min_ratio": 0.002
+  },
+  "Walk": {
+   "file": "100440903--Walking.fbx",
+   "frames": 64,
+   "matched_bones": "64/65",
+   "p99_stretch": 1.384,
+   "p01_ratio": 0.591,
+   "diag_max_stretch": 9.5,
+   "diag_min_ratio": 0.043
+  },
+  "Attack": {
+   "file": "121360901--Zombie Attack.fbx",
+   "frames": 80,
+   "matched_bones": "64/65",
+   "p99_stretch": 1.51,
+   "p01_ratio": 0.578,
+   "diag_max_stretch": 7.73,
+   "diag_min_ratio": 0.015
+  }
+ },
+ "p99_stretch": 1.3583,
+ "p99_compression_ratio": 0.644,
+ "diag_max_stretch": 9.5,
+ "diag_min_ratio": 0.0024,
+ "violating_edges_by_region": {
+  "hands": 299,
+  "feet": 102,
+  "neck": 141,
+  "shoulders": 36,
+  "crotch": 0,
+  "other": 337
+ },
+ "violating_edges_total": 915,
+ "violating_edge_fraction": 0.0295,
+ "gate": {
+  "abs_p99_stretch<=2.0": true,
+  "abs_p99_compression>=0.5": true,
+  "relative_to_control": null,
+  "zero_weight_verts==0": true,
+  "max_infl<=4": true,
+  "sum_dev<=1e-3": true
+ },
+ "gate_pass": true,
+ "score": 0.7765,
+ "time_s": 8.5
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-body_underlayer_back-bf590e",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "a56ee03",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
+      "sha256": "8cb60ecb56b1299591da446bf1350d1c293fee5f1d3450c75aee0d5f722f5b81"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Change only the camera and pose: The camera is BEHIND the man: we see only the back of his head and back of his body. His face, chest, belt buckle, trouser fly and pockets are NOT visible; show the back of the plain base layer sweater, the two braids hanging down the back, the back of the trousers and the heels of the boots. Orthographic BACK view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "body_underlayer_back",
+    "mean_brightness": 58.1
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 263.8,
+    "load_s": 24.2,
+    "generate_s": 239.6
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 8.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_back_1024x1536.png",
+      "sha256": "9bcb1f814a7a408c17265de9cb886160594e850f547b8dacba297373e767297b"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T13:07:45+00:00"
+}

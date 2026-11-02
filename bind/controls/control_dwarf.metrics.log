@@ -1,0 +1,16 @@
+00:02.343  blend            | Read blend: "C:\Users\dom12\Documents\Content-Factory\bind\controls\control_dwarf.blend"
+[INFO ] services.locationservice ...............: Not adding link to MakeHuman user data, since neither explicit path nor auto-discovery is set in preferences.
+[INFO ] mpfb.init ..............................: Build info 20261010
+[INFO ] mpfb.init ..............................: Online access preference is not enabled. Not checking if MakeHuman is online.
+[INFO ] mpfb.init ..............................: MPFB initialization has finished.
+FBX version: 7700
+M2> Idle {"file": "107900901--Breathing Idle.fbx", "frames": 299, "matched_bones": "64/65", "p99_stretch": 1.295, "p01_ratio": 0.674, "diag_max_stretch": 5.42, "diag_min_ratio": 0.002} 3.6s
+FBX version: 7700
+M2> Walk {"file": "100440903--Walking.fbx", "frames": 64, "matched_bones": "64/65", "p99_stretch": 1.384, "p01_ratio": 0.591, "diag_max_stretch": 9.5, "diag_min_ratio": 0.043} 0.6s
+FBX version: 7700
+M2> Attack {"file": "121360901--Zombie Attack.fbx", "frames": 80, "matched_bones": "64/65", "p99_stretch": 1.51, "p01_ratio": 0.578, "diag_max_stretch": 7.73, "diag_min_ratio": 0.015} 0.9s
+M2> p99 stretch 1.358  p01 ratio 0.644  rel None  regions {"hands": 299, "feet": 102, "neck": 141, "shoulders": 36, "crotch": 0, "other": 337}  weights {"zero_weight_vertices": 0, "max_influences": 4, "weight_sum_max_dev": 9.238719940185547e-07, "unweighted_bones_other_than_toe_end": []}  PASS True
+M2> DONE 8.5s
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

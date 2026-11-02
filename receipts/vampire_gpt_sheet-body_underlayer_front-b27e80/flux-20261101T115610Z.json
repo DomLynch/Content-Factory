@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-body_underlayer_front-b27e80",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "d87da93",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+      "sha256": "97d6482aa6369c98da9b39b2b91ea6560c935badfc532d36e62d4f937007edd3"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair and moustache from the reference image. Remove the coat, cloak, fur, tabard, belt, cuffs and boots; he wears only a plain fitted dark base layer and trousers. Change only the camera and pose: Orthographic character turnaround, FRONT view, strict A-pose with arms about 30 degrees away from the body, legs slightly apart, plain dark neutral grey background, neutral expression, hands bare. The figure fills at least 60 percent of the frame height, full body from head to shoes fully visible, centred.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "body_underlayer_front",
+    "mean_brightness": 51.0
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 276.1,
+    "load_s": 19.5,
+    "generate_s": 256.5
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.7,
+    "lowest_free_ram_gb": 10.9
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
+      "sha256": "8cb60ecb56b1299591da446bf1350d1c293fee5f1d3450c75aee0d5f722f5b81"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T11:56:10+00:00"
+}
