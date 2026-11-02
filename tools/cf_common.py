@@ -103,6 +103,14 @@ def wait_for_free_ram(cfg, what=''):
         time.sleep(10)
 
 
+def keep_awake():
+    """Keep Windows awake for as long as this process lives (every GPU run; vampire v2 lost cells to sleep). No settings changed; no-op elsewhere, never raises."""
+    try:
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000001)   # ES_CONTINUOUS | ES_SYSTEM_REQUIRED
+    except Exception:
+        pass
+
+
 def plugin_gate(kind, *args):
     """Run a plugin gate inside the script itself, so a run from bench\\*.ps1 or a plain terminal is gated too (the PreToolUse hooks stay the second layer).
     kind 'token' (asset_id, preset, from_latents) or 'publish' (spec dict). A refusal prints its numbers and exits 2; FACTORY_RAW=<reason> in the environment

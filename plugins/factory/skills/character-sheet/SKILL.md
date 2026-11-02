@@ -37,6 +37,14 @@ Evidence: 31 rejects before these rules, 0 in the 9 cells after. `cf_flux.sheet_
 3. **Re-roll cap.** The same prompt, seed and reference may be rolled twice. A third identical roll is refused. A third roll needs a documented change: a QC `prompt_fix` in the prompt, a new seed, or a new identity reference.
 Default kit order: cells that feed 3D first (identity cells, then body views, heads, gear flats), closeups last.
 
+## Vampire v2 rules (plugin 0.1.26, full table in `docs/vampire-v2-rules.md`)
+- Angle cells: reference = the WHOLE two-view image (`ref_mode: "sheet"`), never one frontal face. The identity reference is capped at the render long edge (`ref_max_px`, default; 4K refs cost 14 min per cell and corrupt non-square cells).
+- A row that reads another row's output declares `needs: [row_id]`; the queue holds (exit 3), it does not fail.
+- Flux renders only identity cells and the body. Everything else may be `supplied_by: "Dom"` with a `file` (Codex/GPT flats under the row names); it still needs a verdict.
+- Head rows carry `yaw_deg`; record the measured yaw (`manifest.py <kit> --yaw ROW DEG`); a cell more than 15 deg off its row is not complete.
+- Feet: two views, heel at the bottom. Hands: ringless for modelling, a ringed one only as the placement reference.
+- Verdict policy is Dom's 95% rule (`qc.qc_pass_pct`, a name not a number): PASS when every structural check is true; cosmetic flags = WEAK; FAIL only on a structural check, one re-roll, then accept as-is with the flag. Record with `manifest.py <kit> --check ROW NAME true|false`, `--cosmetic ROW FLAG`, `--judge ROW`, `--accept-as-is ROW`. `make_kit.py` emits the row keys; supplied rows go in the spec as `row_overrides`.
+
 ## Gates
 - Input to 3D: each picked view at least 1024 px on the short side, measured with PIL (`docs/asset-standard.md`, section 1), and upscaled to 2048 px or more (step 9). The hook `input_gate.py` denies a TRELLIS or cut-out call under 1024 px.
 - At most 1.6 MP per render (`limits.max_megapixels`); 1024x1536 is 1.57 MP.

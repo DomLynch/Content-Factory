@@ -28,7 +28,11 @@ from pathlib import Path
 import cf_gates
 import cf_guard
 
-PENDING = ("cleanup (face-loss cap)", "capped assembly", "bind landmark rig check (psyche-106-v3)", "v1 contact sheet to Dom")
+PENDING = ("cleanup (face-loss cap)", "capped assembly", "bind landmark rig check (psyche-106-v3)", "v1 contact sheet to Dom",
+           "projection texture pass after Trellis (backs and sides)", "head v2 pass after the body mesh",
+           "FBX export from the Blender master (implementation path: Demon pipeline work/export_fbx_v7.py, see docs/vampire-v2-rules.md)")
+# The fixed stage order (Dom 2026-11-02). The Factory may not reorder it; the first arrow is enforced below (body mesh waits for the head mesh), the rest are listed as pending above.
+STAGE_ORDER = ("head mesh", "body cells", "body mesh", "head v2", "gear", "assembly", "exports (GLB + FBX)")
 
 
 def spec_for_asset(asset_id: str) -> tuple[dict, str] | None:
@@ -74,6 +78,15 @@ def sheet_reasons(kit: str) -> list[str]:
                 bad.append(f"{rid}: WEAK without a note")
             continue
         bad.append(f"{rid}: {v or 'no verdict'}" + (f" (mirror of {src})" if src else ""))
+    tol = float(cf_gates.gates_cfg().get("yaw_tol_deg", 15))
+    for rid, r in by_id.items():   # QC fails a head cell whose yaw does not match its row (vampire v2): a row with yaw_deg needs the measured yaw in the manifest
+        if r.get("yaw_deg") is None or any(x.startswith(rid + ":") for x in bad):
+            continue
+        got = ((m.get("rows") or {}).get(rid) or {}).get("yaw_measured")
+        if got is None:
+            bad.append(f"{rid}: yaw not measured (row wants {r['yaw_deg']} deg; manifest.py --yaw {rid} DEG)")
+        elif abs(abs(float(got)) - abs(float(r["yaw_deg"]))) > tol:   # magnitude: left and right profiles both read 90
+            bad.append(f"{rid}: yaw {got} deg, row wants {r['yaw_deg']} (+-{tol:g})")
     out = []
     if bad:
         out.append(f"CHAIN (1 sheet): the sheet is not complete: {len(bad)} of {len(by_id)} cells block it ({'; '.join(bad[:8])}{' ...' if len(bad) > 8 else ''}). "
@@ -120,7 +133,24 @@ def part_mesh_reasons(asset_id: str, with_cutout_png: bool = False) -> list[str]
         out += approval_reasons(spec["character_id"], kit)
     if with_cutout_png:
         out += cutout_reasons(asset_id)
+    out += order_reasons(asset_id, spec, _part)
     return out
+
+
+def order_reasons(asset_id: str, spec: dict, part: str) -> list[str]:
+    """Fixed stage order, first arrow: the body mesh waits for the head mesh (a trellis receipt with status ok) when the spec lists a head part."""
+    try:
+        names = [p.get("name") for p in spec.get("parts", []) if p.get("name")]
+        head = next((n for n in names if n.startswith("head")), None)
+        if not head or not part.startswith("body") or part == head:
+            return []
+        hid = asset_id[: len(asset_id) - len(part)] + head
+        for f in glob.glob(str(cf_guard.HOME / "receipts" / hid / "trellis-*.json")):
+            if (cf_gates._read(f) or {}).get("status") == "ok":
+                return []
+        return [f"CHAIN (order): the body mesh '{asset_id}' waits for the head mesh '{hid}' (head mesh -> body cells -> body mesh -> head v2 -> gear -> assembly -> exports). Make the head mesh first; the Factory may not reorder this."]
+    except Exception:
+        return []
 
 
 def status(char_id: str) -> list[tuple[str, bool, str]]:

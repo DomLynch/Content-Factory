@@ -9,6 +9,7 @@ Each stage refuses to run without the previous stage's PASS evidence on disk. Th
 | 2 | Dom's yes on the contact sheet | `receipts/<character_id>/approval-*.json`, written by the Factory with `tools/record_approval.py <kit> --by Dom` after he said yes in chat; refused while gate 1 is open | same |
 | 3 | Cut-outs | per part `receipts/<part asset>/cutout-*.json`, status ok, output png passes the input gate (subject fill >= `gates.min_subject_frac`, heads >= `gates.min_head_px`, portrait or square) | `run_3d.py --cutout-png` |
 | 4 | Part meshes | `run_3d.py` / `trellis_run` start only with 1 and 2 (and 3 with `--cutout-png`) | same |
+| 4b | Body mesh after head mesh | `trellis-*.json` ok for the head part before the body part (`cf_chain.order_reasons`); the rest of the fixed order is in `docs/vampire-v2-rules.md` | same |
 | 5 | Cleanup with the face-loss cap | pending: the cleanup stage tool (asm_stage_a port) does not exist yet | not gated yet |
 | 6 | Capped assembly | pending | not gated yet |
 | 7 | Bind with the landmark rig check against psyche-106-v3 | pending (the bind gate checks stretch, compression, weights and influences today) | not gated yet |

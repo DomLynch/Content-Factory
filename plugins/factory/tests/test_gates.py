@@ -131,7 +131,8 @@ class Fixture(unittest.TestCase):
         (self.home / "config" / "config.json").write_text(json.dumps(json.load(open(REPO / "config" / "config.json", encoding="utf-8-sig"))))
         self.glb = self.write("bound.glb", b"glb-bytes")
         self.still = self.write("head.png", b"png-bytes")
-        self.spec = {"id": "char", "label": "C", "group": "G", "rig": "r", "source": "s", "glb": self.glb, "thumb": self.still, "stills": [self.still], "pipeline": "TRELLIS"}
+        self.spec = {"id": "char", "label": "C", "group": "G", "rig": "r", "source": "s", "glb": self.glb, "thumb": self.still, "stills": [self.still], "pipeline": "TRELLIS",
+                     "datalayer": self.write("datalayer.json", b'{"pieces": ["char"]}')}
         parts = [{"name": "coat", "kind": "gear"}, {"name": "head", "kind": "head"}, {"name": "hands", "kind": "hands"}]
         (self.home / "characters" / "char.json").write_text(json.dumps({"character_id": "char", "parts": parts}))
         self.receipt("trellis-1", {"asset_id": "char", "stage": "trellis", "status": "ok", "params": {"stage_tokens": {"shape_hr_tokens": 90000}}, "outputs": []})
@@ -170,6 +171,13 @@ class Publish(Fixture):
             os.utime(f, (1, 1))
         bad, _ = cf_gates.publish_reasons(self.spec)
         self.assertTrue(any("PARTS GATE" in b and "hands" in b and "head" in b for b in bad), bad)
+
+    def test_done_needs_the_data_layer_row(self):
+        bad, info = cf_gates.publish_reasons({k: v for k, v in self.spec.items() if k != "datalayer"})
+        self.assertTrue(any("DATA-LAYER GATE" in b and "no \"datalayer\"" in b for b in bad), bad)
+        self.write("datalayer.json", b'{"pieces": ["other"]}')
+        self.assertTrue(any("does not mention 'char'" in b for b in cf_gates.publish_reasons(self.spec)[0]))
+        self.assertTrue(any("FBX" in i and "PENDING" in i for i in info), info)
 
     def test_proof_lighting_refused(self):
         f = next((self.home / "receipts" / "char").glob("stills-1-*"))

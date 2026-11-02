@@ -286,6 +286,19 @@ def publish_reasons(spec: dict) -> tuple[list[str], list[str]]:
             if pipe and real and pipe != real:
                 bad.append(f"PIPELINE GATE: spec says {pipe} but the receipts of '{aid}' show {real} (a trellis receipt exists). A sculpt is never labelled TRELLIS, or the reverse.")
 
+    dl = spec.get("datalayer")   # DONE gate (plugin 0.1.26): the OpenTrident data-layer row (gear-pieces / body row) for this asset must exist and name it
+    if not dl or not os.path.isfile(_abs(dl)):
+        bad.append(f"DATA-LAYER GATE: publish spec for '{cid}' has no \"datalayer\" file (the OpenTrident row that makes it appear in the picker; reference copy: reference/opentrident-datalayer/). "
+                   "The asset is not DONE until its data-layer row exists.")
+    else:
+        try:
+            if cid not in open(_abs(dl), encoding="utf-8-sig").read():
+                bad.append(f"DATA-LAYER GATE: {os.path.basename(dl)} does not mention '{cid}'; the row for this asset is missing.")
+        except OSError as e:
+            bad.append(f"DATA-LAYER GATE: cannot read {dl}: {e}")
+    if not spec.get("fbx"):
+        info.append("EXPORTS: GLB only; the FBX from the same Blender master is PENDING (no exporter in the plugin yet; see docs/vampire-v2-rules.md).")
+
     stills = [_abs(s) for s in spec.get("stills") or []]
     srec = None
     if stills:

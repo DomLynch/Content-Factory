@@ -3,7 +3,8 @@ r"""Flux quality policy (plugin 0.1.6, part A; standard library only).
 A render that the policy refuses never starts (flux_kit.py exits 2, the PreToolUse hook denies), and the refusal carries the numbers. Rules:
 
   every row type   steps >= flux.steps (16, the distilled default); resolution not below the kit row's w x h
-  body/head/hands  flux.ref_long_by_group = 0: the reference runs full size, no downscale at all (group hands_feet counts as hands)
+  body/head/hands  flux.ref_long_by_group = "render" (plugin 0.1.26): the identity reference is capped at the RENDER long edge (ref_max_px), never above it and never below it.
+                   A 4K reference cost 14 min per cell and corrupted non-square cells (vampire v2). 0 is read the same way. (group hands_feet counts as hands)
   gear/swatch      flux.ref_long_by_group = 640: the reference may be downscaled, but to >= 640 on the long side
   receipt          records steps, ref size, ref sha256, attention backend, process mode and cached-ref-conds on/off (receipt_reason checks it)
 
@@ -22,12 +23,12 @@ from pathlib import Path
 
 import cf_guard
 
-DEFAULTS = {"steps": 16, "ref_long_by_group": {"body": 0, "head": 0, "hands_feet": 0, "gear": 640, "swatch": 640}, "attention_backend": "native", "single_process_queue": True,
+DEFAULTS = {"steps": 16, "ref_long_by_group": {"body": "render", "head": "render", "hands_feet": "render", "gear": 640, "swatch": 640}, "attention_backend": "native", "single_process_queue": True,
             "cache_ref_conds": True, "vae_tiling": None, "vae_slicing": None}
 ALIASES = {"hands_feet": "hands", "hand": "hands", "feet": "hands"}
 STRICT = ("body", "head", "hands")
 RELAXED = ("gear", "swatch")
-ENV_KEYS = ("CF_STEPS", "CF_REF_LONG", "FACTORY_FLUX_W", "FACTORY_FLUX_H")
+ENV_KEYS = ("CF_STEPS", "CF_REF_LONG", "CF_REF_MAX_PX", "FACTORY_FLUX_W", "FACTORY_FLUX_H")
 RECEIPT_FIELDS = ("steps", "ref_size", "ref_sha256", "attention_backend", "process_mode", "cached_ref_conds", "w", "h", "vae_tiling", "vae_slicing")
 
 
@@ -78,12 +79,16 @@ def run_spec(kit: dict, row: dict, env: dict | None = None) -> dict:
     row_w, row_h = row.get("w", kit.get("w")), row.get("h", kit.get("h"))
     ref = row.get("ref", kit.get("ref")) if row.get("use_ref", True) else None
     size = cf_guard.image_size(ref) if ref and os.path.isfile(ref) else None
+    rt = row_type(kit, row)
+    longest = max([v for v in (row_w, row_h) if v] or [0])
+    ref_max = _int(env.get("CF_REF_MAX_PX"), _int(row.get("ref_max_px", kit.get("ref_max_px")), None)) or (longest if rt in STRICT and longest else None)   # default: the render long edge
     return {
-        "row": row.get("row_id", row.get("name")), "row_type": row_type(kit, row),
+        "row": row.get("row_id", row.get("name")), "row_type": row_type(kit, row), "ref_max_px": ref_max,
         "steps": _int(env.get("CF_STEPS"), _int(row.get("steps", kit.get("steps")), c["steps"])),
         "w": _int(env.get("FACTORY_FLUX_W"), row_w), "h": _int(env.get("FACTORY_FLUX_H"), row_h), "row_w": row_w, "row_h": row_h,
         "ref": ref, "ref_size": list(size) if size else None,
-        "ref_long": _int(env.get("CF_REF_LONG"), _int(row.get("ref_long"), None)) or None,   # 0 or unset = full size
+        "ref_long": _int(env.get("CF_REF_LONG"), _int(row.get("ref_long"), None)) or None,   # 0 or unset = the ref_max_px default
+        "ref_max_px_explicit": _int(env.get("CF_REF_MAX_PX"), _int(row.get("ref_max_px", kit.get("ref_max_px")), None)) or None,
     }
 
 
@@ -96,15 +101,19 @@ def policy_reasons(spec: dict) -> list[str]:
     if spec["w"] and spec["h"] and spec["row_w"] and spec["row_h"] and (spec["w"] < spec["row_w"] or spec["h"] < spec["row_h"]):
         bad.append(f"FLUX POLICY: row {n} renders {spec['w']}x{spec['h']}, below the kit row's {spec['row_w']}x{spec['row_h']}. Render at the row size or larger.")
     long_side = max(spec["ref_size"]) if spec["ref_size"] else None
-    cap = spec["ref_long"]
+    render_long = max([v for v in (spec["row_w"], spec["row_h"]) if v] or [0])
+    explicit = [v for v in (spec["ref_long"], spec.get("ref_max_px_explicit")) if v]
+    cap = min(explicit) if explicit else None
     if cap and long_side and cap < long_side:
         t = spec["row_type"]
         floor = c["ref_long_by_group"].get("hands_feet" if t == "hands" else t)
-        if floor == 0:
-            bad.append(f"FLUX POLICY: {t} row {n} downscales the reference from {long_side} to {cap} px on the long side; "
-                       f"body, head and hands run with the full-size reference ({spec['ref_size'][0]}x{spec['ref_size'][1]}).")
-        elif floor and cap < floor:
-            bad.append(f"FLUX POLICY: {t} row {n} downscales the reference to {cap} px on the long side; the floor for {t} rows is {floor}.")
+        if floor in (0, "render"):
+            floor = render_long
+        if floor and cap < floor:
+            if c["ref_long_by_group"].get("hands_feet" if t == "hands" else t) in (0, "render"):
+                bad.append(f"FLUX POLICY: {t} row {n} caps the reference at {cap} px on the long side; {t} rows cap it at the render long edge, {floor} px (never lower, never full-size 4K).")
+            else:
+                bad.append(f"FLUX POLICY: {t} row {n} downscales the reference to {cap} px on the long side; the floor for {t} rows is {floor}.")
     return bad
 
 
@@ -121,7 +130,7 @@ def receipt_fields(spec: dict, ref_path, backend: str, process_mode: str, cached
             for chunk in iter(lambda: f.read(1 << 20), b""):
                 h.update(chunk)
         sha = h.hexdigest()
-    return {"row_type": spec["row_type"], "steps": spec["steps"], "ref_size": spec["ref_size"], "ref_long": spec["ref_long"], "ref_sha256": sha,
+    return {"row_type": spec["row_type"], "steps": spec["steps"], "ref_size": spec["ref_size"], "ref_long": spec["ref_long"], "ref_max_px": spec.get("ref_max_px"), "ref_sha256": sha,
             "attention_backend": backend, "process_mode": process_mode, "cached_ref_conds": bool(cached), "w": spec["w"], "h": spec["h"],
             "vae_tiling": vae_tiling, "vae_slicing": vae_slicing}
 
@@ -188,6 +197,11 @@ def _sha(path):
     return h.hexdigest()
 
 
+def is_hold(reasons: list[str]) -> bool:
+    """True when every refusal is a dependency hold (queue waits, does not fail)."""
+    return bool(reasons) and all(x.startswith("SHEET RULE (hold)") for x in reasons)
+
+
 def sheet_reasons(kit: dict, row: dict, kit_path: str | None = None) -> list[str]:
     """Refusals of the three sheet rules; [] when the row may render. Never raises (a failing check allows)."""
     try:
@@ -227,6 +241,12 @@ def _sheet_reasons(kit: dict, row: dict, kit_path: str | None) -> list[str]:
     kname = kit.get("kit", "")
     if row.get("mirror_of"):
         bad.append(f"SHEET RULE (mirror): row {rid} is a mirror of {row['mirror_of']}, not a render. Run tools/mirror_cell.py {kit_path or '<kit.json>'} {rid} on the passed {row['mirror_of']} cell.")
+    if row.get("supplied_by"):
+        bad.append(f"SHEET RULE (supplied): row {rid} is supplied by {row['supplied_by']} (file {row.get('file') or 'not named'}), not a Flux render. Flux renders only the identity cells and the body; "
+                   "place the supplied png under the row name and record its verdict with tools/manifest.py.")
+    held = [n for n in (row.get("needs") or []) if verdict(kname, n) not in ("PASS", "WEAK")]
+    if held:
+        bad.append(f"SHEET RULE (hold): row {rid} reads the output of {', '.join(held)}, which has no PASS or WEAK verdict yet. This is a HOLD, not a failure: the queue waits and retries (exit 3).")
     t = row_type(kit, row)
     ident = {**IDENTITY_DEFAULT, **(flux_cfg().get("identity_cells") or {}), **(kit.get("identity") or {})}
     idrow = ident.get(t)
