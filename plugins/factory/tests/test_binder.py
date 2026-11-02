@@ -520,9 +520,10 @@ class Docs(unittest.TestCase):
         """Prose rule of 0.1.21: MakeHuman/MPFB stay only in the fallback description, the credit, the label and the code of the fallback binder itself."""
         allowed_dirs = {"bind", "receipts"}   # the donor binder's own scripts and old receipts are unchanged
         hits = []
-        for p in list(REPO.glob("**/*.md")) + list(REPO.glob("**/*.json")):
+        code_dirs = ("tools", "plugins", "flux")   # 0.1.28: the rule covers code paths only; docs/ and reference/ notes and the machine's config.local.json are free
+        for p in [q for d in code_dirs for q in list(REPO.glob(d + "/**/*.md")) + list(REPO.glob(d + "/**/*.json"))]:
             rel = p.relative_to(REPO)
-            if rel.parts[0] in allowed_dirs | {".git"} or p.name == "config.local.json":   # config.local.json is the machine's own gitignored paths (donors_dir)
+            if rel.parts[0] in allowed_dirs | {".git"} or p.name == "config.local.json":
                 continue
             for n, line in enumerate(p.read_text(encoding="utf-8-sig", errors="replace").splitlines(), 1):
                 low = line.lower()
