@@ -24,6 +24,9 @@ These are different inputs, so the speed-up is indicative, not a controlled benc
 5. Stage 2, TRELLIS (GPU): `generate.py <cutout> --preset master --texture-size 2048 --bake-faces 500000 --device rocm --single-process --profile-memory --output <prefix> --attn-auto-gb 28`, run in the py3.12 venv with env from `trellis.env` (sdpa attention, flex_gemm, `TRELLIS3_REMBG=none`). Output `mesh.glb`, `mesh.receipt.json`; log in `logs_dir`.
 6. Check `receipts/<asset_id>/cutout-*.json` and `trellis-*.json` both have `status: ok`; look at the GLB and stills before binding.
 
+## Vampire v2 rules (plugin 0.1.26)
+Single image only on this box (multi-image conditioning is a Trellis-3 request, see LESSONS). Crop heads to head+neck. Over ~24k tokens attention is tiled (6-10x slower): `--attn-auto-gb 28` is the ceiling. Order: head mesh first, then the body mesh (`cf_chain.order_reasons` refuses the body until the head has an ok trellis receipt), head v2 afterwards. A projection texture pass for backs and sides comes after Trellis (pending, no tool yet). Keep-awake is on automatically (`run_3d.py`).
+
 ## Tiers (draft / master / hero)
 The factory presets live in `config/config.json -> trellis.presets` and all call `generate.py --preset master` with the size and budget overridden. The base presets come from `Trellis-3-312/trellis3/presets.py`: `draft` (512 pipeline, 8 steps, no texture: throwaway), `final` (1024 cascade, 2048 texture), `master` (1024 cascade, 4096 texture, 1M-face bake, normal map), `hero` (1536 cascade, 8192 texture, 2M-face bake, normal map).
 

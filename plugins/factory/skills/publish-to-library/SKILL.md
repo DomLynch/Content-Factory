@@ -14,6 +14,8 @@ description: DRAFT. Copy a finished character into a local clone of the library 
 
 # publish-to-library
 
+DONE gate (plugin 0.1.26): the publish spec needs `datalayer`, the OpenTrident data-layer row file that names the asset (reference copy `reference\opentrident-datalayer\`). Without it the asset is not DONE and the publish is refused. A GLB-only publish prints the pending FBX line.
+
 Wrapper: `python tools/publish.py <asset_id> --library <clone of opentrident-steam> [--dry-run]`. Spec: `publish/<asset_id>.json` (required keys `id`, `label`, `group`, `rig`, `source`, `glb`, `thumb`, `stills`; optional `still_names`, `clips`, `receipt`). Format and layout: `docs/library-format.md`. Slash command: `/factory-publish`.
 
 ## Gate before anything

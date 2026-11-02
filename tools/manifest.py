@@ -12,6 +12,7 @@ ap.add_argument("--pick", nargs="*", default=[])
 ap.add_argument("--by", default="")
 ap.add_argument("--note", default="")
 ap.add_argument("--consistency", metavar="REVIEW.json", help="record the consistency pass of the sheet (plugin 0.1.24 chain gate 1): the review file, its sha256, its counts")
+ap.add_argument("--yaw", nargs=2, action="append", default=[], metavar=("ROW_ID", "DEG"), help="record the measured head yaw of a cell (chain gate 1 compares it with the row's yaw_deg)")
 ap.add_argument("--score", type=int, default=None, help="QC score 0-10 recorded with --verdict")
 ap.add_argument("--prompt-fix", default="", help="QC prompt_fix recorded with --verdict")
 ap.add_argument("--import-review", action="append", default=[], metavar="REVIEW.json",
@@ -53,6 +54,10 @@ for rev in a.import_review:
             set_verdict(rid, c["verdict"], c.get("notes") or "", c.get("score"), c.get("prompt_fix") or c.get("fix") or "")
 for vrow, v in a.verdict:
     set_verdict(vrow, v, a.note, a.score, a.prompt_fix)
+for vrow, deg in a.yaw:   # measured head yaw (plugin 0.1.26): the chain compares it with the row's yaw_deg
+    if vrow not in rows:
+        sys.exit(f"--yaw {vrow}: unknown row")
+    rows[vrow]["yaw_measured"] = float(deg)
 consistency = old.get("consistency")
 if a.consistency:
     rv = json.load(open(a.consistency, encoding="utf-8-sig"))

@@ -400,9 +400,9 @@
     "log_prefix": "char_"
   },
   "flux": {
-    "_comment": "plugin 0.1.6; names agreed with the Factory (flux_kit_fast.py). steps and ref_long_by_group are the quality policy (plugins/factory/lib/cf_flux.py): ref_long_by_group 0 = full-size reference required, N = long side may drop to N. The rest are speed switches, zero pixel change: env CF_ATTN_BACKEND, CF_VAE_TILING, CF_VAE_SLICING, CF_CACHE_REF, CF_INPROC override them; vae_tiling/vae_slicing null = models.flux.",
+    "_comment": "plugin 0.1.6; names agreed with the Factory (flux_kit_fast.py). steps and ref_long_by_group are the quality policy (plugins/factory/lib/cf_flux.py): ref_long_by_group \"render\" = the reference is capped at the render long edge (ref_max_px; plugin 0.1.26), N = long side may drop to N. The rest are speed switches, zero pixel change: env CF_ATTN_BACKEND, CF_VAE_TILING, CF_VAE_SLICING, CF_CACHE_REF, CF_INPROC override them; vae_tiling/vae_slicing null = models.flux.",
     "steps": 16,
-    "ref_long_by_group": {"body": 0, "head": 0, "hands_feet": 0, "gear": 640, "swatch": 640},
+    "ref_long_by_group": {"body": "render", "head": "render", "hands_feet": "render", "gear": 640, "swatch": 640},
     "attention_backend": "native",
     "single_process_queue": true,
     "cache_ref_conds": true,
@@ -483,7 +483,7 @@
   },
   "gates": {
     "_comment": "plugin 0.1.4 gates (plugins/factory/lib/cf_gates.py). token_floor = the robot's proven setting (preset tokens98k); hero stays equal until a higher setting is measured on this GPU; presets with no tier (drafts, benchmark profiles) have no floor. A floor is a minimum, not a cap: any run may sample more. Ceiling test (GPU free only): robot_1076 at 131072 and 196608, --attn-auto-gb 28; hero floor = highest that completes in under 2x the 98304 wall time.",
-    "min_subject_frac": 0.6,
+    "min_subject_frac": 0.6, "yaw_tol_deg": 15,
     "min_head_px": 512,
     "token_floor": {
       "master": 98304,

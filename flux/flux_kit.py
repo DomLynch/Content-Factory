@@ -32,7 +32,8 @@ if refusals and os.environ.get("FACTORY_RAW"):
     cf_guard.raw_override("FACTORY_RAW=" + os.environ["FACTORY_RAW"], "flux")   # logged exception
 elif refusals:
     print("\n".join(refusals), flush=True)
-    sys.exit(2)
+    sys.exit(3 if cf_flux.is_hold(refusals) else 2)   # 3 = HOLD (a dependency row is not ready): the queue waits, it does not fail
+cf_common.keep_awake()
 out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
 path = os.path.join(out_dir, f"{row['name']}_{W}x{H}.png")
 if os.environ.get("CF_DRY"):
@@ -71,7 +72,11 @@ try:
     extra = {}
     if use_ref:
         from PIL import Image
-        extra["image"] = [Image.open(ref_path).convert("RGB")]
+        ref_img = Image.open(ref_path).convert("RGB")
+        if spec["ref_max_px"] and max(ref_img.size) > spec["ref_max_px"]:   # ref_max_px: cap the identity reference at the render long edge (vampire v2: 4K refs cost 14 min/cell)
+            k = spec["ref_max_px"] / max(ref_img.size)
+            ref_img = ref_img.resize((max(1, round(ref_img.width * k)), max(1, round(ref_img.height * k))), Image.LANCZOS)
+        extra["image"] = [ref_img]
     t1 = time.time()
     image = pipe(prompt=prompt, width=W, height=H, generator=torch.Generator().manual_seed(seed), output="images", **extra)[0]
     torch.cuda.synchronize()

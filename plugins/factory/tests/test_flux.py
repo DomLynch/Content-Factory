@@ -80,12 +80,12 @@ class Policy(Kit):
         self.assertTrue(any("768x1152" in x and "1024x1536" in x for x in r), r)
         self.assertEqual(self.reasons("head_front", {"FACTORY_FLUX_W": "2048", "FACTORY_FLUX_H": "3072"}), [])
 
-    def test_body_head_hands_need_the_full_size_reference(self):
+    def test_body_head_hands_cap_the_reference_at_the_render_long_edge_not_below(self):   # 0.1.26: was full size
         for rid in ("head_front", "hands_open", "feet_a"):
             r = self.reasons(rid, {"CF_REF_LONG": "768"})
-            self.assertTrue(any("from 1500 to 768" in x and "full-size reference (1000x1500)" in x for x in r), (rid, r))
-        self.assertEqual(self.reasons("head_front", {"CF_REF_LONG": "1500"}), [])   # a cap at or above the real size changes nothing
-        self.assertEqual(self.reasons("head_front", {"CF_REF_LONG": "0"}), [])   # 0 = full size, as in flux_kit_fast.py
+            self.assertTrue(any("caps the reference at 768" in x and "render long edge, 1536" in x for x in r), (rid, r))
+        self.assertEqual(self.reasons("head_front", {"CF_REF_LONG": "1536"}), [])   # a cap at the render edge is the rule
+        self.assertEqual(self.reasons("head_front", {"CF_REF_LONG": "0"}), [])   # 0 = the default cap
 
     def test_gear_and_swatch_may_downscale_to_640(self):
         for rid in ("coat", "mat_fur"):
@@ -129,7 +129,7 @@ class Hook(Kit):
         cmd = f"CF_REF_LONG=512 python flux/flux_kit.py {self.path.as_posix()} head_front"
         out = self.hook({"tool_name": "Bash", "tool_input": {"command": cmd}})
         self.assertEqual(out["hookSpecificOutput"]["permissionDecision"], "deny")
-        self.assertIn("full-size reference", out["hookSpecificOutput"]["permissionDecisionReason"])
+        self.assertIn("render long edge", out["hookSpecificOutput"]["permissionDecisionReason"])
         self.assertEqual(self.hook({"tool_name": "Bash", "tool_input": {"command": "FACTORY_RAW=odd " + cmd}}), {})
         self.assertEqual(self.hook({"tool_name": "Bash", "tool_input": {"command": f"python flux/flux_kit.py {self.path.as_posix()} head_front"}}), {})
 
