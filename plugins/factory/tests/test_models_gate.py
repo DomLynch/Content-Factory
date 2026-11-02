@@ -146,5 +146,46 @@ class Models(unittest.TestCase):
         self.assertTrue(all(len(str(r["installed"].get("version") or "")) == 0 for r in reg))   # no model numbers in the repo
 
 
+class Quality(unittest.TestCase):
+    """Quality first (plugin 0.1.27): the default presets are the hero settings; a speed preset needs --speed-reason, which lands in the receipt."""
+    def setUp(self):
+        self.cfg = json.loads((REPO / "config" / "config.json").read_text(encoding="utf-8-sig"))
+        self.old = (cf_common.load_config, cf_common.SPEED_REASON, cf_common.QUALITY, cf_common.REPO)
+        self.t = tempfile.TemporaryDirectory()
+        self.addCleanup(self.t.cleanup)
+        cf_common.load_config = lambda: self.cfg
+        cf_common.REPO = self.t.name
+        self.addCleanup(lambda: (setattr(cf_common, "load_config", self.old[0]), setattr(cf_common, "SPEED_REASON", self.old[1]),
+                                 setattr(cf_common, "QUALITY", self.old[2]), setattr(cf_common, "REPO", self.old[3])))
+
+    def test_defaults_are_the_hero_settings_and_not_speed_presets(self):
+        t = self.cfg["trellis"]["presets"][self.cfg["character"]["default_preset"]]
+        self.assertEqual((t["texture_size"], t["bake_faces"]), (8192, 2000000))
+        self.assertNotIn(self.cfg["character"]["default_preset"], self.cfg["quality"]["speed_presets"]["trellis"])
+        self.assertNotIn(self.cfg["pixal3d"]["default_preset"], self.cfg["quality"]["speed_presets"]["pixal3d"])
+        self.assertEqual(self.cfg["gates"]["preset_tier"].get(self.cfg["character"]["default_preset"]), "hero")   # the floor applies to the default
+
+    def test_a_speed_preset_is_refused_without_a_reason_and_recorded_with_one(self):
+        cf_common.SPEED_REASON = None
+        with self.assertRaises(SystemExit) as e:
+            cf_common.plugin_gate("quality", "trellis", "master_reduced")
+        self.assertEqual(e.exception.code, 2)
+        cf_common.plugin_gate("quality", "trellis", self.cfg["character"]["default_preset"])   # the default needs nothing
+        self.assertIsNone(cf_common.QUALITY)
+        cf_common.SPEED_REASON = "Dom: bind test only"
+        cf_common.plugin_gate("quality", "trellis", "master_reduced")
+        rec = json.loads(Path(cf_common.write_receipt({"local": {}}, "a", "trellis", tool="t", model={})).read_text())
+        self.assertEqual(rec["quality"], {"speed_preset": "master_reduced", "tool": "trellis", "reason": "Dom: bind test only"})
+
+    def test_speed_reason_is_taken_out_of_argv(self):
+        old = sys.argv[:]
+        try:
+            sys.argv = ["x", "a", "--speed-reason", "why not", "b"]
+            self.assertEqual(cf_common.pop_speed_reason(), "why not")
+            self.assertEqual(sys.argv, ["x", "a", "b"])
+        finally:
+            sys.argv = old
+
+
 if __name__ == "__main__":
     unittest.main()

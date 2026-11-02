@@ -8,6 +8,7 @@ import argparse, os, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
 
+cf_common.pop_speed_reason()
 cf_common.pop_allow_stale()
 ap = argparse.ArgumentParser()
 ap.add_argument("asset_id")
@@ -27,6 +28,7 @@ loc, px = cfg["local"], cfg["pixal3d"]
 preset_name = a.preset or px["default_preset"]
 if preset_name not in px["presets"]:
     sys.exit(f"unknown preset {preset_name}; choose from {sorted(px['presets'])}")
+cf_common.plugin_gate("quality", "pixal3d", preset_name)   # speed presets need --speed-reason (plugin 0.1.27)
 preset = px["presets"][preset_name]
 seed = a.seed if a.seed is not None else cfg["defaults"]["seed"]
 work = loc["work_dir"]

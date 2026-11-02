@@ -9,11 +9,12 @@ import argparse, os, shutil, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
 
+cf_common.pop_speed_reason()   # --speed-reason "<reason>" (quality first, plugin 0.1.27)
 cf_common.pop_allow_stale()   # --allow-stale "<reason>" (latest-models gate, plugin 0.1.27)
 ap = argparse.ArgumentParser()
 ap.add_argument("asset_id")
 ap.add_argument("image")
-ap.add_argument("--preset", default="master_reduced")
+ap.add_argument("--preset", default=None)   # default: config character.default_preset (the hero settings); speed presets need --speed-reason
 ap.add_argument("--from-latents", default=None)
 ap.add_argument("--out-name", default="mesh")
 ap.add_argument("--cutout-png", default=None)   # A/B fairness: an ALREADY cut-out RGBA png (the Factory's one cutout stage): copied to work/<asset>/cutout.png, the cutout stage is skipped
@@ -22,6 +23,8 @@ ap.add_argument("--seed", type=int, default=None)   # A/B harness: same seed as 
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
+a.preset = a.preset or cfg["character"]["default_preset"]
+cf_common.plugin_gate("quality", "trellis", a.preset)
 cf_common.plugin_gate("chain", a.asset_id, bool(a.cutout_png))   # build order: sheet complete, Dom's yes, cut-out receipt (plugin 0.1.24)
 cf_common.plugin_gate("token", a.asset_id, a.preset, bool(a.from_latents))   # token floor, also outside Claude Code (plugin 0.1.23)
 cf_common.plugin_gate("models", "cutout", "trellis")   # latest-models gate (plugin 0.1.27)
