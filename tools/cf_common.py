@@ -226,7 +226,8 @@ def plugin_gate(kind, *args):
         elif kind == "ram_share":   # RAM-sharing rule (plugin 0.1.27): cut-out / upscale / Blender jobs
             import cf_proc
             lim = load_config()["limits"]
-            bad = [r for r in [cf_proc.ram_share_reason(lim, cf_guard.free_ram_gb(), cf_proc.loading_procs(float(lim.get("load_stage_s", 300))))] if r]
+            bad = [r for r in [cf_proc.ram_share_reason(lim, cf_guard.free_ram_gb(), cf_proc.loading_procs(float(lim.get("load_stage_s", 300))),
+                                                        cf_proc.loading_procs(float("inf")))] if r]
         elif kind == "chain":
             import cf_chain
             bad = cf_chain.part_mesh_reasons(*args)

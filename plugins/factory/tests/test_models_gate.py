@@ -219,6 +219,18 @@ class RamShare(unittest.TestCase):
                     "tools/assemble_character.py", "tools/run_bind.py"):
             self.assertIn('plugin_gate("ram_share")', (REPO / rel).read_text(encoding="utf-8"), rel)
 
+    def test_low_ram_while_a_gpu_job_runs_is_named_as_the_gpu_job_and_the_guard_floor_is_commit_based(self):
+        import cf_proc
+        r = cf_proc.ram_share_reason(self.LIM, 1.0, [], [(77, "python generate.py", 900.0)])
+        self.assertTrue("GPU job" in r and "pid 77" in r and "carved out of system RAM" in r, r)
+        r = cf_proc.ram_share_reason(self.LIM, 1.0, [], [])
+        self.assertTrue("no GPU job is running" in r, r)
+        cfg = json.loads((REPO / "config" / "config.json").read_text(encoding="utf-8-sig"))
+        self.assertEqual(cfg["limits"]["guard_min_free_ram_gb"], 0)   # the GPU job's own allocations come out of system RAM (Variable Graphics Memory)
+        ps1 = (REPO / "tools" / "gpu_guard.ps1").read_text(encoding="utf-8")
+        self.assertIn("MinFreeCommitGB", ps1)
+        self.assertIn("$MinFreeRamGB -gt 0 -and $free -lt $MinFreeRamGB", ps1)
+
     def test_hero_default_uses_fused_attention_and_the_limits_exist(self):
         cfg = json.loads((REPO / "config" / "config.json").read_text(encoding="utf-8-sig"))
         extra = cfg["trellis"]["presets"][cfg["character"]["default_preset"]]["extra"]

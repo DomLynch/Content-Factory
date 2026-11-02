@@ -11,7 +11,8 @@
     "publish"
   ],
   "limits": {
-    "guard_min_free_ram_gb": 3,
+    "guard_min_free_ram_gb": 0,
+    "_guard_comment": "plugin 0.1.28: 0 = no physical-RAM floor for the GPU job itself. With the Variable Graphics Memory split its allocations come out of system RAM (a healthy 1024 decode reads 0.0 GB free), so tools/gpu_guard.ps1 watches commit headroom instead (-MinFreeCommitGB, default 2). start_min_free_ram_gb still applies BEFORE a start.",
     "guard_max_gpu_gb": 0,
     "max_megapixels": 1.6,
     "watchdog_seconds": 1500,

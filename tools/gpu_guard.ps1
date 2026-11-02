@@ -1,7 +1,10 @@
 # Guard for any GPU job. Usage: powershell -File gpu_guard.ps1 -Match "flux_tile_test" [-MinFreeRamGB 4] [-MaxGpuGB 30]
 # Kills the matching python job and writes the reason to Documents\crash_monitor.csv if free RAM or GPU dedicated memory crosses the limit
 # (3 samples in a row, 2 s apart). Set -MaxGpuGB 0 to disable the GPU limit.
-param([string]$Match, [double]$MinFreeRamGB = 4, [double]$MaxGpuGB = 30)
+# With the Variable Graphics Memory split the GPU job's own allocations are carved out of system RAM, so "available RAM" falls toward 0 during a healthy decode or bake
+# (13:30 2026-11-02: a 1024 decode was killed at 0.0 GB free with 52 GB free before it). The guard therefore watches COMMIT headroom (-MinFreeCommitGB, default 2)
+# and treats -MinFreeRamGB 0 as "no physical-RAM floor"; config limits.guard_min_free_ram_gb is 0 for that reason.
+param([string]$Match, [double]$MinFreeRamGB = 4, [double]$MaxGpuGB = 30, [double]$MinFreeCommitGB = 2)
 $log = "$env:USERPROFILE\Documents\crash_monitor.csv"
 $strikes = 0; $gone = 0; $lockPath = "$env:USERPROFILE\Documents\.gpu_lock"; $haveLock = $false
 # GPU lock (Bonsai and other background helpers yield while it exists). CPU-only Blender guards do not take it.
@@ -21,13 +24,15 @@ while ($true) {
   }
   $gone = 0
   if (-not $haveLock) { $first = @($procs)[0]; Write-Lock $first.ProcessId }
-  $free = (Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB
+  $os = Get-CimInstance Win32_OperatingSystem
+  $free = $os.FreePhysicalMemory / 1MB
+  $freeCommit = $os.FreeVirtualMemory / 1MB   # commit headroom (RAM + page file not yet promised)
   $gpu = 0
   try { $gpu = (((Get-Counter '\GPU Adapter Memory(*)\Dedicated Usage' -ErrorAction Stop).CounterSamples | Measure-Object CookedValue -Sum).Sum) / 1GB } catch {}
-  $bad = ($free -lt $MinFreeRamGB) -or ($MaxGpuGB -gt 0 -and $gpu -gt $MaxGpuGB)
+  $bad = ($MinFreeRamGB -gt 0 -and $free -lt $MinFreeRamGB) -or ($MinFreeCommitGB -gt 0 -and $freeCommit -lt $MinFreeCommitGB) -or ($MaxGpuGB -gt 0 -and $gpu -gt $MaxGpuGB)
   if ($bad) { $strikes++ } else { $strikes = 0 }
   if ($strikes -ge 2) {
-    $why = "free RAM {0:N1} GB (min {1}) / GPU dedicated {2:N1} GB (max {3})" -f $free, $MinFreeRamGB, $gpu, $MaxGpuGB
+    $why = "free RAM {0:N1} GB (min {1}) / free commit {4:N1} GB (min {5}) / GPU dedicated {2:N1} GB (max {3})" -f $free, $MinFreeRamGB, $gpu, $MaxGpuGB, $freeCommit, $MinFreeCommitGB
     foreach ($p in $procs) { Stop-Process -Id $p.ProcessId -Force -ErrorAction SilentlyContinue }
     "$(Get-Date -Format s),GUARD_ABORT,job '$Match' killed: $why" | Out-File $log -Append -Encoding ascii
     Remove-Lock

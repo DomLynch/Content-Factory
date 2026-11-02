@@ -208,7 +208,7 @@ def power_reason(state: dict, limits: dict) -> str:
             "or pass --allow-battery \"<reason>\" (written to the receipt).") if bad else ""
 
 
-def ram_share_reason(limits: dict, free_gb: float | None, loading: list | None = None) -> str:
+def ram_share_reason(limits: dict, free_gb: float | None, loading: list | None = None, gpu_running: list | None = None) -> str:
     """RAM-sharing rule (plugin 0.1.27): a cut-out, upscale or Blender job does not start while a Trellis / Pixal3D process is loading, or with available RAM under
     limits.share_min_free_ram_gb. The Factory killed the GPU lane's run three times in one day this way. '' = may start."""
     need = float(limits.get("share_min_free_ram_gb", 8))
@@ -217,7 +217,11 @@ def ram_share_reason(limits: dict, free_gb: float | None, loading: list | None =
         return (f"RAM-SHARE GATE: a Trellis/Pixal3D process (pid {pid}, started {age:.0f} s ago) is still loading its weights; a cut-out, upscale or Blender job started now takes its RAM. "
                 f"Wait until it has finished loading (limits.load_stage_s = {limits.get('load_stage_s', 300)} s).")
     if free_gb is not None and free_gb < need:
-        return f"RAM-SHARE GATE: {free_gb:.1f} GB RAM available, under limits.share_min_free_ram_gb = {need:g} GB. A cut-out, upscale or Blender job waits for headroom."
+        if gpu_running:   # the GPU job's own allocations come out of system RAM: low "available" is expected, so say who holds it
+            pid, cmd, age = gpu_running[0]
+            return (f"RAM-SHARE GATE: {free_gb:.1f} GB RAM available (< {need:g} GB) while a GPU job (pid {pid}, running {age:.0f} s) is running; its allocations are carved out of system RAM. "
+                    "A cut-out, upscale or Blender job waits until that GPU job has finished.")
+        return f"RAM-SHARE GATE: {free_gb:.1f} GB RAM available, under limits.share_min_free_ram_gb = {need:g} GB, and no GPU job is running: another process holds the RAM. A cut-out, upscale or Blender job waits for headroom."
     return ""
 
 
