@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-ab-body-pixal3d-cpuglb",
+  "stage": "bind",
+  "tool": "bind_best.py",
+  "script_commit": "afe8d4a",
+  "model": {
+    "id": "psyche-106 hybrid donor transfer"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\Pixal3D-run\\_real_test\\vampire_px_cpuglb.glb",
+      "sha256": "7c488ffd3753c8d71b35d3f34b5a15cd13583ab13eb6f89407246d6c8538e0b5"
+    },
+    {
+      "path": "C:\\HANDOVER-Macbook\\extracted\\batch1-2\\dev\\demon2-build\\ref\\psyche-106-v3.glb",
+      "sha256": "d928bdf6fcf31238f76f65158199f2c739379b9af671bada9c10784cf88487dc"
+    }
+  ],
+  "params": {
+    "gate": {
+      "min_edge_mm": 5,
+      "p99_stretch_max": 2.0,
+      "p99_compression_ratio_min": 0.5,
+      "zero_weight_vertices_max": 0,
+      "max_influences": 4,
+      "weight_sum_tol": 0.001
+    },
+    "blender": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
+    "rig": "C:\\HANDOVER-Macbook\\extracted\\batch1-2\\dev\\demon2-build\\ref\\psyche-106-v3.glb",
+    "donors_dir": "C:\\Users\\dom12\\Documents\\donors\\makehuman",
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\bind_vampire-ab-body-pixal3d-cpuglb.txt",
+    "metrics": {
+      "edges_measured_ge_5mm": 229777,
+      "p99_stretch": 1.5065,
+      "p99_compression_ratio": 0.5962,
+      "diag_max_stretch": 49.0,
+      "diag_min_ratio": 0.0033,
+      "violating_edges_by_region": {
+        "hands": 953,
+        "feet": 462,
+        "neck": 81,
+        "shoulders": 885,
+        "crotch": 192,
+        "other": 11312
+      },
+      "score": 0.8386,
+      "gate_pass": false,
+      "weights": {
+        "zero_weight_vertices": 0,
+        "max_influences": 4,
+        "weight_sum_max_dev": 1.8477439880371094e-06,
+        "unweighted_bones": [
+          "mixamorig:LeftToe_End",
+          "mixamorig:RightToe_End"
+        ],
+        "unweighted_bones_other_than_toe_end": []
+      },
+      "checks": {
+        "edges_measured_ge_min": true,
+        "p99_stretch": true,
+        "p99_compression_ratio": true,
+        "zero_weight_vertices": true,
+        "max_influences": true,
+        "weight_sum_dev": true
+      },
+      "gate_passed": true,
+      "binder": "donor",
+      "donor": "tall",
+      "bind_best_gate": "GATE_FAIL",
+      "binders": {
+        "donor": {
+          "score": 0.8386,
+          "p99_stretch": 1.5065,
+          "p99_compression_ratio": 0.5962,
+          "gate_pass": false,
+          "regions": {
+            "hands": 953,
+            "feet": 462,
+            "neck": 81,
+            "shoulders": 885,
+            "crotch": 192,
+            "other": 11312
+          }
+        },
+        "hybrid": {
+          "score": 0.8386,
+          "p99_stretch": 1.5065,
+          "p99_compression_ratio": 0.5962,
+          "gate_pass": false,
+          "regions": {
+            "hands": 953,
+            "feet": 462,
+            "neck": 81,
+            "shoulders": 885,
+            "crotch": 192,
+            "other": 11312
+          }
+        }
+      }
+    }
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 378.4
+  },
+  "memory": {
+    "lowest_free_ram_gb": 0.5
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-pixal3d-cpuglb\\bound.glb",
+      "sha256": "12d23fc53a48e534e42d48d2a8a8d3a6c7a4afe57d1c640fc2a04a51b14728ca"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-pixal3d-cpuglb\\bound.blend",
+      "sha256": "d300876fce69a8ad7ff689088bee12325e2268d7e9045d6b0d59e115fb8cd029"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-pixal3d-cpuglb\\bound.best.json",
+      "sha256": "178a428a3da0aa873d76482044e10ab8ff2dfdbaa86a4e56d431aef08877d282"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-pixal3d-cpuglb\\bind_work\\donor.metrics.json",
+      "sha256": "ce19860c960cc3899e6b2a97dfc9cc77ed86e6746ff38ac73c754de701e6e15e"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T16:38:47+00:00"
+}

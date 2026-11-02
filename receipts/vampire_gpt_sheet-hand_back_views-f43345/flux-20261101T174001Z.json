@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-hand_back_views-f43345",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "981d795",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Reference sheet of both of a man's hands seen from behind with relaxed fingers, side by side, pale aged skin with visible veins. Bare wrist cut cleanly at the wrist: no sleeve, no cuff, no coat, no glove. Clean bare wrist, no artefacts. Wearing two gold signet rings, each set with a deep red ruby gem, one on the index finger and one on the ring finger, the same ring design in every view; palm views show only the plain gold bands. Photorealistic, ultra-detailed skin, plain dark grey background, all views fully inside the frame with a margin, nothing cut off, no text.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "hand_back_views",
+    "mean_brightness": 97.4
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 182.3,
+    "load_s": 31.4,
+    "generate_s": 150.9
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 7.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\hand_back_views_1536x1024.png",
+      "sha256": "2a9dae7e47e7d81103a0b3dddf7bf308077095521dbebaf44f20363c88efbfa6"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T17:40:01+00:00"
+}

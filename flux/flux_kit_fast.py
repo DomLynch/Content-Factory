@@ -44,7 +44,7 @@ SWITCHES = {"attn_backend": ATTN_BACKEND, "vae_tiling": VAE_TILING, "vae_slicing
 STEPS = int(os.environ["CF_STEPS"]) if os.environ.get("CF_STEPS") else None
 IS_CHILD = bool(os.environ.get("CF_FAST_CHILD"))
 seed = kit.get("seed", cfg["defaults"]["seed"])
-out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
+out_dir = os.environ.get("CF_OUT_DIR") or os.path.join(LOC["outputs_dir"], kit["kit"])   # CF_OUT_DIR: a test render must not land in the sheet folder
 model = {"id": cfg["models"]["flux"]["id"], "dir": LOC["flux_model_dir"]}
 
 

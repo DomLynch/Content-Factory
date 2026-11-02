@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "asset_id": "robot-control-lod0",
+  "stage": "textures",
+  "tool": "tools/run_textures.py",
+  "script_commit": "2b6e7e5",
+  "model": "none (cv2 inpaint, own metal/rough, detail normal)",
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\robot-control-lod0\\mesh.glb",
+      "sha256": "94d1bb0c622866755a5b5be08b498606d6b9a21635ca36c80d1f95a09ebb8b99"
+    }
+  ],
+  "params": {
+    "out_name": "lod0",
+    "hole_max_value": 14,
+    "hole_max_area": 400,
+    "normal_strength": 2.5,
+    "compare": {
+      "crop_px": 512,
+      "zoom": 2,
+      "_comment": "crops: height band [lo, hi] as a fraction of the mesh height; the crop is placed where most UV points of the band vertices fall",
+      "crops": {
+        "face": [
+          0.88,
+          0.97
+        ],
+        "coat": [
+          0.4,
+          0.7
+        ]
+      }
+    },
+    "pinhole_texels_before": 14497,
+    "texels_total": 16777216,
+    "pinhole_texels_still_dark_after": 2
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "total_s": 7.4
+  },
+  "memory": {
+    "lowest_free_ram_gb": 16.2
+  },
+  "outputs": [],
+  "status": "failed",
+  "error": "No module named 'cv2'",
+  "created_utc": "2026-11-01T11:13:41+00:00"
+}

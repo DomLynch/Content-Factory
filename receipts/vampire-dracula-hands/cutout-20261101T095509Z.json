@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-hands",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "db38f99",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire-dracula-hands_4x.png",
+      "sha256": "e85c3b067f76b5337a94e1af404c6b929d19bcb6c1c631ae130c28f78685dc6f"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 104.6
+  },
+  "memory": {
+    "lowest_free_ram_gb": 5.8
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-hands\\cutout.png",
+      "sha256": "7c0316c546afa4315923d48ee92de0ec61e74a4f56e814fab59f1fc8f7671791"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:55:09+00:00"
+}

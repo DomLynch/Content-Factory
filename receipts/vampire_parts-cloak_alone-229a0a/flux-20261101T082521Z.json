@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_parts-cloak_alone-229a0a",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "8711351",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+      "sha256": "deda892e770851ad12649e75a7b9bd78acff0350e2a1ef31831c076d04ccd20b"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1536,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",
+    "prompt": "Edit instruction: keep this exact same character from the reference image: identical face, hair, moustache, skin and body build. Change only the following: Show ONLY the long dark cloak with the heavy black fur mantle over the shoulders and the gold medallions set with red gems joined by chains, hanging on a plain faceless mannequin, front view. No head, no person, no coat, no boots.  Photorealistic, ultra-detailed, soft even studio lighting, plain neutral grey background, centred, full figure head to feet fully visible, sharp, 4k character reference. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_parts_kit.json",
+    "row_id": "cloak_alone",
+    "mean_brightness": 66.6
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 323.1,
+    "load_s": 31.7,
+    "generate_s": 291.3
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 2.6
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\cloak_alone_1024x1536.png",
+      "sha256": "947652538982e6ac858e4f4dcb0e187c6868bee1b5b43ce77642a1d01af6cefe"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T08:25:21+00:00"
+}

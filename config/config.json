@@ -95,6 +95,32 @@
           "--max-tokens",
           "98304"
         ]
+      },
+      "game_lod0": {
+        "preset": "master",
+        "texture_size": 4096,
+        "bake_faces": 1000000,
+        "extra": []
+      },
+      "head_master": {
+        "preset": "master",
+        "texture_size": 4096,
+        "bake_faces": 1000000,
+        "extra": [
+          "--attn-auto-gb",
+          "28",
+          "--max-tokens",
+          "98304"
+        ]
+      },
+      "part_512": {
+        "preset": "final",
+        "texture_size": 2048,
+        "bake_faces": 40000,
+        "extra": [
+          "--pipeline-type",
+          "512"
+        ]
       }
     }
   },
@@ -121,23 +147,6 @@
       }
     }
   },
-  "bind": {
-    "script_dir": "bind",
-    "best_script": "bind_best.py",
-    "bound_glb_name": "bound.glb",
-    "work_subdir": "bind_work",
-    "timeout_s": 1800,
-    "export_timeout_s": 300,
-    "rig_name": "Rig",
-    "body_name": "Body",
-    "gate": {
-      "min_edge_mm": 5,
-      "p99_stretch_max": 2.0,
-      "p99_compression_ratio_min": 0.5,
-      "zero_weight_vertices_max": 0,
-      "max_influences": 4,
-      "weight_sum_tol": 0.001
-    }
   "qc": {
     "min_free_ram_gb": 2.5,
     "timeout_s": 600,
@@ -168,6 +177,23 @@
       "min_iou": 0.4
     }
   },
+  "bind": {
+    "script_dir": "bind",
+    "best_script": "bind_best.py",
+    "bound_glb_name": "bound.glb",
+    "work_subdir": "bind_work",
+    "timeout_s": 1800,
+    "export_timeout_s": 300,
+    "rig_name": "Rig",
+    "body_name": "Body",
+    "gate": {
+      "min_edge_mm": 5,
+      "p99_stretch_max": 2.0,
+      "p99_compression_ratio_min": 0.5,
+      "zero_weight_vertices_max": 0,
+      "max_influences": 4,
+      "weight_sum_tol": 0.001
+    }
   },
   "clean": {
     "_comment": "fallback pre-bind mesh clean (tools/run_clean.py -> bind/clean_mesh.py); distances in metres; voxel_m 0 = voxel remesh off (then the original texture is kept as is)",
@@ -315,7 +341,102 @@
     ],
     "world_strength": 1.0,
     "rig_name": "Rig",
-    "clip_action_name": "clip"
+    "clip_action_name": "clip",
+    "lit": {
+      "_comment": "Lit PBR presentation look (run_stills.py). Light positions are in units of body height H from the rest-pose bounds: x,y from the bounds centre (camera looks along +Y from -Y), z from the feet. size is in H. energy is watts at ref_height_m and scales with (H/ref_height_m)^2. Set enabled false for the old flat sun look.",
+      "enabled": true,
+      "width": 1080,
+      "height": 1080,
+      "samples": 64,
+      "denoise": true,
+      "denoiser": "OPENIMAGEDENOISE",
+      "clamp_indirect": 8.0,
+      "ref_height_m": 1.8,
+      "aim_z_frac": 0.55,
+      "view_transform": "AgX",
+      "exposure": 0.0,
+      "world_color": [
+        0.02,
+        0.022,
+        0.03
+      ],
+      "world_strength": 0.4,
+      "lights": [
+        {
+          "name": "key",
+          "energy": 1100,
+          "size": 0.9,
+          "temp_k": 5200,
+          "pos": [
+            -0.9,
+            -1.1,
+            1.1
+          ]
+        },
+        {
+          "name": "fill",
+          "energy": 280,
+          "size": 1.4,
+          "temp_k": 7800,
+          "pos": [
+            1.2,
+            -1.0,
+            0.55
+          ]
+        },
+        {
+          "name": "rim",
+          "energy": 900,
+          "size": 0.7,
+          "temp_k": 9500,
+          "pos": [
+            0.7,
+            1.3,
+            1.0
+          ]
+        }
+      ],
+      "backdrop": {
+        "width_h": 8.0,
+        "floor_front_h": 5.0,
+        "floor_back_h": 1.8,
+        "curve_radius_h": 1.2,
+        "wall_height_h": 3.5,
+        "color_bottom": [
+          0.012,
+          0.012,
+          0.016
+        ],
+        "color_mid": [
+          0.05,
+          0.055,
+          0.075
+        ],
+        "color_top": [
+          0.006,
+          0.006,
+          0.01
+        ],
+        "mid_offset": 0.12,
+        "side_falloff": 0.6,
+        "roughness": 0.5
+      },
+      "turntable": {
+        "pose": "idle",
+        "frames": 72,
+        "width": 720,
+        "height": 720,
+        "samples": 32,
+        "fps": 24,
+        "crf": 18,
+        "frames_subdir": "turntable_frames",
+        "frame_pattern": "frame_%04d.png",
+        "mp4": "turntable.mp4",
+        "timeout_s": 10800,
+        "ffmpeg_timeout_s": 600,
+        "start_deg": 0
+      }
+    }
   },
   "character": {
     "_comment": "tools/run_character.py: stage names in run order; pauses and timeouts in seconds",

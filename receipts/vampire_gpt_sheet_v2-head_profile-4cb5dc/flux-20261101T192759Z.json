@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet_v2-head_profile-4cb5dc",
+  "stage": "flux",
+  "tool": "flux_kit.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+      "sha256": "f2e848287d9f395ecf7ceaf7860b9f9e3b0f77dea67377778206ffd6c884f2bb"
+    }
+  ],
+  "params": {
+    "seed": 45,
+    "w": 1024,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, long loose wavy swept-back black hair, moustache and skin from the reference image. Change only the camera and framing: Head and neck and shoulders, strict SIDE PROFILE view turned exactly 90 degrees, face facing left, neutral expression, high detail, red eye, long loose wavy black hair swept back from the forehead and falling behind the ear to the shoulder, no braids, no scalp plait.  Long upswept thin moustache; clean-shaven chin with no soul patch, no stubble; off-white linen standing shirt collar open at the throat inside a high stiff tunic collar of muted oxblood damask, no fur, no coat. Age and face: a man of about 55, gaunt, lined at the eyes, brow and mouth, hollow cheeks, sharp cheekbones, deep-set eyes in dark shadowed sockets. Skin: pale, cold, slightly grey skin, no warm flush.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "C:\\Users\\dom12\\Documents\\Content-Factory\\kits\\vampire_gpt_sheet_v2_kit.json",
+    "row_id": "head_profile",
+    "mean_brightness": 65.6
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 149.0,
+    "load_s": 25.6,
+    "generate_s": 123.3
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 22.6,
+    "lowest_free_ram_gb": 8.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_profile_1024x1024.png",
+      "sha256": "1c808609c0e7359770af79551321b39be5a9084b1c07c6d05f8638192438b336"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T19:27:59+00:00"
+}

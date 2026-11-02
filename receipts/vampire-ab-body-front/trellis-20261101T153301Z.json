@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-ab-body-front",
+  "stage": "trellis",
+  "tool": "generate.py",
+  "script_commit": "09dbeb6",
+  "model": {
+    "id": "TRELLIS.2-4B",
+    "repo": "C:\\Users\\dom12\\Documents\\Trellis-3-312"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-front\\cutout.png",
+      "sha256": "f2847f6ec946aa535d9b6df9d68d650bfe68fce602c182fda66733def0e01f3a"
+    }
+  ],
+  "params": {
+    "preset": "master",
+    "texture_size": 2048,
+    "bake_faces": 500000,
+    "extra": [
+      "--attn-auto-gb",
+      "24",
+      "--max-tokens",
+      "98304"
+    ],
+    "env": {
+      "ATTN_BACKEND": "sdpa",
+      "SPARSE_ATTN_BACKEND": "sdpa",
+      "SPARSE_CONV_BACKEND": "flex_gemm",
+      "TRELLIS3_OVOXEL": "native",
+      "HF_HUB_OFFLINE": "1",
+      "TRELLIS3_REMBG": "none",
+      "PYTHONUNBUFFERED": "1"
+    },
+    "log": "C:\\Users\\dom12\\Documents\\flux_env\\trellis_vampire-ab-body-front_mesh.txt",
+    "from_latents": null,
+    "out_name": "mesh"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 506.7
+  },
+  "memory": {
+    "lowest_free_ram_gb": 0.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-front\\mesh.glb",
+      "sha256": "7a25321c38698cd9b636e16790bc1a2d347b0d01a42bcf8eb700a0d246749d35"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-ab-body-front\\mesh.receipt.json",
+      "sha256": "7c487f57e4110fbd45822cc42f3f50e1dd9c2a9fc9964358cb1f5893f55da9a9"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T15:33:01+00:00"
+}

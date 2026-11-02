@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-coat",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "8711351",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\coat_alone_1024x1536.png",
+      "sha256": "90821ac88c72b3a9dad97651186d7a0b500186cf20251288ba247bea9a32d98e"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 132.1
+  },
+  "memory": {
+    "lowest_free_ram_gb": 5.0
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-coat\\cutout.png",
+      "sha256": "8b7751fa0ee8efba513519d7954198580b0be39b9701e99e45b5a852df9f5f93"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T08:43:36+00:00"
+}

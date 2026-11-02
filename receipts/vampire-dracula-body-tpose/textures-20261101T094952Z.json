@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-body-tpose",
+  "stage": "textures",
+  "tool": "tools/run_textures.py",
+  "script_commit": "c9c6260",
+  "model": "none (cv2 inpaint, own metal/rough, detail normal)",
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\mesh.glb",
+      "sha256": "b0fa04c81edede49dceffe63dc75a706286b7b2a95e1ac5ada1a5dcc43bcc9a9"
+    }
+  ],
+  "params": {
+    "out_name": "vampire-dracula-body-tpose",
+    "hole_max_value": 14,
+    "hole_max_area": 400,
+    "normal_strength": 2.5,
+    "compare": {
+      "crop_px": 512,
+      "zoom": 2,
+      "_comment": "crops: height band [lo, hi] as a fraction of the mesh height; the crop is placed where most UV points of the band vertices fall",
+      "crops": {
+        "face": [
+          0.88,
+          0.97
+        ],
+        "coat": [
+          0.4,
+          0.7
+        ]
+      }
+    },
+    "pinhole_texels_before": 73053,
+    "texels_total": 4194304,
+    "pinhole_texels_still_dark_after": 21
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "total_s": 5.5
+  },
+  "memory": {
+    "lowest_free_ram_gb": 12.7
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\textures\\vampire-dracula-body-tpose_basecolor.png",
+      "sha256": "6ff607de99451de9f030df2b29d0bc79ca316be212a4d7d7707cdbb46a970ace"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\textures\\vampire-dracula-body-tpose_mr.png",
+      "sha256": "bb0bd6fa702420b40570c18fe24323a25238caaf4b38171d0518d0618049a632"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\textures\\vampire-dracula-body-tpose_normal.png",
+      "sha256": "7edb26169f19605973c552b44721f6119310b6ed5982aa2d0f69ae53043297bf"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\textures\\vampire-dracula-body-tpose_basecolor_orig.png",
+      "sha256": "995bf2826a1e1812a0a5aef009f5037c7c4de714a52f3199de8a4e11315f3bc7"
+    },
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\textures\\compare.png",
+      "sha256": "0740549a40d7d5a674631c83448dae729da2076565a05d09207ee6ad88975784"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:49:52+00:00"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-v2-head-front",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "452e38d",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire_v2_head_front_4k.png",
+      "sha256": "80bb124e23617ae9218db6cedb47b72f3a026506948666c57b8880a4421714b6"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 112.1
+  },
+  "memory": {
+    "lowest_free_ram_gb": 8.9
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-v2-head-front\\cutout.png",
+      "sha256": "c40b4fc09958a289fc3d2e8007baf8ecfb2ec9031e710186b2b10fb00432a768"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T20:26:08+00:00"
+}

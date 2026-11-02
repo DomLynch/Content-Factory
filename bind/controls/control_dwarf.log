@@ -1,0 +1,46 @@
+[INFO ] services.locationservice ...............: Not adding link to MakeHuman user data, since neither explicit path nor auto-discovery is set in preferences.
+[INFO ] mpfb.init ..............................: Build info 20261010
+[INFO ] mpfb.init ..............................: Online access preference is not enabled. Not checking if MakeHuman is online.
+[INFO ] mpfb.init ..............................: MPFB initialization has finished.
+10:15:24 | INFO: Data are loaded, start creating Blender stuff
+10:15:24 | INFO: Blender create Mesh node Mesh.002
+10:15:24 | INFO: Blender create Mesh node Mesh.003
+10:15:25 | INFO: glTF import finished in 0.44s
+R> rig: 106 bones, 80 body (deform), 26 non-body (use_deform -> False)
+10:15:25 | INFO: Data are loaded, start creating Blender stuff
+10:15:25 | INFO: Blender create Mesh node MhDwarf01.001
+10:15:25 | INFO: glTF import finished in 0.05s
+R> mesh glb objects: [('MESH', 'donor_male_tpose')] -> using [('donor_male_tpose', 20272)]
+R> merge-by-distance 1e-5: verts 20272 -> 18859
+R> mesh joined: verts 18859 polys 35960
+R> facing: toes toward -Y already (foot-shin -0.101 m)
+R> scale x1.1637 -> height 1.752 m (rig target 1.752), centred x by -0.007, feet on z=0
+R> arms: {"Left": {"centreline_pts": 24, "arm_len_mesh": 0.775, "arm_len_rig": 0.699, "max_dev_from_T_deg": 25.8, "mean_dev_deg": 9.4, "action": "unbent to T", "arm_scale": 0.893, "moved_verts": 2251}, "Right": {"centreline_pts": 24, "arm_len_mesh": 0.773, "arm_len_rig": 0.699, "max_dev_from_T_deg": 23.9, "mean_dev_deg": 9.0, "action": "unbent to T", "arm_scale": 0.895, "moved_verts": 2256}}
+R> aligned mesh dims [1.699, 0.332, 1.752] (rig fingertip-to-fingertip 1.709)
+R> donors prepared/loaded in 0.0s (cached: ['male', 'female', 'brute', 'dwarf', 'giant', 'mage', 'ogre', 'child', 'tall'])
+R> target features {'chest_w': 0.2498, 'chest_d': 0.1457, 'hip_w': 0.2391, 'crotch': 0.4, 'arm': 0.4417, 'height': 1.5057} (raw height 1.506 m)
+R>   donor male    dist 3.995  height=1.806 chest_w=0.195 chest_d=0.102 hip_w=0.186 crotch=0.440 arm=0.417
+R>   donor female  dist 4.790  height=1.671 chest_w=0.170 chest_d=0.125 hip_w=0.190 crotch=0.350 arm=0.378
+R>   donor brute   dist 3.352  height=2.141 chest_w=0.206 chest_d=0.177 hip_w=0.204 crotch=0.430 arm=0.403
+R>   donor dwarf   dist 0.817  height=1.506 chest_w=0.250 chest_d=0.146 hip_w=0.239 crotch=0.400 arm=0.423
+R>   donor giant   dist 3.775  height=2.560 chest_w=0.203 chest_d=0.149 hip_w=0.186 crotch=0.450 arm=0.438
+R>   donor mage    dist 5.465  height=2.140 chest_w=0.152 chest_d=0.130 hip_w=0.189 crotch=0.480 arm=0.378
+R>   donor ogre    dist 3.348  height=2.505 chest_w=0.192 chest_d=0.161 hip_w=0.205 crotch=0.400 arm=0.408
+R>   donor child   dist 3.883  height=1.239 chest_w=0.192 chest_d=0.131 hip_w=0.181 crotch=0.410 arm=0.405
+R>   donor tall    dist 6.838  height=2.496 chest_w=0.130 chest_d=0.096 hip_w=0.164 crotch=0.400 arm=0.363
+R> DONOR CHOICE: dwarf (requested dwarf)
+R> donor arm fit: {"Left": {"arm_scale_x": 0.936, "hand_dyz": [-0.024, -0.021]}, "Right": {"arm_scale_x": 0.936, "hand_dyz": [-0.023, -0.02]}}
+R> finger straighten (query only, target restored): {"Left_Thumb": "rotated 7.6 deg (240 verts)", "Left_Index": "ok 3.5 deg (110 verts)", "Left_Middle": "ok 2.5 deg (369 verts)", "Left_Ring": "rotated 7.5 deg (525 verts)", "Left_Pinky": "rotated 5.8 deg (98 verts)", "Right_Thumb": "rotated 8.0 deg (172 verts)", "Right_Index": "skipped (19 verts)", "Right_Middle": "ok 0.8 deg (552 verts)", "Right_Ring": "rotated 5.7 deg (462 verts)", "Right_Pinky": "skipped (2 verts)"}
+R> transfer: 18859 target verts, k=4, donor dwarf (20528 verts), 0.1s; mean nn dist 0.0046 m, max 0.0501 m
+R> finger chain repair: {}
+R> zero-weight verts 0 | max influences 4 | sum min/max 1.00000 1.00000 | bones with no vert >0.05: ['mixamorig:LeftToe_End', 'mixamorig:RightToe_End']
+R>   verts>0.05 on mixamorig:LeftHandIndex4 164
+R>   verts>0.05 on mixamorig:LeftHandMiddle2 165
+R>   verts>0.05 on mixamorig:LeftHandRing3 186
+R>   verts>0.05 on mixamorig:LeftHandPinky4 211
+R>   verts>0.05 on mixamorig:LeftHandThumb3 162
+Info: Saved as "control_dwarf.blend"
+R> saved C:\Users\dom12\Documents\Content-Factory\bind\controls\control_dwarf.blend total 1.2s
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

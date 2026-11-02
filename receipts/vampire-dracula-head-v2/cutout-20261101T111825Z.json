@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-head-v2",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "2b6e7e5",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire-dracula-head_4x.png",
+      "sha256": "030a4d07e11e403d5ce51220b040cee243312dcf88b8744d52e837e127cf22f9"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 146.3
+  },
+  "memory": {
+    "lowest_free_ram_gb": 13.8
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-head-v2\\cutout.png",
+      "sha256": "7be1dabb9d836f1b991c58ef1d603ca0d74e1e1d90a5005577c124e5b7815bb5"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T11:18:25+00:00"
+}

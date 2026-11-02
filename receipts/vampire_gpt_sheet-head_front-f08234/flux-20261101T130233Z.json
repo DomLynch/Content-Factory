@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-head_front-f08234",
+  "stage": "flux",
+  "tool": "flux_kit_fast.py",
+  "script_commit": "a56ee03",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1024,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+    "prompt": "Edit instruction: keep this exact same man, face, red eyes, braided swept-back black hair, moustache and skin from the reference image. Change only the camera and framing: Head and neck only, orthographic FRONT view, neutral expression, high detail on skin pores, hair and moustache, red eyes, bare neck, no collar, no fur.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "head_front",
+    "ref_long": 640,
+    "steps": "default",
+    "switches": {
+      "attn_backend": null,
+      "vae_tiling": null,
+      "vae_slicing": null,
+      "nan_diag": true,
+      "cache_ref": false
+    },
+    "retried": true,
+    "nan_diag": {
+      "latents_nan": false,
+      "decoded_nan": true
+    }
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 123.8,
+    "load_s": 0.0,
+    "generate_s": 59.0,
+    "row_index_in_process": 1
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 21.8,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 8.378395080566406
+  },
+  "outputs": [],
+  "status": "fail",
+  "error": "black image mean=0.0 (also after in-process retry)",
+  "created_utc": "2026-11-01T13:02:33+00:00"
+}

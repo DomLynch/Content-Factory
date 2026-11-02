@@ -1,0 +1,627 @@
+{
+ "schema": 1,
+ "kit": "vampire_gpt_sheet_v2",
+ "rows": {
+  "head_front": {
+   "candidates": [
+    {
+     "sha256": "f2e848287d9f395ecf7ceaf7860b9f9e3b0f77dea67377778206ffd6c884f2bb",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_front_1024x1024.png"
+    }
+   ],
+   "pick": "f2e848287d9f395ecf7ceaf7860b9f9e3b0f77dea67377778206ffd6c884f2bb",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:09:55+00:00",
+   "note": "Dom (relayed by Strategy 00:1x): if its 95%+ lets do it, I want to check the 3d quality in open trident and unity, rather than nit-pick over the final 5%. these are good to me"
+  },
+  "body_underlayer_front": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": "",
+   "verdict": "REJECT",
+   "verdict_note": "glitch bands across legs and background; re-roll seed 49",
+   "verdict_at": "2026-11-02T04:45:22+00:00",
+   "score": 3
+  },
+  "body_underlayer_back": {
+   "candidates": [
+    {
+     "sha256": "e19aed2f9e77e8c05c000cd949bc0a662dfcb5da3167eba7d8eb6096b80e6d45",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_back_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "body_underlayer_left": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "body_underlayer_right": {
+   "candidates": [],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "body_underlayer_three_quarter": {
+   "candidates": [
+    {
+     "sha256": "518b6b827c5ad24781a2cc963d824e94e753d0d034064713bb3488658f6e9ea4",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\body_underlayer_three_quarter_1024x1536.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "head_profile": {
+   "candidates": [
+    {
+     "sha256": "8c2262d82bbb89ef0a4c08d0c02da03c21aa80e8d17688eeac74e9815822e577",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_profile_1024x1024.png"
+    },
+    {
+     "sha256": "19628faf34c6abc793a708a51aa75283ea583411ae45a927e9617c2400e77d53",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_profile_right_1024x1024.png"
+    }
+   ],
+   "pick": "8c2262d82bbb89ef0a4c08d0c02da03c21aa80e8d17688eeac74e9815822e577",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:09:55+00:00",
+   "note": "Dom (relayed by Strategy 00:1x): if its 95%+ lets do it, I want to check the 3d quality in open trident and unity, rather than nit-pick over the final 5%. these are good to me",
+   "verdict": "PASS",
+   "verdict_note": "Strategy: same man, true profile (try 2, two-view reference). Pending Dom's pick",
+   "verdict_at": "2026-11-01T19:46:11+00:00",
+   "score": 8
+  },
+  "head_profile_right": {
+   "candidates": [
+    {
+     "sha256": "19628faf34c6abc793a708a51aa75283ea583411ae45a927e9617c2400e77d53",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_profile_right_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "head_back": {
+   "candidates": [
+    {
+     "sha256": "6e3ca47b41e71e91889627cdcbddd3692a721b9261a7fb48fe64893e81a430e9",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_back_1024x1024.png"
+    },
+    {
+     "sha256": "a5e09aea415caadcbbe4b9934151f6eca1dc32c4a6e49dc1da68c023e295af15",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_back_1254x1254.png"
+    }
+   ],
+   "pick": "a5e09aea415caadcbbe4b9934151f6eca1dc32c4a6e49dc1da68c023e295af15",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:39:23+00:00",
+   "note": "supplied by Dom (GPT head view, concept-refs\\heads), Strategy-checked; replaces the Flux v2 cell. Head mesh was built from head_front only; use these views for the texture pass",
+   "verdict": "WEAK",
+   "verdict_note": "true back view; hair shorter/flatter than front",
+   "verdict_at": "2026-11-01T20:09:56+00:00",
+   "score": 7
+  },
+  "head_three_quarter": {
+   "candidates": [
+    {
+     "sha256": "88a51d6f9de6fc66b43dedaaa710f6374f42540ba174c2f7852a7019e965844d",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_three_quarter_1024x1024.png"
+    },
+    {
+     "sha256": "af6c3c7ee5421db8e11383a5d57df58227ba3c623948df666a5842cea30b42fc",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_three_quarter_1254x1254.png"
+    }
+   ],
+   "pick": "af6c3c7ee5421db8e11383a5d57df58227ba3c623948df666a5842cea30b42fc",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:39:23+00:00",
+   "note": "supplied by Dom (GPT head view, concept-refs\\heads), Strategy-checked; replaces the Flux v2 cell. Head mesh was built from head_front only; use these views for the texture pass",
+   "verdict": "WEAK",
+   "verdict_note": "eyes brown not red; fixed in texture pass; angle ~30 deg accepted",
+   "verdict_at": "2026-11-01T20:09:55+00:00",
+   "score": 7
+  },
+  "head_top": {
+   "candidates": [
+    {
+     "sha256": "b90fd04ea640ef278b302a2c71752f23fe673ece079e440cd41ab1c470f99bcb",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_top_1024x1024.png"
+    },
+    {
+     "sha256": "afef60ac0863a5ef5fd480a42e1c9a91ba31c3cc5f3d201446f4ba72c1df716e",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_top_1254x1254.png"
+    }
+   ],
+   "pick": "afef60ac0863a5ef5fd480a42e1c9a91ba31c3cc5f3d201446f4ba72c1df716e",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:39:23+00:00",
+   "note": "supplied by Dom (GPT head view, concept-refs\\heads), Strategy-checked; replaces the Flux v2 cell. Head mesh was built from head_front only; use these views for the texture pass",
+   "verdict": "WEAK",
+   "verdict_note": "not a true top view: head bowed, costume drift; kept as hair-parting reference",
+   "verdict_at": "2026-11-01T20:09:56+00:00",
+   "score": 5
+  },
+  "hand_open_left": {
+   "candidates": [
+    {
+     "sha256": "4ae2c8bcbe3056062266e2fbeee5718c83ec2f91a903542c88b4fee5991e5cd9",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_open_left_1536x1024.png"
+    },
+    {
+     "sha256": "ef207ec90404dcde2fa20cbe2dbbae5476895767274518a95a6b838c3606b936",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_open_left_1536x1024.png"
+    }
+   ],
+   "pick": "ef207ec90404dcde2fa20cbe2dbbae5476895767274518a95a6b838c3606b936",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "hand_open_right": {
+   "candidates": [
+    {
+     "sha256": "c517a592b6a231d8414ae34f6534e2b9d3af4be44f2a8655fef59a29a6920f0e",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_open_right_1536x1024.png"
+    },
+    {
+     "sha256": "3f644b25cce2316eb1fddcc4898e035700d7a6e84ce976280194a4f4758fd519",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_open_right_1536x1024.png"
+    }
+   ],
+   "pick": "3f644b25cce2316eb1fddcc4898e035700d7a6e84ce976280194a4f4758fd519",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "hand_fist_left": {
+   "candidates": [
+    {
+     "sha256": "ed88527e35d1bb0ca1b259f6f6dbc50a72844d9a0305a6ca570def768fa88b35",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_fist_left_1536x1024.png"
+    },
+    {
+     "sha256": "6ed6180b25d5ae5bd67e821418a2644e41ecc60666cd765132104488a71e9090",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_fist_left_1536x1024.png"
+    }
+   ],
+   "pick": "6ed6180b25d5ae5bd67e821418a2644e41ecc60666cd765132104488a71e9090",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "hand_fist_right": {
+   "candidates": [
+    {
+     "sha256": "abae182661882e708d65f4f6f3e7aa6d53d3b5a562296dd76793940ba29b7be7",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_fist_right_1536x1024.png"
+    },
+    {
+     "sha256": "61b7c359cd8614c58bb3f48570c4e825479b6a2c11ef00d93e09da296217663d",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_fist_right_1536x1024.png"
+    }
+   ],
+   "pick": "61b7c359cd8614c58bb3f48570c4e825479b6a2c11ef00d93e09da296217663d",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "hand_back_views": {
+   "candidates": [
+    {
+     "sha256": "610fe12456f3fee0e70e40ab4b58e041552f8ff5325ea4b009dda413e3a08951",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\hand_back_views_1536x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "foot_left": {
+   "candidates": [
+    {
+     "sha256": "77cc617b1db53aef94a0279311015fd284f88ac66a7561e41ca91d2452bf2aa4",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\foot_left_1536x1024.png"
+    },
+    {
+     "sha256": "1e8a68dc415283ab965f4141c82d872c85148f91394a14760e587284f72eb8ed",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\foot_left_1536x1024.png"
+    }
+   ],
+   "pick": "1e8a68dc415283ab965f4141c82d872c85148f91394a14760e587284f72eb8ed",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:09:02+00:00",
+   "note": "supplied by Dom (GPT, concept-refs\\hands_feet), checked by Strategy: pass; warm skin tint fixed at materials stage",
+   "verdict": "WEAK",
+   "verdict_note": "Strategy: top and sole views pass; side view malformed (toe-like bumps at heel end). Marginal; re-roll at end of sheet, low priority",
+   "verdict_at": "2026-11-01T19:45:49+00:00",
+   "score": 5
+  },
+  "foot_right": {
+   "candidates": [
+    {
+     "sha256": "bbcb01d37fe22da70272a980321d4e92a4d67eddb1fb1293bf9b8b319b497343",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\foot_right_1536x1024.png"
+    }
+   ],
+   "pick": "bbcb01d37fe22da70272a980321d4e92a4d67eddb1fb1293bf9b8b319b497343",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:09:02+00:00",
+   "note": "supplied by Dom (GPT, concept-refs\\hands_feet), checked by Strategy: pass; warm skin tint fixed at materials stage",
+   "verdict": "REJECT",
+   "verdict_note": "Strategy: toes at both ends, middle view deformed; re-roll with two-view cell prompt at end",
+   "verdict_at": "2026-11-01T20:09:56+00:00",
+   "score": 3
+  },
+  "gear_coat": {
+   "candidates": [
+    {
+     "sha256": "26a41afae499b7eaa1c7ab606f0763107b9fe7e03ffce9e2a3d265c3f36380fd",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_coat_1536x1024.png"
+    },
+    {
+     "sha256": "f50c52674d8a73c9c5bdc93c83cd4bf6e127f596ac50de2a01e9fa0e8994f125",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_coat_back_1536x1024.png"
+    }
+   ],
+   "pick": "f50c52674d8a73c9c5bdc93c83cd4bf6e127f596ac50de2a01e9fa0e8994f125",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_coat_back": {
+   "candidates": [
+    {
+     "sha256": "f50c52674d8a73c9c5bdc93c83cd4bf6e127f596ac50de2a01e9fa0e8994f125",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_coat_back_1536x1024.png"
+    }
+   ],
+   "pick": "f50c52674d8a73c9c5bdc93c83cd4bf6e127f596ac50de2a01e9fa0e8994f125",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_cloak": {
+   "candidates": [
+    {
+     "sha256": "295d2b9fcc1e19db094b9c429275bada9b1ae75a0a5871a0b69aca67c5206ac8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_cloak_1536x1024.png"
+    },
+    {
+     "sha256": "b4773f51a16fe2b00ee22a8cd9b3069d03e58f5c425264a512b5e487fc85e6a1",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_cloak_back_1536x1024.png"
+    }
+   ],
+   "pick": "b4773f51a16fe2b00ee22a8cd9b3069d03e58f5c425264a512b5e487fc85e6a1",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_cloak_back": {
+   "candidates": [
+    {
+     "sha256": "b4773f51a16fe2b00ee22a8cd9b3069d03e58f5c425264a512b5e487fc85e6a1",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_cloak_back_1536x1024.png"
+    }
+   ],
+   "pick": "b4773f51a16fe2b00ee22a8cd9b3069d03e58f5c425264a512b5e487fc85e6a1",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_fur_collar": {
+   "candidates": [
+    {
+     "sha256": "bd266c02601fe7254d654f1ab865e0488856e4ce218f78749ade6b10e15bc35e",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_fur_collar_1536x1024.png"
+    }
+   ],
+   "pick": "bd266c02601fe7254d654f1ab865e0488856e4ce218f78749ade6b10e15bc35e",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:09:02+00:00",
+   "note": "supplied by Dom (GPT, concept-refs\\hands_feet), checked by Strategy: pass; warm skin tint fixed at materials stage"
+  },
+  "gear_belt": {
+   "candidates": [
+    {
+     "sha256": "3dbbbfd48605a57c0965efc7a2b7e236ba49e79f50f9b2e365fdb983262115f8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_belt_1536x1024.png"
+    },
+    {
+     "sha256": "bebb7c93a80eeff59d3a2d0bbf058f1d58faab82654d2db2e25c3d7ae3111f3a",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_belt_buckle_closeup_1536x1024.png"
+    }
+   ],
+   "pick": "bebb7c93a80eeff59d3a2d0bbf058f1d58faab82654d2db2e25c3d7ae3111f3a",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_tabard": {
+   "candidates": [
+    {
+     "sha256": "f0fa4ceebd4dfa950485269249e76e8dd8e5f2dd9fb71ccaee8c7815df7ff908",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_tabard_1536x1024.png"
+    }
+   ],
+   "pick": "f0fa4ceebd4dfa950485269249e76e8dd8e5f2dd9fb71ccaee8c7815df7ff908",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_cuffs": {
+   "candidates": [
+    {
+     "sha256": "7ceece123664c9fae8671a6723beebc41f0caea4cd2908c8e1c18eee80662291",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_cuffs_1536x1024.png"
+    }
+   ],
+   "pick": "7ceece123664c9fae8671a6723beebc41f0caea4cd2908c8e1c18eee80662291",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_trousers": {
+   "candidates": [
+    {
+     "sha256": "9ca527126a5dd887cf137587ff49ebfe8049cc1820f1f6ecb7f2cd87b4959dbe",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_trousers_1536x1024.png"
+    }
+   ],
+   "pick": "9ca527126a5dd887cf137587ff49ebfe8049cc1820f1f6ecb7f2cd87b4959dbe",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_boots_front": {
+   "candidates": [
+    {
+     "sha256": "08c6404aae868a05e7df7faab9ae012f556d5011d5ff7bbc0f517e8b481a5f22",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_boots_front_1536x1024.png"
+    }
+   ],
+   "pick": "08c6404aae868a05e7df7faab9ae012f556d5011d5ff7bbc0f517e8b481a5f22",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_boots_side": {
+   "candidates": [
+    {
+     "sha256": "46ef14d92dfb352503eb8623ac5b7312d05e2b27553ce80ddb110ec217cac074",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_boots_side_1536x1024.png"
+    }
+   ],
+   "pick": "46ef14d92dfb352503eb8623ac5b7312d05e2b27553ce80ddb110ec217cac074",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_knee_plates": {
+   "candidates": [
+    {
+     "sha256": "612e447da3512554007fd493042af82a2529301a251b2f8270b82ec4071e85d8",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_knee_plates_1536x1024.png"
+    }
+   ],
+   "pick": "612e447da3512554007fd493042af82a2529301a251b2f8270b82ec4071e85d8",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_rings": {
+   "candidates": [
+    {
+     "sha256": "5ec32a1b65337692c03f0bf2511d5d986ebb8e5ef988555fed8dbd0182d2f265",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_rings_1536x1024.png"
+    }
+   ],
+   "pick": "5ec32a1b65337692c03f0bf2511d5d986ebb8e5ef988555fed8dbd0182d2f265",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_shirt": {
+   "candidates": [
+    {
+     "sha256": "ac526cab37ba15f16728ca27aa7814ffaeebbda2fb1a3be2a22d9ae0af7f3c7a",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_shirt_1536x1024.png"
+    },
+    {
+     "sha256": "84a9828bbd94f2484f5e3c0a50c5969578bc53479c755fbcdbcd63eaf9615fd6",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_shirt_collar_1536x1024.png"
+    },
+    {
+     "sha256": "3a657dd35935d522ff332c4e6defe90c6158f850da6af03778ff059b8d9b15af",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_shirt_cuffs_1536x1024.png"
+    }
+   ],
+   "pick": "3a657dd35935d522ff332c4e6defe90c6158f850da6af03778ff059b8d9b15af",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_shirt_collar": {
+   "candidates": [
+    {
+     "sha256": "84a9828bbd94f2484f5e3c0a50c5969578bc53479c755fbcdbcd63eaf9615fd6",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_shirt_collar_1536x1024.png"
+    }
+   ],
+   "pick": "84a9828bbd94f2484f5e3c0a50c5969578bc53479c755fbcdbcd63eaf9615fd6",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_shirt_cuffs": {
+   "candidates": [
+    {
+     "sha256": "3a657dd35935d522ff332c4e6defe90c6158f850da6af03778ff059b8d9b15af",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_shirt_cuffs_1536x1024.png"
+    }
+   ],
+   "pick": "3a657dd35935d522ff332c4e6defe90c6158f850da6af03778ff059b8d9b15af",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "swatch_crimson_damask_velvet": {
+   "candidates": [
+    {
+     "sha256": "8ab50bfc9e9486c61132575199e76f13d053766de690d5e1e6afe47cade1d593",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_crimson_damask_velvet_1024x1024.png"
+    }
+   ],
+   "pick": "8ab50bfc9e9486c61132575199e76f13d053766de690d5e1e6afe47cade1d593",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_black_fur": {
+   "candidates": [
+    {
+     "sha256": "7628b493a55a8b1c0b548a0edd51e72bf239dd907d27fe9f03d1d0f04791e60d",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_black_fur_1024x1024.png"
+    }
+   ],
+   "pick": "7628b493a55a8b1c0b548a0edd51e72bf239dd907d27fe9f03d1d0f04791e60d",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_gold_embroidery": {
+   "candidates": [
+    {
+     "sha256": "e38b1ba859b7efb4576f9e54d49d7afed20163644acb7c1a057a71cfafd78ad1",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_gold_embroidery_1024x1024.png"
+    }
+   ],
+   "pick": "e38b1ba859b7efb4576f9e54d49d7afed20163644acb7c1a057a71cfafd78ad1",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_black_leather": {
+   "candidates": [
+    {
+     "sha256": "b3ac8cc9347cfae4b383062b09d8dd52a65b4a2844777b783aec0cf3b181cfdb",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_black_leather_1024x1024.png"
+    }
+   ],
+   "pick": "b3ac8cc9347cfae4b383062b09d8dd52a65b4a2844777b783aec0cf3b181cfdb",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_pale_skin": {
+   "candidates": [
+    {
+     "sha256": "5ee0b812f7497a620a9de490c4337c337ceae1f24ec34697ec4c2b35968e59ff",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_pale_skin_1024x1024.png"
+    }
+   ],
+   "pick": "5ee0b812f7497a620a9de490c4337c337ceae1f24ec34697ec4c2b35968e59ff",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_dark_hair": {
+   "candidates": [
+    {
+     "sha256": "9a4534c0f4fc0730d0d4ab9959be9ed16099e69188d88fca790f59fbd6495427",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_dark_hair_1024x1024.png"
+    }
+   ],
+   "pick": "9a4534c0f4fc0730d0d4ab9959be9ed16099e69188d88fca790f59fbd6495427",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_steel": {
+   "candidates": [
+    {
+     "sha256": "9d787a9a2f91889ea1f6f24906eeac735e4c7d68da4468985041372812a4cde2",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_steel_1024x1024.png"
+    }
+   ],
+   "pick": "9d787a9a2f91889ea1f6f24906eeac735e4c7d68da4468985041372812a4cde2",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_lace": {
+   "candidates": [
+    {
+     "sha256": "273c8b913c6778933ad69c338c2959ce3c6145ec1e7d440a711e4cd841ea54e9",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_lace_1024x1024.png"
+    }
+   ],
+   "pick": "273c8b913c6778933ad69c338c2959ce3c6145ec1e7d440a711e4cd841ea54e9",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "swatch_velvet_lining": {
+   "candidates": [
+    {
+     "sha256": "bcf3dfec3eee7626451e1534035e7da5fec52ca1019d77b18bf15ce8462b3253",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\swatch_velvet_lining_1024x1024.png"
+    }
+   ],
+   "pick": "bcf3dfec3eee7626451e1534035e7da5fec52ca1019d77b18bf15ce8462b3253",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-01T20:10:07+00:00",
+   "note": "supplied by Dom (GPT swatches, concept-refs\\swatches, 1254 px resized to 1024, not rendered in Flux); pale_skin reads warm tan: detail texture only, tint from identity at materials stage"
+  },
+  "head_eyes_closeup": {
+   "candidates": [
+    {
+     "sha256": "a825e303a2340e49d53d25df5c2983d722a8afd17080d45b5737ad2264109ebb",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\head_eyes_closeup_1024x1024.png"
+    }
+   ],
+   "pick": null,
+   "picked_by": null,
+   "picked_at": null,
+   "note": ""
+  },
+  "gear_belt_buckle_closeup": {
+   "candidates": [
+    {
+     "sha256": "bebb7c93a80eeff59d3a2d0bbf058f1d58faab82654d2db2e25c3d7ae3111f3a",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_belt_buckle_closeup_1536x1024.png"
+    }
+   ],
+   "pick": "bebb7c93a80eeff59d3a2d0bbf058f1d58faab82654d2db2e25c3d7ae3111f3a",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  },
+  "gear_collar_closeup": {
+   "candidates": [
+    {
+     "sha256": "68d64441635c47286618e3153c391615106e28f9f03e977a6da052c222e27684",
+     "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet_v2\\gear_collar_closeup_1536x1024.png"
+    }
+   ],
+   "pick": "68d64441635c47286618e3153c391615106e28f9f03e977a6da052c222e27684",
+   "picked_by": "Dom",
+   "picked_at": "2026-11-02T03:19:49+00:00",
+   "note": "supplied by Dom (codex gear flats and ringless GPT hands; ringed hands kept in concept-refs as ring placement reference only)"
+  }
+ }
+}

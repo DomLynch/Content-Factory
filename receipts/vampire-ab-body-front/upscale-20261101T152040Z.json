@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-ab-body-front",
+  "stage": "upscale",
+  "tool": "upscale_match.py",
+  "script_commit": "09dbeb6",
+  "model": {
+    "id": "realesrgan-x4plus (ncnn-vulkan)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\body_underlayer_front_1024x1536.png",
+      "sha256": "8cb60ecb56b1299591da446bf1350d1c293fee5f1d3450c75aee0d5f722f5b81"
+    }
+  ],
+  "params": {
+    "passes": 1,
+    "colour_match": "Lab mean/std"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 27.1
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire-ab-body-front_4x.png",
+      "sha256": "21d3dd54187f6ca9ff726d2396a9789c63851e8f9af6d5ea26eb5db81de90f8b"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T15:20:40+00:00"
+}

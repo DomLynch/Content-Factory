@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-gear_boots_front-05e73d",
+  "stage": "flux",
+  "tool": "flux_kit_fast.py",
+  "script_commit": "981d795",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": null,
+    "prompt": "Show ONLY the pair of tall black leather boots with gold knee plates, seen from the front, standing side by side on a plain dark background like a game asset sheet, no person. Only this single item, centred, on a plain empty dark grey background with nothing else in the frame: no other garments, no fabric backdrop, no fur or lace unless it is part of this item. No person, no head, no face, no hands, no mannequin.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "gear_boots_front",
+    "ref_long": null,
+    "steps": "default",
+    "switches": {
+      "attn_backend": null,
+      "vae_tiling": null,
+      "vae_slicing": null,
+      "nan_diag": true,
+      "cache_ref": false
+    },
+    "mean_brightness": 57.9,
+    "ref_size": null,
+    "retried": false,
+    "nan_diag": {
+      "latents_nan": false,
+      "decoded_nan": false
+    },
+    "pixel_sha256": "1fec0942a1c5d0e265b0986cbcab5465d37405f937ff24af47235a99c7d04e2f"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 168.1,
+    "load_s": 0.0,
+    "generate_s": 167.7,
+    "row_index_in_process": 1
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 27.6,
+    "lowest_free_ram_gb": 7.300472259521484
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_boots_front_1536x1024.png",
+      "sha256": "7960de8c99e6514b4b51809472b056d24bc6c255de7265941c863638770f3a78"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T17:50:45+00:00"
+}

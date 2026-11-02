@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-swatch_gold_embroidery-8ee12a",
+  "stage": "swatch_crop",
+  "tool": "swatch_crop.py",
+  "script_commit": "4f63119",
+  "model": "Pillow crop (LANCZOS only if resized)",
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_coat_1536x1024.png",
+      "sha256": "18a5844708700c6776f1c4f74307924a52d0fbb1413b7b6694f4c3bb32187a9f"
+    }
+  ],
+  "params": {
+    "row": "swatch_gold_embroidery",
+    "source_row": "gear_coat",
+    "box": [
+      0.45573,
+      0.32227,
+      0.54036,
+      0.44922
+    ],
+    "crop_px": [
+      700,
+      330,
+      830,
+      460
+    ],
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 0.32
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_gold_embroidery_1024x1024.png",
+      "sha256": "15c2fc01ec1e2d97ad7896121253bbe51099d8df843e53a15a1aae18d0b6e4e8"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T18:14:15+00:00"
+}

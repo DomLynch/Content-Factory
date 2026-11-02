@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-swatch_lace-b8dba5",
+  "stage": "swatch_crop",
+  "tool": "swatch_crop.py",
+  "script_commit": "4f63119",
+  "model": "Pillow crop (LANCZOS only if resized)",
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_cuffs_1024x1024.png",
+      "sha256": "e000f1acb3242f71d1ab33dc544ba11bc106e3831cd0469324631ae5923f40c5"
+    }
+  ],
+  "params": {
+    "row": "swatch_lace",
+    "source_row": "gear_cuffs",
+    "box": [
+      0.3418,
+      0.20996,
+      0.53711,
+      0.40527
+    ],
+    "crop_px": [
+      350,
+      215,
+      550,
+      415
+    ],
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 0.36
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\swatch_lace_1024x1024.png",
+      "sha256": "f21c214586730b0f429b1f1cc1a4d24be195035ea1c72ae5e54c154d8c1a8749"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T18:14:17+00:00"
+}

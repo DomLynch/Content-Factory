@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-hands",
+  "stage": "upscale",
+  "tool": "upscale_match.py",
+  "script_commit": "db38f99",
+  "model": {
+    "id": "realesrgan-x4plus (ncnn-vulkan)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire\\hands_rings_1536x1024.png",
+      "sha256": "c2bf5a368dbec44e948218d2e5b0217bf9c81c7c285d10a43782864669e06857"
+    }
+  ],
+  "params": {
+    "passes": 1,
+    "colour_match": "Lab mean/std"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 21.5
+  },
+  "memory": {},
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\upscaled\\vampire-dracula-hands_4x.png",
+      "sha256": "e85c3b067f76b5337a94e1af404c6b929d19bcb6c1c631ae130c28f78685dc6f"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:53:24+00:00"
+}

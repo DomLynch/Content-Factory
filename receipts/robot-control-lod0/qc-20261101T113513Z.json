@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "asset_id": "robot-control-lod0",
+  "stage": "qc",
+  "tool": "run_qc.py",
+  "script_commit": "2b6e7e5",
+  "model": {
+    "id": "none (deterministic numpy checks)"
+  },
+  "inputs": [
+    {
+      "path": "C:/Users/dom12/Documents/kits_out/3d/robot-control-lod0/mesh_tex.glb",
+      "sha256": "a3fc69eb91f8d9e7c6bc8fb29b006e5e3a7ba18dd3fb864c49d6eb6dd6cea9ba"
+    },
+    {
+      "path": "C:/Users/dom12/Documents/kits_out/3d/robot-control-lod0/cutout.png",
+      "sha256": "01e1c91d0736432600979387c754b48da1c12a66a17d65588c1cb9de6b830806"
+    }
+  ],
+  "params": {
+    "concept": "C:/Users/dom12/Documents/kits_out/3d/robot-control-lod0/cutout.png",
+    "budget_tris": null,
+    "thresholds": {
+      "_comment": "tools/run_qc.py thresholds, loose to start; tune from real receipts. A metric whose limit is null, or whose input is missing (no concept, no budget), is skipped, not failed.",
+      "geometry": {
+        "max_non_manifold_edges": 2000,
+        "max_boundary_edges": 20000,
+        "max_loose_shells": 200,
+        "budget_tris": null,
+        "budget_tolerance": 1.0,
+        "max_faceting_deg": 6.0
+      },
+      "texture": {
+        "max_raster_px": 2048,
+        "near_black_value": 20,
+        "max_near_black_pct": 5.0,
+        "max_black_patch_pct": 2.0,
+        "min_uv_coverage": 0.3,
+        "max_uv_stretch_p99": 12.0,
+        "min_luminance_ratio": 0.6,
+        "min_saturation_ratio": 0.5
+      },
+      "thin": {
+        "raster_px": 512,
+        "iou_px": 256,
+        "min_coverage_ratio": 0.8,
+        "min_iou": 0.6
+      }
+    },
+    "metrics": {
+      "geometry": {
+        "triangles": 962056,
+        "degenerate_triangles": 0,
+        "non_manifold_edges": 74173,
+        "boundary_edges": 42738,
+        "boundary_edge_pct": 3.062,
+        "loose_shells": 25,
+        "largest_shell_tri_pct": 89.116,
+        "faceting_score": 19.3523,
+        "bbox_min": [
+          -0.21318,
+          -0.50004,
+          -0.2112
+        ],
+        "bbox_max": [
+          0.21317,
+          0.50001,
+          0.19523
+        ]
+      },
+      "texture": {
+        "uv_coverage": 0.6051,
+        "near_black_pct": 2.716,
+        "largest_black_patch_pct": 0.05,
+        "uv_stretch_p99": 1000000.0,
+        "mean_luminance": 0.279,
+        "mean_saturation": 0.0831,
+        "concept_luminance": 0.2708,
+        "concept_saturation": 0.3877,
+        "luminance_ratio": 1.0304,
+        "saturation_ratio": 0.2143,
+        "colour_flag": "linear-not-encoded"
+      },
+      "thin": {
+        "mesh_coverage": 0.1761,
+        "concept_coverage": 0.2032,
+        "coverage_ratio": 0.8666,
+        "mesh_aspect_w_over_h": 0.4266,
+        "concept_aspect_w_over_h": 0.4196,
+        "iou": 0.5196
+      }
+    },
+    "checks": [
+      {
+        "metric": "non_manifold_edges",
+        "value": 74173,
+        "op": "<=",
+        "limit": 2000,
+        "pass": false
+      },
+      {
+        "metric": "boundary_edges",
+        "value": 42738,
+        "op": "<=",
+        "limit": 20000,
+        "pass": false
+      },
+      {
+        "metric": "loose_shells",
+        "value": 25,
+        "op": "<=",
+        "limit": 200,
+        "pass": true
+      },
+      {
+        "metric": "faceting_score",
+        "value": 19.3523,
+        "op": "<=",
+        "limit": 6.0,
+        "pass": false
+      },
+      {
+        "metric": "near_black_pct",
+        "value": 2.716,
+        "op": "<=",
+        "limit": 5.0,
+        "pass": true
+      },
+      {
+        "metric": "largest_black_patch_pct",
+        "value": 0.05,
+        "op": "<=",
+        "limit": 2.0,
+        "pass": true
+      },
+      {
+        "metric": "uv_coverage",
+        "value": 0.6051,
+        "op": ">=",
+        "limit": 0.3,
+        "pass": true
+      },
+      {
+        "metric": "uv_stretch_p99",
+        "value": 1000000.0,
+        "op": "<=",
+        "limit": 12.0,
+        "pass": false
+      },
+      {
+        "metric": "luminance_ratio",
+        "value": 1.0304,
+        "op": ">=",
+        "limit": 0.6,
+        "pass": true
+      },
+      {
+        "metric": "saturation_ratio",
+        "value": 0.2143,
+        "op": ">=",
+        "limit": 0.5,
+        "pass": false
+      },
+      {
+        "metric": "silhouette_coverage_ratio",
+        "value": 0.8666,
+        "op": ">=",
+        "limit": 0.8,
+        "pass": true
+      },
+      {
+        "metric": "silhouette_iou",
+        "value": 0.5196,
+        "op": ">=",
+        "limit": 0.6,
+        "pass": false
+      }
+    ],
+    "skipped": [
+      "triangles"
+    ],
+    "failed": [
+      "non_manifold_edges",
+      "boundary_edges",
+      "faceting_score",
+      "uv_stretch_p99",
+      "saturation_ratio",
+      "silhouette_iou"
+    ],
+    "overall": "fail",
+    "colour_flag": "linear-not-encoded"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 15.6
+  },
+  "memory": {
+    "lowest_free_ram_gb": 3.4
+  },
+  "outputs": [],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T11:35:13+00:00"
+}

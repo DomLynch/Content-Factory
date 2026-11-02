@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "asset_id": "vampire-dracula-body-tpose",
+  "stage": "cutout",
+  "tool": "cutout_cpu.py",
+  "script_commit": "bf700cc",
+  "model": {
+    "id": "ZhengPeng7/BiRefNet (cpu)"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_parts\\body_tpose_1536x1024.png",
+      "sha256": "805b576be3cf5bb0cc2c0defda5a1dc177e817aa7fb2d2a357269e0fe34297da"
+    }
+  ],
+  "params": {
+    "device": "cpu"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 190.5
+  },
+  "memory": {
+    "lowest_free_ram_gb": 2.1
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\3d\\vampire-dracula-body-tpose\\cutout.png",
+      "sha256": "b8b19d92448b99d13b58bbceb450ca2ffc3386e85841ef919b6c2fcd8fec44aa"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T09:04:10+00:00"
+}

@@ -1,0 +1,31 @@
+[INFO ] services.locationservice ...............: Not adding link to MakeHuman user data, since neither explicit path nor auto-discovery is set in preferences.
+[INFO ] mpfb.init ..............................: Build info 20261010
+[INFO ] mpfb.init ..............................: Online access preference is not enabled. Not checking if MakeHuman is online.
+[INFO ] mpfb.init ..............................: MPFB initialization has finished.
+10:15:20 | INFO: Data are loaded, start creating Blender stuff
+10:15:20 | INFO: Blender create Mesh node Mesh.002
+10:15:20 | INFO: Blender create Mesh node Mesh.003
+10:15:20 | INFO: glTF import finished in 0.40s
+10:15:20 | INFO: Data are loaded, start creating Blender stuff
+10:15:20 | INFO: Blender create Mesh node MhDwarf01
+10:15:20 | INFO: Blender create Mesh node Layer_Sword
+10:15:20 | INFO: Blender create Mesh node Layer_Scabbard
+10:15:20 | INFO: Blender create Mesh node Layer_Tunic
+10:15:20 | INFO: Blender create Mesh node Layer_Helmet
+10:15:20 | INFO: Blender create Mesh node Layer_Bracers
+10:15:20 | INFO: Blender create Mesh node Layer_Greaves
+10:15:20 | INFO: glTF import finished in 0.17s
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+10:15:21 | INFO: Starting glTF 2.0 export
+10:15:21 | INFO: Extracting primitive: MhDwarf01.001
+10:15:21 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+10:15:21 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+10:15:21 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+10:15:21 | INFO: Primitives created: 3
+10:15:21 | INFO: Finished glTF 2.0 export in 0.23564934730529785 s
+
+MK done 20528
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

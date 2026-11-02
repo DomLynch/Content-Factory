@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "asset_id": "vampire_gpt_sheet-gear_coat-f1765c",
+  "stage": "flux",
+  "tool": "flux_kit_fast.py",
+  "script_commit": "a56ee03",
+  "model": {
+    "id": "flux-3-image-klein",
+    "dir": "C:\\Users\\dom12\\Documents\\models\\flux-3-image-klein"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+      "sha256": "97d6482aa6369c98da9b39b2b91ea6560c935badfc532d36e62d4f937007edd3"
+    }
+  ],
+  "params": {
+    "seed": 42,
+    "w": 1536,
+    "h": 1024,
+    "reference": "C:\\Users\\dom12\\Documents\\flux_env\\dracula-gpt-ref.png",
+    "prompt": "Edit instruction: keep this exact same character from the reference image, identical face, hair, moustache, costume, colours and materials. Change only the following: Show ONLY the crimson damask velvet tunic coat with hussar frogging, gold embroidered front panel and high collar, laid flat and spread out front-facing on a plain dark background like a game asset sheet, no person, no mannequin, no cloak, no boots.  Photorealistic, ultra-detailed fabric, skin and metal, soft even studio lighting, plain dark neutral grey background, sharp, AAA game character reference sheet cell, 1.5 megapixel. Not cartoon, not stylised, no text.",
+    "kit": "kits\\vampire_gpt_sheet_kit.json",
+    "row_id": "gear_coat",
+    "ref_long": 640,
+    "steps": "default",
+    "switches": {
+      "attn_backend": null,
+      "vae_tiling": null,
+      "vae_slicing": null,
+      "nan_diag": true,
+      "cache_ref": false
+    },
+    "mean_brightness": 46.2,
+    "ref_size": [
+      480,
+      640
+    ],
+    "retried": false,
+    "nan_diag": {
+      "latents_nan": false,
+      "decoded_nan": false
+    },
+    "pixel_sha256": "98c7fb81fe5d647680e9706f0755cc48f47ab78ef49b1081a905cc7de70a7bbf"
+  },
+  "machine": {
+    "hostname": "Dominic",
+    "name": "rog-flow-z13",
+    "gpu": "Radeon 8060S gfx1151",
+    "gpu_split": "32 GB GPU / 32 GB RAM",
+    "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
+  },
+  "timing": {
+    "wall_s": 148.7,
+    "load_s": 28.0,
+    "generate_s": 120.4,
+    "row_index_in_process": 0
+  },
+  "memory": {
+    "peak_gpu_alloc_gb": 23.3,
+    "peak_gpu_reserved_gb": 23.8,
+    "lowest_free_ram_gb": 8.378395080566406
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\dom12\\Documents\\kits_out\\vampire_gpt_sheet\\gear_coat_1536x1024.png",
+      "sha256": "9829b1c982be7ef9bd508a20dca16434c5dfcc27c29a9355412798e392d75dac"
+    }
+  ],
+  "status": "ok",
+  "error": "",
+  "created_utc": "2026-11-01T13:00:29+00:00"
+}
