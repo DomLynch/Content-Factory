@@ -203,17 +203,18 @@ class RamShare(unittest.TestCase):
         self.assertEqual(cf_proc.ram_share_reason(self.LIM, 8.0, []), "")
 
     def test_gate_exits_2_and_the_entry_scripts_call_it(self):
-        import cf_proc
-        old = (cf_common.load_config, cf_guard.free_ram_gb, cf_proc.loading_procs)
+        import importlib
+        cf_proc, cg = importlib.import_module("cf_proc"), importlib.import_module("cf_guard")   # the modules plugin_gate itself imports (other tests reload them)
+        old = (cf_common.load_config, cg.free_ram_gb, cf_proc.loading_procs)
         cf_common.load_config = lambda: {"limits": self.LIM}
-        cf_guard.free_ram_gb = lambda: 3.0
+        cg.free_ram_gb = lambda: 3.0
         cf_proc.loading_procs = lambda s: []
         try:
             with self.assertRaises(SystemExit) as e:
                 cf_common.plugin_gate("ram_share")
             self.assertEqual(e.exception.code, 2)
         finally:
-            cf_common.load_config, cf_guard.free_ram_gb, cf_proc.loading_procs = old
+            cf_common.load_config, cg.free_ram_gb, cf_proc.loading_procs = old
         for rel in ("tools/upscale/upscale_match.py", "tools/cutout_cpu.py", "tools/run_stills.py", "tools/run_clean.py", "tools/run_gear.py", "tools/run_cloth.py",
                     "tools/assemble_character.py", "tools/run_bind.py"):
             self.assertIn('plugin_gate("ram_share")', (REPO / rel).read_text(encoding="utf-8"), rel)
