@@ -105,7 +105,8 @@ def _git(repo, *args) -> tuple[int, str]:
 
 def _dir(inst: dict, local: dict):
     """The folder of a git / hf_dir row: config.local.json[local], else work_dir/<default_subdir> (the layout config.local.example.json documents)."""
-    d = local.get(inst["local"])
+    keys = inst["local"] if isinstance(inst["local"], list) else [inst["local"]]   # a list: the first key set in config.local.json wins
+    d = next((local[k] for k in keys if local.get(k)), None)
     if not d and inst.get("default_subdir") and local.get("work_dir"):
         d = os.path.join(local["work_dir"], inst["default_subdir"])
     return d

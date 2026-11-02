@@ -66,6 +66,12 @@ class Models(unittest.TestCase):
         self.assertEqual(r["state"], "behind")
         self.assertTrue(cf_models.refusals([r]) and "--allow-stale" in cf_models.refusals([r])[0])
 
+    def test_a_list_of_local_keys_takes_the_first_one_set(self):
+        self.cfg["local"]["other"] = str(self.repo)
+        self.cfg["local"]["unset"] = None
+        self.cfg["models"]["registry"][0]["installed"]["local"] = ["unset", "missing_key", "other"]
+        self.assertEqual(cf_models.check(self.cfg, "flux", self.fake({"o/a": self.second, "o/b": "v1"}))[0]["installed"], self.second)
+
     def test_only_rows_of_the_stage_are_checked_and_versions_compare_numerically(self):
         f = self.fake({"o/a": self.second, "o/b": "v1.10.0"})
         r = cf_models.check(self.cfg, "upscale", f)
