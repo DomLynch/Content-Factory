@@ -522,7 +522,7 @@ class Docs(unittest.TestCase):
         hits = []
         for p in list(REPO.glob("**/*.md")) + list(REPO.glob("**/*.json")):
             rel = p.relative_to(REPO)
-            if rel.parts[0] in allowed_dirs | {".git"}:
+            if rel.parts[0] in allowed_dirs | {".git"} or p.name == "config.local.json":   # config.local.json is the machine's own gitignored paths (donors_dir)
                 continue
             for n, line in enumerate(p.read_text(encoding="utf-8-sig", errors="replace").splitlines(), 1):
                 low = line.lower()
