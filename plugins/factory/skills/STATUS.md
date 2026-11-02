@@ -7,11 +7,14 @@ Rule: a skill for a stage that has not run end to end with a receipt starts with
 | character-sheet | proven (single cells) | the full 23-cell sheet run and `contact_sheet.py` have no receipt (noted in the skill's Evidence) |
 | trellis-part | proven (draft tier) | master and hero tiers have no receipt |
 | bind-humanoid | proven (absolute gate) | the relative-to-control clause is missed by the T-pose body and not checked by `run_bind.py` (noted in the skill) |
+| skin-tokens | DRAFT | no receipt: SkinTokens never ran on the laptop GPU; gate, hooks and tool tested offline only; ROCm port smoke tested on CPU |
 | bind-beast | DRAFT | no beast bind in the factory; OpenTrident beast rigs are a proposal; no beast gate |
 | assemble-character | DRAFT | no `gear` or `assemble` receipt |
 | stills-and-turntable | DRAFT | single-sun proof lighting only; no turntable; no dressed character |
 | publish-to-library | DRAFT | the only publish receipt is NUL bytes; no PR made |
 | environment | DRAFT | Flux, upscale and one prop only; no Infinigen, no Unity assembly |
 | hero-rebake | DRAFT | two attempts killed by the RAM guard; no finished hero bake |
+| motion-generate | DRAFT | no real ARDY generation yet (needs a GPU window); text encoder never loaded end to end; retarget not looked at on the bound character; Kimodo path not run |
+| cloth | DRAFT | no settled run yet (two proof-cloak runs aborted at the RAM floor while Flux loaded); no real TRELLIS cloak part; not bound after the sim; per-clip mode is a stub |
 
 Other unwritten sub-stages (mentioned inside skills): gear binding details (`bind_gear.py`), mesh clean (`run_clean.py`, no receipt).

@@ -25,7 +25,7 @@ import cf_cmd  # noqa: E402
 PY = sys.executable
 MCP_P = "mcp__plugin_factory_factory__"
 PROVEN = {"character-sheet", "trellis-part", "bind-humanoid"}
-DRAFT = {"bind-beast", "assemble-character", "stills-and-turntable", "publish-to-library", "environment", "hero-rebake"}
+DRAFT = {"skin-tokens", "bind-beast", "assemble-character", "stills-and-turntable", "publish-to-library", "environment", "hero-rebake", "pixal3d", "motion-generate", "ab-shape", "materials", "cloth"}
 
 
 def png(path: Path, w: int, h: int) -> str:
@@ -40,7 +40,8 @@ def png(path: Path, w: int, h: int) -> str:
 
 
 def run_hook(name: str, payload: dict, **env) -> dict | None:
-    e = dict(os.environ, **{k: str(v) for k, v in env.items()})
+    # hermetic: a real stage process running on this box (the Factory's own job) must not trip the 0.1.5 orphan check
+    e = dict(os.environ, FACTORY_TEST_STAGE_TAG="no-such-stage-process", **{k: str(v) for k, v in env.items()})
     r = subprocess.run([PY, str(PLUGIN / "hooks" / name)], input=json.dumps(payload), capture_output=True, text=True, env=e, timeout=60)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout) if r.stdout.strip() else None
@@ -59,7 +60,7 @@ class Packaging(unittest.TestCase):
         plugin = json.loads((PLUGIN / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         market = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(plugin["name"], "factory")
-        self.assertEqual(plugin["version"], "0.1.3")
+        self.assertEqual(plugin["version"], "0.1.26")
         entry = market["plugins"][0]
         self.assertEqual((entry["name"], entry["source"], entry["version"]), ("factory", "./plugins/factory", plugin["version"]))
         self.assertEqual(market["name"], "content-factory")
@@ -75,7 +76,7 @@ class Packaging(unittest.TestCase):
                 self.assertTrue(m and (PLUGIN / "hooks" / m.group(1)).is_file(), h["command"])
                 scripts.add(m.group(1))
                 self.assertIn("${CLAUDE_PLUGIN_ROOT}", h["command"])
-        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py", "qc_gate.py"})
+        self.assertEqual(scripts, {"gpu_lock_guard.py", "ram_gate.py", "input_gate.py", "no_literals.py", "plugin_guard.py", "gates.py", "qc_gate.py"})
         sys.path.insert(0, str(PLUGIN / "mcp"))
         os.environ.setdefault("FACTORY_HOME", str(REPO))
         import server
@@ -291,7 +292,7 @@ class McpServer(unittest.TestCase):
         self.assertEqual(init["serverInfo"]["name"], "factory")
         self.assertIn("tools", init["capabilities"])
         tools = {t["name"]: t for t in by_id[2]["result"]["tools"]}
-        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "stills", "upscale", "qc"})
+        self.assertEqual(set(tools), {"factory_status", "flux_render", "trellis_run", "cutout", "bind", "skin_tokens_bind", "stills", "upscale", "qc", "motion_generate", "pixal3d_run", "ab_shape", "materials", "cloth"})
         for t in tools.values():
             self.assertEqual(t["inputSchema"]["type"], "object")
             self.assertTrue(t["description"])

@@ -32,6 +32,14 @@ Wrapper: `tools/run_stills.py <asset_id> <bound_or_assembled.glb>` (MCP tool `st
 6. **Turntable.** A 360 degree orbit of the posed character under the same rig, to video or an image sequence. No script exists; write it as a config-driven Blender stage with its own receipt. (OpenTrident's Unity contest turntables are listed in `tools/beast/MODELS.md` for reference only.)
 7. **Roll still** only if the library row shows it (`docs/library-format.md`: `roll.png` optional); the roll clip id is `120430902-sprinting-forward-roll` and is not in `stills.clips` today.
 
+## QC input: MoGe-2 faceting and agreement (optional, off by default, UNRUN)
+The `qc` stage (`tools/run_qc.py`, MCP tool `qc`; it gates this stage through `hooks/qc_gate.py`) can take MoGe-2 (Ruicheng/moge-2-vitl, MIT, local weights, no network or token) as one extra input. It is OFF unless `config/config.json -> qc.moge.enabled` is true, and with it off, or MoGe unavailable for any reason, qc behaves exactly as before (fail-open, receipt note `moge unavailable: <reason>`).
+- Needs a render of the mesh: pass `render` (an image) to the `qc` tool, or `--render` to `run_qc.py`, together with the concept. MoGe runs in the Pixal3D venv python (`config.local.json -> moge_python`, default that venv) via `tools/qc_moge.py`, on the CPU by default (never takes the GPU lock), weights from `qc.moge.model_dir` / `pixal3d_moge_dir` / `<work_dir>/models/moge-2-vitl`. It refuses to start under `qc.moge.min_free_ram_gb` free RAM.
+- Receipt: `params.moge` holds `faceting` (per image `faceting_p99_deg`, `mean_neighbor_deg`, `crease_fraction`, and `faceting_delta_deg` = render minus concept; positive = the render is more faceted than the concept) and `agreement` (`normal_mean_deg`, `normal_p90_deg`, `depth_rel_err`, `mask_iou`). Exact definitions are in the `tools/qc_moge.py` docstring. The base moge-2-vitl checkpoint has no normal head, so normals are derived from its point map.
+- Thresholds `qc.moge.thresholds.*` are all null: the numbers are recorded and never fail the mesh. Set one only after reading real receipts; a set threshold adds a `moge_*` row to `checks` and can make `overall` fail, which blocks `stills`.
+- Agreement assumes the render shows the same view as the concept (front); read only the faceting numbers for other views, and ignore agreement when `mask_iou` is low.
+- Status: the scoring functions are unit-tested on synthetic maps; the model call has not been run on a real asset. Do not trust a real MoGe number until a receipt exists and you have looked at both images.
+
 ## Gates
 Four stills plus thumb, receipt `status: ok`, every image looked at and judged by Dom's eye. Definition of done for a character (`docs/asset-standard.md` section 6): three clean engine stills (head crop, Idle, Walk, Attack at near camera) reviewed by Dom.
 

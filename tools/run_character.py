@@ -12,7 +12,9 @@ import argparse, datetime, json, os, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
+import binder_route
 
+BOUND = "{BOUND}"   # placeholder in a unit command, replaced by the bound body GLB the bind stage actually produced (binder_route.resolve_bound)
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -60,10 +62,14 @@ class Plan:
         self.parts = spec["parts"]
         self.body = next(p for p in self.parts if p["kind"] == "body")
         self.gear = [p for p in self.parts if p["kind"] == "gear"]
-        self.bound = os.path.join(self.work, cfg["bind"]["bound_glb_name"])
+        self.binder = binder_route.binder(cfg)
         self.assembled = os.path.join(self.work, cfg["assemble"]["output_name"].format(asset_id=self.cid))
         self.body_stills_id = self.cid + self.ch["stills_body_suffix"]
         self.dressed_id = self.cid + self.ch["stills_dressed_suffix"]
+
+    @property
+    def bound(self):
+        return binder_route.resolve_bound(self.cfg, self.work)
 
     def part_id(self, p):
         return f"{self.cid}-{p['name']}"
@@ -88,8 +94,8 @@ class Plan:
         s, ch, py, cfg = self.spec, self.ch, self.py, self.cfg
         U = []
 
-        def unit(stage, part, cmd, outputs, timeout, gpu=None, env=None):
-            U.append(dict(stage=stage, part=part, cmd=cmd, outputs=outputs, timeout=timeout, gpu=gpu, env=env or {}))
+        def unit(stage, part, cmd, outputs, timeout, gpu=None, env=None, fallback=None):
+            U.append(dict(stage=stage, part=part, cmd=cmd, outputs=outputs, timeout=timeout, gpu=gpu, env=env or {}, fallback=fallback))
         for p in self.parts:
             img = self.sheet(p)
             unit("flux", p["name"], [py, "-u", os.path.join(cf_common.REPO, "flux", "flux_kit.py"), os.path.join(cf_common.REPO, p["kit"]), p["row_id"]],
@@ -101,12 +107,20 @@ class Plan:
             preset = p.get("preset", s.get("preset", ch["default_preset"]))
             unit("trellis", p["name"], [py, os.path.join(TOOLS, "run_3d.py"), self.part_id(p), self.sheet(p), "--preset", preset],
                  [self.mesh(p)], ch["trellis_timeout_s"], gpu="trellis")
-        unit("bind", self.body["name"], [py, os.path.join(TOOLS, "run_bind.py"), self.cid, self.mesh(self.body)], [self.bound],
-             cfg["bind"]["timeout_s"] + cfg["bind"]["export_timeout_s"] + 60, env={"BIND_FORCE_DONOR": s.get("donor", ch["default_donor"])})
-        unit("stills_body", self.body["name"], [py, os.path.join(TOOLS, "run_stills.py"), self.body_stills_id, self.bound],
+        donor_unit = dict(cmd=[py, os.path.join(TOOLS, "run_bind.py"), self.cid, self.mesh(self.body)], outputs=[os.path.join(self.work, binder_route.bound_name(cfg, "donor"))],
+                          timeout=cfg["bind"]["timeout_s"] + cfg["bind"]["export_timeout_s"] + 60, env={"BIND_FORCE_DONOR": s.get("donor", ch["default_donor"])}, binder="donor")
+        if self.binder == "donor":
+            unit("bind", self.body["name"], donor_unit["cmd"], donor_unit["outputs"], donor_unit["timeout"], env=donor_unit["env"])
+        else:   # SkinTokens first (a GPU job); the donor bind only as the labelled FALLBACK, when bind.fallback_to_donor allows it
+            st = cfg["skin_tokens"]
+            unit("bind", self.body["name"], [py, os.path.join(TOOLS, "run_skin_tokens.py"), self.cid, self.mesh(self.body)],
+                 [os.path.join(self.work, binder_route.bound_name(cfg, "skin_tokens"))],
+                 st["prep_timeout_s"] + st["run_timeout_s"] + st["export_timeout_s"] + st["metrics_timeout_s"] + 60, gpu="skin_tokens",
+                 fallback=donor_unit if binder_route.fallback_allowed(cfg) else None)
+        unit("stills_body", self.body["name"], [py, os.path.join(TOOLS, "run_stills.py"), self.body_stills_id, BOUND],
              self.stills_pngs(self.body_stills_id), cfg["stills"]["timeout_s"] + 60)
         for p in self.gear:
-            unit("gear", p["name"], [py, os.path.join(TOOLS, "run_gear.py"), self.cid, p["name"], self.mesh(p), self.bound],
+            unit("gear", p["name"], [py, os.path.join(TOOLS, "run_gear.py"), self.cid, p["name"], self.mesh(p), BOUND],
                  [os.path.join(self.work, f"{cfg['gear']['glb_prefix']}{p['name']}.glb")], cfg["gear"]["timeout_s"] + 60)
         unit("assemble", "all", [py, os.path.join(TOOLS, "assemble_character.py"), self.cid], [self.assembled], cfg["assemble"]["timeout_s"] + 60)
         unit("stills_dressed", "all", [py, os.path.join(TOOLS, "run_stills.py"), self.dressed_id, self.assembled],
@@ -130,9 +144,14 @@ class Runner:
 
     def done(self, u):
         m = self.marker(u)
-        if not (os.path.exists(m) and all(os.path.exists(o) for o in u["outputs"])):
+        if not os.path.exists(m):
             return False
-        return read_json(m).get("status") == "ok"
+        row = read_json(m)
+        if u["stage"] == "bind":   # a bind done with another binder than the configured one is not done; a fallback leaves the donor GLB, so check what the marker says it wrote
+            if row.get("binder_config", "donor") != self.plan.binder:
+                return False
+            return row.get("status") == "ok" and all(os.path.exists(o) for o in row.get("outputs") or u["outputs"])
+        return row.get("status") == "ok" and all(os.path.exists(o) for o in u["outputs"])
 
     def prior_wall(self, u):
         return read_json(self.marker(u)).get("wall_s", 0)
@@ -155,9 +174,36 @@ class Runner:
         return "\n".join(rows) + "\n"
 
     def run_unit(self, u):
+        """Run a unit; a bind unit that has a donor fallback runs it when SkinTokens' prerequisites are missing or the SkinTokens bind failed. Returns (ok, rc, wall, log);
+        self.used = {'binder_used', 'reason', 'outputs'} for the bind unit."""
+        self.used = {"binder_used": None, "reason": "", "outputs": u["outputs"]}
+        fb = u.get("fallback")
+        if fb:
+            missing = binder_route.skin_tokens_missing(self.cfg, cf_common.REPO)
+            if missing:
+                reason = "SkinTokens prerequisites missing: " + "; ".join(missing)
+                print(f"[fall] bind: {reason}", flush=True)
+                return self._fallback(u, fb, reason, 0.0)
+        ok, rc, wall, log = self._run(u)
+        if u["stage"] == "bind":
+            self.used["binder_used"] = self.plan.binder   # the primary run is the configured binder
+        if not ok and fb:
+            reason = f"SkinTokens bind failed (exit {rc}, log {log})"
+            print(f"[fall] bind: {reason}", flush=True)
+            return self._fallback(u, fb, reason, wall)
+        return ok, rc, wall, log
+
+    def _fallback(self, u, fb, reason, spent):
+        fu = dict(u, cmd=fb["cmd"], outputs=fb["outputs"], timeout=fb["timeout"], gpu=None, env=dict(fb["env"], **{binder_route.REASON_ENV: reason}), fallback=None)
+        ok, rc, wall, log = self._run(fu)
+        self.used = {"binder_used": "donor", "reason": reason, "outputs": fb["outputs"]}
+        return ok, rc, round(wall + spent, 1), log
+
+    def _run(self, u):
         lim = self.cfg["limits"]
         guard = None
         env = dict(os.environ, **u["env"])
+        cmd = [c.replace(BOUND, self.plan.bound) for c in u["cmd"]]
         log = os.path.join(self.loc["logs_dir"], f"{self.ch['log_prefix']}{self.plan.cid}_{u['stage']}_{u['part']}.txt")
         if u["gpu"]:
             guard = subprocess.Popen(["powershell", "-NoProfile", "-File", self.loc["guard_script"], "-Match", self.ch["guard_match"][u["gpu"]],
@@ -167,7 +213,7 @@ class Runner:
         t0 = time.time()
         try:
             with open(log, "w", encoding="utf-8") as lf:
-                rc = subprocess.run(u["cmd"], stdout=lf, stderr=subprocess.STDOUT, env=env, timeout=u["timeout"]).returncode
+                rc = subprocess.run(cmd, stdout=lf, stderr=subprocess.STDOUT, env=env, timeout=u["timeout"]).returncode
         except subprocess.TimeoutExpired:
             rc = "timeout"
         except OSError as e:
@@ -195,8 +241,15 @@ class Runner:
                 print(f"FAILED at {tag}: exit {rc}, missing outputs: {[o for o in u['outputs'] if not os.path.exists(o)]}\nlog: {log}\n"
                       "Stopped. Fix it and rerun the same command; finished units are skipped.")
                 return 1
-            write_json(self.marker(u), {"status": "ok", "stage": u["stage"], "part": u["part"], "wall_s": wall,
-                                        "finished_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "outputs": u["outputs"]})
+            row = {"status": "ok", "stage": u["stage"], "part": u["part"], "wall_s": wall,
+                   "finished_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "outputs": u["outputs"]}
+            if u["stage"] == "bind":   # which binder made the body, recorded for the later stages and for the label
+                row.update(outputs=self.used["outputs"], binder_config=self.plan.binder, binder_used=self.used["binder_used"], fallback=bool(self.used["reason"]),
+                           label=binder_route.FALLBACK_LABEL if self.used["reason"] else "", fallback_reason=self.used["reason"])
+                binder_route.write_pointer(self.cfg, self.plan.work, self.used["binder_used"], self.used["reason"])
+                if self.used["reason"]:
+                    print(f"[ ok ] {tag} LABEL: {binder_route.FALLBACK_LABEL} ({self.used['reason']})", flush=True)
+            write_json(self.marker(u), row)
             self.record(u, wall, "ok")
             print(f"[ ok ] {tag} {wall} s", flush=True)
         return 0
@@ -228,6 +281,15 @@ def main():
     missing = [f"clip {k}={v}" for k, v in spec["clips"].items() if not os.path.exists(os.path.join(loc["mixamo_clips_dir"], v + st["clip_ext"]))]
     if a.dry_run:
         print(f"DRY RUN {spec['character_id']}: {len(units)} units, work dir {plan.work}")
+        sys.path.insert(0, os.path.join(cf_common.REPO, "plugins", "factory", "lib"))
+        os.environ.setdefault("FACTORY_HOME", cf_common.REPO)
+        try:   # the chain status must never stop a dry run (a checkout without the plugin lib just skips it)
+            import cf_chain
+            print("  build-order gates (plugin 0.1.24):")
+            for gate, ok, why in cf_chain.status(spec["character_id"]):
+                print(f"    [{'x' if ok else ' '}] {gate}" + (f"  <- {why}" if why and not ok else ""))
+        except Exception as e:
+            print(f"  build-order gates: not available ({e!r})")
         if missing:
             print("  note: missing clip files:", ", ".join(missing))
         runner = Runner(plan)
@@ -235,9 +297,16 @@ def main():
             state = "DONE (would skip)" if runner.done(u) else "TODO"
             guard = cfg["character"]["guard_match"][u["gpu"]] if u["gpu"] else "none (CPU)"
             print(f"\n[{u['stage']}/{u['part']}] {state}  timeout {u['timeout']} s  guard: {guard}" + (f"  env {u['env']}" if u["env"] else ""))
-            print("  " + subprocess.list2cmdline(u["cmd"]))
+            print("  " + subprocess.list2cmdline([c.replace(BOUND, plan.bound) for c in u["cmd"]]))
             print("  outputs: " + "; ".join(u["outputs"]))
+            if u.get("fallback"):
+                fb = u["fallback"]
+                print(f"  binder {plan.binder}; if it fails the gate or its prerequisites are missing: {binder_route.FALLBACK_LABEL}\n  fallback: " + subprocess.list2cmdline(fb["cmd"]) + "  env " + str(fb["env"]))
+            elif u["stage"] == "bind":
+                print(f"  binder {plan.binder}, no fallback")
         return 0
+    if any(u["stage"] == "trellis" for u in units):
+        cf_common.plugin_gate("chain", spec["character_id"], False)   # sheet complete + Dom's yes before any part mesh
     if missing:
         sys.exit("cannot start, missing clip files (nothing is downloaded):\n  " + "\n  ".join(missing))
     os.makedirs(plan.work, exist_ok=True)

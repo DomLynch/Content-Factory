@@ -14,6 +14,8 @@ description: DRAFT. Bind each gear part (coat, cloak, boots) to the bound body's
 
 # assemble-character
 
+Order (fixed, `docs/vampire-v2-rules.md`): head mesh -> body cells -> body mesh -> head v2 -> gear -> assembly -> exports. Two exports per character, GLB + FBX, from ONE Blender master; FBX is pending (path: the Demon pipeline's `work\export_fbx_v7.py`).
+
 Wrappers: `tools/run_gear.py <asset_id> <part> <gear_mesh.glb> <bound_body.glb>` then `tools/assemble_character.py <asset_id>`. Both are CPU only (Blender `--background`, no render). Settings: `config/config.json -> gear` and `-> assemble`. `tools/run_character.py` runs both inside the full pipeline (stages `gear`, `assemble`).
 
 ## Steps

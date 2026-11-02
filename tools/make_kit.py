@@ -11,6 +11,11 @@ REQUIRED = ["id", "description", "seed", "ref", "base_layer_ref", "character_nou
             "base_layer", "three_quarter_posture", "head_detail", "hair_desc", "gear_items", "swatches"]
 
 
+YAW = {"head_front": 0, "head_three_quarter": 45, "head_profile": 90, "head_back": 180}   # magnitude in degrees (plugin 0.1.26: QC fails a head cell whose yaw does not match)
+ANGLE = ("body_back", "body_left", "body_right", "body_three_quarter", "head_three_quarter", "head_profile", "head_back")   # angle cells use the whole two-view sheet image as reference
+PASS_KEYS = ("needs", "supplied_by", "file", "yaw_deg", "ref_mode", "ref_max_px", "mirror_of")
+
+
 def fill(text, ctx, where):
     names = [f for _, f, _, _ in string.Formatter().parse(text) if f]
     missing = sorted({n for n in names if n not in ctx})
@@ -36,6 +41,9 @@ def build(spec, tpl):
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
            "subject": spec.get("subject", ""), "style": spec.get("style", kd["style"]),
            "description": spec["description"], "rows": []}
+    for k in ("age", "complexion", "humanoid"):   # the head rows need them (0.1.25 gate); a creature spec says humanoid: false
+        if k in spec:
+            kit[k] = spec[k]
     refs = {}   # record the identity / parts / back reference files with their sha256 (a changed file shows up in the kit)
     for rn in ("identity_ref", "parts_ref", "back_ref"):
         if spec.get(rn):
@@ -92,6 +100,12 @@ def build(spec, tpl):
                     row["ref_prefix"] = spec[cell["ref_prefix_field"]]
             if cell.get("mirror_of"):   # made by tools/mirror_cell.py from another row, not rendered
                 row["mirror_of"] = cell["mirror_of"]
+            row.setdefault("needs", [])   # rows that read another row's output list it here; the queue holds until it has a verdict (plugin 0.1.26)
+            row.setdefault("ref_mode", "sheet" if rid in ANGLE else "identity")
+            if rid in YAW:
+                row.setdefault("yaw_deg", YAW[rid])
+            row.update({k: cell[k] for k in PASS_KEYS if k in cell})
+            row.update((spec.get("row_overrides") or {}).get(rid, {}))   # e.g. {"hands": {"supplied_by": "Dom", "file": "..."}}
             rows.append(row)
     if tpl.get("order"):   # explicit emit order: row_id or "group:<g>" entries, a row_id beats its group, unlisted rows last
         pos = {e: i for i, e in enumerate(tpl["order"])}

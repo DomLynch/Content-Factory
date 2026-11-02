@@ -7,6 +7,7 @@ import json, os, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
+import binder_route
 
 if len(sys.argv) != 3:
     sys.exit(__doc__)
@@ -23,6 +24,13 @@ bound_glb = os.path.join(work, bd["bound_glb_name"])
 best_json = os.path.splitext(bound_blend)[0] + ".best.json"
 log = os.path.join(loc["logs_dir"], f"bind_{asset_id}.txt")
 params = {"gate": gate, "blender": loc["blender_exe"], "rig": loc["rig_glb"], "donors_dir": loc["donors_dir"], "log": log}
+# the donor binder is the labelled fallback (MakeHuman donor weights); a caller that fell back from SkinTokens passes the reason in BIND_FALLBACK_REASON
+fallback_reason = os.environ.get(binder_route.REASON_ENV, "")
+params["binder_used"] = "donor"
+params["label"] = binder_route.FALLBACK_LABEL if fallback_reason else binder_route.DONOR_LABEL
+if fallback_reason:
+    params["fallback_reason"] = fallback_reason
+    print(binder_route.FALLBACK_LABEL + ": " + fallback_reason, flush=True)
 
 
 def receipt(status, error="", outs=(), timing=None, mem=None, extra=None):
@@ -86,5 +94,5 @@ errs = ([] if passed else ["gate failed: " + ",".join(k for k, v in checks.items
 err = "; ".join(errs)
 receipt("ok" if ok else "fail", err, outs=[p for p in (bound_glb, bound_blend, best_json, mpath) if os.path.exists(p)],
         timing={"wall_s": round(time.time() - t0, 1)}, mem={"lowest_free_ram_gb": ram.stop()}, extra={"metrics": metrics})
-print("bind", "ok" if ok else "FAIL", "binder", summ["best"], "p99_stretch", m.get("p99_stretch"), "p99_compression", m.get("p99_compression_ratio"), "->", bound_glb)
+print("bind", "ok" if ok else "FAIL", params["label"], "binder", summ["best"], "p99_stretch", m.get("p99_stretch"), "p99_compression", m.get("p99_compression_ratio"), "->", bound_glb)
 sys.exit(0 if ok else 1)

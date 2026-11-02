@@ -4,6 +4,9 @@ import faulthandler, json, os, sys, time
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tools"))
 import cf_common
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plugins", "factory", "lib"))
+import cf_flux  # quality policy, plugin 0.1.6
+import cf_guard
 
 cfg = cf_common.load_config()
 LOC = cfg["local"]
@@ -23,6 +26,14 @@ use_ref = bool(ref_path) and row.get("use_ref", True)
 if use_ref:
     prompt = row.get("ref_prefix", kit["ref_prefix"]) + " " + prompt
 asset_id = cf_common.slug_id(kit["kit"], row_id, prompt, seed)
+spec = cf_flux.run_spec(kit, row)
+refusals = cf_flux.policy_reasons(spec) + cf_flux.sheet_reasons(kit, row, sys.argv[1])
+if refusals and os.environ.get("FACTORY_RAW"):
+    cf_guard.raw_override("FACTORY_RAW=" + os.environ["FACTORY_RAW"], "flux")   # logged exception
+elif refusals:
+    print("\n".join(refusals), flush=True)
+    sys.exit(3 if cf_flux.is_hold(refusals) else 2)   # 3 = HOLD (a dependency row is not ready): the queue waits, it does not fail
+cf_common.keep_awake()
 out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
 path = os.path.join(out_dir, f"{row['name']}_{W}x{H}.png")
 if os.environ.get("CF_DRY"):
@@ -39,6 +50,8 @@ ram = cf_common.FreeRamWatch(); ram.start()
 t0 = time.time()
 params = {"seed": seed, "w": W, "h": H, "reference": ref_path if use_ref else None, "prompt": prompt, "kit": sys.argv[1], "row_id": row_id}
 model = {"id": cfg["models"]["flux"]["id"], "dir": LOC["flux_model_dir"]}
+params.update(cf_flux.receipt_fields(spec, ref_path if use_ref else None, os.environ.get("CF_ATTN_BACKEND") or cf_flux.flux_cfg()["attention_backend"], "child", False,
+                                      cfg["models"]["flux"].get("vae_tiling"), cfg["models"]["flux"].get("vae_slicing")))
 try:
     blocks = Flux3DistilledAutoBlocks()
     blocks.sub_blocks.pop("prompt_upsampler")
@@ -49,15 +62,27 @@ try:
         pipe.vae.enable_slicing()
     if cfg["models"]["flux"].get("vae_tiling"):
         pipe.vae.enable_tiling()
+    ref_cache = None
+    if os.environ.get("CF_REF_CACHE") == "1":   # the ONE reference cache (flux/patches/flux3_ref_cache.py), off unless this flag is set; plugin 0.1.23
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "patches"))
+        import flux3_ref_cache
+        ref_cache = flux3_ref_cache.install(pipe.transformer)
+    params["ref_cache"] = params["cached_ref_conds"] = ref_cache is not None
     t_load = time.time() - t0
     extra = {}
     if use_ref:
         from PIL import Image
-        extra["image"] = [Image.open(ref_path).convert("RGB")]
+        ref_img = Image.open(ref_path).convert("RGB")
+        if spec["ref_max_px"] and max(ref_img.size) > spec["ref_max_px"]:   # ref_max_px: cap the identity reference at the render long edge (vampire v2: 4K refs cost 14 min/cell)
+            k = spec["ref_max_px"] / max(ref_img.size)
+            ref_img = ref_img.resize((max(1, round(ref_img.width * k)), max(1, round(ref_img.height * k))), Image.LANCZOS)
+        extra["image"] = [ref_img]
     t1 = time.time()
     image = pipe(prompt=prompt, width=W, height=H, generator=torch.Generator().manual_seed(seed), output="images", **extra)[0]
     torch.cuda.synchronize()
     gen_s = time.time() - t1
+    if ref_cache is not None:
+        params["ref_cache_hits"], params["ref_cache_misses"] = ref_cache.hits, ref_cache.misses
     mean = float(np.asarray(image.convert("RGB")).mean())
     mem = {"peak_gpu_alloc_gb": round(torch.cuda.max_memory_allocated() / 2**30, 1), "peak_gpu_reserved_gb": round(torch.cuda.max_memory_reserved() / 2**30, 1), "lowest_free_ram_gb": ram.stop()}
     timing = {"wall_s": round(time.time() - t0, 1), "load_s": round(t_load, 1), "generate_s": round(gen_s, 1)}

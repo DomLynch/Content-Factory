@@ -208,6 +208,23 @@ def issue_nonce(tool: str) -> str:
         return ""
 
 
+def raw_override(cmd: str, gate: str) -> bool:
+    """True if the Bash/PowerShell command carries FACTORY_RAW=<reason>; the use is appended to the override log (same log as hooks/plugin_guard.py)."""
+    import re
+    import time
+    m = re.search(r"FACTORY_RAW[=:]\s*['\"]?([^'\"\s;&|]+)", cmd or "")
+    if not m:
+        return False
+    try:
+        log = guard_path("override_log")
+        log.parent.mkdir(parents=True, exist_ok=True)
+        with open(log, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"t": time.strftime("%Y-%m-%dT%H:%M:%S"), "reason": m.group(1), "gate": gate}) + "\n")
+    except Exception:
+        pass
+    return True
+
+
 def revoke_nonce(nonce: str) -> None:
     try:
         if nonce:
