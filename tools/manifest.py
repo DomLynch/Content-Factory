@@ -19,6 +19,10 @@ ap.add_argument("--import-review", action="append", default=[], metavar="REVIEW.
                 help="import the verdicts of a review file (cells[] with cell or row, score, verdict, notes, prompt_fix or fix); repeatable, a later file wins")
 ap.add_argument("--verdict", nargs=2, action="append", default=[], metavar=("ROW_ID", "PASS|WEAK|REJECT"),
                 help="record the QC verdict of a row (plugin 0.1.22: reference-first needs PASS on the identity cell); repeatable")
+ap.add_argument("--check", nargs=3, action="append", default=[], metavar=("ROW_ID", "NAME", "true|false"), help="record one STRUCTURAL check of a cell (names: config qc.cell_checks)")
+ap.add_argument("--cosmetic", nargs=2, action="append", default=[], metavar=("ROW_ID", "FLAG"), help="record a cosmetic flag (eye colour, skin tint, costume drift, background texture, hair length): WEAK, never FAIL")
+ap.add_argument("--judge", action="append", default=[], metavar="ROW_ID", help="derive the verdict (qc_pass_pct policy): any structural check false = REJECT, else cosmetic flags = WEAK, else PASS")
+ap.add_argument("--accept-as-is", action="append", default=[], metavar="ROW_ID", help="after a FAIL and one re-roll (two FAILs judged), accept the cell as WEAK with the flag")
 a = ap.parse_args()
 
 cfg = cf_common.load_config()
@@ -58,6 +62,39 @@ for vrow, deg in a.yaw:   # measured head yaw (plugin 0.1.26): the chain compare
     if vrow not in rows:
         sys.exit(f"--yaw {vrow}: unknown row")
     rows[vrow]["yaw_measured"] = float(deg)
+GROUP = {r.get("row_id", r["name"]): (r.get("group") or r.get("part") or "") for r in kit["rows"]}
+for vrow, name, val in a.check:
+    if vrow not in rows or val.lower() not in ("true", "false"):
+        sys.exit(f"--check {vrow} {name} {val}: unknown row or value (true|false)")
+    rows[vrow].setdefault("checks", {})[name] = val.lower() == "true"
+for vrow, flag in a.cosmetic:
+    if vrow not in rows:
+        sys.exit(f"--cosmetic {vrow}: unknown row")
+    rows[vrow].setdefault("cosmetic", [])
+    if flag not in rows[vrow]["cosmetic"]:
+        rows[vrow]["cosmetic"].append(flag)
+for vrow in a.judge:
+    if vrow not in rows:
+        sys.exit(f"--judge {vrow}: unknown row")
+    g = GROUP.get(vrow, "")
+    g = "hands" if g in ("hands_feet", "hand", "feet") else g
+    need = cfg.get("qc", {}).get("cell_checks", {}).get(g, [])
+    have = rows[vrow].get("checks", {})
+    missing = [c for c in need if c not in have]
+    if missing:
+        sys.exit(f"--judge {vrow}: structural checks not recorded yet: {missing} (--check {vrow} NAME true|false)")
+    failed = [c for c, ok in have.items() if not ok]
+    if failed:
+        rows[vrow]["fail_count"] = rows[vrow].get("fail_count", 0) + 1
+        set_verdict(vrow, "REJECT", "structural FAIL: " + ", ".join(failed), a.score, a.prompt_fix)
+    elif rows[vrow].get("cosmetic"):
+        set_verdict(vrow, "WEAK", "cosmetic: " + ", ".join(rows[vrow]["cosmetic"]), a.score, a.prompt_fix)
+    else:
+        set_verdict(vrow, "PASS", a.note, a.score, a.prompt_fix)
+for vrow in a.accept_as_is:
+    if vrow not in rows or rows[vrow].get("fail_count", 0) < 2:
+        sys.exit(f"--accept-as-is {vrow}: needs two judged FAILs (one re-roll) first")
+    set_verdict(vrow, "WEAK", "accepted as-is after FAIL and one re-roll: " + ", ".join(c for c, ok in rows[vrow].get("checks", {}).items() if not ok), a.score, a.prompt_fix)
 consistency = old.get("consistency")
 if a.consistency:
     rv = json.load(open(a.consistency, encoding="utf-8-sig"))

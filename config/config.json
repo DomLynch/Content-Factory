@@ -171,6 +171,9 @@
     "attn_env": {"SKINTOKENS_ATTN": "sdpa"}
   },
   "qc": {
+    "qc_pass_pct": 95,
+    "_policy": "qc_pass_pct=95 is the NAME of Dom's policy, not a computed number (Strategy 2026-11-02). A cell PASSES when every structural check for its row is true; cosmetic flags (eye colour, skin tint, costume drift, background texture, hair length) set WEAK and never FAIL; FAIL (verdict REJECT) only on a structural check; a row may be re-rolled once after FAIL before it is accepted as-is with the flag. tools/manifest.py --check / --cosmetic / --judge / --accept-as-is.",
+    "cell_checks": {"head": ["identity_match", "yaw_in_tolerance", "no_band_artefact"], "hands": ["view_count", "digit_count", "no_band_artefact"], "body": ["required_view", "no_band_artefact"], "gear": ["no_band_artefact"], "swatch": ["no_band_artefact"]},
     "min_free_ram_gb": 2.5,
     "timeout_s": 600,
     "_comment": "tools/run_qc.py thresholds, loose to start; tune from real receipts. A metric whose limit is null, or whose input is missing (no concept, no budget), is skipped, not failed.",

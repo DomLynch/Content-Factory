@@ -7,6 +7,11 @@ REQUIRED = ["id", "description", "seed", "ref", "base_layer_ref", "character_nou
             "base_layer", "three_quarter_posture", "head_detail", "hair_desc", "gear_items", "swatches"]
 
 
+YAW = {"head_front": 0, "head_three_quarter": 45, "head_profile": 90, "head_back": 180}   # magnitude in degrees (plugin 0.1.26: QC fails a head cell whose yaw does not match)
+ANGLE = ("body_back", "body_left", "body_right", "body_three_quarter", "head_three_quarter", "head_profile", "head_back")   # angle cells use the whole two-view sheet image as reference
+PASS_KEYS = ("needs", "supplied_by", "file", "yaw_deg", "ref_mode", "ref_max_px", "mirror_of")
+
+
 def fill(text, ctx, where):
     names = [f for _, f, _, _ in string.Formatter().parse(text) if f]
     missing = sorted({n for n in names if n not in ctx})
@@ -26,6 +31,9 @@ def build(spec, tpl):
            "ref_prefix": fill(kd["ref_prefix"], base, "kit ref_prefix"),
            "subject": spec.get("subject", ""), "style": spec.get("style", kd["style"]),
            "description": spec["description"], "rows": []}
+    for k in ("age", "complexion", "humanoid"):   # the head rows need them (0.1.25 gate); a creature spec says humanoid: false
+        if k in spec:
+            kit[k] = spec[k]
     rows = []
     for cell in tpl["cells"]:
         items = [None] if "repeat" not in cell else spec[cell["repeat"]]
@@ -44,6 +52,12 @@ def build(spec, tpl):
             if "use_ref" in cell:
                 row["use_ref"] = cell["use_ref"]
             row["prompt"] = fill(cell["prompt"], ctx, where)
+            row["needs"] = []   # rows that read another row's output list it here; the queue holds until it has a verdict
+            row["ref_mode"] = "sheet" if rid in ANGLE else "identity"
+            if rid in YAW:
+                row["yaw_deg"] = YAW[rid]
+            row.update({k: cell[k] for k in PASS_KEYS if k in cell})
+            row.update((spec.get("row_overrides") or {}).get(rid, {}))   # e.g. {"hands": {"supplied_by": "Dom", "file": "C:\\...\\hands.png"}}
             rows.append(row)
     order = {g: i for i, g in enumerate(tpl["group_priority"])}
     kit["rows"] = sorted(rows, key=lambda r: order[r["group"]])   # stable: GPU priority order

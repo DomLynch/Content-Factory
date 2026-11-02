@@ -65,6 +65,55 @@ class Order(Chain):
         self.assertEqual(self.chain.order_reasons("hero-body", spec, "body"), [])
 
 
+class Policy(Sheet):
+    """The qc_pass_pct policy (Strategy 2026-11-02): structural FAIL -> REJECT, cosmetic -> WEAK, one re-roll then accept as-is."""
+    def run_manifest(self, *a):
+        import shutil, subprocess
+        repo = self.d / "repo"
+        if not repo.exists():
+            for sub in ("tools", "config", "plugins/factory/lib"):
+                shutil.copytree(REPO / sub, repo / sub, ignore=shutil.ignore_patterns("__pycache__", "config.local.json"))
+            (repo / "config" / "config.local.json").write_text(json.dumps({"outputs_dir": str(self.d / "out")}), encoding="utf-8")
+        r = subprocess.run([sys.executable, str(repo / "tools" / "manifest.py"), str(self.path), *a], capture_output=True, text=True, cwd=str(repo))
+        m = repo / "manifests" / "k.json"
+        return r, (json.loads(m.read_text())["rows"] if m.exists() else {})
+
+    def test_judge_needs_all_structural_checks_then_derives_the_verdict(self):
+        r, _ = self.run_manifest("--judge", "head_front")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("identity_match", r.stdout + r.stderr)
+        for c in ("identity_match", "yaw_in_tolerance", "no_band_artefact"):
+            self.run_manifest("--check", "head_front", c, "true")
+        self.run_manifest("--cosmetic", "head_front", "hair length")
+        _, rows = self.run_manifest("--judge", "head_front")
+        self.assertEqual(rows["head_front"]["verdict"], "WEAK")   # cosmetic never fails
+        self.run_manifest("--check", "head_front", "yaw_in_tolerance", "false")
+        _, rows = self.run_manifest("--judge", "head_front")
+        self.assertEqual((rows["head_front"]["verdict"], rows["head_front"]["fail_count"]), ("REJECT", 1))
+        r, _ = self.run_manifest("--accept-as-is", "head_front")
+        self.assertNotEqual(r.returncode, 0)   # not before the re-roll
+        _, rows = self.run_manifest("--judge", "head_front")
+        _, rows = self.run_manifest("--accept-as-is", "head_front")
+        self.assertEqual(rows["head_front"]["verdict"], "WEAK")
+        self.assertIn("accepted as-is", rows["head_front"]["verdict_note"])
+
+
+class MakeKit(unittest.TestCase):
+    def test_emits_the_new_row_keys_and_copies_age_and_complexion(self):
+        sys.path.insert(0, str(REPO / "tools"))
+        import make_kit
+        spec = json.loads((REPO / "characters" / "vampire-dracula-sheet.json").read_text(encoding="utf-8-sig"))
+        spec.update(age="fifties", complexion="pale", row_overrides={"hands": {"supplied_by": "Dom", "file": "h.png"}})
+        tpl = json.loads((REPO / "config" / "character_sheet_template.json").read_text(encoding="utf-8-sig"))
+        kit = make_kit.build(spec, tpl)
+        rows = {r["row_id"]: r for r in kit["rows"]}
+        self.assertEqual((kit["age"], kit["complexion"]), ("fifties", "pale"))
+        self.assertEqual((rows["head_profile"]["yaw_deg"], rows["head_profile"]["ref_mode"], rows["head_front"]["ref_mode"]), (90, "sheet", "identity"))
+        self.assertEqual(rows["body_front"]["needs"], [])
+        self.assertEqual((rows["hands"]["supplied_by"], rows["hands"]["file"]), ("Dom", "h.png"))
+        self.assertNotIn("yaw_deg", rows["body_front"])
+
+
 class KeepAwake(unittest.TestCase):
     def test_never_raises(self):
         sys.path.insert(0, str(REPO / "tools"))

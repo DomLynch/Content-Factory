@@ -85,7 +85,7 @@ def sheet_reasons(kit: str) -> list[str]:
         got = ((m.get("rows") or {}).get(rid) or {}).get("yaw_measured")
         if got is None:
             bad.append(f"{rid}: yaw not measured (row wants {r['yaw_deg']} deg; manifest.py --yaw {rid} DEG)")
-        elif abs(float(got) - float(r["yaw_deg"])) > tol:
+        elif abs(abs(float(got)) - abs(float(r["yaw_deg"]))) > tol:   # magnitude: left and right profiles both read 90
             bad.append(f"{rid}: yaw {got} deg, row wants {r['yaw_deg']} (+-{tol:g})")
     out = []
     if bad:
