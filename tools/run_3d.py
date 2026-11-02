@@ -9,6 +9,7 @@ import argparse, os, shutil, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
 
+cf_common.pop_allow_stale()   # --allow-stale "<reason>" (latest-models gate, plugin 0.1.27)
 ap = argparse.ArgumentParser()
 ap.add_argument("asset_id")
 ap.add_argument("image")
@@ -22,8 +23,9 @@ a = ap.parse_args()
 
 cfg = cf_common.load_config()
 cf_common.plugin_gate("chain", a.asset_id, bool(a.cutout_png))   # build order: sheet complete, Dom's yes, cut-out receipt (plugin 0.1.24)
-cf_common.plugin_gate("token", a.asset_id, a.preset, bool(a.from_latents))
-cf_common.keep_awake()   # token floor, also outside Claude Code (plugin 0.1.23)
+cf_common.plugin_gate("token", a.asset_id, a.preset, bool(a.from_latents))   # token floor, also outside Claude Code (plugin 0.1.23)
+cf_common.plugin_gate("models", "cutout", "trellis")   # latest-models gate (plugin 0.1.27)
+cf_common.keep_awake()
 loc, tr = cfg["local"], cfg["trellis"]
 preset = tr["presets"][a.preset]
 repo_dir = loc["trellis_repo_dir"]

@@ -9,8 +9,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cf_common
 import binder_route
 
+cf_common.pop_allow_stale()
 if len(sys.argv) != 3:
     sys.exit(__doc__)
+cf_common.plugin_gate("models", "bind")   # latest-models gate (plugin 0.1.27): add a registry row with stages [bind] for the binder
 asset_id, mesh = sys.argv[1], os.path.abspath(sys.argv[2])
 
 cfg = cf_common.load_config()

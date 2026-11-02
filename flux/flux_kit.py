@@ -15,6 +15,7 @@ sys.path.insert(0, LOC["flux_pkgs_dir"])
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 
+cf_common.pop_allow_stale()   # --allow-stale "<reason>" is read here and removed before the positional arguments
 kit = json.load(open(sys.argv[1], encoding="utf-8-sig"))
 row = next(r for r in kit["rows"] if r.get("row_id", r["name"]) == sys.argv[2])
 row_id = row.get("row_id", row["name"])
@@ -33,6 +34,8 @@ if refusals and os.environ.get("FACTORY_RAW"):
 elif refusals:
     print("\n".join(refusals), flush=True)
     sys.exit(3 if cf_flux.is_hold(refusals) else 2)   # 3 = HOLD (a dependency row is not ready): the queue waits, it does not fail
+if not os.environ.get("CF_DRY"):
+    cf_common.plugin_gate("models", "flux")   # latest-models gate (plugin 0.1.27)
 cf_common.keep_awake()
 out_dir = os.path.join(LOC["outputs_dir"], kit["kit"])
 path = os.path.join(out_dir, f"{row['name']}_{W}x{H}.png")

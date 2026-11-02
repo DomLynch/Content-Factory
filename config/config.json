@@ -19,6 +19,14 @@
     "start_wait_max_s": 1800
   },
   "models": {
+    "_registry_comment": "plugin 0.1.27 latest-models gate (plugins/factory/lib/cf_models.py): a run whose tool is behind upstream is refused unless it carries --allow-stale \"<reason>\" (written to the receipt). Rows: name, stages, installed {kind git|hf_dir|pip|pinned}, upstream {kind github_head|github_release|hf|pypi}. No model numbers in code: add a row for every tool that generates.",
+    "registry": [
+      {"name": "TRELLIS.2 (fork Trellis-3 vs microsoft/TRELLIS.2)", "stages": ["trellis", "cutout"], "installed": {"kind": "git", "local": "trellis_repo_dir"}, "upstream": {"kind": "github_head", "repo": "microsoft/TRELLIS.2"}},
+      {"name": "Pixal3D", "stages": ["pixal3d"], "installed": {"kind": "git", "local": "pixal3d_repo_dir", "default_subdir": "Pixal3D"}, "upstream": {"kind": "github_head", "repo": "TencentARC/Pixal3D"}},
+      {"name": "Flux klein", "stages": ["flux"], "installed": {"kind": "hf_dir", "local": "flux_model_dir"}, "upstream": {"kind": "hf", "repo": "black-forest-labs/flux-3-image-klein"}},
+      {"name": "BiRefNet", "stages": ["cutout", "pixal3d"], "installed": {"kind": "hf_dir", "local": "pixal3d_birefnet_dir", "default_subdir": "models/BiRefNet"}, "upstream": {"kind": "hf", "repo": "ZhengPeng7/BiRefNet"}},
+      {"name": "Real-ESRGAN (ncnn-vulkan)", "stages": ["upscale"], "installed": {"kind": "pinned", "version": null}, "upstream": {"kind": "github_release", "repo": "xinntao/Real-ESRGAN-ncnn-vulkan"}}
+    ],
     "flux": {
       "id": "flux-3-image-klein",
       "dtype": "bfloat16",

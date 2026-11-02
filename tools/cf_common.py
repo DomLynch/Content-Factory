@@ -78,6 +78,8 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
         "outputs": [{"path": p, "sha256": sha256(p)} for p in outputs if os.path.exists(p)],
         "status": status, "error": error, "created_utc": now.isoformat(timespec="seconds"),
     }
+    if MODELS_CHECK is not None:
+        rec["models_check"] = MODELS_CHECK
     d = os.path.join(REPO, "receipts", asset_id)
     os.makedirs(d, exist_ok=True)
     base = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}")
@@ -111,6 +113,26 @@ def keep_awake():
         pass
 
 
+MODELS_CHECK = None   # the latest-models report of this run (plugin 0.1.27), written into every receipt
+ALLOW_STALE = None
+
+
+def pop_allow_stale():
+    """Take `--allow-stale "<reason>"` (or --allow-stale=<reason>, or env FACTORY_ALLOW_STALE) out of sys.argv before the script reads its own arguments."""
+    global ALLOW_STALE
+    for i, x in enumerate(list(sys.argv)):
+        if x == "--allow-stale" and i + 1 < len(sys.argv):
+            ALLOW_STALE = sys.argv[i + 1]
+            del sys.argv[i:i + 2]
+            return ALLOW_STALE
+        if x.startswith("--allow-stale="):
+            ALLOW_STALE = x.split("=", 1)[1]
+            del sys.argv[i]
+            return ALLOW_STALE
+    ALLOW_STALE = os.environ.get("FACTORY_ALLOW_STALE") or None
+    return ALLOW_STALE
+
+
 def plugin_gate(kind, *args):
     """Run a plugin gate inside the script itself, so a run from bench\\*.ps1 or a plain terminal is gated too (the PreToolUse hooks stay the second layer).
     kind 'token' (asset_id, preset, from_latents) or 'publish' (spec dict). A refusal prints its numbers and exits 2; FACTORY_RAW=<reason> in the environment
@@ -121,7 +143,20 @@ def plugin_gate(kind, *args):
         if lib not in sys.path:
             sys.path.insert(0, lib)
         import cf_gates, cf_guard
-        if kind == "chain":
+        if kind == "models":   # latest-models gate (plugin 0.1.27): args are the stage names about to run
+            import cf_models
+            global MODELS_CHECK
+            report = cf_models.check(load_config(), args)
+            MODELS_CHECK = {"checked_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "rows": report, "allow_stale": None}
+            bad = cf_models.refusals(report)
+            for r in report:
+                if r["state"] == "unverified":
+                    print(f"MODELS GATE: {r['name']} unverified ({r['reason']})", flush=True)
+            if bad and ALLOW_STALE:
+                MODELS_CHECK["allow_stale"] = ALLOW_STALE
+                print("MODELS GATE OVERRIDDEN (--allow-stale, written to the receipt): " + ALLOW_STALE + " | " + " | ".join(bad), flush=True)
+                return
+        elif kind == "chain":
             import cf_chain
             bad = cf_chain.part_mesh_reasons(*args)
         else:
