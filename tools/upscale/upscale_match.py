@@ -12,6 +12,7 @@ import cf_common
 cf_common.pop_allow_stale()
 cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
 cf_common.plugin_gate("models", "upscale")   # latest-models gate (plugin 0.1.27)
+cf_common.plugin_gate("power")   # power gate (plugin 0.1.28)
 src, dst = sys.argv[1], sys.argv[2]
 passes = int(sys.argv[3]) if len(sys.argv) > 3 else 1
 asset_id = sys.argv[4] if len(sys.argv) > 4 else None

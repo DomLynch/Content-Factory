@@ -21,6 +21,7 @@ ap.add_argument("--seed", type=int, default=None)
 ap.add_argument("--no-naf", action="store_true", help="ROUGH fallback: bicubic feature upsample instead of NAF (also config pixal3d.naf = false)")
 a = ap.parse_args()
 cf_common.plugin_gate("models", "pixal3d")   # latest-models gate (plugin 0.1.27)
+cf_common.plugin_gate("power")   # power gate (plugin 0.1.28)
 cf_common.keep_awake()
 
 cfg = cf_common.load_config()

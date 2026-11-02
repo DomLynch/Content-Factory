@@ -173,6 +173,41 @@ def loading_procs(load_stage_s: float) -> list[tuple[int, str, float]]:
         return []
 
 
+def power_state() -> dict:
+    """Power source and active scheme (plugin 0.1.28). on_battery is True for Win32_Battery BatteryStatus 1 (discharging), 4 (low) or 5 (critical); AC, charging and fully charged are False;
+    no battery object (a desktop) is False; None when it cannot tell. FACTORY_FAKE_POWER="battery|Silent" or "ac|Balanced" is for tests only."""
+    fake = os.environ.get("FACTORY_FAKE_POWER")
+    if fake:
+        src, _, scheme = fake.partition("|")
+        return {"battery_status": 1 if src == "battery" else 2, "on_battery": src == "battery", "scheme": scheme or None}
+    if os.name != "nt":
+        return {"battery_status": None, "on_battery": None, "scheme": None}
+    try:
+        ps = ("$b = Get-CimInstance Win32_Battery | Select-Object -First 1; $s = (powercfg /getactivescheme) -join ' '; "
+              "[pscustomobject]@{BatteryStatus=$(if ($b) { [int]$b.BatteryStatus } else { $null }); Scheme=$s} | ConvertTo-Json -Compress")
+        out = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", ps], capture_output=True, text=True,
+                             timeout=float(os.environ.get("FACTORY_PS_TIMEOUT", "15")), creationflags=NO_WINDOW).stdout.strip()
+        d = json.loads(out)
+        m = re.search(r"\(([^)]*)\)\s*$", str(d.get("Scheme") or "").strip())
+        st = d.get("BatteryStatus")
+        return {"battery_status": st, "on_battery": (st in (1, 4, 5)) if st is not None else False, "scheme": m.group(1) if m else None}
+    except Exception:
+        return {"battery_status": None, "on_battery": None, "scheme": None}
+
+
+def power_reason(state: dict, limits: dict) -> str:
+    """Power gate (plugin 0.1.28): a GPU run does not start on battery or on a refused power scheme (limits.power_refuse_schemes, default Silent). '' = may start.
+    Cause: at 12:15 the laptop went to battery and Silent, the step time rose 60% and the ROCm run aborted one step from the end of its stage (22 minutes lost)."""
+    bad = []
+    if state.get("on_battery"):
+        bad.append(f"the laptop is on battery (BatteryStatus {state.get('battery_status')})")
+    refuse = [x.lower() for x in limits.get("power_refuse_schemes", ["silent"])]
+    if state.get("scheme") and state["scheme"].lower() in refuse:
+        bad.append(f"the active power scheme is {state['scheme']}")
+    return ("POWER GATE: " + " and ".join(bad) + ". A GPU run on battery or in a throttled scheme slows 60% and can abort mid-stage. Plug in and switch to Performance or Turbo, "
+            "or pass --allow-battery \"<reason>\" (written to the receipt).") if bad else ""
+
+
 def ram_share_reason(limits: dict, free_gb: float | None, loading: list | None = None) -> str:
     """RAM-sharing rule (plugin 0.1.27): a cut-out, upscale or Blender job does not start while a Trellis / Pixal3D process is loading, or with available RAM under
     limits.share_min_free_ram_gb. The Factory killed the GPU lane's run three times in one day this way. '' = may start."""

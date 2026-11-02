@@ -82,6 +82,8 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
         rec["models_check"] = MODELS_CHECK
     if QUALITY is not None:
         rec["quality"] = QUALITY
+    if POWER is not None:
+        rec["power"] = POWER
     d = os.path.join(REPO, "receipts", asset_id)
     os.makedirs(d, exist_ok=True)
     base = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}")
@@ -122,6 +124,7 @@ ALLOW_STALE = None
 def pop_allow_stale():
     """Take `--allow-stale "<reason>"` (or --allow-stale=<reason>, or env FACTORY_ALLOW_STALE) out of sys.argv before the script reads its own arguments."""
     global ALLOW_STALE
+    pop_allow_battery()   # every GPU entry script pops its overrides here
     for i, x in enumerate(list(sys.argv)):
         if x == "--allow-stale" and i + 1 < len(sys.argv):
             ALLOW_STALE = sys.argv[i + 1]
@@ -133,6 +136,26 @@ def pop_allow_stale():
             return ALLOW_STALE
     ALLOW_STALE = os.environ.get("FACTORY_ALLOW_STALE") or None
     return ALLOW_STALE
+
+
+POWER = None   # power source and scheme at start (plugin 0.1.28), written into every receipt
+ALLOW_BATTERY = None
+
+
+def pop_allow_battery():
+    """Take `--allow-battery "<reason>"` (or env FACTORY_ALLOW_BATTERY) out of sys.argv."""
+    global ALLOW_BATTERY
+    for i, x in enumerate(list(sys.argv)):
+        if x == "--allow-battery" and i + 1 < len(sys.argv):
+            ALLOW_BATTERY = sys.argv[i + 1]
+            del sys.argv[i:i + 2]
+            return ALLOW_BATTERY
+        if x.startswith("--allow-battery="):
+            ALLOW_BATTERY = x.split("=", 1)[1]
+            del sys.argv[i]
+            return ALLOW_BATTERY
+    ALLOW_BATTERY = os.environ.get("FACTORY_ALLOW_BATTERY") or None
+    return ALLOW_BATTERY
 
 
 QUALITY = None   # {"speed_preset", "reason"} when this run used a speed preset (plugin 0.1.27), written into the receipt
@@ -190,6 +213,16 @@ def plugin_gate(kind, *args):
                 else:
                     bad = [f"QUALITY GATE: '{preset}' is a speed preset for {tool} (reduced settings). Quality first is the default; run the default preset, or pass --speed-reason \"<reason>\" "
                            "(written to the receipt). Dom's standing order: no speed, max quality."]
+        elif kind == "power":   # power gate (plugin 0.1.28): GPU runs only on AC and outside a throttled scheme; the state goes into the receipt
+            import cf_proc
+            global POWER
+            st = cf_proc.power_state()
+            POWER = {**st, "checked_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "allow_battery": None}
+            bad = [r for r in [cf_proc.power_reason(st, load_config()["limits"])] if r]
+            if bad and ALLOW_BATTERY:
+                POWER["allow_battery"] = ALLOW_BATTERY
+                print("POWER GATE OVERRIDDEN (--allow-battery, written to the receipt): " + ALLOW_BATTERY + " | " + " | ".join(bad), flush=True)
+                return
         elif kind == "ram_share":   # RAM-sharing rule (plugin 0.1.27): cut-out / upscale / Blender jobs
             import cf_proc
             lim = load_config()["limits"]
