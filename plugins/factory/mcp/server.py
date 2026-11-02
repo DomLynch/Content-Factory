@@ -195,7 +195,7 @@ def t_flux_render(kit: str, row_id: str, dry_run: bool = False) -> dict:
                   extra={"after": "Run tools/fix_black_block.py on a 1024x1536 output and look again. One row per process."})
 
 
-def t_trellis_run(asset_id: str, image: str, preset: str = "") -> dict:
+def t_trellis_run(asset_id: str, image: str, preset: str = "", speed_reason: str = "") -> dict:
     c = cfg()
     preset = preset or c["character"]["default_preset"]
     presets = c["trellis"]["presets"]
@@ -207,7 +207,7 @@ def t_trellis_run(asset_id: str, image: str, preset: str = "") -> dict:
     why = gate(gpu=True, heavy=True, image=image)
     if why:
         return {"status": "refused", "error": why}
-    cmd = [c["local"]["python"], str(HOME / "tools" / "run_3d.py"), asset_id, image, "--preset", preset]
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_3d.py"), asset_id, image, "--preset", preset] + (["--speed-reason", speed_reason] if speed_reason else [])
     rc, log, t0 = run_stage("trellis_run", cmd, timeout=c["character"]["trellis_timeout_s"], guard=c["character"]["guard_match"]["trellis"])
     extra = {"preset": preset}
     if presets[preset].get("texture_size", 0) < 4096:
@@ -215,7 +215,7 @@ def t_trellis_run(asset_id: str, image: str, preset: str = "") -> dict:
     return finish("trellis_run", rc, log, t0, ["cutout", "trellis"], asset_id, extra)
 
 
-def t_pixal3d_run(asset_id: str, image: str = "", preset: str = "", views=None, mirror_profile: bool = False, three_quarter: bool = True) -> dict:
+def t_pixal3d_run(asset_id: str, image: str = "", preset: str = "", views=None, mirror_profile: bool = False, three_quarter: bool = True, speed_reason: str = "") -> dict:
     c = cfg()
     px = c["pixal3d"]
     preset = preset or px["default_preset"]
@@ -231,7 +231,7 @@ def t_pixal3d_run(asset_id: str, image: str = "", preset: str = "", views=None, 
     why = gate(gpu=True, heavy=True, image=image)
     if why:
         return {"status": "refused", "error": why}
-    cmd = [c["local"]["python"], str(HOME / "tools" / "run_pixal3d.py"), asset_id, image, "--preset", preset]
+    cmd = [c["local"]["python"], str(HOME / "tools" / "run_pixal3d.py"), asset_id, image, "--preset", preset] + (["--speed-reason", speed_reason] if speed_reason else [])
     rc, log, t0 = run_stage("pixal3d_run", cmd, timeout=px["timeout_s"], guard=px["guard_match"])
     return finish("pixal3d_run", rc, log, t0, ["pixal3d"], asset_id,
                   {"preset": preset, "pipeline": "PIXAL3D", "note": "A different pipeline from TRELLIS: label it PIXAL3D, and compare it with TRELLIS only through the A/B on the same input and seed."})
@@ -681,9 +681,9 @@ TOOLS = {
     "flux_render": (t_flux_render, "Render ONE Flux row of a kit (flux/flux_kit.py <kit> <row_id>) under the GPU guard. Refuses while another GPU job holds the lock or free RAM is "
                     "under the start limit. dry_run=true only prints the plan (CF_DRY). Returns the receipt path.",
                     {"kit": {**_STR, "description": "kit json, e.g. kits/vampire_sheet_kit.json"}, "row_id": _STR, "dry_run": {"type": "boolean"}}, ["kit", "row_id"], True, True),
-    "trellis_run": (t_trellis_run, "Cut-out then TRELLIS for one picked image (tools/run_3d.py) with a preset from config/config.json trellis.presets (default master_reduced, a benchmark "
-                    "profile, not a final). Refuses on a live GPU lock, low RAM, or an image whose short side is under 1024 px. Returns the cutout and trellis receipt paths.",
-                    {"asset_id": _STR, "image": _STR, "preset": _STR}, ["asset_id", "image"], True, True),
+    "trellis_run": (t_trellis_run, "Cut-out then TRELLIS for one picked image (tools/run_3d.py) with a preset from config/config.json trellis.presets (default: the hero settings; a speed preset such as master_reduced is a benchmark "
+                    "profile and needs speed_reason). Refuses on a live GPU lock, low RAM, or an image whose short side is under 1024 px. Returns the cutout and trellis receipt paths.",
+                    {"asset_id": _STR, "image": _STR, "preset": _STR, "speed_reason": _STR}, ["asset_id", "image"], True, True),
     "pixal3d_run": (t_pixal3d_run, "One cut-out image to a textured GLB with Pixal3D (tools/run_pixal3d.py) under the GPU guard. Presets from config/config.json pixal3d.presets. Refuses on a live GPU lock, "
                     "low RAM, or an image whose short side is under 1024 px. Writes a pixal3d receipt (stage pixal3d); the asset pipeline label is PIXAL3D. "
                     "MULTI-VIEW (0.1.20, the capability this tool exists for): pass `views` instead of `image` to join the sheet's views into ONE shape (four-view input and pixel back-projection, cameras given). "

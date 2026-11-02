@@ -78,6 +78,10 @@ def write_receipt(cfg, asset_id, stage, *, tool, model, inputs=(), params=None, 
         "outputs": [{"path": p, "sha256": sha256(p)} for p in outputs if os.path.exists(p)],
         "status": status, "error": error, "created_utc": now.isoformat(timespec="seconds"),
     }
+    if MODELS_CHECK is not None:
+        rec["models_check"] = MODELS_CHECK
+    if QUALITY is not None:
+        rec["quality"] = QUALITY
     d = os.path.join(REPO, "receipts", asset_id)
     os.makedirs(d, exist_ok=True)
     base = os.path.join(d, f"{stage}-{now.strftime('%Y%m%dT%H%M%SZ')}")
@@ -111,6 +115,46 @@ def keep_awake():
         pass
 
 
+MODELS_CHECK = None   # the latest-models report of this run (plugin 0.1.27), written into every receipt
+ALLOW_STALE = None
+
+
+def pop_allow_stale():
+    """Take `--allow-stale "<reason>"` (or --allow-stale=<reason>, or env FACTORY_ALLOW_STALE) out of sys.argv before the script reads its own arguments."""
+    global ALLOW_STALE
+    for i, x in enumerate(list(sys.argv)):
+        if x == "--allow-stale" and i + 1 < len(sys.argv):
+            ALLOW_STALE = sys.argv[i + 1]
+            del sys.argv[i:i + 2]
+            return ALLOW_STALE
+        if x.startswith("--allow-stale="):
+            ALLOW_STALE = x.split("=", 1)[1]
+            del sys.argv[i]
+            return ALLOW_STALE
+    ALLOW_STALE = os.environ.get("FACTORY_ALLOW_STALE") or None
+    return ALLOW_STALE
+
+
+QUALITY = None   # {"speed_preset", "reason"} when this run used a speed preset (plugin 0.1.27), written into the receipt
+SPEED_REASON = None
+
+
+def pop_speed_reason():
+    """Take `--speed-reason "<reason>"` (or env FACTORY_SPEED_REASON) out of sys.argv: a speed preset needs it (quality first is the default)."""
+    global SPEED_REASON
+    for i, x in enumerate(list(sys.argv)):
+        if x == "--speed-reason" and i + 1 < len(sys.argv):
+            SPEED_REASON = sys.argv[i + 1]
+            del sys.argv[i:i + 2]
+            return SPEED_REASON
+        if x.startswith("--speed-reason="):
+            SPEED_REASON = x.split("=", 1)[1]
+            del sys.argv[i]
+            return SPEED_REASON
+    SPEED_REASON = os.environ.get("FACTORY_SPEED_REASON") or None
+    return SPEED_REASON
+
+
 def plugin_gate(kind, *args):
     """Run a plugin gate inside the script itself, so a run from bench\\*.ps1 or a plain terminal is gated too (the PreToolUse hooks stay the second layer).
     kind 'token' (asset_id, preset, from_latents) or 'publish' (spec dict). A refusal prints its numbers and exits 2; FACTORY_RAW=<reason> in the environment
@@ -121,7 +165,36 @@ def plugin_gate(kind, *args):
         if lib not in sys.path:
             sys.path.insert(0, lib)
         import cf_gates, cf_guard
-        if kind == "chain":
+        if kind == "models":   # latest-models gate (plugin 0.1.27): args are the stage names about to run
+            import cf_models
+            global MODELS_CHECK
+            report = cf_models.check(load_config(), args)
+            MODELS_CHECK = {"checked_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "rows": report, "allow_stale": None}
+            bad = cf_models.refusals(report)
+            for r in report:
+                if r["state"] == "unverified":
+                    print(f"MODELS GATE: {r['name']} unverified ({r['reason']})", flush=True)
+            if bad and ALLOW_STALE:
+                MODELS_CHECK["allow_stale"] = ALLOW_STALE
+                print("MODELS GATE OVERRIDDEN (--allow-stale, written to the receipt): " + ALLOW_STALE + " | " + " | ".join(bad), flush=True)
+                return
+        elif kind == "quality":   # quality first (plugin 0.1.27): a speed preset needs --speed-reason, recorded in the receipt
+            global QUALITY
+            tool, preset = args
+            speed = ((load_config().get("quality") or {}).get("speed_presets") or {}).get(tool) or []
+            bad = []
+            if preset in speed:
+                if SPEED_REASON:
+                    QUALITY = {"speed_preset": preset, "tool": tool, "reason": SPEED_REASON}
+                    print(f"QUALITY GATE: speed preset '{preset}' for {tool}, reason recorded: {SPEED_REASON}", flush=True)
+                else:
+                    bad = [f"QUALITY GATE: '{preset}' is a speed preset for {tool} (reduced settings). Quality first is the default; run the default preset, or pass --speed-reason \"<reason>\" "
+                           "(written to the receipt). Dom's standing order: no speed, max quality."]
+        elif kind == "ram_share":   # RAM-sharing rule (plugin 0.1.27): cut-out / upscale / Blender jobs
+            import cf_proc
+            lim = load_config()["limits"]
+            bad = [r for r in [cf_proc.ram_share_reason(lim, cf_guard.free_ram_gb(), cf_proc.loading_procs(float(lim.get("load_stage_s", 300))))] if r]
+        elif kind == "chain":
             import cf_chain
             bad = cf_chain.part_mesh_reasons(*args)
         else:

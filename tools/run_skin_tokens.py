@@ -13,8 +13,11 @@ import gate as sgate
 
 
 def main(argv):
+    cf_common.pop_allow_stale()
+    argv = sys.argv
     if len(argv) not in (3, 4):
         sys.exit(__doc__)
+    cf_common.plugin_gate("models", "bind", "skin_tokens")   # latest-models gate (plugin 0.1.27)
     asset_id, body = argv[1], os.path.abspath(argv[2])
     cfg = cf_common.load_config()
     loc, bd, st = cfg["local"], cfg["bind"], cfg["skin_tokens"]

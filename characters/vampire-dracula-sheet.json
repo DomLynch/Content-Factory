@@ -1,5 +1,7 @@
 {
   "id": "vampire",
+  "age": 55,
+  "complexion": "pale cold grey (pale, cold, slightly grey skin, no warm flush)",
   "description": "Dracula, pale aged vampire lord with long black hair and moustache, crimson damask coat, black fur mantle, dark cloak.",
   "seed": 42,
   "ref": "C:\\Users\\dom12\\Documents\\flux_test\\dracula_flux_klein_seed42.png",

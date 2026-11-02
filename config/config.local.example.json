@@ -14,6 +14,8 @@
     "gpu_split": "32 GB GPU / 32 GB RAM",
     "venv": "Trellis-3-312 (py3.12, torch 2.13 rocm)"
   },
+  "trellis_checkout_dir": null,
+  "_trellis_checkout_dir_note": "optional: the Trellis checkout the Factory really runs; the latest-models gate (plugin 0.1.27) compares THIS clone with upstream. Unset = trellis_repo_dir.",
   "trellis_repo_dir": "C:\\Users\\USER\\Documents\\Trellis-3-312",
   "trellis_python": "C:\\Users\\USER\\Documents\\Trellis-3-312\\.venv\\Scripts\\python.exe",
   "skin_tokens_repo_dir": "C:\\Users\\USER\\Documents\\SkinTokens",

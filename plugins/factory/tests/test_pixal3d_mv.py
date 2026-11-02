@@ -429,7 +429,7 @@ class StageScript(unittest.TestCase):
         self.assertFalse(p["mirror_profile"])
         self.assertEqual(p["camera"]["distance"], MV.DISTANCE)
         self.assertEqual(len(rec["inputs"]), 4)
-        self.assertTrue(rec["outputs"][0]["path"].endswith("pixal3d_mv_standard.glb"))
+        self.assertTrue(rec["outputs"][0]["path"].endswith("pixal3d_mv_master.glb"))
         args = open(rec["outputs"][0]["path"] + ".args", encoding="utf-8").read()
         self.assertIn("--mv-dir", args)
         self.assertIn("view00_azim000.png", args)

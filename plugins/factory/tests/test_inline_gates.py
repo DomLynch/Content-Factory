@@ -27,6 +27,7 @@ class Inline(unittest.TestCase):
 
     def run3d(self, **env):
         e = {k: v for k, v in os.environ.items() if k not in ("FACTORY_RAW", "FACTORY_HOME")}
+        e["FACTORY_SPEED_REASON"] = "test: this preset is the floor-gate fixture"   # tokens98k_fresh is a speed preset (plugin 0.1.27)
         e.update(env)
         return subprocess.run([PY, str(self.repo / "tools" / "run_3d.py"), "nosuch", "x.png", "--preset", "tokens98k_fresh", "--from-latents", "y.pt"],
                               capture_output=True, text=True, env=e, cwd=str(self.repo))

@@ -90,6 +90,7 @@ if len(sys.argv) != 2:
 asset_id = sys.argv[1]
 
 cfg = cf_common.load_config()
+cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
 loc, bd, gg, ax = cfg["local"], cfg["bind"], cfg["gear"], cfg["assemble"]
 work = os.path.join(loc["outputs_dir"], "3d", asset_id)
 awork = os.path.join(work, ax["work_subdir"])

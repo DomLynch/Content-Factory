@@ -14,6 +14,7 @@ if len(sys.argv) != 5:
 asset_id, part, gear_mesh, body_glb = sys.argv[1], sys.argv[2], os.path.abspath(sys.argv[3]), os.path.abspath(sys.argv[4])
 
 cfg = cf_common.load_config()
+cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
 loc, gg, st = cfg["local"], cfg["gear"], cfg["stills"]
 gate = gg["gate"]
 work = os.path.join(loc["outputs_dir"], "3d", asset_id)

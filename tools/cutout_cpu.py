@@ -19,6 +19,10 @@ GATE_PX = 1024
 
 
 def main():
+    if not os.environ.get("FACTORY_IN_STAGE"):   # run_3d.py sets it: its own cut-out already passed its gates
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import cf_common
+        cf_common.plugin_gate("ram_share")   # RAM-sharing rule (plugin 0.1.27)
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     src = sys.argv[1]
