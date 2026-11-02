@@ -1,5 +1,7 @@
 {
  "id": "vampire_gpt_v2",
+ "age": 55,
+ "complexion": "pale cold grey (pale, cold, slightly grey skin, no warm flush)",
  "template": "config/character_sheet_template_gpt.json",
  "kit_name": "vampire_gpt_sheet_v2",
  "description": "Dracula, a gaunt man of about 55 with red eyes, long loose wavy swept-back black hair and a thin upswept moustache, muted oxblood damask long coat with matte wool, dull antique gold embroidery and hussar frogging, matte black wool cloak with a thick dark brown-black fur collar, wide worn black leather belt with an antique gold double-eagle buckle, hanging tabard with a castle emblem and cross, white lace cuffs, tall black leather boots with antique gold knee plates.",

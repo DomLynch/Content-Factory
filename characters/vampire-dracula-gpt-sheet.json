@@ -1,5 +1,7 @@
 {
  "id": "vampire_gpt",
+ "age": 55,
+ "complexion": "pale cold grey (pale, cold, slightly grey skin, no warm flush)",
  "template": "config/character_sheet_template_gpt.json",
  "kit_name": "vampire_gpt_sheet",
  "description": "Dracula, red-eyed man with braided swept-back black hair and moustache, crimson damask velvet tunic with hussar frogging and embroidered front panel, black fur-collared cloak with gold borders, wide belt with double-eagle buckle, hanging tabard with castle emblem and cross, lace cuffs, tall black leather boots with gold knee plates.",
