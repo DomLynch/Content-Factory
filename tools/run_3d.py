@@ -29,6 +29,7 @@ cf_common.plugin_gate("chain", a.asset_id, bool(a.cutout_png))   # build order: 
 cf_common.plugin_gate("token", a.asset_id, a.preset, bool(a.from_latents))   # token floor, also outside Claude Code (plugin 0.1.23)
 cf_common.plugin_gate("models", "cutout", "trellis")   # latest-models gate (plugin 0.1.27)
 cf_common.plugin_gate("power")   # power gate (plugin 0.1.28)
+cf_common.plugin_gate("pythonpath")   # no stub o_voxel ahead of the real one (plugin 0.1.29)
 cf_common.keep_awake()
 os.environ["FACTORY_IN_STAGE"] = "1"   # the cut-out child of this run skips the RAM-sharing gate
 loc, tr = cfg["local"], cfg["trellis"]

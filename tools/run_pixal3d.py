@@ -22,6 +22,7 @@ ap.add_argument("--no-naf", action="store_true", help="ROUGH fallback: bicubic f
 a = ap.parse_args()
 cf_common.plugin_gate("models", "pixal3d")   # latest-models gate (plugin 0.1.27)
 cf_common.plugin_gate("power")   # power gate (plugin 0.1.28)
+cf_common.plugin_gate("pythonpath")   # no stub o_voxel ahead of the real one (plugin 0.1.29)
 cf_common.keep_awake()
 
 cfg = cf_common.load_config()

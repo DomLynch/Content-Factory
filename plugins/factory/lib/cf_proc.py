@@ -173,6 +173,20 @@ def loading_procs(load_stage_s: float) -> list[tuple[int, str, float]]:
         return []
 
 
+def stub_path_reason(pythonpath: str | None = None, sys_path: list | None = None) -> str:
+    """Plugin 0.1.29: a directory holding a STUB `o_voxel` package ahead of site-packages hides the real o_voxel.postprocess, so the GPU baker silently turns into the CPU
+    bake (2026-11-02: an hour of CPU export). The repo's `stubs/` dir is appended LAST by bootstrap(); it must never be on PYTHONPATH or in front on sys.path.
+    '' when fine, else the reason."""
+    entries = [e for e in (pythonpath if pythonpath is not None else os.environ.get("PYTHONPATH", "")).split(os.pathsep) if e]
+    entries += [e for e in (sys_path or []) if e]
+    for e in entries:
+        norm = e.replace("\\", "/").rstrip("/")
+        if os.path.isfile(os.path.join(e, "o_voxel", "__init__.py")) and (norm.lower().endswith("/stubs") or "/stubs/" in norm.lower() + "/"):
+            return (f"STUB PATH GATE: {e} contains a stub o_voxel package and is on PYTHONPATH/sys.path ahead of the real packages: gpu_bake_backend() would return None and the bake "
+                    "would silently run on the CPU. Remove it (the repo's bootstrap() appends stubs/ last by itself).")
+    return ""
+
+
 def power_state() -> dict:
     """Power source and active scheme (plugin 0.1.28). on_battery is True for Win32_Battery BatteryStatus 1 (discharging), 4 (low) or 5 (critical); AC, charging and fully charged are False;
     no battery object (a desktop) is False; None when it cannot tell. FACTORY_FAKE_POWER="battery|Silent" or "ac|Balanced" is for tests only."""
